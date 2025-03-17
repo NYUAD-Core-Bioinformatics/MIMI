@@ -1,0 +1,20 @@
+{
+      /*This is an override file for a sample with 95% 13C-labeled isotopes.*/
+      "C": [
+            
+              {
+                "periodic_number": 6,
+                "element_symbol": "C",
+                "nominal_mass": 12,
+                "exact_mass": 12.000,
+                "natural_abundance": 0.05
+            },
+            {
+                "periodic_number": 6,
+                "element_symbol": "C",
+                "nominal_mass": 13,
+                "exact_mass": 13.00335484,
+                "natural_abundance": 0.95
+            }
+        ]
+}

@@ -1,0 +1,13 @@
+/*  This is an override file for a sample with 100% 13C-labeling. */
+{
+      "C": [
+            {
+                  "periodic_number": 6,
+                  "element_symbol": "C",
+                  "nominal_mass": 13,
+                  "exact_mass": 13.00335484,
+                  "natural_abundance": 1.0,
+                  "highest_abundance": 1.0
+            }
+      ]
+}
