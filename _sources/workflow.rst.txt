@@ -105,7 +105,129 @@ Cache Inspection
 
 To verify the contents of your cache files::
 
-    mimi_cache_dump natural_cache.pkl -n 5 -o cache_contents.tsv
+    mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl
+
+    # Cache Metadata:
+    # Creation Date: YYYY-MM-DDTHH:MM:SS
+    # MIMI Version: 1.0.0
+
+    # Creation Parameters:
+    # Full Command: /path/to/mimi_cache_create -i neg -d path/to/KEGGDB.tsv -c outdir/db_nat
+    # Ionization Mode: neg
+    # Labeled Atoms File: None
+    # Compound DB Files: path/to/KEGGDB.tsv
+    # Cache Output File: outdir/db_nat.pkl
+    # Isotope Data File: path/to/natural_isotope_abundance_NIST.json
+
+    ============================================================
+    Compound ID:      C00003
+    Name:             NAD+
+    Formula:          [12]C21[1]H28[14]N7[16]O14[31]P2
+    Mono-isotopic:    Yes (most abundant isotope)
+    Mass:             663.109671
+    Relative Abund:   1.000000 (reference)
+    ------------------------------------------------------------
+    ISOTOPE VARIANTS:
+      Variant #1:
+      Formula:        [12]C20 [13]C1 [1]H28 [14]N7 [16]O14 [31]P2
+      Mono-isotopic:  No (isotope variant)
+      Mass:           664.113026
+      Relative Abund: 0.227130
+    ------------------------------------------------------------
+      Variant #2:
+      Formula:        [12]C21 [1]H28 [14]N7 [16]O13 [18]O1 [31]P2
+      Mono-isotopic:  No (isotope variant)
+      Mass:           665.113916
+      Relative Abund: 0.028770
+    ------------------------------------------------------------
+
+    ============================================================
+    Compound ID:      C00006
+    Name:             NADP+
+    Formula:          [12]C21[1]H29[14]N7[16]O17[31]P3
+    Mono-isotopic:    Yes (most abundant isotope)
+    Mass:             743.076002
+    Relative Abund:   1.000000 (reference)
+    ------------------------------------------------------------
+    ISOTOPE VARIANTS:
+      Variant #1:
+      Formula:        [12]C20 [13]C1 [1]H29 [14]N7 [16]O17 [31]P3
+      Mono-isotopic:  No (isotope variant)
+      Mass:           744.079357
+      Relative Abund: 0.227130
+    ------------------------------------------------------------
+      Variant #2:
+      Formula:        [12]C21 [1]H29 [14]N7 [16]O16 [18]O1 [31]P3
+      Mono-isotopic:  No (isotope variant)
+      Mass:           745.080247
+      Relative Abund: 0.034935
+    ------------------------------------------------------------
+
+    ============================================================
+    Compound ID:      C00015
+    Name:             UDP
+    Formula:          [12]C9[1]H14[14]N2[16]O12[31]P2
+    Mono-isotopic:    Yes (most abundant isotope)
+    Mass:             402.994921
+    Relative Abund:   1.000000 (reference)
+    ------------------------------------------------------------
+    ISOTOPE VARIANTS:
+      Variant #1:
+      Formula:        [12]C8 [13]C1 [1]H14 [14]N2 [16]O12 [31]P2
+      Mono-isotopic:  No (isotope variant)
+      Mass:           403.998276
+      Relative Abund: 0.097342
+    ------------------------------------------------------------
+      Variant #2:
+      Formula:        [12]C9 [1]H14 [14]N2 [16]O11 [18]O1 [31]P2
+      Mono-isotopic:  No (isotope variant)
+      Mass:           404.999166
+      Relative Abund: 0.024660
+    ------------------------------------------------------------
+
+    ============================================================
+    Compound ID:      C00016
+    Name:             FAD
+    Formula:          [12]C27[1]H33[14]N9[16]O15[31]P2
+    Mono-isotopic:    Yes (most abundant isotope)
+    Mass:             784.149859
+    Relative Abund:   1.000000 (reference)
+    ------------------------------------------------------------
+    ISOTOPE VARIANTS:
+      Variant #1:
+      Formula:        [12]C26 [13]C1 [1]H33 [14]N9 [16]O15 [31]P2
+      Mono-isotopic:  No (isotope variant)
+      Mass:           785.153214
+      Relative Abund: 0.292025
+    ------------------------------------------------------------
+      Variant #2:
+      Formula:        [12]C27 [1]H33 [14]N8 [15]N1 [16]O15 [31]P2
+      Mono-isotopic:  No (isotope variant)
+      Mass:           785.146894
+      Relative Abund: 0.032880
+    ------------------------------------------------------------
+
+    ============================================================
+    Compound ID:      C00018
+    Name:             Pyridoxal phosphate
+    Formula:          [12]C8[1]H10[14]N[16]O6[31]P1
+    Mono-isotopic:    Yes (most abundant isotope)
+    Mass:             246.017298
+    Relative Abund:   1.000000 (reference)
+    ------------------------------------------------------------
+    ISOTOPE VARIANTS:
+      Variant #1:
+      Formula:        [12]C7 [13]C1 [1]H10 [14]N1 [16]O6 [31]P1
+      Mono-isotopic:  No (isotope variant)
+      Mass:           247.020652
+      Relative Abund: 0.086526
+    ------------------------------------------------------------
+      Variant #2:
+      Formula:        [12]C8 [1]H10 [14]N1 [16]O5 [18]O1 [31]P1
+      Mono-isotopic:  No (isotope variant)
+      Mass:           248.021543
+      Relative Abund: 0.012330
+    ------------------------------------------------------------
 
 Sample Analysis
 -------------

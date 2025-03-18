@@ -219,7 +219,129 @@
 <section id="cache-inspection">
 <h3>Cache Inspection<a class="headerlink" href="#cache-inspection" title="Permalink to this headline"></a></h3>
 <p>To verify the contents of your cache files:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="o">-</span><span class="n">o</span> <span class="n">cache_contents</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span>
+
+<span class="c1"># Cache Metadata:</span>
+<span class="c1"># Creation Date: YYYY-MM-DDTHH:MM:SS</span>
+<span class="c1"># MIMI Version: 1.0.0</span>
+
+<span class="c1"># Creation Parameters:</span>
+<span class="c1"># Full Command: /path/to/mimi_cache_create -i neg -d path/to/KEGGDB.tsv -c outdir/db_nat</span>
+<span class="c1"># Ionization Mode: neg</span>
+<span class="c1"># Labeled Atoms File: None</span>
+<span class="c1"># Compound DB Files: path/to/KEGGDB.tsv</span>
+<span class="c1"># Cache Output File: outdir/db_nat.pkl</span>
+<span class="c1"># Isotope Data File: path/to/natural_isotope_abundance_NIST.json</span>
+
+<span class="o">============================================================</span>
+<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00003</span>
+<span class="n">Name</span><span class="p">:</span>             <span class="n">NAD</span><span class="o">+</span>
+<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C21</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H28</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O14</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>             <span class="mf">663.109671</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+<span class="o">------------------------------------------------------------</span>
+<span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
+  <span class="n">Variant</span> <span class="c1">#1:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C20</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H28</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O14</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">664.113026</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.227130</span>
+<span class="o">------------------------------------------------------------</span>
+  <span class="n">Variant</span> <span class="c1">#2:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C21</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H28</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O13</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">665.113916</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.028770</span>
+<span class="o">------------------------------------------------------------</span>
+
+<span class="o">============================================================</span>
+<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00006</span>
+<span class="n">Name</span><span class="p">:</span>             <span class="n">NADP</span><span class="o">+</span>
+<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C21</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H29</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O17</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P3</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>             <span class="mf">743.076002</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+<span class="o">------------------------------------------------------------</span>
+<span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
+  <span class="n">Variant</span> <span class="c1">#1:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C20</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H29</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O17</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P3</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">744.079357</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.227130</span>
+<span class="o">------------------------------------------------------------</span>
+  <span class="n">Variant</span> <span class="c1">#2:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C21</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H29</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O16</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P3</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">745.080247</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.034935</span>
+<span class="o">------------------------------------------------------------</span>
+
+<span class="o">============================================================</span>
+<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00015</span>
+<span class="n">Name</span><span class="p">:</span>             <span class="n">UDP</span>
+<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C9</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N2</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O12</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>             <span class="mf">402.994921</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+<span class="o">------------------------------------------------------------</span>
+<span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
+  <span class="n">Variant</span> <span class="c1">#1:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C8</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N2</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O12</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">403.998276</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.097342</span>
+<span class="o">------------------------------------------------------------</span>
+  <span class="n">Variant</span> <span class="c1">#2:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C9</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N2</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O11</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">404.999166</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.024660</span>
+<span class="o">------------------------------------------------------------</span>
+
+<span class="o">============================================================</span>
+<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00016</span>
+<span class="n">Name</span><span class="p">:</span>             <span class="n">FAD</span>
+<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C27</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H33</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N9</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O15</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>             <span class="mf">784.149859</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+<span class="o">------------------------------------------------------------</span>
+<span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
+  <span class="n">Variant</span> <span class="c1">#1:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C26</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H33</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N9</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O15</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">785.153214</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.292025</span>
+<span class="o">------------------------------------------------------------</span>
+  <span class="n">Variant</span> <span class="c1">#2:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C27</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H33</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N8</span> <span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="n">N1</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O15</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">785.146894</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.032880</span>
+<span class="o">------------------------------------------------------------</span>
+
+<span class="o">============================================================</span>
+<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00018</span>
+<span class="n">Name</span><span class="p">:</span>             <span class="n">Pyridoxal</span> <span class="n">phosphate</span>
+<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C8</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H10</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O6</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P1</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>             <span class="mf">246.017298</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+<span class="o">------------------------------------------------------------</span>
+<span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
+  <span class="n">Variant</span> <span class="c1">#1:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C7</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H10</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N1</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O6</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P1</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">247.020652</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.086526</span>
+<span class="o">------------------------------------------------------------</span>
+  <span class="n">Variant</span> <span class="c1">#2:</span>
+  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C8</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H10</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N1</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O5</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P1</span>
+  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">248.021543</span>
+  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.012330</span>
+<span class="o">------------------------------------------------------------</span>
 </pre></div>
 </div>
 </section>
