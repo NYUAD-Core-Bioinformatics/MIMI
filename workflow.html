@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detailed Workflow &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Command Reference" href="command_reference.html" />
+    <link rel="prev" title="User Guide" href="user_guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mass Spectrometry Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Detailed Workflow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-preparation">Database Preparation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hmdb-extraction">HMDB Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kegg-extraction">KEGG Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-database">Custom Database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cache-creation">Cache Creation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#natural-abundance-cache">Natural Abundance Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#labeled-compounds-cache">Labeled Compounds Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache-inspection">Cache Inspection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-analysis">Sample Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-analysis">Basic Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-cache-analysis">Multiple Cache Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batch-processing">Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ppm-threshold-optimization">PPM Threshold Optimization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#result-interpretation">Result Interpretation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sample-information">Sample Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#for-each-cache-type-natural-and-labeled">For Each Cache Type (Natural and Labeled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interpreting-results">Interpreting Results</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mass-error-ppm">Mass Error (PPM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#isotope-count">Isotope Count</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tips-for-analysis">Tips for Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-workflows">Advanced Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#differential-analysis">Differential Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isotope-labeling-experiments">Isotope Labeling Experiments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-series-analysis">Time Series Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mass Spectrometry Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Detailed Workflow</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/workflow.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="detailed-workflow">
+<h1>Detailed Workflow<a class="headerlink" href="#detailed-workflow" title="Permalink to this headline"></a></h1>
+<p>This document provides a detailed explanation of MIMI’s workflow for mass spectrometry data analysis.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>MIMI’s workflow consists of three main phases:</p>
+<ol class="arabic simple">
+<li><p><strong>Database Preparation</strong>: Extract and format compound data</p></li>
+<li><p><strong>Cache Creation</strong>: Precompute molecular masses and isotope patterns</p></li>
+<li><p><strong>Sample Analysis</strong>: Match sample masses against cached data</p></li>
+</ol>
+<p>Each phase is described in detail below.</p>
+</section>
+<section id="database-preparation">
+<h2>Database Preparation<a class="headerlink" href="#database-preparation" title="Permalink to this headline"></a></h2>
+<p>Before analysis, you need a database of compounds with their chemical formulas. MIMI provides tools to extract this information from common databases:</p>
+<section id="hmdb-extraction">
+<h3>HMDB Extraction<a class="headerlink" href="#hmdb-extraction" title="Permalink to this headline"></a></h3>
+<p>The Human Metabolome Database (HMDB) contains detailed information about small molecule metabolites found in the human body.</p>
+<ol class="arabic">
+<li><p>Download the HMDB database XML file from <a class="reference external" href="https://hmdb.ca/downloads">https://hmdb.ca/downloads</a></p></li>
+<li><p>Extract metabolites using the MIMI tool:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>This extracts metabolites with molecular weights between 100 and 500 Da.</p>
+</section>
+<section id="kegg-extraction">
+<h3>KEGG Extraction<a class="headerlink" href="#kegg-extraction" title="Permalink to this headline"></a></h3>
+<p>The Kyoto Encyclopedia of Genes and Genomes (KEGG) provides a comprehensive database of compounds.</p>
+<ol class="arabic">
+<li><p>Extract compounds by mass range:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Or extract specific compounds by ID:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">i</span> <span class="n">compound_ids</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="custom-database">
+<h3>Custom Database<a class="headerlink" href="#custom-database" title="Permalink to this headline"></a></h3>
+<p>You can also create your own compound database as a TSV file with the following columns:</p>
+<ol class="arabic simple">
+<li><p><strong>CF</strong>: Chemical formula (e.g., C6H12O6)</p></li>
+<li><p><strong>ID</strong>: Compound identifier</p></li>
+<li><p><strong>name</strong>: Compound name</p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CF</span>      <span class="n">ID</span>      <span class="n">name</span>
+<span class="n">C6H12O6</span> <span class="n">glucose</span> <span class="n">Glucose</span>
+<span class="n">C5H10O5</span> <span class="n">ribose</span>  <span class="n">Ribose</span>
+<span class="n">C3H7NO2</span> <span class="n">alanine</span> <span class="n">Alanine</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cache-creation">
+<h2>Cache Creation<a class="headerlink" href="#cache-creation" title="Permalink to this headline"></a></h2>
+<p>Once you have your compound database, create cache files for efficient analysis:</p>
+<section id="natural-abundance-cache">
+<h3>Natural Abundance Cache<a class="headerlink" href="#natural-abundance-cache" title="Permalink to this headline"></a></h3>
+<p>For analyzing samples with natural isotope abundances:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span>
+</pre></div>
+</div>
+</section>
+<section id="labeled-compounds-cache">
+<h3>Labeled Compounds Cache<a class="headerlink" href="#labeled-compounds-cache" title="Permalink to this headline"></a></h3>
+<p>For analyzing samples with isotope-labeled compounds, you need a JSON file describing the labeled atoms.</p>
+<p>Example C13 labeling JSON:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">13.003354826</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9893</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0107</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Create the labeled cache:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">c13_labeling</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">c13_cache</span>
+</pre></div>
+</div>
+</section>
+<section id="cache-inspection">
+<h3>Cache Inspection<a class="headerlink" href="#cache-inspection" title="Permalink to this headline"></a></h3>
+<p>To verify the contents of your cache files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="o">-</span><span class="n">o</span> <span class="n">cache_contents</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sample-analysis">
+<h2>Sample Analysis<a class="headerlink" href="#sample-analysis" title="Permalink to this headline"></a></h2>
+<p>With your cache files prepared, you can analyze mass spectrometry samples:</p>
+<section id="basic-analysis">
+<h3>Basic Analysis<a class="headerlink" href="#basic-analysis" title="Permalink to this headline"></a></h3>
+<p>Analyze a single sample against a single cache:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</section>
+<section id="multiple-cache-analysis">
+<h3>Multiple Cache Analysis<a class="headerlink" href="#multiple-cache-analysis" title="Permalink to this headline"></a></h3>
+<p>Analyze a sample against multiple caches simultaneously:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="n">c13_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+<p>This is useful for comparing natural abundance patterns with labeled patterns.</p>
+</section>
+<section id="batch-processing">
+<h3>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h3>
+<p>Process multiple samples in a single run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample1</span><span class="o">.</span><span class="n">asc</span> <span class="n">sample2</span><span class="o">.</span><span class="n">asc</span> <span class="n">sample3</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</section>
+<section id="ppm-threshold-optimization">
+<h3>PPM Threshold Optimization<a class="headerlink" href="#ppm-threshold-optimization" title="Permalink to this headline"></a></h3>
+<p>The PPM (parts per million) threshold controls the precision of mass matching. Try different thresholds to optimize results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tight threshold</span>
+<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p1</span><span class="o">.</span><span class="n">tsv</span>
+
+<span class="c1"># Medium threshold</span>
+<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">2.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">2.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p2</span><span class="o">.</span><span class="n">tsv</span>
+
+<span class="c1"># Wide threshold</span>
+<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">5.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">5.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p5</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="result-interpretation">
+<h2>Result Interpretation<a class="headerlink" href="#result-interpretation" title="Permalink to this headline"></a></h2>
+<p>The output TSV file contains detailed information about matched compounds across different isotope configurations:</p>
+<section id="sample-information">
+<h3>Sample Information<a class="headerlink" href="#sample-information" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><strong>CF</strong>: Chemical formula of the compound</p></li>
+<li><p><strong>ID</strong>: Unique identifier from the original database</p></li>
+<li><p><strong>Name</strong>: Common name of the compound</p></li>
+<li><p><strong>C, H, N, O, P, S</strong>: Number of each atom type in the compound</p></li>
+</ul>
+</section>
+<section id="for-each-cache-type-natural-and-labeled">
+<h3>For Each Cache Type (Natural and Labeled)<a class="headerlink" href="#for-each-cache-type-natural-and-labeled" title="Permalink to this headline"></a></h3>
+<p>Each cache type (e.g., natural abundance ‘nat’, C13-labeled ‘C13’) has its own columns:</p>
+<ul class="simple">
+<li><p><strong>db_mass</strong>: Theoretical mass from the database</p></li>
+<li><p><strong>mass_measured</strong>: Observed mass in the sample</p></li>
+<li><p><strong>error_ppm</strong>: Parts per million difference between theoretical and observed mass</p></li>
+<li><p><strong>intensity</strong>: Signal intensity in the sample</p></li>
+<li><p><strong>iso_count</strong>: Number of isotope peaks detected</p></li>
+</ul>
+</section>
+<section id="interpreting-results">
+<h3>Interpreting Results<a class="headerlink" href="#interpreting-results" title="Permalink to this headline"></a></h3>
+<section id="mass-error-ppm">
+<h4>Mass Error (PPM)<a class="headerlink" href="#mass-error-ppm" title="Permalink to this headline"></a></h4>
+<ul class="simple">
+<li><p><strong>&lt; 1 ppm</strong>: Excellent mass accuracy, high confidence in identification</p></li>
+<li><p><strong>1-2 ppm</strong>: Good mass accuracy, reliable identification</p></li>
+<li><p><strong>2-5 ppm</strong>: Moderate mass accuracy, requires additional verification</p></li>
+<li><p><strong>&gt; 5 ppm</strong>: Poor mass accuracy, potential false positive</p></li>
+</ul>
+</section>
+<section id="isotope-count">
+<h4>Isotope Count<a class="headerlink" href="#isotope-count" title="Permalink to this headline"></a></h4>
+<ul class="simple">
+<li><p>Higher iso_count values indicate better isotope pattern detection</p></li>
+<li><p>Compare iso_count between natural and labeled samples to verify labeling</p></li>
+</ul>
+</section>
+</section>
+<section id="tips-for-analysis">
+<h3>Tips for Analysis<a class="headerlink" href="#tips-for-analysis" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Focus on compounds with low PPM error and high isotope counts</p></li>
+<li><p>Compare natural vs labeled patterns to confirm labeling</p></li>
+<li><p>Cross-reference multiple samples to validate findings</p></li>
+</ol>
+</section>
+</section>
+<section id="advanced-workflows">
+<h2>Advanced Workflows<a class="headerlink" href="#advanced-workflows" title="Permalink to this headline"></a></h2>
+<section id="differential-analysis">
+<h3>Differential Analysis<a class="headerlink" href="#differential-analysis" title="Permalink to this headline"></a></h3>
+<p>To identify compounds that differ between samples:</p>
+<ol class="arabic">
+<li><p>Analyze multiple samples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample1</span><span class="o">.</span><span class="n">asc</span> <span class="n">sample2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">all_results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="isotope-labeling-experiments">
+<h3>Isotope Labeling Experiments<a class="headerlink" href="#isotope-labeling-experiments" title="Permalink to this headline"></a></h3>
+<p>For tracking isotope incorporation:</p>
+<ol class="arabic simple">
+<li><p>Create caches for natural and labeled compounds</p></li>
+<li><p>Analyze samples against both caches</p></li>
+<li><p>Compare isotope patterns to determine labeling efficiency</p></li>
+</ol>
+</section>
+<section id="time-series-analysis">
+<h3>Time Series Analysis<a class="headerlink" href="#time-series-analysis" title="Permalink to this headline"></a></h3>
+<p>For monitoring changes over time:</p>
+<ol class="arabic simple">
+<li><p>Collect samples at different time points</p></li>
+<li><p>Analyze all samples with the same parameters</p></li>
+<li><p>Track compound abundances across time points</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="user_guide.html" class="btn btn-neutral float-left" title="User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="command_reference.html" class="btn btn-neutral float-right" title="Command Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Nabil Rahiman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

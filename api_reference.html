@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Architecture Design" href="architecture.html" />
+    <link rel="prev" title="Command Reference" href="command_reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mass Spectrometry Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-analysis">mimi.analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-atom">mimi.atom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-molecule">mimi.molecule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-create-cache">mimi.create_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-dump-cache">mimi.dump_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-hmdb">mimi.hmdb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-kegg">mimi.kegg</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mass Spectrometry Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api_reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline"></a></h1>
+<p>This section provides detailed information about MIMI’s Python API.</p>
+<section id="mimi-analysis">
+<h2>mimi.analysis<a class="headerlink" href="#mimi-analysis" title="Permalink to this headline"></a></h2>
+<p>Core analysis functions for processing mass spectrometry data, including:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">load_molecular_mass_database</span></code>: Load compound data from TSV files</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load_mass_spectrometry_data</span></code>: Load mass intensity data from ASC files</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_mass_hash_index</span></code>: Create efficient lookup index for masses</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_atom_counts</span></code>: Count atoms in molecular formulas</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_logger</span></code>: Setup logging for analysis runs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code>: Main entry point for analysis tool</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">process_match</span></code>: Process matching compounds</p></li>
+</ul>
+</section>
+<section id="mimi-atom">
+<h2>mimi.atom<a class="headerlink" href="#mimi-atom" title="Permalink to this headline"></a></h2>
+<p>Functions for handling atomic data and isotope information:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">load_labelled_atoms</span></code>: Load labeled atom data from JSON</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load_isotope</span></code>: Load isotope data from default file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_atom</span></code>: Get atom information by symbol</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_exact_mass</span></code>: Get exact mass for specific isotope</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">validate_isotope_data</span></code>: Validate isotope abundance values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">validate_isotope_order_and_consistency</span></code>: Validate isotope ordering</p></li>
+</ul>
+</section>
+<section id="mimi-molecule">
+<h2>mimi.molecule<a class="headerlink" href="#mimi-molecule" title="Permalink to this headline"></a></h2>
+<p>Functions for processing molecular formulas and calculating masses:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">calculate_nominal_mass</span></code>: Calculate mass of a molecule</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">calculate_mass</span></code>: Calculate mass with ion adjustments</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_isotop_variants_mass</span></code>: Calculate mass variants for isotopes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parse_molecular_formula</span></code>: Parse a molecular formula string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_hashed_index</span></code>: Create index for fast lookup</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">search</span></code>: Search molecular mass data within PPM tolerance</p></li>
+</ul>
+</section>
+<section id="mimi-create-cache">
+<h2>mimi.create_cache<a class="headerlink" href="#mimi-create-cache" title="Permalink to this headline"></a></h2>
+<p>Functions for creating precomputed caches:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">load_mass_spectrometry_data</span></code>: Load mass intensity data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code>: Main entry point for cache creation tool</p></li>
+</ul>
+</section>
+<section id="mimi-dump-cache">
+<h2>mimi.dump_cache<a class="headerlink" href="#mimi-dump-cache" title="Permalink to this headline"></a></h2>
+<p>Functions for dumping cache contents:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">format_cf_with_masses</span></code>: Format chemical formula with masses</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dump_cache</span></code>: Dump cache contents to TSV</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code>: Main entry point for cache dump tool</p></li>
+</ul>
+</section>
+<section id="mimi-hmdb">
+<h2>mimi.hmdb<a class="headerlink" href="#mimi-hmdb" title="Permalink to this headline"></a></h2>
+<p>Functions for HMDB database extraction:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">parse_hmdb_xml</span></code>: Parse HMDB metabolites XML file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">export_metabolites_to_tsv</span></code>: Export metabolites to TSV format</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code>: Main entry point for HMDB extraction tool</p></li>
+</ul>
+</section>
+<section id="mimi-kegg">
+<h2>mimi.kegg<a class="headerlink" href="#mimi-kegg" title="Permalink to this headline"></a></h2>
+<p>Functions for KEGG database extraction:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">get_compounds_by_mass_range</span></code>: Get KEGG compounds by mass range</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_compound_info_batch</span></code>: Get information for multiple compounds</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">export_compounds_to_tsv</span></code>: Export compounds to TSV format</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code>: Main entry point for KEGG extraction tool</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="command_reference.html" class="btn btn-neutral float-left" title="Command Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Nabil Rahiman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

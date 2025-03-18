@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture Design &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="API Reference" href="api_reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mass Spectrometry Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-components">Core Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-input-layer">1. Data Input Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#processing-engine">2. Processing Engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis-layer">3. Analysis Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-flow">Data Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-design-principles">Key Design Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation-details">Implementation Details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mass Spectrometry Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Architecture Design</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-design">
+<h1>Architecture Design<a class="headerlink" href="#architecture-design" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<a class="reference internal image-reference" href="_images/mimi_arch1.png"><img alt="MIMI Architecture Overview" src="_images/mimi_arch1.png" style="width: 600px;" /></a>
+<p>MIMI’s architecture is designed around efficient mass spectrometry data processing and analysis. The system follows a modular design pattern with clear separation of concerns between data handling, processing, and analysis components.</p>
+</section>
+<section id="core-components">
+<h2>Core Components<a class="headerlink" href="#core-components" title="Permalink to this headline"></a></h2>
+<section id="data-input-layer">
+<h3>1. Data Input Layer<a class="headerlink" href="#data-input-layer" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><strong>Sample Processor</strong>: Handles mass spectrometry data input from ASC files</p></li>
+<li><p><strong>Database Connectors</strong>: Interfaces with KEGG and HMDB metabolite databases</p></li>
+<li><p><strong>Cache Manager</strong>: Manages binary cache files for efficient data retrieval</p></li>
+</ul>
+</section>
+<section id="processing-engine">
+<h3>2. Processing Engine<a class="headerlink" href="#processing-engine" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><strong>Formula Parser</strong>: Parses chemical formulas into atomic components</p></li>
+<li><p><strong>Mass Calculator</strong>: Computes molecular masses with ionization adjustments</p></li>
+<li><p><strong>Isotope Handler</strong>: Manages isotope patterns and abundance calculations</p></li>
+<li><p><strong>PPM Calculator</strong>: Handles mass tolerance calculations for matching</p></li>
+</ul>
+</section>
+<section id="analysis-layer">
+<h3>3. Analysis Layer<a class="headerlink" href="#analysis-layer" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><strong>Pattern Matcher</strong>: Matches mass patterns between samples and reference data</p></li>
+<li><p><strong>Isotope Validator</strong>: Validates isotope patterns for compound identification</p></li>
+<li><p><strong>Result Formatter</strong>: Organizes and formats analysis results</p></li>
+</ul>
+</section>
+</section>
+<section id="data-flow">
+<h2>Data Flow<a class="headerlink" href="#data-flow" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Preprocessing Phase</strong>
+- Chemical formulas are parsed from databases (KEGG, HMDB)
+- Molecular masses are calculated for each compound
+- Isotope variants are computed and stored in cache files</p></li>
+<li><p><strong>Analysis Phase</strong>
+- Mass spectrometry data is loaded from sample files
+- Sample masses are compared against cached molecular masses
+- Matches are verified using isotope patterns
+- Results are filtered based on PPM tolerance settings</p></li>
+<li><p><strong>Output Phase</strong>
+- Matched compounds are organized by confidence level
+- Results are formatted into tabular output
+- Detailed information is provided for each match</p></li>
+</ol>
+</section>
+<section id="key-design-principles">
+<h2>Key Design Principles<a class="headerlink" href="#key-design-principles" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Efficiency</strong>: Hash-based indexing for fast mass lookups</p></li>
+<li><p><strong>Flexibility</strong>: Support for multiple ionization modes and isotope labeling</p></li>
+<li><p><strong>Precision</strong>: PPM-based matching for high accuracy identification</p></li>
+<li><p><strong>Scalability</strong>: Batch processing capabilities for multiple samples</p></li>
+<li><p><strong>Modularity</strong>: Clear separation between components for maintainability</p></li>
+</ol>
+</section>
+<section id="implementation-details">
+<h2>Implementation Details<a class="headerlink" href="#implementation-details" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><strong>Atom Module</strong>: Handles atomic data and isotope information</p></li>
+<li><p><strong>Molecule Module</strong>: Processes molecular formulas and calculates masses</p></li>
+<li><p><strong>Analysis Module</strong>: Coordinates the analysis workflow</p></li>
+<li><p><strong>Cache Creation</strong>: Precomputes molecular data for faster analysis</p></li>
+<li><p><strong>Database Connectors</strong>: Extract compound information from external sources</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api_reference.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Nabil Rahiman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

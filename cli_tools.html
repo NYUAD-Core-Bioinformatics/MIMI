@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIMI Command Line Tools &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mass Spectrometry Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mass Spectrometry Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MIMI Command Line Tools</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cli_tools.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mimi-command-line-tools">
+<h1>MIMI Command Line Tools<a class="headerlink" href="#mimi-command-line-tools" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>MIMI (Molecular Isotope Mass Identifier) provides two main command-line tools:
+- <code class="docutils literal notranslate"><span class="pre">mimi_cache_create</span></code>: Creates binary database files for compound matching
+- <code class="docutils literal notranslate"><span class="pre">mimi_analysis</span></code>: Analyzes mass spectrometry data against the cached databases</p>
+</section>
+<section id="basic-concepts">
+<h2>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline"></a></h2>
+<section id="terms-and-abbreviations">
+<h3>Terms and Abbreviations<a class="headerlink" href="#terms-and-abbreviations" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CF</span></code>: Chemical formula</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ID</span></code>: Index</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neg</span></code>: Negative ionisation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pos</span></code>: Positive ionisation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zero</span></code>: Zero ionisation</p></li>
+</ul>
+</section>
+<section id="constants">
+<h3>Constants<a class="headerlink" href="#constants" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Electron</span> <span class="pre">mass(e)</span></code>: 0.000548</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Proton</span> <span class="pre">mass(h)</span></code>: 1.007276467</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Clab</span> <span class="pre">+</span> <span class="pre">pos</span></code>: Mass of Labeled Carbon + Proton mass(h)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Clab</span> <span class="pre">+</span> <span class="pre">neg</span></code>: Mass of Labeled Carbon - Proton mass(h)</p></li>
+</ul>
+</section>
+</section>
+<section id="command-reference">
+<h2>Command Reference<a class="headerlink" href="#command-reference" title="Permalink to this headline"></a></h2>
+<section id="mimi-cache-create">
+<h3>mimi_cache_create<a class="headerlink" href="#mimi-cache-create" title="Permalink to this headline"></a></h3>
+<p>Creates binary cache files for compound matching.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">d</span> <span class="n">DBTSV</span> <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">,</span><span class="n">zero</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">JSON</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">g</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Required Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">d</span> <span class="n">DBTSV</span><span class="p">,</span> <span class="o">--</span><span class="n">dbfile</span> <span class="n">DBTSV</span>
+                     <span class="n">Input</span> <span class="n">file</span> <span class="k">with</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">compounds</span>
+<span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span><span class="p">,</span> <span class="o">--</span><span class="n">cache</span> <span class="n">DBBINARY</span>
+                     <span class="n">Output</span> <span class="n">binary</span> <span class="n">DB</span> <span class="n">file</span>
+</pre></div>
+</div>
+<p>Optional Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">Show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+<span class="o">-</span><span class="n">i</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">,</span><span class="n">zero</span><span class="p">},</span> <span class="o">--</span><span class="n">ion</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">,</span><span class="n">zero</span><span class="p">}</span>
+                     <span class="n">Ionisation</span> <span class="n">mode</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">zero</span><span class="p">)</span>
+<span class="o">-</span><span class="n">l</span> <span class="n">JSON</span><span class="p">,</span> <span class="o">--</span><span class="n">label</span> <span class="n">JSON</span>
+                     <span class="n">Labeled</span> <span class="n">atoms</span> <span class="n">configuration</span> <span class="n">file</span>
+<span class="o">-</span><span class="n">g</span><span class="p">,</span> <span class="o">--</span><span class="n">debug</span>          <span class="n">Enable</span> <span class="n">debug</span> <span class="n">output</span>
+</pre></div>
+</div>
+</section>
+<section id="mimi-analysis">
+<h3>mimi_analysis<a class="headerlink" href="#mimi-analysis" title="Permalink to this headline"></a></h3>
+<p>Analyzes mass spectrometry data using cached databases.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="n">PPM</span> <span class="o">-</span><span class="n">vp</span> <span class="n">VPPM</span> <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">s</span> <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">g</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Required Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">p</span> <span class="n">PPM</span><span class="p">,</span> <span class="o">--</span><span class="n">ppm</span> <span class="n">PPM</span>     <span class="n">Parts</span> <span class="n">per</span> <span class="n">million</span> <span class="k">for</span> <span class="n">mono</span> <span class="n">isotopic</span> <span class="n">mass</span> <span class="n">matching</span>
+<span class="o">-</span><span class="n">vp</span> <span class="n">VPPM</span>              <span class="n">Parts</span> <span class="n">per</span> <span class="n">million</span> <span class="k">for</span> <span class="n">isotope</span> <span class="n">verification</span>
+<span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span><span class="p">,</span> <span class="o">--</span><span class="n">cache</span> <span class="n">DBBINARY</span>
+                     <span class="n">Binary</span> <span class="n">DB</span> <span class="nb">input</span> <span class="n">file</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="o">-</span><span class="n">s</span> <span class="n">SAMPLE</span><span class="p">,</span> <span class="o">--</span><span class="n">sample</span> <span class="n">SAMPLE</span>
+                     <span class="n">Input</span> <span class="n">sample</span> <span class="n">file</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Optional Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">Show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+<span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
+                     <span class="n">Output</span> <span class="n">file</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">prints</span> <span class="n">to</span> <span class="n">stdout</span><span class="p">)</span>
+<span class="o">-</span><span class="n">g</span><span class="p">,</span> <span class="o">--</span><span class="n">debug</span>          <span class="n">Enable</span> <span class="n">debug</span> <span class="n">output</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="workflow-examples">
+<h2>Workflow Examples<a class="headerlink" href="#workflow-examples" title="Permalink to this headline"></a></h2>
+<section id="basic-workflow">
+<h3>Basic Workflow<a class="headerlink" href="#basic-workflow" title="Permalink to this headline"></a></h3>
+<p>1. Create cache files for both natural and labeled compounds:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Natural abundance cache</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
+
+<span class="c1"># C13-labeled cache</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">Clab</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_13C</span>
+</pre></div>
+</div>
+<p>2. Analyze samples using the cache files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Single analysis</span>
+<span class="n">mimi_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_13C</span> \
+    <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">testdata</span><span class="o">.</span><span class="n">asc</span> \
+    <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</section>
+<section id="analysis-with-different-ppm-thresholds">
+<h3>Analysis with Different PPM Thresholds<a class="headerlink" href="#analysis-with-different-ppm-thresholds" title="Permalink to this headline"></a></h3>
+<p>Fine-tune analysis using different PPM thresholds:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tight thresholds</span>
+<span class="n">mimi_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">testdata</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p1_vp1</span><span class="o">.</span><span class="n">tsv</span>
+
+<span class="c1"># Wider verification threshold</span>
+<span class="n">mimi_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">2.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">testdata</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p1_vp2</span><span class="o">.</span><span class="n">tsv</span>
+
+<span class="c1"># Matching thresholds</span>
+<span class="n">mimi_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">2.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">2.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">testdata</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p2_vp2</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</section>
+<section id="ppm-threshold-effects">
+<h3>PPM Threshold Effects:<a class="headerlink" href="#ppm-threshold-effects" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>Lower PPM values (1.0): Higher precision in mass matching</p></li>
+<li><p>Higher PPM values (5.0): Wider mass matching window</p></li>
+<li><p>Verification PPM (-vp): Controls isotope pattern matching accuracy</p></li>
+</ul>
+</section>
+<section id="batch-processing">
+<h3>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h3>
+<p>For analyzing multiple samples with multiple thresholds:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Create output directory
+mkdir -p analysis_results
+
+# Run analysis with PPM combinations
+for ppm in 1.0 2.0 5.0; do
+    for vppm in 1.0 2.0 5.0; do
+        mimi_analysis -p $ppm -vp $vppm \
+            -c db_nat db_13C \
+            -s data/testdata.asc \
+            -o analysis_results/results_p${ppm}_vp${vppm}.tsv
+    done
+done
+</pre></div>
+</div>
+</section>
+<section id="multiple-sample-analysis-with-spike-detection">
+<h3>Multiple Sample Analysis with Spike Detection<a class="headerlink" href="#multiple-sample-analysis-with-spike-detection" title="Permalink to this headline"></a></h3>
+<p>Analyze samples with both natural abundance and isotope spikes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create cache files</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">Clab</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_spike</span>
+
+<span class="c1"># Analyze samples with spike detection</span>
+<span class="n">mimi_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_spike</span> \
+    <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">sample1</span><span class="o">.</span><span class="n">asc</span> <span class="n">data</span><span class="o">/</span><span class="n">sample2</span><span class="o">.</span><span class="n">asc</span> \
+    <span class="o">-</span><span class="n">o</span> <span class="n">results_with_spike</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</section>
+<section id="spike-detection">
+<h3>Spike Detection<a class="headerlink" href="#spike-detection" title="Permalink to this headline"></a></h3>
+<p>When analyzing data with multiple cache files, MIMI performs spike detection:</p>
+<ul class="simple">
+<li><p>Natural abundance peaks are matched using the natural isotope cache (db_nat)</p></li>
+<li><p>Spike signals are detected using labeled isotope caches (db_spike)</p></li>
+<li><p>Common spike analysis scenarios:
+- C13 metabolic spikes
+- N15 enrichment spikes
+- Multiple spike types simultaneously</p></li>
+<li><p>Output includes columns for both natural and spike matches</p></li>
+<li><p>Relative intensities indicate spike incorporation rates</p></li>
+</ul>
+</section>
+</section>
+<section id="input-file-formats">
+<h2>Input File Formats<a class="headerlink" href="#input-file-formats" title="Permalink to this headline"></a></h2>
+<section id="compound-database-dbtsv">
+<h3>Compound Database (DBTSV)<a class="headerlink" href="#compound-database-dbtsv" title="Permalink to this headline"></a></h3>
+<p>Tab-separated file containing compound information:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CF</span>              <span class="n">ID</span>      <span class="n">Name</span>
+<span class="n">C10H16N5O13P3</span>   <span class="n">C19969</span>  <span class="mi">2</span><span class="o">-</span><span class="n">Hydroxy</span><span class="o">-</span><span class="n">dATP</span>
+<span class="n">C21H28N7O14P2</span>   <span class="n">C00003</span>  <span class="n">NAD</span><span class="o">+</span>
+<span class="n">C21H29N7O14P2</span>   <span class="n">C21424</span>  <span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="o">-</span><span class="n">Dihydro</span><span class="o">-</span><span class="n">beta</span><span class="o">-</span><span class="n">NAD</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="labeled-atoms-configuration-json">
+<h3>Labeled Atoms Configuration (JSON)<a class="headerlink" href="#labeled-atoms-configuration-json" title="Permalink to this headline"></a></h3>
+<p>JSON file defining isotope properties:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+            <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">13.00335484</span><span class="p">,</span>
+            <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+            <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.95</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">12.000</span><span class="p">,</span>
+            <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+            <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.95</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="sample-data-asc">
+<h3>Sample Data (ASC)<a class="headerlink" href="#sample-data-asc" title="Permalink to this headline"></a></h3>
+<p>ASCII format mass spectrometry data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">43.16184</span>    <span class="mi">1089317</span>    <span class="mf">0.00003</span>
+<span class="mf">43.28766</span>    <span class="mi">1115802</span>    <span class="mf">0.00003</span>
+<span class="mf">43.28946</span>    <span class="mi">1226947</span>    <span class="mf">0.00003</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="natural-isotope-abundances">
+<h2>Natural Isotope Abundances<a class="headerlink" href="#natural-isotope-abundances" title="Permalink to this headline"></a></h2>
+<p>Following are default atomic information(Builtin data sets/used while precomputing) which can be override with -l option</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;H&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;H&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">1.007825</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.999885</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.999885</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;H&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">2.014102</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.00115</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.999885</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">11.009305</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.801</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.801</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">10.012937</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.199</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.801</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9893</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9893</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">13.00335484</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0107</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9893</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">14.003074</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.99632</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.99632</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">15.0001089</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.00368</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.99632</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;O&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;O&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">15.994915</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.99757</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.99757</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;O&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">16.999132</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.00038</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.99757</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;O&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">17.99916</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.00205</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.99757</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">18.998403</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Mg&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">23.985042</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.7899</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.7899</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">24.985837</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1000</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.7899</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">25.982593</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1000</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1101</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Si&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Si&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">27.976927</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.92297</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.92297</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Si&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">28.976495</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.046832</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.92297</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Si&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">28.973770</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.030872</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.92297</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">30.973762</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">31.972071</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9493</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9493</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">33.967867</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0429</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9493</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">32.971458</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0076</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9493</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">35.967081</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0002</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9493</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Cl&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Cl&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">34.968853</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.7578</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.7578</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Cl&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">37</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">36.965903</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2422</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.7578</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;K&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">39</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">38.963707</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.932581</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.932581</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">41</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">40.961826</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.067302</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.932581</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">39.963707</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.000117</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.932581</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Ca&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Ca&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">39.96259086</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.96941</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.96941</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Mn&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mn&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">54.93805</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Fe&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Fe&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">56</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">55.93493633</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.91754</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.91754</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Fe&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">54</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">53.939615</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.05845</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.91754</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Co&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">27</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Co&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">59</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">58.933200</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Zn&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Zn&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">63.929147</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4863</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4863</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Zn&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">66</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">65.926037</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2790</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4863</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Zn&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">68</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">67.924848</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1875</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4863</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Zn&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">67</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">66.927131</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0410</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4863</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Zn&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">69.925325</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0062</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4863</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;As&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;As&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">75</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">74.92159457</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Se&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Se&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">79.916522</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4961</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4961</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Se&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">78</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">77.917310</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2377</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4961</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Se&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">82</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">81.916700</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0873</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4961</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Se&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">76</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">75.919214</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0937</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4961</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Se&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">77</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">76.919915</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0763</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4961</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Se&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">73.922477</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0089</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4961</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Br&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Br&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">79</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">79.918338</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.5069</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.5069</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Br&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">81</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">80.916291</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.4931</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.5069</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Mo&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mo&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">98</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">97.905408</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2413</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2413</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mo&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">96</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">95.904679</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1668</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2413</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mo&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">95</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">94.905841</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1592</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2413</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mo&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">92</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">91.906810</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1484</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2413</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mo&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">97</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">96.906021</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0955</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2413</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Mo&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">94</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">93.905088</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0925</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2413</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Sn&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Sn&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">119.9022016</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3258</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3258</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Te&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Te&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">130</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">129.906223</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.34</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.34</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">127</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">126.9044719</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Pt&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">78</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Pt&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">195</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">194.964774</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">33.832</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">33.832</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Au&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">79</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Au&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">197</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">196.9665688</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Hg&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Hg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">202</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">201.970626</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2986</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2986</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Hg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">199.968309</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2310</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2986</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Hg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">199</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">198.968262</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1687</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2986</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Hg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">201</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">200.970285</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.1318</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2986</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Hg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">198</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">197.966752</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0997</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2986</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Hg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">204</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">203.973476</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0687</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2986</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Hg&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">196</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">195.965815</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0015</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.2986</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Bi&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">83</span><span class="p">,</span>
+                <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Bi&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">209</span><span class="p">,</span>
+                <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">208.980383</span><span class="p">,</span>
+                <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Ge&quot;</span><span class="p">:[</span>
+            <span class="p">{</span>
+            <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Ge&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span>
+            <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">73.921177761</span><span class="p">,</span>
+            <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3650</span><span class="p">,</span>
+            <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3650</span>
+
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Gb&quot;</span><span class="p">:[</span>
+            <span class="p">{</span>
+            <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Gb&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span>
+            <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">73.921177761</span><span class="p">,</span>
+            <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3650</span><span class="p">,</span>
+            <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3650</span>
+
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Gd&quot;</span><span class="p">:[</span>
+            <span class="p">{</span>
+            <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Gd&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span>
+            <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">73.921177761</span><span class="p">,</span>
+            <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3650</span><span class="p">,</span>
+            <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3650</span>
+
+            <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Al&quot;</span><span class="p">:[</span>
+            <span class="p">{</span>
+            <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;Al&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">74</span><span class="p">,</span>
+            <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">73.921177761</span><span class="p">,</span>
+            <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3650</span><span class="p">,</span>
+            <span class="s2">&quot;highest_abundance&quot;</span><span class="p">:</span> <span class="mf">0.3650</span>
+
+            <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Nabil Rahiman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

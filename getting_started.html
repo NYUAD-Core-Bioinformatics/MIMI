@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mass Spectrometry Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mass Spectrometry Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h1>
+<section id="mass-spectrometry-tool">
+<h2>Mass Spectrometry Tool<a class="headerlink" href="#mass-spectrometry-tool" title="Permalink to this headline"></a></h2>
+<p>Calculation of isotope labeled FT-ICR (fourier transform ion cyclotron resonance) mass spectrometry data</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<p>MIMI can be installed using following methods:</p>
+<section id="using-conda">
+<h3>Using conda<a class="headerlink" href="#using-conda" title="Permalink to this headline"></a></h3>
+<p>Install from conda-forge channel:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">mimi</span>
+</pre></div>
+</div>
+</section>
+<section id="from-source">
+<h3>From source<a class="headerlink" href="#from-source" title="Permalink to this headline"></a></h3>
+<p>Clone the repository and install:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">GunsalusPiano</span><span class="o">/</span><span class="n">mass_spectrometry_tool</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">mass_spectrometry_tool</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h3>
+<p>MIMI requires the following Python packages:</p>
+<ul class="simple">
+<li><p>Python &gt;= 3.11.11</p></li>
+<li><p>numpy</p></li>
+<li><p>pandas</p></li>
+<li><p>json5</p></li>
+<li><p>urllib3</p></li>
+<li><p>tqdm</p></li>
+<li><p>requests</p></li>
+</ul>
+<p>These dependencies will be automatically installed when using pip or conda.</p>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>MIMI provides five command-line tools:</p>
+<section id="mass-analysis">
+<h3>1. Mass Analysis<a class="headerlink" href="#mass-analysis" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">p</span> <span class="n">PPM</span> <span class="o">-</span><span class="n">vp</span> <span class="n">VPPM</span> <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">s</span> <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span>
+</pre></div>
+</div>
+<dl>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>Show this help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-p <var>PPM</var></span>, <span class="option">--ppm <var>PPM</var></span></kbd></dt>
+<dd><p>Parts per million for the mono isotopic mass of chemical formula</p>
+</dd>
+</dl>
+<p>-vp VPPM             Parts per million for verification of isotopes
+-c DBBINARY, –cache DBBINARY [DBBINARY …]</p>
+<blockquote>
+<div><p>Binary DB input file(s)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>-s SAMPLE, –sample SAMPLE [SAMPLE …]</dt><dd><p>Input sample file</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output file</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="cache-creation">
+<h3>2. Cache Creation<a class="headerlink" href="#cache-creation" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">JSON</span><span class="p">]</span> <span class="o">-</span><span class="n">d</span> <span class="n">DBTSV</span> <span class="p">[</span><span class="n">DBTSV</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">i</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">}</span> <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span>
+</pre></div>
+</div>
+<dl>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>Show this help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-l <var>JSON</var></span>, <span class="option">--label <var>JSON</var></span></kbd></dt>
+<dd><p>Labeled atoms</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>-d DBTSV, –dbfile DBTSV [DBTSV …]</dt><dd><p>File(s) with list of compounds</p>
+</dd>
+<dt>-i {pos,neg}, –ion {pos,neg}</dt><dd><p>Ionisation mode</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">-c <var>DBBINARY</var></span>, <span class="option">--cache <var>DBBINARY</var></span></kbd></dt>
+<dd><p>Binary DB output file</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="hmdb-extraction">
+<h3>3. HMDB Extraction<a class="headerlink" href="#hmdb-extraction" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">x</span> <span class="n">XML</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>Show this help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-x <var>XML</var></span>, <span class="option">--xml <var>XML</var></span></kbd></dt>
+<dd><p>Path to HMDB metabolites XML file</p>
+</dd>
+<dt><kbd><span class="option">-l <var>MIN_MASS</var></span>, <span class="option">--min-mass <var>MIN_MASS</var></span></kbd></dt>
+<dd><p>Lower bound of molecular weight in Da</p>
+</dd>
+<dt><kbd><span class="option">-u <var>MAX_MASS</var></span>, <span class="option">--max-mass <var>MAX_MASS</var></span></kbd></dt>
+<dd><p>Upper bound of molecular weight in Da</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output TSV file path (default: metabolites.tsv)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="kegg-extraction">
+<h3>4. KEGG Extraction<a class="headerlink" href="#kegg-extraction" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">COMPOUND_IDS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>Show this help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-l <var>MIN_MASS</var></span>, <span class="option">--min-mass <var>MIN_MASS</var></span></kbd></dt>
+<dd><p>Lower bound of molecular weight in Da</p>
+</dd>
+<dt><kbd><span class="option">-u <var>MAX_MASS</var></span>, <span class="option">--max-mass <var>MAX_MASS</var></span></kbd></dt>
+<dd><p>Upper bound of molecular weight in Da</p>
+</dd>
+<dt><kbd><span class="option">-i <var>COMPOUND_IDS</var></span>, <span class="option">--input <var>COMPOUND_IDS</var></span></kbd></dt>
+<dd><p>Input TSV file containing KEGG compound IDs</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output TSV file path (default: kegg_compounds.tsv)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="cache-dump">
+<h3>5. Cache Dump<a class="headerlink" href="#cache-dump" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NUM_COMPOUNDS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">NUM_ISOTOPES</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="n">cache_file</span>
+</pre></div>
+</div>
+<dl>
+<dt>Positional Arguments:</dt><dd><p>cache_file            Input cache file (.pkl)</p>
+</dd>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>Show this help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-n <var>NUM_COMPOUNDS</var></span>, <span class="option">--num-compounds <var>NUM_COMPOUNDS</var></span></kbd></dt>
+<dd><p>Number of compounds to output (default: all)</p>
+</dd>
+<dt><kbd><span class="option">-i <var>NUM_ISOTOPES</var></span>, <span class="option">--num-isotopes <var>NUM_ISOTOPES</var></span></kbd></dt>
+<dd><p>Number of isotopes per compound to output (default: all)</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output file (default: stdout)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline"></a></h2>
+<p>First, create cache files for different isotope configurations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create cache for natural isotopes</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
+
+<span class="c1"># Create cache for C13 spike-in</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">Clab</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_C13</span>
+</pre></div>
+</div>
+<p>Then analyze samples using multiple cache files simultaneously:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze samples with natural isotopes and C13 spike-in (ppm=1.0, verification ppm=1.0)</span>
+<span class="n">mimi_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_C13</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">sample1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_with_spike</span><span class="o">.</span><span class="n">tsv</span>
+
+<span class="c1"># Process multiple samples</span>
+<span class="n">mimi_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_C13</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">sample1</span><span class="o">.</span><span class="n">asc</span> <span class="n">data</span><span class="o">/</span><span class="n">sample2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_batch</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</section>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><strong>Multiple Cache Analysis</strong>: Analyze samples against both natural isotopes and C13 spike-in simultaneously</p></li>
+<li><p><strong>Batch Sample Processing</strong>: Process multiple sample files in a single run</p></li>
+<li><p><strong>Efficient Cache System</strong>: Cache files are pre-computed once and can be reused</p></li>
+<li><p><strong>Intuitive Output</strong>: Output column names derived from cache file names</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Nabil Rahiman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

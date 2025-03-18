@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Reference &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api_reference.html" />
+    <link rel="prev" title="Detailed Workflow" href="workflow.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mass Spectrometry Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-mass-analysis">mimi_mass_analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-cache-create">mimi_cache_create</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-hmdb-extract">mimi_hmdb_extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-kegg-extract">mimi_kegg_extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-cache-dump">mimi_cache_dump</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mass Spectrometry Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Command Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/command_reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command-reference">
+<h1>Command Reference<a class="headerlink" href="#command-reference" title="Permalink to this headline"></a></h1>
+<p>This section provides detailed information about all command-line tools available in MIMI.</p>
+<section id="mimi-mass-analysis">
+<h2>mimi_mass_analysis<a class="headerlink" href="#mimi-mass-analysis" title="Permalink to this headline"></a></h2>
+<p>Mass spectrometry data analysis tool.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">p</span> <span class="n">PPM</span> <span class="o">-</span><span class="n">vp</span> <span class="n">VPPM</span> <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">s</span> <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span> <span class="p">[</span><span class="o">-</span><span class="n">g</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl>
+<dt>Arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-p <var>PPM</var></span>, <span class="option">--ppm <var>PPM</var></span></kbd></dt>
+<dd><p>Parts per million for mono isotopic mass matching</p>
+</dd>
+</dl>
+<p>-vp VPPM              Parts per million for isotope verification
+-c DBBINARY           Binary DB input file(s)
+-s SAMPLE             Input sample file(s)
+-o OUTPUT             Output file
+-g, –debug           Enable debug output</p>
+</dd>
+<dt>Description:</dt><dd><p>This tool analyzes mass spectrometry data by comparing sample masses against precomputed
+molecular masses stored in cache files. It can process multiple samples against multiple
+cache files simultaneously, allowing for efficient batch processing and comparison of
+different isotope configurations.</p>
+</dd>
+</dl>
+</section>
+<section id="mimi-cache-create">
+<h2>mimi_cache_create<a class="headerlink" href="#mimi-cache-create" title="Permalink to this headline"></a></h2>
+<p>Create precomputed cache files for molecular mass data.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">JSON</span><span class="p">]</span> <span class="o">-</span><span class="n">d</span> <span class="n">DBTSV</span> <span class="p">[</span><span class="n">DBTSV</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">i</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">}</span> <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="o">-</span><span class="n">g</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl>
+<dt>Arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-l <var>JSON</var></span>, <span class="option">--label <var>JSON</var></span></kbd></dt>
+<dd><p>Labeled atoms configuration file</p>
+</dd>
+<dt><kbd><span class="option">-d <var>DBTSV</var></span>, <span class="option">--dbfile <var>DBTSV</var></span></kbd></dt>
+<dd><p>File(s) with list of compounds</p>
+</dd>
+</dl>
+<p>-i {pos,neg}, –ion {pos,neg}  Ionisation mode
+-c DBBINARY, –cache DBBINARY  Binary DB output file
+-g, –debug               Enable debug output</p>
+</dd>
+<dt>Description:</dt><dd><p>This tool creates precomputed cache files containing molecular mass data and isotope
+patterns for compounds. These cache files significantly speed up analysis by avoiding
+repeated calculations. You can create different cache files for different isotope
+configurations (natural abundance, C13-labeled, etc.).</p>
+</dd>
+</dl>
+</section>
+<section id="mimi-hmdb-extract">
+<h2>mimi_hmdb_extract<a class="headerlink" href="#mimi-hmdb-extract" title="Permalink to this headline"></a></h2>
+<p>Extract metabolite information from HMDB database.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">x</span> <span class="n">XML</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl>
+<dt>Arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-x <var>XML</var></span>, <span class="option">--xml <var>XML</var></span></kbd></dt>
+<dd><p>Path to HMDB metabolites XML file</p>
+</dd>
+<dt><kbd><span class="option">-l <var>MIN_MASS</var></span>, <span class="option">--min-mass <var>MIN_MASS</var></span></kbd></dt>
+<dd><p>Lower bound of molecular weight in Da</p>
+</dd>
+<dt><kbd><span class="option">-u <var>MAX_MASS</var></span>, <span class="option">--max-mass <var>MAX_MASS</var></span></kbd></dt>
+<dd><p>Upper bound of molecular weight in Da</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output TSV file path (default: metabolites.tsv)</p>
+</dd>
+</dl>
+</dd>
+<dt>Description:</dt><dd><p>This tool extracts metabolite information from the Human Metabolome Database (HMDB)
+XML file and converts it to a TSV format that can be used with MIMI. It can filter
+metabolites by molecular weight range and validates chemical formulas to ensure
+compatibility with MIMI’s formula parser.</p>
+</dd>
+</dl>
+</section>
+<section id="mimi-kegg-extract">
+<h2>mimi_kegg_extract<a class="headerlink" href="#mimi-kegg-extract" title="Permalink to this headline"></a></h2>
+<p>Extract compound information from KEGG database.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">COMPOUND_IDS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl>
+<dt>Arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-l <var>MIN_MASS</var></span>, <span class="option">--min-mass <var>MIN_MASS</var></span></kbd></dt>
+<dd><p>Lower bound of molecular weight in Da</p>
+</dd>
+<dt><kbd><span class="option">-u <var>MAX_MASS</var></span>, <span class="option">--max-mass <var>MAX_MASS</var></span></kbd></dt>
+<dd><p>Upper bound of molecular weight in Da</p>
+</dd>
+<dt><kbd><span class="option">-i <var>COMPOUND_IDS</var></span>, <span class="option">--input <var>COMPOUND_IDS</var></span></kbd></dt>
+<dd><p>Input TSV file containing KEGG compound IDs</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output TSV file path (default: kegg_compounds.tsv)</p>
+</dd>
+</dl>
+</dd>
+<dt>Description:</dt><dd><p>This tool extracts compound information from the KEGG database using its REST API.
+It can retrieve compounds within a specific molecular weight range or from a list
+of compound IDs. The tool handles KEGG’s 10,000 result limit by breaking large
+mass ranges into smaller chunks.</p>
+</dd>
+</dl>
+</section>
+<section id="mimi-cache-dump">
+<h2>mimi_cache_dump<a class="headerlink" href="#mimi-cache-dump" title="Permalink to this headline"></a></h2>
+<p>Dump contents of a MIMI cache file to TSV format.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NUM_COMPOUNDS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">NUM_ISOTOPES</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="n">cache_file</span>
+</pre></div>
+</div>
+<dl>
+<dt>Positional Arguments:</dt><dd><p>cache_file            Input cache file (.pkl)</p>
+</dd>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-n <var>NUM_COMPOUNDS</var></span>, <span class="option">--num-compounds <var>NUM_COMPOUNDS</var></span></kbd></dt>
+<dd><p>Number of compounds to output</p>
+</dd>
+<dt><kbd><span class="option">-i <var>NUM_ISOTOPES</var></span>, <span class="option">--num-isotopes <var>NUM_ISOTOPES</var></span></kbd></dt>
+<dd><p>Number of isotopes per compound</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output file (default: stdout)</p>
+</dd>
+</dl>
+</dd>
+<dt>Description:</dt><dd><p>This tool dumps the contents of a MIMI cache file to a human-readable TSV format.
+It’s useful for inspecting cache files, verifying their contents, and understanding
+the isotope patterns being used for analysis. The output includes compound information,
+chemical formulas with nominal masses, and isotope variant details.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="workflow.html" class="btn btn-neutral float-left" title="Detailed Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api_reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Nabil Rahiman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

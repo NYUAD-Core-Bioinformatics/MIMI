@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprehensive Tutorial &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Mass Spectrometry Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mass Spectrometry Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Comprehensive Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="comprehensive-tutorial">
+<h1>Comprehensive Tutorial<a class="headerlink" href="#comprehensive-tutorial" title="Permalink to this headline"></a></h1>
+<p>This tutorial provides a step-by-step guide to using MIMI for mass spectrometry data analysis, with detailed examples and explanations.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline"></a></h2>
+<p>Before starting, ensure you have:</p>
+<ol class="arabic simple">
+<li><p>Installed MIMI (see <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a>)</p></li>
+<li><p>Basic understanding of mass spectrometry concepts</p></li>
+<li><p>Sample data files in ASC format</p></li>
+<li><p>Access to compound databases (KEGG, HMDB, or custom)</p></li>
+</ol>
+</section>
+<section id="example-files">
+<h2>Example Files<a class="headerlink" href="#example-files" title="Permalink to this headline"></a></h2>
+<p>For this tutorial, we’ll use the following example files:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sample.asc</span></code>: Mass spectrometry data file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compounds.tsv</span></code>: Custom compound database</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c13_labeling.json</span></code>: C13 labeling configuration</p></li>
+</ul>
+<p>You can create these files or use your own data.</p>
+</section>
+<section id="step-1-create-a-custom-compound-database">
+<h2>Step 1: Create a Custom Compound Database<a class="headerlink" href="#step-1-create-a-custom-compound-database" title="Permalink to this headline"></a></h2>
+<p>First, let’s create a simple compound database with common metabolites:</p>
+<ol class="arabic">
+<li><p>Create a file named <code class="docutils literal notranslate"><span class="pre">compounds.tsv</span></code> with the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CF</span>      <span class="n">ID</span>      <span class="n">name</span>
+<span class="n">C6H12O6</span> <span class="n">glc</span>     <span class="n">Glucose</span>
+<span class="n">C5H10O5</span> <span class="n">rib</span>     <span class="n">Ribose</span>
+<span class="n">C3H7NO2</span> <span class="n">ala</span>     <span class="n">Alanine</span>
+<span class="n">C4H9NO3</span> <span class="n">asp</span>     <span class="n">Aspartic</span> <span class="n">acid</span>
+<span class="n">C5H9NO4</span> <span class="n">glu</span>     <span class="n">Glutamic</span> <span class="n">acid</span>
+<span class="n">C2H5NO2</span> <span class="n">gly</span>     <span class="n">Glycine</span>
+<span class="n">C6H14N4O2</span> <span class="n">arg</span>   <span class="n">Arginine</span>
+<span class="n">C9H11NO3</span> <span class="n">tyr</span>    <span class="n">Tyrosine</span>
+<span class="n">C5H11NO2S</span> <span class="n">met</span>   <span class="n">Methionine</span>
+<span class="n">C3H7NO3</span>  <span class="n">ser</span>    <span class="n">Serine</span>
+</pre></div>
+</div>
+</li>
+<li><p>Alternatively, extract compounds from KEGG or HMDB:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># From KEGG</span>
+<span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">compounds</span><span class="o">.</span><span class="n">tsv</span>
+
+<span class="c1"># From HMDB</span>
+<span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">compounds</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="step-2-create-cache-files">
+<h2>Step 2: Create Cache Files<a class="headerlink" href="#step-2-create-cache-files" title="Permalink to this headline"></a></h2>
+<p>Next, create cache files for different isotope configurations:</p>
+<ol class="arabic">
+<li><p>Create a natural abundance cache:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create a C13-labeled cache:</p>
+<ol class="loweralpha">
+<li><p>Create a file named <code class="docutils literal notranslate"><span class="pre">c13_labeling.json</span></code> with the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">13.003354826</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9893</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0107</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create the labeled cache:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">c13_labeling</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">c13_cache</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+<li><p>Verify the cache contents:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">3</span> <span class="o">-</span><span class="n">o</span> <span class="n">natural_cache_contents</span><span class="o">.</span><span class="n">tsv</span>
+<span class="n">mimi_cache_dump</span> <span class="n">c13_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">3</span> <span class="o">-</span><span class="n">o</span> <span class="n">c13_cache_contents</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="step-3-analyze-a-sample">
+<h2>Step 3: Analyze a Sample<a class="headerlink" href="#step-3-analyze-a-sample" title="Permalink to this headline"></a></h2>
+<p>Now, analyze a mass spectrometry sample:</p>
+<ol class="arabic">
+<li><p>Basic analysis with natural abundance cache:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_natural</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Analysis with C13-labeled cache:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">c13_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_c13</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Combined analysis with both caches:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="n">c13_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_combined</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="step-4-optimize-ppm-thresholds">
+<h2>Step 4: Optimize PPM Thresholds<a class="headerlink" href="#step-4-optimize-ppm-thresholds" title="Permalink to this headline"></a></h2>
+<p>Experiment with different PPM thresholds to optimize results:</p>
+<ol class="arabic">
+<li><p>Tight threshold (high precision, fewer matches):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p1</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Medium threshold (balanced precision and recall):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">2.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">2.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p2</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Wide threshold (lower precision, more matches):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">5.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">5.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_p5</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+<li><p>Compare the results to determine the optimal threshold for your data.</p></li>
+</ol>
+</section>
+<section id="step-5-batch-processing">
+<h2>Step 5: Batch Processing<a class="headerlink" href="#step-5-batch-processing" title="Permalink to this headline"></a></h2>
+<p>Process multiple samples in a single run:</p>
+<ol class="arabic">
+<li><p>Prepare multiple sample files: <code class="docutils literal notranslate"><span class="pre">sample1.asc</span></code>, <code class="docutils literal notranslate"><span class="pre">sample2.asc</span></code>, <code class="docutils literal notranslate"><span class="pre">sample3.asc</span></code></p></li>
+<li><p>Process all samples with the same parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">natural_cache</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample1</span><span class="o">.</span><span class="n">asc</span> <span class="n">sample2</span><span class="o">.</span><span class="n">asc</span> <span class="n">sample3</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="step-6-interpret-results">
+<h2>Step 6: Interpret Results<a class="headerlink" href="#step-6-interpret-results" title="Permalink to this headline"></a></h2>
+<p>The output TSV file contains detailed information about matched compounds:</p>
+<ol class="arabic simple">
+<li><p>Open the results file in a spreadsheet program or text editor</p></li>
+<li><p>Look for compounds with:
+- Low PPM values (high mass accuracy)
+- High isotope scores (good pattern matching)
+- High intensity values (strong signal)</p></li>
+<li><p>Filter results based on your criteria:
+- PPM &lt; 2.0 for high confidence matches
+- Isotope score &gt; 0.8 for reliable pattern matching</p></li>
+</ol>
+</section>
+<section id="advanced-topics">
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline"></a></h2>
+<section id="isotope-labeling-experiments">
+<h3>Isotope Labeling Experiments<a class="headerlink" href="#isotope-labeling-experiments" title="Permalink to this headline"></a></h3>
+<p>For tracking isotope incorporation:</p>
+<ol class="arabic simple">
+<li><p>Create caches for natural and labeled compounds</p></li>
+<li><p>Analyze samples against both caches</p></li>
+<li><p>Compare isotope patterns to determine labeling efficiency</p></li>
+<li><p>Look for shifts in mass corresponding to labeled atoms</p></li>
+</ol>
+</section>
+<section id="custom-labeling-configurations">
+<h3>Custom Labeling Configurations<a class="headerlink" href="#custom-labeling-configurations" title="Permalink to this headline"></a></h3>
+<p>Create custom labeling configurations for different experiments:</p>
+<ol class="arabic">
+<li><p>N15 labeling:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">15.000108898</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9963</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">14.003074</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0037</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Multiple element labeling (C13 and N15):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">13.003354826</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9893</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0107</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">15.000108898</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9963</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">14.003074</span><span class="p">,</span>
+      <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0037</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline"></a></h2>
+<p>Common Issues and Solutions:</p>
+<ol class="arabic simple">
+<li><p><strong>No matches found</strong>:
+- Try increasing the PPM threshold
+- Verify sample format and mass range
+- Check ionization mode matches sample preparation</p></li>
+<li><p><strong>Too many matches</strong>:
+- Decrease the PPM threshold
+- Use stricter verification PPM
+- Filter results by isotope score</p></li>
+<li><p><strong>Cache creation errors</strong>:
+- Check chemical formulas in database
+- Verify labeled atoms configuration
+- Enable debug mode for detailed error messages</p></li>
+<li><p><strong>Slow analysis</strong>:
+- Use smaller compound databases
+- Process samples individually
+- Optimize cache files for specific mass ranges</p></li>
+</ol>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline"></a></h2>
+<p>This tutorial covered the basic and advanced usage of MIMI for mass spectrometry data analysis. By following these steps, you should be able to:</p>
+<ol class="arabic simple">
+<li><p>Create compound databases from various sources</p></li>
+<li><p>Generate cache files for different isotope configurations</p></li>
+<li><p>Analyze samples with appropriate PPM thresholds</p></li>
+<li><p>Process multiple samples efficiently</p></li>
+<li><p>Interpret results and identify compounds with confidence</p></li>
+</ol>
+<p>For more information, refer to the other documentation sections:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="user_guide.html"><span class="doc">User Guide</span></a> for detailed usage information</p></li>
+<li><p><a class="reference internal" href="command_reference.html"><span class="doc">Command Reference</span></a> for command-line options</p></li>
+<li><p><a class="reference internal" href="api_reference.html"><span class="doc">API Reference</span></a> for programmatic usage</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Nabil Rahiman.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
