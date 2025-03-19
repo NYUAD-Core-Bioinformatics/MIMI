@@ -44,61 +44,81 @@ The Kyoto Encyclopedia of Genes and Genomes (KEGG) provides a comprehensive data
 
     mimi_kegg_extract -i compound_ids.tsv -o kegg_compounds.tsv
 
+Example of ``compound_ids.tsv`` file::
+
+    ID
+    C00003
+    C00006
+    C00015
+    C00016
+    C00018
+    C00019
+    C00021
+    C00024
+
+This file should contain a header row with **ID** followed by the KEGG compound IDs you wish to extract.
+
+You can download a sample ``compound_ids.tsv`` file from the following link: `compound_ids.tsv <https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/main/data/processed/compound_ids.tsv>`_
+
 Custom Database
 ~~~~~~~~~~~~~
 
-You can also create your own compound database as a TSV file with the following columns:
+You can also create your own compound database as a TSV file. While the file can include other metadata, it must contain the following mandatory columns:
 
 1. **CF**: Chemical formula (e.g., C6H12O6)
 2. **ID**: Compound identifier
-3. **name**: Compound name
+3. **Name**: Compound name
 
-Example::
+These columns can appear in any order within the file.
 
-    CF      ID      name
-    C6H12O6 glucose Glucose
-    C5H10O5 ribose  Ribose
-    C3H7NO2 alanine Alanine
+Updated Example::
+
+    CF      ID        Name
+    C6H12O6 C00031    Glucose
+    C5H10O5 C00036    Ribose
+    C3H7NO2 C00041    Alanine
+    C7H6O2  C00042    Benzoic Acid
+    C4H8O4  C00043    Erythritol
+
+Ensure that your TSV file includes a header row and follows this format for compatibility with MIMI.
 
 Cache Creation
 ------------
 
 Once you have your compound database, create cache files for efficient analysis:
 
-Natural Abundance Cache
-~~~~~~~~~~~~~~~~~~~~~
+1. **Natural abundance cache**::
 
-For analyzing samples with natural isotope abundances::
+    mimi_cache_create -i neg -d data/KEGGDB.tsv -c db_nat
 
-    mimi_cache_create -i neg -d compounds.tsv -c natural_cache
+2. **Labeled compounds cache** (e.g., 95% C13-labeled)::
 
-Labeled Compounds Cache
-~~~~~~~~~~~~~~~~~~~~~
+    mimi_cache_create -i neg -l data/C13_95.json -d data/KEGGDB.tsv -c db_13C
 
-For analyzing samples with isotope-labeled compounds, you need a JSON file describing the labeled atoms.
+Parameters:
+  - `-i neg`: Ionization mode (negative)
+  - `-d data/KEGGDB.tsv`: Input database file
+  - `-c db_nat`: Output cache file name
+  - `-l data/C13_95.json`: Optional labeled atoms configuration
 
-Example C13 labeling JSON::
+Example C13 labeling configuration (C13_95.json)::
 
     {
-      "C": [
-        {
-          "element_symbol": "C",
-          "nominal_mass": 13,
-          "exact_mass": 13.003354826,
-          "natural_abundance": 0.9893
-        },
-        {
-          "element_symbol": "C",
-          "nominal_mass": 12,
-          "exact_mass": 12.0,
-          "natural_abundance": 0.0107
-        }
-      ]
+        "C": [
+            {
+                "element_symbol": "C",
+                "nominal_mass": 12,
+                "exact_mass": 12.000,
+                "natural_abundance": 0.05
+            },
+            {
+                "element_symbol": "C",
+                "nominal_mass": 13,
+                "exact_mass": 13.00335484,
+                "natural_abundance": 0.95
+            }
+        ]
     }
-
-Create the labeled cache::
-
-    mimi_cache_create -i neg -l c13_labeling.json -d compounds.tsv -c c13_cache
 
 Cache Inspection
 ~~~~~~~~~~~~~~
@@ -239,14 +259,21 @@ Basic Analysis
 
 Analyze a single sample against a single cache::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c natural_cache.pkl -s sample.asc -o results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/sample.asc -o results.tsv
+
+Parameters:
+  - `-p 1.0`: PPM tolerance for initial mass matching
+  - `-vp 1.0`: PPM tolerance for isotope pattern verification
+  - `-c db_nat`: Cache file(s) to use
+  - `-s data/sample.asc`: Sample file(s) to analyze
+  - `-o results.tsv`: Output file for results
 
 Multiple Cache Analysis
 ~~~~~~~~~~~~~~~~~~~~~
 
 Analyze a sample against multiple caches simultaneously::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c natural_cache.pkl c13_cache.pkl -s sample.asc -o results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s data/sample.asc -o results.tsv
 
 This is useful for comparing natural abundance patterns with labeled patterns.
 
@@ -255,94 +282,82 @@ Batch Processing
 
 Process multiple samples in a single run::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c natural_cache.pkl -s sample1.asc sample2.asc sample3.asc -o batch_results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/sample1.asc data/sample2.asc -o batch_results.tsv
 
 PPM Threshold Optimization
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The PPM (parts per million) threshold controls the precision of mass matching. Try different thresholds to optimize results::
+The PPM threshold critically affects match precision and reliability:
 
-    # Tight threshold
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c natural_cache.pkl -s sample.asc -o results_p1.tsv
-    
-    # Medium threshold
-    mimi_mass_analysis -p 2.0 -vp 2.0 -c natural_cache.pkl -s sample.asc -o results_p2.tsv
-    
-    # Wide threshold
-    mimi_mass_analysis -p 5.0 -vp 5.0 -c natural_cache.pkl -s sample.asc -o results_p5.tsv
+- **Excellent (p=0.5, vp=0.5)**: Highest confidence identifications, recommended for ultra-high resolution data
+- **Good (p=1.0, vp=1.0)**: Reliable identifications when combined with isotope pattern validation
+- **Low Confidence (p=1.0-2.0, vp=1.0-2.0)**: Use with caution, requires additional validation
+- **Not Recommended (p>2.0, vp>2.0)**: Should not be used for ultra-high resolution MS data
+
+Example threshold usage::
+
+    # Highest confidence analysis
+    mimi_mass_analysis -p 0.5 -vp 0.5 -c db_nat -s sample.asc -o results_excellent.tsv
+
+    # Good confidence analysis
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results_good.tsv
 
 Result Interpretation
 -------------------
 
-The output TSV file contains detailed information about matched compounds across different isotope configurations:
+The output TSV file contains the following columns:
 
-Sample Information
-~~~~~~~~~~~~~~~~
-- **CF**: Chemical formula of the compound
-- **ID**: Unique identifier from the original database
-- **Name**: Common name of the compound
-- **C, H, N, O, P, S**: Number of each atom type in the compound
+1. **Compound ID**: Identifier from the original database
+2. **Formula**: Chemical formula of the matched compound
+3. **Name**: Compound name
+4. **Mass**: Calculated mass of the compound
+5. **Sample Mass**: Observed mass in the sample
+6. **PPM**: Parts per million difference between calculated and observed mass
+7. **Intensity**: Signal intensity in the sample
+8. **Isotope Score**: Confidence score based on isotope pattern matching
+9. **Cache Source**: Which cache file provided the match
 
-For Each Cache Type (Natural and Labeled)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Each cache type (e.g., natural abundance 'nat', C13-labeled 'C13') has its own columns:
+Best Practices and Troubleshooting
+-------------------
 
-- **db_mass**: Theoretical mass from the database
-- **mass_measured**: Observed mass in the sample
-- **error_ppm**: Parts per million difference between theoretical and observed mass
-- **intensity**: Signal intensity in the sample
-- **iso_count**: Number of isotope peaks detected
+Best Practices
+Best Practices:
 
-Interpreting Results
-~~~~~~~~~~~~~~~~~~
+1. Use appropriate PPM thresholds based on instrument resolution:
+   - <0.5 ppm: Excellent mass accuracy, highest confidence
+   - 0.5-1.0 ppm: Good mass accuracy, reliable with isotope validation
+   - 1.0-2.0 ppm: Low confidence, requires additional validation
+   - >2.0 ppm: Not recommended for ultra-high resolution data
 
-Mass Error (PPM)
-^^^^^^^^^^^^^^^
-- **< 1 ppm**: Excellent mass accuracy, high confidence in identification
-- **1-2 ppm**: Good mass accuracy, reliable identification
-- **2-5 ppm**: Moderate mass accuracy, requires additional verification
-- **> 5 ppm**: Poor mass accuracy, potential false positive
+2. Always combine mass accuracy with isotope pattern matching
 
-Isotope Count
-^^^^^^^^^^^^
-- Higher iso_count values indicate better isotope pattern detection
-- Compare iso_count between natural and labeled samples to verify labeling
+3. Use isotope score > 0.8 for reliable matches
 
+4. Compare results from natural and labeled caches
 
+5. Process replicates together for consistency
 
-Tips for Analysis
-~~~~~~~~~~~~~~~
-1. Focus on compounds with low PPM error and high isotope counts
-2. Compare natural vs labeled patterns to confirm labeling
-3. Cross-reference multiple samples to validate findings
+6. Verify important matches manually
 
-Advanced Workflows
-----------------
+Common Issues and Solutions:
 
-Differential Analysis
-~~~~~~~~~~~~~~~~~~~
+1. **No matches found**:
+   - Increase PPM threshold
+   - Verify sample format
+   - Check ionization mode
 
-To identify compounds that differ between samples:
+2. **Too many matches**:
+   - Decrease PPM threshold
+   - Use stricter verification PPM
+   - Filter by isotope score
 
-1. Analyze multiple samples::
+3. **Cache creation errors**:
+   - Verify chemical formulas
+   - Check labeling configuration
+   - Enable debugging
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c natural_cache.pkl -s sample1.asc sample2.asc -o all_results.tsv
+4. **Performance issues**:
+   - Use focused databases
+   - Process samples in smaller batches
+   - Optimize mass ranges
 
-
-Isotope Labeling Experiments
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For tracking isotope incorporation:
-
-1. Create caches for natural and labeled compounds
-2. Analyze samples against both caches
-3. Compare isotope patterns to determine labeling efficiency
-
-Time Series Analysis
-~~~~~~~~~~~~~~~~~
-
-For monitoring changes over time:
-
-1. Collect samples at different time points
-2. Analyze all samples with the same parameters
-3. Track compound abundances across time points 
