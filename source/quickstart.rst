@@ -3,11 +3,6 @@ Quick Start Guide
 
 This guide will help you get started with MIMI quickly for analyzing mass spectrometry data.
 
-Installation
------------
-Install MIMI using pip::
-
-    pip install mimi
 
 Basic Workflow
 -------------
