@@ -109,11 +109,11 @@
 <h2>Step 1: Extract Compounds<a class="headerlink" href="#step-1-extract-compounds" title="Permalink to this headline"></a></h2>
 <p>You can extract compounds from KEGG or HMDB databases, or use your own compound list.</p>
 <p>From KEGG database:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 <p>From HMDB database:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </section>
@@ -121,27 +121,27 @@
 <h2>Step 2: Create Cache Files<a class="headerlink" href="#step-2-create-cache-files" title="Permalink to this headline"></a></h2>
 <p>Create cache files for your compound databases. You can create multiple caches for different isotope configurations.</p>
 <p>For natural abundance:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span>
 </pre></div>
 </div>
 <p>For C13-labeled compounds:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_C13</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span>
 </pre></div>
 </div>
 </section>
 <section id="step-3-analyze-samples">
 <h2>Step 3: Analyze Samples<a class="headerlink" href="#step-3-analyze-samples" title="Permalink to this headline"></a></h2>
 <p>Analyze your mass spectrometry data using the cache files:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_C13</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 <dl class="simple">
 <dt>Parameters explained:</dt><dd><ul class="simple">
 <li><p><cite>-p 1.0</cite>: PPM tolerance for initial mass matching</p></li>
 <li><p><cite>-vp 1.0</cite>: PPM tolerance for isotope pattern verification</p></li>
-<li><p><cite>-c db_nat db_C13</cite>: Cache files to use (can specify multiple)</p></li>
-<li><p><cite>-s sample.asc</cite>: Sample file to analyze</p></li>
-<li><p><cite>-o results.tsv</cite>: Output file for results</p></li>
+<li><p><cite>-c outdir/db_nat outdir/db_C13</cite>: Cache files to use (can specify multiple)</p></li>
+<li><p><cite>-s data/processed/testdata1.asc</cite>: Sample file to analyze</p></li>
+<li><p><cite>-o outdir/results.tsv</cite>: Output file for results</p></li>
 </ul>
 </dd>
 </dl>
@@ -151,7 +151,7 @@
 <p>Here’s a complete workflow example:</p>
 <ol class="arabic">
 <li><p>Extract compounds from KEGG within a specific mass range:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </li>

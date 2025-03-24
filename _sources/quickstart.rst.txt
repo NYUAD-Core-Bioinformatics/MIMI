@@ -25,11 +25,11 @@ You can extract compounds from KEGG or HMDB databases, or use your own compound 
 
 From KEGG database::
 
-    mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
+    mimi_kegg_extract -l 100 -u 500 -o data/processed/kegg_compounds.tsv
 
 From HMDB database::
 
-    mimi_hmdb_extract -x hmdb_metabolites.xml -o hmdb_compounds.tsv
+    mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds.tsv
 
 Step 2: Create Cache Files
 ------------------------
@@ -38,25 +38,25 @@ Create cache files for your compound databases. You can create multiple caches f
 
 For natural abundance::
 
-    mimi_cache_create -i neg -d kegg_compounds.tsv -c db_nat
+    mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
 
 For C13-labeled compounds::
 
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d kegg_compounds.tsv -c db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
 
 Step 3: Analyze Samples
 ---------------------
 
 Analyze your mass spectrometry data using the cache files::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_C13 -s sample.asc -o results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13 -s data/processed/testdata1.asc -o outdir/results.tsv
 
 Parameters explained:
   - `-p 1.0`: PPM tolerance for initial mass matching
   - `-vp 1.0`: PPM tolerance for isotope pattern verification
-  - `-c db_nat db_C13`: Cache files to use (can specify multiple)
-  - `-s sample.asc`: Sample file to analyze
-  - `-o results.tsv`: Output file for results
+  - `-c outdir/db_nat outdir/db_C13`: Cache files to use (can specify multiple)
+  - `-s data/processed/testdata1.asc`: Sample file to analyze
+  - `-o outdir/results.tsv`: Output file for results
 
 Complete Example
 --------------
@@ -65,7 +65,7 @@ Here's a complete workflow example:
 
 1. Extract compounds from KEGG within a specific mass range::
 
-    mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
+    mimi_kegg_extract -l 100 -u 500 -o data/processed/kegg_compounds.tsv
 
 2. Create caches for both natural and labeled compounds::
 
