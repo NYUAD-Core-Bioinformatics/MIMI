@@ -42,7 +42,7 @@ For natural abundance::
 
 For C13-labeled compounds::
 
-    mimi_cache_create -i neg -l data/Clab.json -d kegg_compounds.tsv -c db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d kegg_compounds.tsv -c db_C13
 
 Step 3: Analyze Samples
 ---------------------

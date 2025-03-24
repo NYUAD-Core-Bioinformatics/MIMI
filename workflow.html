@@ -184,12 +184,12 @@
 <p>Once you have your compound database, create cache files for efficient analysis:</p>
 <ol class="arabic">
 <li><p><strong>Natural abundance cache</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
 </pre></div>
 </div>
 </li>
 <li><p><strong>Labeled compounds cache</strong> (e.g., 95% C13-labeled):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_13C</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_13C</span>
 </pre></div>
 </div>
 </li>
@@ -197,9 +197,9 @@
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
 <li><p><cite>-i neg</cite>: Ionization mode (negative)</p></li>
-<li><p><cite>-d data/KEGGDB.tsv</cite>: Input database file</p></li>
+<li><p><cite>-d data/processed/KEGGDB.tsv</cite>: Input database file</p></li>
 <li><p><cite>-c db_nat</cite>: Output cache file name</p></li>
-<li><p><cite>-l data/C13_95.json</cite>: Optional labeled atoms configuration</p></li>
+<li><p><cite>-l data/processed/C13_95.json</cite>: Optional labeled atoms configuration</p></li>
 </ul>
 </dd>
 </dl>
@@ -358,7 +358,7 @@
 <section id="basic-analysis">
 <h3>Basic Analysis<a class="headerlink" href="#basic-analysis" title="Permalink to this headline"></a></h3>
 <p>Analyze a single sample against a single cache:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 <dl class="simple">
@@ -366,7 +366,7 @@
 <li><p><cite>-p 1.0</cite>: PPM tolerance for initial mass matching</p></li>
 <li><p><cite>-vp 1.0</cite>: PPM tolerance for isotope pattern verification</p></li>
 <li><p><cite>-c db_nat</cite>: Cache file(s) to use</p></li>
-<li><p><cite>-s data/sample.asc</cite>: Sample file(s) to analyze</p></li>
+<li><p><cite>-s data/processed/testdata1.asc</cite>: Sample file(s) to analyze</p></li>
 <li><p><cite>-o results.tsv</cite>: Output file for results</p></li>
 </ul>
 </dd>
