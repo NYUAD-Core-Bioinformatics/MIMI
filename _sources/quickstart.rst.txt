@@ -73,7 +73,7 @@ Here's a complete workflow example:
     mimi_cache_create -i neg -d kegg_compounds.tsv -c db_nat
 
     # C13-labeled cache
-    mimi_cache_create -i neg -l data/Clab.json -d kegg_compounds.tsv -c db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d kegg_compounds.tsv -c db_C13
 
 3. Analyze a sample using both caches simultaneously::
 
