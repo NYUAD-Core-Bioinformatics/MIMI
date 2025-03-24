@@ -320,7 +320,6 @@ The output TSV file contains the following columns:
 Best Practices and Troubleshooting
 -------------------
 
-Best Practices
 Best Practices:
 
 1. Use appropriate PPM thresholds based on instrument resolution:
