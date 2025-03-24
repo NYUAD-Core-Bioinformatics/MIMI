@@ -70,37 +70,37 @@ Here's a complete workflow example:
 2. Create caches for both natural and labeled compounds::
 
     # Natural abundance cache
-    mimi_cache_create -i neg -d kegg_compounds.tsv -c db_nat
+    mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
 
     # C13-labeled cache
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d kegg_compounds.tsv -c db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
 
 3. Analyze a sample using both caches simultaneously::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_C13 -s sample.asc -o results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13 -s data/processed/testdata1.asc -o outdir/results.tsv
 
 4. Inspect cache contents for verification::
 
-    mimi_cache_dump db_nat.pkl -n 5 -o cache_contents.tsv
+    mimi_cache_dump outdir/db_nat.pkl -n 5 -o outdir/cache_contents.tsv
 
 Advanced Usage
 ------------
 
 Batch processing multiple samples::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample1.asc sample2.asc sample3.asc -o batch_results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
 
 Testing different PPM thresholds::
 
     # Tight threshold
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results_p1_vp1.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results_p1_vp1.tsv
     
     # Medium threshold
-    mimi_mass_analysis -p 2.0 -vp 2.0 -c db_nat -s sample.asc -o results_p2_vp2.tsv
+    mimi_mass_analysis -p 2.0 -vp 2.0 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results_p2_vp2.tsv
     
     # Wide threshold
-    mimi_mass_analysis -p 5.0 -vp 5.0 -c db_nat -s sample.asc -o results_p5_vp5.tsv
+    mimi_mass_analysis -p 5.0 -vp 5.0 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results_p5_vp5.tsv
 
 Debugging cache creation::
 
-    mimi_cache_create -i neg -d kegg_compounds.tsv -c db_nat -g 
+    mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat 
