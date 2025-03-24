@@ -89,17 +89,17 @@ Once you have your compound database, create cache files for efficient analysis:
 
 1. **Natural abundance cache**::
 
-    mimi_cache_create -i neg -d data/KEGGDB.tsv -c db_nat
+    mimi_cache_create -i neg -d data/processed/KEGGDB.tsv -c db_nat
 
 2. **Labeled compounds cache** (e.g., 95% C13-labeled)::
 
-    mimi_cache_create -i neg -l data/C13_95.json -d data/KEGGDB.tsv -c db_13C
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/KEGGDB.tsv -c db_13C
 
 Parameters:
   - `-i neg`: Ionization mode (negative)
-  - `-d data/KEGGDB.tsv`: Input database file
+  - `-d data/processed/KEGGDB.tsv`: Input database file
   - `-c db_nat`: Output cache file name
-  - `-l data/C13_95.json`: Optional labeled atoms configuration
+  - `-l data/processed/C13_95.json`: Optional labeled atoms configuration
 
 Example C13 labeling configuration (C13_95.json)::
 
@@ -259,13 +259,13 @@ Basic Analysis
 
 Analyze a single sample against a single cache::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/sample.asc -o results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/processed/testdata1.asc -o results.tsv
 
 Parameters:
   - `-p 1.0`: PPM tolerance for initial mass matching
   - `-vp 1.0`: PPM tolerance for isotope pattern verification
   - `-c db_nat`: Cache file(s) to use
-  - `-s data/sample.asc`: Sample file(s) to analyze
+  - `-s data/processed/testdata1.asc`: Sample file(s) to analyze
   - `-o results.tsv`: Output file for results
 
 Multiple Cache Analysis
