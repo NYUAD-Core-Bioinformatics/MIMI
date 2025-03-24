@@ -10,6 +10,7 @@ source:
 
 build:
   number: 0
+  noarch: python
   script: {{ PYTHON }} -m pip install . -vv
   entry_points:
     - mimi_mass_analysis=mimi.analysis:main
@@ -19,11 +20,11 @@ build:
 
 requirements:
   host:
-    - python
+    - python >=3.11
     - pip
     - setuptools
   run:
-    - python
+    - python >=3.11
     - numpy
     - pandas
     - json5
@@ -31,8 +32,8 @@ requirements:
     - tqdm
 
 test:
-  # imports:
-  #   - mimi
+  imports:
+    - mimi
   commands:
     - mimi_mass_analysis --help
     - mimi_cache_create --help
@@ -40,7 +41,7 @@ test:
     - mimi_cache_dump --help
 
 about:
-  home: https://github.com/GunsalusPiano/mass_spectrometry_tool
+  home: https://github.com/NYUAD-Core-Bioinformatics/MIMI
   license: MIT
   license_file: LICENSE
   summary: "Molecular Isotope Mass Identifier"
@@ -48,9 +49,11 @@ about:
     MIMI (Molecular Isotope Mass Identifier) is a tool for analyzing mass 
     spectrometry data to identify molecular compounds based on their isotopic 
     patterns.
-  doc_url: https://github.com/GunsalusPiano/mass_spectrometry_tool
-  dev_url: https://github.com/GunsalusPiano/mass_spectrometry_tool
+  doc_url: https://github.com/NYUAD-Core-Bioinformatics/MIMI
+  dev_url: https://github.com/NYUAD-Core-Bioinformatics/MIMI
 
 extra:
   recipe-maintainers:
-    - nabil-rahiman 
+    - nabil-rahiman
+  identifiers:
+    - doi:[ADD YOUR DOI IF AVAILABLE] 

@@ -32,7 +32,7 @@ From source
 ~~~~~~~~~~
 Clone and install from repository::
 
-    git clone https://github.com/GunsalusPiano/mass_spectrometry_tool.git
-    cd mass_spectrometry_tool
+    git clone https://github.com/NYUAD-Core-Bioinformatics/MIMI.git
+    cd MIMI
     pip install .
 

@@ -89,7 +89,7 @@ See :doc:`license` for more information.
 
 Report Issues
 ------------
-Please use `GitHub Issues <https://github.com/GunsalusPiano/mass_spectrometry_tool/issues>`_
+Please use `GitHub Issues <https://github.com/NYUAD-Core-Bioinformatics/MIMI/issues>`_
 to report bugs or request help using mimi.
 
 Contributing

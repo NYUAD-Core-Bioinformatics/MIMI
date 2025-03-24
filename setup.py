@@ -92,7 +92,7 @@ setup(
             'mimi_kegg_extract=mimi.kegg:main'
         ],
     },
-    url='https://github.com/GunsalusPiano/mass_spectrometry_tool',
+    url='https://github.com/NYUAD-Core-Bioinformatics/MIMI',
     license=LICENSE,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
