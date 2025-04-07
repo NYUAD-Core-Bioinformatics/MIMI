@@ -145,7 +145,7 @@ def dump_cache(cache_file, num_compounds=None, output_file=None, num_isotopes=No
                 print(f"  Formula:        {isotope_formula.strip()}", file=out)
                 print(f"  Mono-isotopic:  No (isotope variant)", file=out)
                 print(f"  Mass:           {mass:.6f}", file=out)
-                print(f"  Relative Abund: {abundance:.6f}", file=out)
+                print(f"  Relative Abund: {abundance:.6f} (expected)", file=out)
                 print("-" * 60, file=out)
             
             print(file=out)  # Add extra line between compounds

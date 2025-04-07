@@ -1,7 +1,7 @@
 import json5
 import sys
 
-def verify_natural_abundance():
+def verify_abundance():
     # Load the isotope data
     with open('data/processed/C13_95.json', 'r') as f:
         isotope_data = json5.load(f)
@@ -14,7 +14,7 @@ def verify_natural_abundance():
     # Check each element
     for element, isotopes in isotope_data.items():
         # Check abundance sum
-        total_abundance = sum(isotope["natural_abundance"] for isotope in isotopes)
+        total_abundance = sum(isotope["abundance"] for isotope in isotopes)
         
         # Allow for small rounding errors (within 0.5%)
         if abs(total_abundance - 1.0) != 0.000000:
@@ -26,7 +26,7 @@ def verify_natural_abundance():
             })
         
         # Check if isotopes are sorted by abundance in descending order
-        abundances = [isotope["natural_abundance"] for isotope in isotopes]
+        abundances = [isotope["abundance"] for isotope in isotopes]
         if abundances != sorted(abundances, reverse=True):
             sorting_issues.append(element)
         
@@ -57,4 +57,4 @@ def verify_natural_abundance():
         return 1
 
 if __name__ == "__main__":
-    sys.exit(verify_natural_abundance())
+    sys.exit(verify_abundance())

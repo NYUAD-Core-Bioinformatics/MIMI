@@ -190,7 +190,7 @@ def get_isotop_variants_mass(molecular_expression, ion, args):
                 n_atoms = len(list(key_list))
 
                 abundance_ratio = (
-                    key_isotop['natural_abundance']/key_isotop['highest_abundance']) ** n_atoms
+                    key_isotop['abundance']/key_isotop['highest_abundance']) ** n_atoms
                 if abundance_ratio < 0.000001:
                     skip = True
                     break
@@ -233,10 +233,10 @@ def get_isotop_variants_mass(molecular_expression, ion, args):
 
                 assert(factor != 0)
 
-                if isotop['highest_abundance'] != isotop['natural_abundance']:
+                if isotop['highest_abundance'] != isotop['abundance']:
                     # hfactor -= factor
                     molecular_abundance *= (
-                    (isotop['natural_abundance'] / isotop['highest_abundance'])  ** factor) * (hfactor)
+                    (isotop['abundance'] / isotop['highest_abundance'])  ** factor) * (hfactor)
                     
                   
                     

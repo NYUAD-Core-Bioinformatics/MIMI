@@ -61,7 +61,7 @@ def validate_isotope_data(isotope_data):
     
     # Check each element
     for element, isotopes in isotope_data.items():
-        total_abundance = sum(isotope["natural_abundance"] for isotope in isotopes)
+        total_abundance = sum(isotope["abundance"] for isotope in isotopes)
         
         # Allow for small rounding errors (within 0.5%)
         if not  abs(total_abundance - 1.0) == 0.000:
@@ -92,10 +92,10 @@ def validate_isotope_order_and_consistency(isotope_data):
             continue
         
         # Get the highest abundance from the list
-        highest_abundance = max(isotope["natural_abundance"] for isotope in isotopes)
+        highest_abundance = max(isotope["abundance"] for isotope in isotopes)
         
         # Check if first entry has the highest abundance
-        if isotopes[0]["natural_abundance"] != highest_abundance:
+        if isotopes[0]["abundance"] != highest_abundance:
             order_issues.append(element)
         
         # Check if all isotopes have the same highest_abundance value
@@ -127,14 +127,17 @@ def load_labelled_atoms(jsonfile):
         sorted_data = {}
         for element, isotopes in new_data.items():
             if isotopes:
-                highest_abundance = max(isotope["natural_abundance"] for isotope in isotopes)
+                # Rename natural_abundance to abundance
+                for isotope in isotopes:
+                    isotope["abundance"] = isotope.pop("isotope_abundance")
+                highest_abundance = max(isotope["abundance"] for isotope in isotopes)
                 sorted_data[element] = sorted(
                     [dict(isotope, highest_abundance=highest_abundance) 
                      for isotope in isotopes],
-                    key=lambda x: x['natural_abundance'],
+                    key=lambda x: x['abundance'],
                     reverse=True
                 )
-            
+         
         # Validate the isotope data
         is_valid, issues = validate_isotope_data(sorted_data)
         if not is_valid:
@@ -174,11 +177,14 @@ def load_isotope():
     # Sort isotopes and add highest_abundance for each element
     for element, isotopes in data.items():
         if isotopes:
-            highest_abundance = max(isotope["natural_abundance"] for isotope in isotopes)
+            # Rename natural_abundance to abundance
+            for isotope in isotopes:
+                isotope["abundance"] = isotope.pop("natural_abundance")
+            highest_abundance = max(isotope["abundance"] for isotope in isotopes)
             data[element] = sorted(
                 [dict(isotope, highest_abundance=highest_abundance) 
                  for isotope in isotopes],
-                key=lambda x: x['natural_abundance'],
+                key=lambda x: x['abundance'],
                 reverse=True
             )
     

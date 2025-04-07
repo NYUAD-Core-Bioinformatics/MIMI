@@ -57,7 +57,7 @@ def parse_nist_data(nist_file):
                 elif key == 'Isotopic Composition':
                     if value:  # Only store if there's a value
                         abundance = value.split('(')[0]
-                        current_isotope['natural_abundance'] = float(abundance)
+                        current_isotope['abundance'] = float(abundance)
 
     # Add final isotope
     if current_isotope:

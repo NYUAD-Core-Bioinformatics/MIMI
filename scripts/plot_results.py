@@ -51,7 +51,7 @@ def process_results(outdir):
     
     def get_df(filepath):
         if filepath not in df_cache:
-            df_cache[filepath] = pd.read_csv(filepath, sep='\t', skiprows=2)
+            df_cache[filepath] = pd.read_csv(filepath, sep='\t', skiprows=3)
         return df_cache[filepath]
     
     # Data for top graph (varying p, fixed vp=0.5)
