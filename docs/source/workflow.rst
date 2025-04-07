@@ -109,13 +109,13 @@ Example C13 labeling configuration (C13_95.json)::
                 "element_symbol": "C",
                 "nominal_mass": 12,
                 "exact_mass": 12.000,
-                "natural_abundance": 0.05
+                "isotope_abundance": 0.05
             },
             {
                 "element_symbol": "C",
                 "nominal_mass": 13,
                 "exact_mass": 13.00335484,
-                "natural_abundance": 0.95
+                "isotope_abundance": 0.95
             }
         ]
     }
@@ -152,13 +152,13 @@ To verify the contents of your cache files::
       Formula:        [12]C20 [13]C1 [1]H28 [14]N7 [16]O14 [31]P2
       Mono-isotopic:  No (isotope variant)
       Mass:           664.113026
-      Relative Abund: 0.227130
+      Relative Abund: 0.227130 (expected)
     ------------------------------------------------------------
       Variant #2:
       Formula:        [12]C21 [1]H28 [14]N7 [16]O13 [18]O1 [31]P2
       Mono-isotopic:  No (isotope variant)
       Mass:           665.113916
-      Relative Abund: 0.028770
+      Relative Abund: 0.028770 (expected)
     ------------------------------------------------------------
 
     ============================================================
@@ -174,13 +174,13 @@ To verify the contents of your cache files::
       Formula:        [12]C20 [13]C1 [1]H29 [14]N7 [16]O17 [31]P3
       Mono-isotopic:  No (isotope variant)
       Mass:           744.079357
-      Relative Abund: 0.227130
+      Relative Abund: 0.227130 (expected)
     ------------------------------------------------------------
       Variant #2:
       Formula:        [12]C21 [1]H29 [14]N7 [16]O16 [18]O1 [31]P3
       Mono-isotopic:  No (isotope variant)
       Mass:           745.080247
-      Relative Abund: 0.034935
+      Relative Abund: 0.034935 (expected)
     ------------------------------------------------------------
 
     ============================================================
@@ -196,13 +196,13 @@ To verify the contents of your cache files::
       Formula:        [12]C8 [13]C1 [1]H14 [14]N2 [16]O12 [31]P2
       Mono-isotopic:  No (isotope variant)
       Mass:           403.998276
-      Relative Abund: 0.097342
+      Relative Abund: 0.097342 (expected)
     ------------------------------------------------------------
       Variant #2:
       Formula:        [12]C9 [1]H14 [14]N2 [16]O11 [18]O1 [31]P2
       Mono-isotopic:  No (isotope variant)
       Mass:           404.999166
-      Relative Abund: 0.024660
+      Relative Abund: 0.024660 (expected)
     ------------------------------------------------------------
 
     ============================================================
@@ -218,13 +218,13 @@ To verify the contents of your cache files::
       Formula:        [12]C26 [13]C1 [1]H33 [14]N9 [16]O15 [31]P2
       Mono-isotopic:  No (isotope variant)
       Mass:           785.153214
-      Relative Abund: 0.292025
+      Relative Abund: 0.292025 (expected)
     ------------------------------------------------------------
       Variant #2:
       Formula:        [12]C27 [1]H33 [14]N8 [15]N1 [16]O15 [31]P2
       Mono-isotopic:  No (isotope variant)
       Mass:           785.146894
-      Relative Abund: 0.032880
+      Relative Abund: 0.032880 (expected)
     ------------------------------------------------------------
 
     ============================================================
@@ -240,13 +240,13 @@ To verify the contents of your cache files::
       Formula:        [12]C7 [13]C1 [1]H10 [14]N1 [16]O6 [31]P1
       Mono-isotopic:  No (isotope variant)
       Mass:           247.020652
-      Relative Abund: 0.086526
+      Relative Abund: 0.086526 (expected)
     ------------------------------------------------------------
       Variant #2:
       Formula:        [12]C8 [1]H10 [14]N1 [16]O5 [18]O1 [31]P1
       Mono-isotopic:  No (isotope variant)
       Mass:           248.021543
-      Relative Abund: 0.012330
+      Relative Abund: 0.012330 (expected)
     ------------------------------------------------------------
 
 Sample Analysis
@@ -273,7 +273,7 @@ Multiple Cache Analysis
 
 Analyze a sample against multiple caches simultaneously::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s data/sample.asc -o results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s data/processed/testdata1.asc -o results.tsv
 
 This is useful for comparing natural abundance patterns with labeled patterns.
 
@@ -282,7 +282,7 @@ Batch Processing
 
 Process multiple samples in a single run::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/sample1.asc data/sample2.asc -o batch_results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o batch_results.tsv
 
 PPM Threshold Optimization
 ~~~~~~~~~~~~~~~~~~~~~~~~

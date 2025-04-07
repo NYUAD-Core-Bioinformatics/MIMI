@@ -1,13 +1,13 @@
-{% set name = "mimi" %}
-{% set version = load_setup_py_data().get('version') %}
+{% set name = "MIMI" %}
+{% set version = "1.0.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/NYUAD-Core-Bioinformatics/MIMI/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 99a88789148290fbcc3554ce1860fbd27e9bb5b904f9a5bb8066f8d5c6e8e3d3
+  url: https://github.com/NYUAD-Core-Bioinformatics/MIMI/archive/refs/tags/v1.0.0.tar.gz
+  sha256: 64791931742f4ff3e03e8857c860d36c8e42802049115dc188e0e1d1627e695e
 
 build:
   number: 0
