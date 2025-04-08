@@ -1,8 +1,8 @@
 Installation
-===========
+============
 
 Requirements
------------
+------------    
 MIMI requires:
 
 * Python >= 3.11.11
@@ -14,25 +14,36 @@ MIMI requires:
 * requests
 
 Installation Methods
-------------------
+--------------------
 
-Using pip
-~~~~~~~~~
-Install directly from PyPI::
-
-    pip install mimi
-
-Using conda
-~~~~~~~~~~
-Install from conda-forge channel::
+Using conda (Recommended)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+The easiest way to install MIMI is through conda::
 
     conda install -c conda-forge mimi
 
+This will automatically install all required dependencies.
+
 From source
-~~~~~~~~~~
-Clone and install from repository::
+~~~~~~~~~~~~
+If you prefer to install from source, follow these steps:
+
+1. Clone the repository::
 
     git clone https://github.com/NYUAD-Core-Bioinformatics/MIMI.git
     cd MIMI
+
+2. Install the package::
+
     pip install .
+
+This will install MIMI and all its dependencies. If you encounter any issues, make sure you have all the required dependencies installed first.
+
+Verification
+------------
+To verify your installation, you can run::
+
+    mimi --version
+
+This should display the installed version of MIMI.
 

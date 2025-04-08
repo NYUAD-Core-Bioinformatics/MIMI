@@ -1,14 +1,15 @@
 API Reference
-============
+==============
 
 This section provides detailed information about MIMI's Python API.
 
 mimi.analysis
-------------
+-------------
 .. automodule:: mimi.analysis
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 Core analysis functions for processing mass spectrometry data, including:
 
@@ -26,6 +27,7 @@ mimi.atom
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 Functions for handling atomic data and isotope information:
 
@@ -37,11 +39,12 @@ Functions for handling atomic data and isotope information:
 * ``validate_isotope_order_and_consistency``: Validate isotope ordering
 
 mimi.molecule
-------------
+-------------
 .. automodule:: mimi.molecule
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 Functions for processing molecular formulas and calculating masses:
 
@@ -53,7 +56,7 @@ Functions for processing molecular formulas and calculating masses:
 * ``search``: Search molecular mass data within PPM tolerance
 
 mimi.create_cache
----------------
+-----------------
 .. automodule:: mimi.create_cache
    :members:
    :undoc-members:
@@ -65,7 +68,7 @@ Functions for creating precomputed caches:
 * ``main``: Main entry point for cache creation tool
 
 mimi.dump_cache
--------------
+---------------
 .. automodule:: mimi.dump_cache
    :members:
    :undoc-members:
@@ -78,7 +81,7 @@ Functions for dumping cache contents:
 * ``main``: Main entry point for cache dump tool
 
 mimi.hmdb
---------
+---------
 .. automodule:: mimi.hmdb
    :members:
    :undoc-members:
@@ -91,7 +94,7 @@ Functions for HMDB database extraction:
 * ``main``: Main entry point for HMDB extraction tool
 
 mimi.kegg
---------
+---------
 .. automodule:: mimi.kegg
    :members:
    :undoc-members:

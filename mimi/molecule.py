@@ -4,6 +4,8 @@ Molecule Processing Module
 This module provides functionality for processing molecular formulas and calculating
 masses for molecules and their isotopes.
 
+:noindex:
+
 Functions:
     calculate_nominal_mass: Calculate mass of a molecule
     calculate_mass: Calculate mass with ion adjustments
@@ -57,6 +59,8 @@ import json
 def createArgObject():
     """Creates and returns an empty object instance.
     
+    :noindex:
+    
     Returns:
         Object: An empty object that can be used to store arbitrary attributes
     """
@@ -73,6 +77,8 @@ def createArgObject():
 
 def calculate_nominal_mass(molecular_expression, ion):
     """Calculate the nominal mass of a molecule.
+
+    :noindex:
 
     Args:
         molecular_expression (list): List of [atom_info, count] pairs, where atom_info contains 
@@ -115,6 +121,8 @@ def calculate_nominal_mass(molecular_expression, ion):
 def calculate_mass(molecular_expression, ion):
     """Calculate the exact mass of a molecule including ion adjustments.
 
+    :noindex:
+
     Args:
         molecular_expression (list): List containing atom information and counts
         ion (str): Ion type - 'pos' for positive, 'neg' for negative, or 'zero' for neutral
@@ -156,6 +164,8 @@ def calculate_mass(molecular_expression, ion):
 
 def get_isotop_variants_mass(molecular_expression, ion, args):
     """Calculate masses for all possible isotope combinations of a molecule.
+
+    :noindex:
 
     Args:
         molecular_expression (list): List of [atom_info, count] pairs
@@ -287,6 +297,8 @@ def get_isotop_variants_mass(molecular_expression, ion, args):
 def parse_molecular_formula(molecular_expression):
     """Parse a molecular formula string into its atomic components.
 
+    :noindex:
+
     Args:
         molecular_expression (str): Chemical formula string (e.g., 'C6H12O6')
 
@@ -335,6 +347,8 @@ def parse_molecular_formula(molecular_expression):
 def get_hashed_index(mi_pair_list):
     """Create a hash-based index for efficient mass lookup.
 
+    :noindex:
+
     Args:
         mi_pair_list (list): List of [mass, intensity] pairs, sorted by mass
 
@@ -367,6 +381,8 @@ def get_hashed_index(mi_pair_list):
 
 def search(mi_pair_list, preculated_mass, aux_index_list, ppm):
     """Search for masses within a PPM tolerance range.
+
+    :noindex:
 
     Args:
         mi_pair_list (list): List of [mass, intensity] pairs sorted by mass

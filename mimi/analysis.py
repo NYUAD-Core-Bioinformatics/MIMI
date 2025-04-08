@@ -25,6 +25,10 @@
 # IF ANY, PROVIDED HEREUNDER IS PROVIDED COMPLETELY "AS IS". NYU HAS NO OBLIGATION TO PROVIDE
 # FURTHER DOCUMENTATION, MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS
 
+"""Analysis module for MIMI.
+
+.. moduleauthor:: Nabil Rahiman <nabil.rahiman@nyu.edu>
+"""
 
 from mimi.atom import *
 from mimi.molecule import *
@@ -49,6 +53,7 @@ def load_molecular_mass_database(db_file):
         1. Chemical Formula (CF)
         2. Compound ID
         3. Compound Name
+
         Other fields from the input file are ignored.
     """
     mass_ref_list = []
