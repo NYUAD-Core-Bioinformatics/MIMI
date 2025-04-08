@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/NYUAD-Core-Bioinformatics/MIMI/archive/refs/tags/v1.0.0.tar.gz
-  sha256: 64791931742f4ff3e03e8857c860d36c8e42802049115dc188e0e1d1627e695e
+  sha256: 5facbc62fe60790c4f5535e77e637089aba06166659abb642fa94b6503e09001
 
 build:
   number: 0
