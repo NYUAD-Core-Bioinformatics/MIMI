@@ -289,20 +289,13 @@ PPM Threshold Optimization
 
 The PPM threshold critically affects match precision and reliability:
 
-- **Excellent** (p=0.5, vp=0.5)
-    - Highest confidence identifications
-    - Recommended for ultra-high resolution data
+- **<0.5 ppm** Excellent mass accuracy, high confidence in exactmass identification
 
-- **Good** (p=1.0, vp=1.0)
-    - Reliable identifications
-    - Best when combined with isotope pattern validation
+- **0.5 - 1 ppm** Good mass accuracy, reliable identification with isotope finestructure validation
 
-- **Low Confidence** (p=1.0-2.0, vp=1.0-2.0)
-    - Use with caution
-    - Requires additional validation
+- **1-2 ppm** Low mass accuracy, unreliable identifications
 
-- **Not Recommended** (p>2.0, vp>2.0)
-    - Should not be used for ultra-high resolution MS data
+- **>2 ppm** should not be used for ultra high resolution mass spectrometry data
 
 Example threshold usage::
 
