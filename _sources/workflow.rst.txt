@@ -1,5 +1,5 @@
 Detailed Workflow
-===============
+=================
 
 This document provides a detailed explanation of MIMI's workflow for mass spectrometry data analysis.
 
@@ -15,12 +15,12 @@ MIMI's workflow consists of three main phases:
 Each phase is described in detail below.
 
 Database Preparation
-------------------
+--------------------
 
 Before analysis, you need a database of compounds with their chemical formulas. MIMI provides tools to extract this information from common databases:
 
 HMDB Extraction
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 The Human Metabolome Database (HMDB) contains detailed information about small molecule metabolites found in the human body.
 
@@ -32,7 +32,7 @@ The Human Metabolome Database (HMDB) contains detailed information about small m
 This extracts metabolites with molecular weights between 100 and 500 Da.
 
 KEGG Extraction
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 The Kyoto Encyclopedia of Genes and Genomes (KEGG) provides a comprehensive database of compounds.
 
@@ -61,7 +61,7 @@ This file should contain a header row with **ID** followed by the KEGG compound 
 You can download a sample ``compound_ids.tsv`` file from the following link: `compound_ids.tsv <https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/main/data/processed/compound_ids.tsv>`_
 
 Custom Database
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 You can also create your own compound database as a TSV file. While the file can include other metadata, it must contain the following mandatory columns:
 
@@ -83,7 +83,7 @@ Updated Example::
 Ensure that your TSV file includes a header row and follows this format for compatibility with MIMI.
 
 Cache Creation
-------------
+--------------
 
 Once you have your compound database, create cache files for efficient analysis:
 
@@ -121,7 +121,7 @@ Example C13 labeling configuration (C13_95.json)::
     }
 
 Cache Inspection
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 To verify the contents of your cache files::
 
@@ -250,12 +250,12 @@ To verify the contents of your cache files::
     ------------------------------------------------------------
 
 Sample Analysis
--------------
+---------------
 
 With your cache files prepared, you can analyze mass spectrometry samples:
 
 Basic Analysis
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 Analyze a single sample against a single cache::
 
@@ -269,7 +269,7 @@ Parameters:
   - `-o results.tsv`: Output file for results
 
 Multiple Cache Analysis
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Analyze a sample against multiple caches simultaneously::
 
@@ -278,21 +278,31 @@ Analyze a sample against multiple caches simultaneously::
 This is useful for comparing natural abundance patterns with labeled patterns.
 
 Batch Processing
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 Process multiple samples in a single run::
 
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o batch_results.tsv
 
 PPM Threshold Optimization
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The PPM threshold critically affects match precision and reliability:
 
-- **Excellent (p=0.5, vp=0.5)**: Highest confidence identifications, recommended for ultra-high resolution data
-- **Good (p=1.0, vp=1.0)**: Reliable identifications when combined with isotope pattern validation
-- **Low Confidence (p=1.0-2.0, vp=1.0-2.0)**: Use with caution, requires additional validation
-- **Not Recommended (p>2.0, vp>2.0)**: Should not be used for ultra-high resolution MS data
+- **Excellent** (p=0.5, vp=0.5)
+    - Highest confidence identifications
+    - Recommended for ultra-high resolution data
+
+- **Good** (p=1.0, vp=1.0)
+    - Reliable identifications
+    - Best when combined with isotope pattern validation
+
+- **Low Confidence** (p=1.0-2.0, vp=1.0-2.0)
+    - Use with caution
+    - Requires additional validation
+
+- **Not Recommended** (p>2.0, vp>2.0)
+    - Should not be used for ultra-high resolution MS data
 
 Example threshold usage::
 
@@ -303,7 +313,7 @@ Example threshold usage::
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results_good.tsv
 
 Result Interpretation
--------------------
+---------------------
 
 The output TSV file contains the following columns:
 
@@ -318,45 +328,36 @@ The output TSV file contains the following columns:
 9. **Cache Source**: Which cache file provided the match
 
 Best Practices and Troubleshooting
--------------------
+----------------------------------
 
-Best Practices:
+1. Always combine mass accuracy with isotope pattern matching
 
-1. Use appropriate PPM thresholds based on instrument resolution:
-   - <0.5 ppm: Excellent mass accuracy, highest confidence
-   - 0.5-1.0 ppm: Good mass accuracy, reliable with isotope validation
-   - 1.0-2.0 ppm: Low confidence, requires additional validation
-   - >2.0 ppm: Not recommended for ultra-high resolution data
+2. Compare results from natural and labeled caches
 
-2. Always combine mass accuracy with isotope pattern matching
+3. Process replicates together for consistency
 
-3. Use isotope score > 0.8 for reliable matches
-
-4. Compare results from natural and labeled caches
-
-5. Process replicates together for consistency
-
-6. Verify important matches manually
+4. Verify important matches manually
 
 Common Issues and Solutions:
+-----------------------------
 
 1. **No matches found**:
-   - Increase PPM threshold
-   - Verify sample format
-   - Check ionization mode
+    - Increase PPM threshold
+    - Verify sample format
+    - Check ionization mode
 
 2. **Too many matches**:
-   - Decrease PPM threshold
-   - Use stricter verification PPM
-   - Filter by isotope score
+    - Decrease PPM threshold
+    - Use stricter verification PPM
+    - Filter by isotope score
 
 3. **Cache creation errors**:
-   - Verify chemical formulas
-   - Check labeling configuration
-   - Enable debugging
+    - Verify chemical formulas
+    - Check labeling configuration
+    - Enable debugging
 
 4. **Performance issues**:
-   - Use focused databases
-   - Process samples in smaller batches
-   - Optimize mass ranges
+    - Use focused databases
+    - Process samples in smaller batches
+    - Optimize mass ranges
 

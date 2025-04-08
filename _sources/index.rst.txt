@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 MIMI Documentation
-=================
+==================
 
 .. image:: _static/CGSB-Logo.png
    :width: 300
@@ -17,12 +17,15 @@ MIMI (Molecular Isotope Mass Identifier) is a powerful tool for analyzing isotop
    :caption: Contents:
    
    introduction
+   overview
    installation
    quickstart
    workflow
    command_reference
-   api_reference
    architecture
+   mimi_architecture
+   mimi_package
+   api_reference
    license
 
 Indices and tables

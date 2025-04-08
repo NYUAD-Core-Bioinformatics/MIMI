@@ -7,6 +7,7 @@
   <title>Detailed Workflow &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -44,6 +45,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Detailed Workflow</a><ul>
@@ -67,11 +69,14 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#result-interpretation">Result Interpretation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#best-practices-and-troubleshooting">Best Practices and Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-issues-and-solutions">Common Issues and Solutions:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mimi_architecture.html">MIMI architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mimi_package.html">mimi package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -391,10 +396,37 @@
 <h3>PPM Threshold Optimization<a class="headerlink" href="#ppm-threshold-optimization" title="Permalink to this headline"></a></h3>
 <p>The PPM threshold critically affects match precision and reliability:</p>
 <ul class="simple">
-<li><p><strong>Excellent (p=0.5, vp=0.5)</strong>: Highest confidence identifications, recommended for ultra-high resolution data</p></li>
-<li><p><strong>Good (p=1.0, vp=1.0)</strong>: Reliable identifications when combined with isotope pattern validation</p></li>
-<li><p><strong>Low Confidence (p=1.0-2.0, vp=1.0-2.0)</strong>: Use with caution, requires additional validation</p></li>
-<li><p><strong>Not Recommended (p&gt;2.0, vp&gt;2.0)</strong>: Should not be used for ultra-high resolution MS data</p></li>
+<li><dl class="simple">
+<dt><strong>Excellent</strong> (p=0.5, vp=0.5)</dt><dd><ul>
+<li><p>Highest confidence identifications</p></li>
+<li><p>Recommended for ultra-high resolution data</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Good</strong> (p=1.0, vp=1.0)</dt><dd><ul>
+<li><p>Reliable identifications</p></li>
+<li><p>Best when combined with isotope pattern validation</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Low Confidence</strong> (p=1.0-2.0, vp=1.0-2.0)</dt><dd><ul>
+<li><p>Use with caution</p></li>
+<li><p>Requires additional validation</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Not Recommended</strong> (p&gt;2.0, vp&gt;2.0)</dt><dd><ul>
+<li><p>Should not be used for ultra-high resolution MS data</p></li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 <p>Example threshold usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Highest confidence analysis</span>
@@ -423,37 +455,52 @@
 </section>
 <section id="best-practices-and-troubleshooting">
 <h2>Best Practices and Troubleshooting<a class="headerlink" href="#best-practices-and-troubleshooting" title="Permalink to this headline"></a></h2>
-<p>Best Practices:</p>
 <ol class="arabic simple">
-<li><p>Use appropriate PPM thresholds based on instrument resolution:
-- &lt;0.5 ppm: Excellent mass accuracy, highest confidence
-- 0.5-1.0 ppm: Good mass accuracy, reliable with isotope validation
-- 1.0-2.0 ppm: Low confidence, requires additional validation
-- &gt;2.0 ppm: Not recommended for ultra-high resolution data</p></li>
 <li><p>Always combine mass accuracy with isotope pattern matching</p></li>
-<li><p>Use isotope score &gt; 0.8 for reliable matches</p></li>
 <li><p>Compare results from natural and labeled caches</p></li>
 <li><p>Process replicates together for consistency</p></li>
 <li><p>Verify important matches manually</p></li>
 </ol>
-<p>Common Issues and Solutions:</p>
+</section>
+<section id="common-issues-and-solutions">
+<h2>Common Issues and Solutions:<a class="headerlink" href="#common-issues-and-solutions" title="Permalink to this headline"></a></h2>
 <ol class="arabic simple">
-<li><p><strong>No matches found</strong>:
-- Increase PPM threshold
-- Verify sample format
-- Check ionization mode</p></li>
-<li><p><strong>Too many matches</strong>:
-- Decrease PPM threshold
-- Use stricter verification PPM
-- Filter by isotope score</p></li>
-<li><p><strong>Cache creation errors</strong>:
-- Verify chemical formulas
-- Check labeling configuration
-- Enable debugging</p></li>
-<li><p><strong>Performance issues</strong>:
-- Use focused databases
-- Process samples in smaller batches
-- Optimize mass ranges</p></li>
+<li><dl class="simple">
+<dt><strong>No matches found</strong>:</dt><dd><ul class="simple">
+<li><p>Increase PPM threshold</p></li>
+<li><p>Verify sample format</p></li>
+<li><p>Check ionization mode</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Too many matches</strong>:</dt><dd><ul class="simple">
+<li><p>Decrease PPM threshold</p></li>
+<li><p>Use stricter verification PPM</p></li>
+<li><p>Filter by isotope score</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Cache creation errors</strong>:</dt><dd><ul class="simple">
+<li><p>Verify chemical formulas</p></li>
+<li><p>Check labeling configuration</p></li>
+<li><p>Enable debugging</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Performance issues</strong>:</dt><dd><ul class="simple">
+<li><p>Use focused databases</p></li>
+<li><p>Process samples in smaller batches</p></li>
+<li><p>Optimize mass ranges</p></li>
+</ul>
+</dd>
+</dl>
+</li>
 </ol>
 </section>
 </section>

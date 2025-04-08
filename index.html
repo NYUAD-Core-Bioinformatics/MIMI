@@ -7,6 +7,7 @@
   <title>MIMI Documentation &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -43,12 +44,15 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mimi_architecture.html">MIMI architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mimi_package.html">mimi package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -88,9 +92,19 @@
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#key-features">Key Features</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#report-issues">Report Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#contributing">Contributing</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#installation-methods">Installation Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verification">Verification</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a><ul>
@@ -110,6 +124,7 @@
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#sample-analysis">Sample Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#result-interpretation">Result Interpretation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#best-practices-and-troubleshooting">Best Practices and Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#common-issues-and-solutions">Common Issues and Solutions:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a><ul>
@@ -120,6 +135,25 @@
 <li class="toctree-l2"><a class="reference internal" href="command_reference.html#mimi-mass-analysis">mimi_mass_analysis</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#core-components">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#data-flow">Data Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#key-design-principles">Key Design Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#implementation-details">Implementation Details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mimi_architecture.html">MIMI architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mimi_architecture.html#mimi-architecture-overview">MIMI architecture overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mimi_architecture.html#mimi-workflow">MIMI workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mimi_package.html">mimi package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mimi_package.html#mimi-analysis-module">mimi.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mimi_package.html#mimi-atom-module">mimi.atom module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mimi_package.html#mimi-molecule-module">mimi.molecule module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api_reference.html#mimi-analysis">mimi.analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api_reference.html#mimi-atom">mimi.atom</a></li>
@@ -128,14 +162,6 @@
 <li class="toctree-l2"><a class="reference internal" href="api_reference.html#mimi-dump-cache">mimi.dump_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api_reference.html#mimi-hmdb">mimi.hmdb</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api_reference.html#mimi-kegg">mimi.kegg</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#core-components">Core Components</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#data-flow">Data Flow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#key-design-principles">Key Design Principles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#implementation-details">Implementation Details</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>

@@ -1,5 +1,5 @@
 Architecture Design
-=================
+====================
 
 Overview
 --------
@@ -11,29 +11,29 @@ Overview
 MIMI's architecture is designed around efficient mass spectrometry data processing and analysis. The system follows a modular design pattern with clear separation of concerns between data handling, processing, and analysis components.
 
 Core Components
--------------
+---------------
 
 1. Data Input Layer
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 - **Sample Processor**: Handles mass spectrometry data input from ASC files
 - **Database Connectors**: Interfaces with KEGG and HMDB metabolite databases
 - **Cache Manager**: Manages binary cache files for efficient data retrieval
 
 2. Processing Engine
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 - **Formula Parser**: Parses chemical formulas into atomic components
 - **Mass Calculator**: Computes molecular masses with ionization adjustments
 - **Isotope Handler**: Manages isotope patterns and abundance calculations
 - **PPM Calculator**: Handles mass tolerance calculations for matching
 
 3. Analysis Layer
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 - **Pattern Matcher**: Matches mass patterns between samples and reference data
 - **Isotope Validator**: Validates isotope patterns for compound identification
 - **Result Formatter**: Organizes and formats analysis results
 
 Data Flow
---------
+---------
 
 1. **Preprocessing Phase**
    - Chemical formulas are parsed from databases (KEGG, HMDB)
@@ -52,7 +52,7 @@ Data Flow
    - Detailed information is provided for each match
 
 Key Design Principles
--------------------
+---------------------
 
 1. **Efficiency**: Hash-based indexing for fast mass lookups
 2. **Flexibility**: Support for multiple ionization modes and isotope labeling
@@ -61,7 +61,7 @@ Key Design Principles
 5. **Modularity**: Clear separation between components for maintainability
 
 Implementation Details
---------------------
+----------------------
 
 - **Atom Module**: Handles atomic data and isotope information
 - **Molecule Module**: Processes molecular formulas and calculates masses

@@ -7,6 +7,7 @@
   <title>Overview &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -17,7 +18,9 @@
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,14 +43,25 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#about">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#report-issues">Report Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mimi_architecture.html">MIMI architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mimi_package.html">mimi package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -96,119 +110,13 @@ mass spectrometry data.</p>
 <li><p>Batch processing capabilities</p></li>
 </ul>
 </section>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
-<p>See <span class="xref std std-doc">getting_started</span> for installation instructions and basic usage.</p>
-</section>
-<section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>mimi provides command-line tools for:</p>
-<ol class="arabic">
-<li><p>Creating cache files for molecular databases:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="p">[</span><span class="n">pos</span><span class="o">/</span><span class="n">neg</span><span class="p">]</span> <span class="o">-</span><span class="n">d</span> <span class="p">[</span><span class="n">database_files</span><span class="p">]</span> <span class="o">-</span><span class="n">c</span> <span class="p">[</span><span class="n">cache_file</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="p">[</span><span class="n">label_file</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">g</span><span class="p">]</span>
-</pre></div>
-</div>
-</li>
-<li><p>Analyzing mass spectrometry data:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="p">[</span><span class="n">ppm</span><span class="p">]</span> <span class="o">-</span><span class="n">vp</span> <span class="p">[</span><span class="n">verification_ppm</span><span class="p">]</span> <span class="o">-</span><span class="n">c</span> <span class="p">[</span><span class="n">cache_files</span><span class="p">]</span> <span class="o">-</span><span class="n">s</span> <span class="p">[</span><span class="n">sample_files</span><span class="p">]</span> <span class="o">-</span><span class="n">o</span> <span class="p">[</span><span class="n">output_file</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">g</span><span class="p">]</span>
-</pre></div>
-</div>
-</li>
-<li><p>Extracting HMDB metabolites:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="p">[</span><span class="n">xml_file</span><span class="p">]</span> <span class="o">-</span><span class="n">o</span> <span class="p">[</span><span class="n">output_file</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="p">[</span><span class="n">min_mass</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="p">[</span><span class="n">max_mass</span><span class="p">]]</span>
-</pre></div>
-</div>
-</li>
-<li><p>Extracting KEGG compounds:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">o</span> <span class="p">[</span><span class="n">output_file</span><span class="p">]</span> <span class="p">(</span><span class="o">-</span><span class="n">l</span> <span class="p">[</span><span class="n">min_mass</span><span class="p">]</span> <span class="o">-</span><span class="n">u</span> <span class="p">[</span><span class="n">max_mass</span><span class="p">]</span> <span class="o">|</span> <span class="o">-</span><span class="n">i</span> <span class="p">[</span><span class="n">compound_ids</span><span class="p">])</span>
-</pre></div>
-</div>
-</li>
-<li><p>Dumping cache contents:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="p">[</span><span class="n">cache_file</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="p">[</span><span class="n">num_compounds</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="p">[</span><span class="n">num_isotopes</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="p">[</span><span class="n">output_file</span><span class="p">]]</span>
-</pre></div>
-</div>
-</li>
-</ol>
-<section id="arguments">
-<h3>Arguments:<a class="headerlink" href="#arguments" title="Permalink to this headline"></a></h3>
-<dl>
-<dt>Cache Creation:</dt><dd><dl class="option-list">
-<dt><kbd><span class="option">-i</span>, <span class="option">--ion</span></kbd></dt>
-<dd><p>Ionization mode (pos/neg)</p>
-</dd>
-<dt><kbd><span class="option">-d</span>, <span class="option">--dbfile</span></kbd></dt>
-<dd><p>Input database file(s)</p>
-</dd>
-<dt><kbd><span class="option">-c</span>, <span class="option">--cache</span></kbd></dt>
-<dd><p>Output cache file</p>
-</dd>
-<dt><kbd><span class="option">-l</span>, <span class="option">--label</span></kbd></dt>
-<dd><p>Optional labeled atoms file</p>
-</dd>
-<dt><kbd><span class="option">-g</span>, <span class="option">--debug</span></kbd></dt>
-<dd><p>Enable debug output</p>
-</dd>
-</dl>
-</dd>
-<dt>Mass Analysis:</dt><dd><dl class="option-list">
-<dt><kbd><span class="option">-p</span>, <span class="option">--ppm</span></kbd></dt>
-<dd><p>Parts per million tolerance</p>
-</dd>
-<dt><kbd><span class="option">-v<var>p</var></span></kbd></dt>
-<dd><p>Verification PPM tolerance</p>
-</dd>
-<dt><kbd><span class="option">-c</span>, <span class="option">--cache</span></kbd></dt>
-<dd><p>Cache file(s) to use</p>
-</dd>
-<dt><kbd><span class="option">-s</span>, <span class="option">--sample</span></kbd></dt>
-<dd><p>Sample file(s) to analyze</p>
-</dd>
-<dt><kbd><span class="option">-o</span>, <span class="option">--output</span></kbd></dt>
-<dd><p>Output file path</p>
-</dd>
-<dt><kbd><span class="option">-g</span>, <span class="option">--debug</span></kbd></dt>
-<dd><p>Enable debug output</p>
-</dd>
-</dl>
-</dd>
-<dt>HMDB Extraction:</dt><dd><dl class="option-list">
-<dt><kbd><span class="option">-x</span>, <span class="option">--xml</span></kbd></dt>
-<dd><p>Input HMDB XML file</p>
-</dd>
-<dt><kbd><span class="option">-l</span>, <span class="option">--min-mass</span></kbd></dt>
-<dd><p>Lower bound of molecular weight in Da</p>
-</dd>
-<dt><kbd><span class="option">-u</span>, <span class="option">--max-mass</span></kbd></dt>
-<dd><p>Upper bound of molecular weight in Da</p>
-</dd>
-<dt><kbd><span class="option">-o</span>, <span class="option">--output</span></kbd></dt>
-<dd><p>Output TSV file path</p>
-</dd>
-</dl>
-</dd>
-<dt>KEGG Extraction:</dt><dd><dl class="option-list">
-<dt><kbd><span class="option">-l</span>, <span class="option">--min-mass</span></kbd></dt>
-<dd><p>Lower bound of molecular weight in Da</p>
-</dd>
-<dt><kbd><span class="option">-u</span>, <span class="option">--max-mass</span></kbd></dt>
-<dd><p>Upper bound of molecular weight in Da</p>
-</dd>
-<dt><kbd><span class="option">-i</span>, <span class="option">--input</span></kbd></dt>
-<dd><p>Input TSV file with KEGG compound IDs</p>
-</dd>
-<dt><kbd><span class="option">-o</span>, <span class="option">--output</span></kbd></dt>
-<dd><p>Output TSV file path</p>
-</dd>
-</dl>
-</dd>
-<dt>Cache Dump:</dt><dd><p>cache_file          Input cache file (.pkl)
--n, –num-compounds Number of compounds to output
--i, –num-isotopes  Number of isotopes per compound
--o, –output        Output file (default: stdout)</p>
-</dd>
-</dl>
-</section>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h2>
+<p>For detailed instructions on how to install and use mimi, please refer to:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> - Complete installation guide</p></li>
+<li><p><a class="reference internal" href="quickstart.html"><span class="doc">Quick Start Guide</span></a> - Detailed usage instructions and examples</p></li>
+</ul>
 </section>
 <section id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline"></a></h2>
@@ -229,7 +137,10 @@ to report bugs or request help using mimi.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

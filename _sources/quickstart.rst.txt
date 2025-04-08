@@ -1,16 +1,24 @@
 Quick Start Guide
-===============
+=================
 
 This guide will help you get started with MIMI quickly for analyzing mass spectrometry data.
 
 Installation
------------
-Install MIMI using pip::
+------------
+MIMI can be installed using one of the following methods:
 
-    pip install mimi
+Using conda::
+
+    conda install -c conda-forge mimi
+
+Or install from source::
+
+    git clone https://github.com/NYUAD-Core-Bioinformatics/MIMI.git
+    cd MIMI
+    pip install .
 
 Basic Workflow
--------------
+--------------
 
 MIMI follows a three-step workflow:
 
@@ -19,7 +27,7 @@ MIMI follows a three-step workflow:
 3. **Analyze samples** using the cache files
 
 Step 1: Extract Compounds
-------------------------
+-------------------------
 
 You can extract compounds from KEGG or HMDB databases, or use your own compound list.
 
@@ -32,7 +40,7 @@ From HMDB database::
     mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds.tsv
 
 Step 2: Create Cache Files
-------------------------
+--------------------------
 
 Create cache files for your compound databases. You can create multiple caches for different isotope configurations.
 
@@ -45,7 +53,7 @@ For C13-labeled compounds::
     mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
 
 Step 3: Analyze Samples
----------------------
+-----------------------
 
 Analyze your mass spectrometry data using the cache files::
 
@@ -59,7 +67,7 @@ Parameters explained:
   - `-o outdir/results.tsv`: Output file for results
 
 Complete Example
---------------
+----------------
 
 Here's a complete workflow example:
 
@@ -84,7 +92,7 @@ Here's a complete workflow example:
     mimi_cache_dump outdir/db_nat.pkl -n 5 -o outdir/cache_contents.tsv
 
 Advanced Usage
-------------
+---------------
 
 Batch processing multiple samples::
 
