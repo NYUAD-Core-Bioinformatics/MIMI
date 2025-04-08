@@ -396,37 +396,10 @@
 <h3>PPM Threshold Optimization<a class="headerlink" href="#ppm-threshold-optimization" title="Permalink to this headline"></a></h3>
 <p>The PPM threshold critically affects match precision and reliability:</p>
 <ul class="simple">
-<li><dl class="simple">
-<dt><strong>Excellent</strong> (p=0.5, vp=0.5)</dt><dd><ul>
-<li><p>Highest confidence identifications</p></li>
-<li><p>Recommended for ultra-high resolution data</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>Good</strong> (p=1.0, vp=1.0)</dt><dd><ul>
-<li><p>Reliable identifications</p></li>
-<li><p>Best when combined with isotope pattern validation</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>Low Confidence</strong> (p=1.0-2.0, vp=1.0-2.0)</dt><dd><ul>
-<li><p>Use with caution</p></li>
-<li><p>Requires additional validation</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>Not Recommended</strong> (p&gt;2.0, vp&gt;2.0)</dt><dd><ul>
-<li><p>Should not be used for ultra-high resolution MS data</p></li>
-</ul>
-</dd>
-</dl>
-</li>
+<li><p><strong>&lt;0.5 ppm</strong> Excellent mass accuracy, high confidence in exactmass identification</p></li>
+<li><p><strong>0.5 - 1 ppm</strong> Good mass accuracy, reliable identification with isotope finestructure validation</p></li>
+<li><p><strong>1-2 ppm</strong> Low mass accuracy, unreliable identifications</p></li>
+<li><p><strong>&gt;2 ppm</strong> should not be used for ultra high resolution mass spectrometry data</p></li>
 </ul>
 <p>Example threshold usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Highest confidence analysis</span>
