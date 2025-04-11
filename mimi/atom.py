@@ -41,6 +41,7 @@ Functions:
 import json5
 import pkg_resources
 import os
+from pathlib import Path
 
 # Define default data file paths
 
@@ -170,7 +171,7 @@ def load_labelled_atoms(jsonfile):
 def load_isotope():
     """Load isotope data from JSON file."""
     global atom_dic
-    DEFAULT_ISOTOPE_FILE = os.path.join('mimi', 'data', 'natural_isotope_abundance_NIST.json')
+    DEFAULT_ISOTOPE_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)),'mimi', 'data', 'natural_isotope_abundance_NIST.json')
     with open(DEFAULT_ISOTOPE_FILE, 'r', encoding='utf-8') as f:
         data = json5.loads(f.read())
     
