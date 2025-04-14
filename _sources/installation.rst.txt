@@ -20,7 +20,7 @@ Using conda (Recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 The easiest way to install MIMI is through conda::
 
-    conda install -c conda-forge mimi
+    conda  install -c bioconda  mimi
 
 This will automatically install all required dependencies.
 
