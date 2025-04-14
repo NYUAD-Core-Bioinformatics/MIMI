@@ -14,8 +14,8 @@ outdir="$2"
 mkdir -p "$outdir"
 
 # Create cache files in outdir and check for success
-mimi_cache_create  -i neg   -d "$datadir/KEGGDB.tsv"  -c "$outdir/db_nat"
-mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$datadir/KEGGDB.tsv"  -c "$outdir/db_C13"
+mimi_cache_create  -i neg   -d "$datadir/testDB.tsv"  -c "$outdir/db_nat"
+mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$datadir/testDB.tsv"  -c "$outdir/db_C13"
 
 
 # mimi_cache_create  -i neg   -d "kegg_compounds_40-1000Da.tsv"  -c "$outdir/db_nat"
