@@ -239,8 +239,11 @@ def main():
 
     # Create log directory if it doesn't exist and we're not logging to report
     log_dir = os.path.join(os.getcwd(), 'log')
-
-    os.makedirs(log_dir, exist_ok=True)
+    try:
+        os.makedirs(log_dir, exist_ok=True)
+    except OSError as e:
+        print(f"Error: Failed to create log directory '{log_dir}': {str(e)}")
+        sys.exit(1)
 
     # Setup log files if not logging to report
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -252,12 +255,26 @@ def main():
     try:
         log_fp = open(log_file, 'w') if log_file else None
         debug_fp = open(debug_file, 'w') if debug_file else None
+        
+        # Create output directory if it doesn't exist
+        output_dir = os.path.dirname(args.out)
+        if output_dir and not os.path.exists(output_dir):
+            try:
+                os.makedirs(output_dir)
+                print(f"Created output directory: {output_dir}")
+            except OSError as e:
+                print(f"Error: Failed to create output directory '{output_dir}': {str(e)}")
+                sys.exit(1)
+                
         out_fp = open(args.out, 'w')
     except FileNotFoundError as e:
         print(f"Error: Could not open output file: {str(e)}")
         sys.exit(1)
-    except Exception as e:
+    except IOError as e:
         print(f"Error opening output files: {str(e)}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: An unexpected error occurred: {str(e)}")
         sys.exit(1)
     
     # Function to process a match between sample and database
@@ -573,9 +590,16 @@ def main():
     # Write results to output file with progress bar
     write_log("Writing results to output file...")
     result_desc = "Writing results"
-    for molecule in tqdm(final_report, desc=result_desc):
-        out_fp.write('\t'.join(final_report[molecule]))
-        out_fp.write('\n')
+    try:
+        for molecule in tqdm(final_report, desc=result_desc):
+            out_fp.write('\t'.join(final_report[molecule]))
+            out_fp.write('\n')
+    except IOError as e:
+        print(f"Error: Failed to write to output file: {str(e)}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: An unexpected error occurred while writing results: {str(e)}")
+        sys.exit(1)
     
     # Close files
     if log_fp:

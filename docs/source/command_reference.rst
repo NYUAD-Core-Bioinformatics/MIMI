@@ -1,152 +1,258 @@
 Command Reference
 =================
 
-This section provides detailed information about all command-line tools available in MIMI.
+This section provides detailed information about all command-line tools available in MIMI, including their purpose, when to use them, and what results to expect.
 
+HMDB Database
+-------------
+
+The Human Metabolome Database (HMDB) is a comprehensive resource containing detailed information about metabolites found in the human body. MIMI provides tools to work with HMDB data, particularly for extracting and processing metabolite information.
+
+Downloading HMDB Data
+~~~~~~~~~~~~~~~~~~~~
+
+1. Visit the HMDB downloads page: https://hmdb.ca/downloads
+2. Download the complete metabolites XML file (named "hmdb_metabolites.xml")
+3. This file contains detailed information about each metabolite, including:
+   - Chemical formulas
+   - Names and synonyms
+   - Identifiers (HMDB ID, InChI, SMILES)
+   - Molecular weights
+   - Other chemical properties
+
+Extracting Metabolites
+~~~~~~~~~~~~~~~~~~~~~
+
+The ``mimi_hmdb_extract`` command processes the HMDB XML file to extract relevant metabolite information and save it in a tab-separated format.
 
 mimi_hmdb_extract
 -----------------
-This tool extracts metabolite information from the Human Metabolome Database (HMDB)
-XML file and converts it to a TSV format that can be used with MIMI. It can filter
-metabolites by molecular weight range and validates chemical formulas to ensure
-compatibility with MIMI's formula parser.
 
-::
+Purpose: Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.
+
+Key Features:
+- Human-specific metabolite database
+- Requires downloading complete HMDB XML file
+- Includes detailed metabolite information
+- Validates chemical formulas
+- Filters by molecular weight range
+
+When to use:
+- Analyzing human samples
+- Studying human metabolism
+- Need detailed metabolite information
+- Working with clinical samples
+
+Usage::
 
     mimi_hmdb_extract --help
     usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
 
-    Extract metabolite information from HMDB XML file
+Required Parameters:
+    -x XML, --xml XML     Path to HMDB metabolites XML file (required)
+                          Download from https://hmdb.ca/downloads
 
-    options:
-      -h, --help            show this help message and exit
-      -x XML, --xml XML     Path to HMDB metabolites XML file
-      -l MIN_MASS, --min-mass MIN_MASS
-                            Lower bound of molecular weight in Da
-      -u MAX_MASS, --max-mass MAX_MASS
-                            Upper bound of molecular weight in Da
-      -o OUTPUT, --output OUTPUT
-                            Output TSV file path (default: metabolites.tsv)
+Optional Parameters:
+    -l MIN_MASS, --min-mass MIN_MASS
+                          Lower bound of molecular weight in Da (default: no limit)
+                          Filters out compounds lighter than this mass
+                          Example: -l 100 filters out compounds < 100 Da
+    -u MAX_MASS, --max-mass MAX_MASS
+                          Upper bound of molecular weight in Da (default: no limit)
+                          Filters out compounds heavier than this mass
+                          Example: -u 500 filters out compounds > 500 Da
+    -o OUTPUT, --output OUTPUT
+                          Output TSV file path (default: metabolites.tsv)
+
+Expected Output:
+- TSV file with columns: ID, Name, Formula, Mass
+- Only includes metabolites within specified mass range
+- Validated chemical formulas
+- Human-specific metabolites
+
+Example::
+
+    # Extract metabolites between 100-500 Da
+    mimi_hmdb_extract -x hmdb_metabolites.xml -l 100 -u 500 -o hmdb_compounds.tsv
 
 mimi_kegg_extract
 -----------------
+Purpose: Extracts compound information from the KEGG database using its REST API. Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.
 
-This tool extracts compound information from the KEGG database using its REST API.
-It can retrieve compounds within a specific molecular weight range or from a list
-of compound IDs. The tool handles KEGG's 10,000 result limit by breaking large
-mass ranges into smaller chunks.
+Key Features:
+- Broad compound coverage
+- Uses KEGG REST API
+- Includes pathway information
+- Can extract by mass range or specific IDs
+- Handles KEGG's 10,000 result limit
 
+When to use:
+- Analyzing general biological samples
+- Need broad compound coverage
+- Studying metabolic pathways
+- Working with non-human samples
 
-::
+Usage::
 
     mimi_kegg_extract --help
     usage: mimi_kegg_extract [-h] [-l MIN_MASS] [-u MAX_MASS] [-i COMPOUND_IDS]
                             [-o OUTPUT]
 
-    Extract compound information from KEGG
+Optional Parameters:
+    -l MIN_MASS, --min-mass MIN_MASS
+                          Lower bound of molecular weight in Da (default: no limit)
+                          Filters out compounds lighter than this mass
+                          Example: -l 100 filters out compounds < 100 Da
+    -u MAX_MASS, --max-mass MAX_MASS
+                          Upper bound of molecular weight in Da (default: no limit)
+                          Filters out compounds heavier than this mass
+                          Example: -u 500 filters out compounds > 500 Da
+    -i COMPOUND_IDS, --input COMPOUND_IDS
+                          Input TSV file containing KEGG compound IDs
+    -o OUTPUT, --output OUTPUT
+                          Output TSV file path (default: kegg_compounds.tsv)
 
-    options:
-      -h, --help            show this help message and exit
-      -l MIN_MASS, --min-mass MIN_MASS
-                            Lower bound of molecular weight in Da
-      -u MAX_MASS, --max-mass MAX_MASS
-                            Upper bound of molecular weight in Da
-      -i COMPOUND_IDS, --input COMPOUND_IDS
-                            Input TSV file containing KEGG compound IDs
-      -o OUTPUT, --output OUTPUT
-                            Output TSV file path (default: kegg_compounds.tsv)
+Expected Output:
+- TSV file with columns: ID, Name, Formula, Mass
+- Compounds within specified mass range
+- Pathway information when available
+- Broad coverage of biological compounds
 
+Examples::
 
+    # Extract compounds between 100-500 Da
+    mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
 
-
-
-
+    # Extract specific compounds by ID
+    mimi_kegg_extract -i compound_ids.tsv -o kegg_compounds.tsv
 
 mimi_cache_create
 -----------------
+Purpose: Creates precomputed cache files containing molecular mass data and isotope patterns for compounds. These cache files significantly speed up analysis by avoiding repeated calculations.
 
-This tool creates precomputed cache files containing molecular mass data and isotope
-patterns for compounds. These cache files significantly speed up analysis by avoiding
-repeated calculations. You can create different cache files for different isotope
-configurations (natural abundance, C13-labeled, etc.).
+When to use:
+- After updating your compound database
+- Switching between different isotope configurations
+- Starting a new analysis project
+- Need to optimize analysis speed
 
-::
+Usage::
 
     mimi_cache_create --help
     usage: mimi_cache_create [-h] [-l JSON] -d DBTSV [DBTSV ...] -i {pos,neg} -c
                             DBBINARY
 
-    Molecular Isotope Mass Identifier
+Required Parameters:
+    -d DBTSV [DBTSV ...], --dbfile DBTSV [DBTSV ...]
+                          File(s) with list of compounds (required)
+    -i {pos,neg}, --ion {pos,neg}
+                          Ionization mode (required)
+    -c DBBINARY, --cache DBBINARY
+                          Binary DB output file (required)
 
-    options:
-      -h, --help            show this help message and exit
-      -l JSON, --label JSON
-                            Labeled atoms
-      -d DBTSV [DBTSV ...], --dbfile DBTSV [DBTSV ...]
-                            File(s) with list of compounds
-      -i {pos,neg}, --ion {pos,neg}
-                            Ionisation mode
-      -c DBBINARY, --cache DBBINARY
-                            Binary DB output file
+Optional Parameters:
+    -l JSON, --label JSON
+                          JSON file specifying labeled atoms configuration
 
+Expected Output:
+- Binary cache file (.pkl)
+- Precomputed masses for all compounds
+- Isotope patterns (natural or labeled)
+- Optimized for fast searching
 
+Examples::
 
+    # Create natural abundance cache
+    mimi_cache_create -i neg -d data/processed/KEGGDB.tsv -c db_nat
 
+    # Create C13-labeled cache
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/KEGGDB.tsv -c db_13C
 
 mimi_cache_dump
 ---------------
-This tool dumps the contents of a MIMI cache file to a human-readable TSV format.
-It's useful for inspecting cache files, verifying their contents, and understanding
-the isotope patterns being used for analysis. The output includes compound information,
-chemical formulas with nominal masses, and isotope variant details. 
+Purpose: Dumps the contents of a MIMI cache file to a human-readable TSV format. Useful for inspecting cache files and verifying their contents.
 
-::
+When to use:
+- Debugging analysis issues
+- Checking compound coverage
+- Verifying isotope patterns
+- Understanding cache structure
 
-  mimi_cache_dump --help
-  usage: mimi_cache_dump [-h] [-n NUM_COMPOUNDS] [-i NUM_ISOTOPES] [-o OUTPUT]
+Usage::
+
+    mimi_cache_dump --help
+    usage: mimi_cache_dump [-h] [-n NUM_COMPOUNDS] [-i NUM_ISOTOPES] [-o OUTPUT]
                         cache_file
 
-  MIMI Cache Dump Tool
-
-  positional arguments:
+Required Parameters:
     cache_file            Input cache file (.pkl)
 
-  options:
-    -h, --help            show this help message and exit
+Optional Parameters:
     -n NUM_COMPOUNDS, --num-compounds NUM_COMPOUNDS
                           Number of compounds to output (default: all)
     -i NUM_ISOTOPES, --num-isotopes NUM_ISOTOPES
-                          Number of isotopes per compound to output (default:
-                          all)
+                          Number of isotopes per compound to output (default: all)
     -o OUTPUT, --output OUTPUT
                           Output file (default: stdout)
 
+Expected Output:
+- Cache metadata (creation date, version)
+- Creation parameters
+- Compound information:
+  - ID and name
+  - Chemical formula
+  - Mass and relative abundance
+  - Isotope variants with their masses and abundances
 
+Example::
+
+    # Dump first 5 compounds with 2 isotopes each
+    mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o cache_contents.tsv
 
 mimi_mass_analysis
 ------------------
-This tool analyzes mass spectrometry data by comparing sample masses against precomputed
-molecular masses stored in cache files. It can process multiple samples against multiple
-cache files simultaneously, allowing for efficient batch processing and comparison of
-different isotope configurations.
+Purpose: Analyzes mass spectrometry data by comparing sample masses against precomputed molecular masses stored in cache files.
 
-::
+When to use:
+- After creating/updating caches
+- Processing new samples
+- Comparing different conditions
+- Validating results
 
-    mmimi_mass_analysis --help
+Usage::
+
+    mimi_mass_analysis --help
     usage: mimi_mass_analysis [-h] -p PPM -vp VPPM -c DBBINARY [DBBINARY ...] -s
                               SAMPLE [SAMPLE ...] -o OUTPUT
 
-    Molecular Isotope Mass Identifier
+Required Parameters:
+    -p PPM, --ppm PPM     Parts per million for the mono isotopic mass of
+                          chemical formula (required)
+    -vp VPPM              Parts per million for verification of isotopes (required)
+    -c DBBINARY [DBBINARY ...], --cache DBBINARY [DBBINARY ...]
+                          Binary DB input file(s) (required)
+    -s SAMPLE [SAMPLE ...], --sample SAMPLE [SAMPLE ...]
+                          Input sample file(s) (required)
+    -o OUTPUT, --output OUTPUT
+                          Output file (required)
 
-    options:
-      -h, --help            show this help message and exit
-      -p PPM, --ppm PPM     Parts per million for the mono isotopic mass of
-                            chemical formula
-      -vp VPPM              Parts per million for verification of isotopes
-      -c DBBINARY [DBBINARY ...], --cache DBBINARY [DBBINARY ...]
-                            Binary DB input file(s)
-      -s SAMPLE [SAMPLE ...], --sample SAMPLE [SAMPLE ...]
-                            Input sample file
-      -o OUTPUT, --output OUTPUT
-                            Output file
+Expected Output:
+- TSV file with columns:
+  1. Compound ID
+  2. Formula
+  3. Name
+  4. Mass
+  5. Sample Mass
+  6. PPM
+  7. Intensity
+  8. Isotope Score
+  9. Cache Source
+
+Examples::
+
+    # Analyze single sample with natural abundance cache
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results.tsv
+
+    # Analyze multiple samples with multiple caches
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s sample1.asc sample2.asc -o batch_results.tsv
                   

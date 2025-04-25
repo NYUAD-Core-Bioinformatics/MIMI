@@ -139,14 +139,32 @@ def export_metabolites_to_tsv(xml_file, output_file, min_mass=None, max_mass=Non
         max_mass: Maximum molecular weight to include (optional)
     """
     try:
+        # Create output directory if it doesn't exist
+        output_dir = os.path.dirname(output_file)
+        if output_dir and not os.path.exists(output_dir):
+            try:
+                os.makedirs(output_dir)
+                print(f"Created output directory: {output_dir}")
+            except OSError as e:
+                print(f"Error: Failed to create output directory '{output_dir}': {str(e)}")
+                sys.exit(1)
+
         metabolite_data = parse_hmdb_xml(xml_file, min_mass, max_mass)
         
-        with open(output_file, "w", encoding='utf-8') as f:
-            f.write("CF\tID\tname\n")
-            for cf, met_id, met_name in metabolite_data:
-                f.write(f"{cf}\t{met_id}\t{met_name}\n")
+        try:
+            with open(output_file, "w", encoding='utf-8') as f:
+                f.write("CF\tID\tName\n")
+                for cf, met_id, met_name in metabolite_data:
+                    f.write(f"{cf}\t{met_id}\t{met_name}\n")
+        except IOError as e:
+            print(f"Error: Failed to write to output file '{output_file}': {str(e)}")
+            sys.exit(1)
+            
     except FileNotFoundError as e:
         print(f"Error: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: An unexpected error occurred: {str(e)}")
         sys.exit(1)
 
 

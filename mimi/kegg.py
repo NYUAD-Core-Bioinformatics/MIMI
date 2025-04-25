@@ -6,6 +6,8 @@ from mimi.molecule import parse_molecular_formula
 from mimi.atom import load_isotope
 import argparse
 import pandas as pd
+import os
+import sys
 
 def get_compounds_by_mass_range(min_mass, max_mass, chunk_size=50.0):
     """
@@ -106,46 +108,66 @@ def export_compounds_to_tsv(output_file, compound_ids=None, mass_range=None, bat
         mass_range: Tuple of (min_mass, max_mass) in Da (optional)
         batch_size: Number of compounds to process in each batch
     """
-    if mass_range:
-        min_mass, max_mass = mass_range
-        compound_ids = get_compounds_by_mass_range(min_mass, max_mass)
-        print(f"Found {len(compound_ids)} compounds in mass range {min_mass}-{max_mass} Da")
-    
-    skipped_formulas = []
-    valid_compounds = 0
-    
-    with open(output_file, 'w') as f:
-        f.write("CF\tID\tname\n")
+    try:
+        # Create output directory if it doesn't exist
+        output_dir = os.path.dirname(output_file)
+        if output_dir and not os.path.exists(output_dir):
+            try:
+                os.makedirs(output_dir)
+                print(f"Created output directory: {output_dir}")
+            except OSError as e:
+                print(f"Error: Failed to create output directory '{output_dir}': {str(e)}")
+                sys.exit(1)
         
-        for i in tqdm(range(0, len(compound_ids), batch_size), desc="Processing compounds"):
-            batch = compound_ids[i:i + batch_size]
-            compounds_info = get_compound_info_batch(batch)
+        if mass_range:
+            min_mass, max_mass = mass_range
+            compound_ids = get_compounds_by_mass_range(min_mass, max_mass)
+            print(f"Found {len(compound_ids)} compounds in mass range {min_mass}-{max_mass} Da")
+        
+        skipped_formulas = []
+        valid_compounds = 0
+        
+        try:
+            with open(output_file, 'w') as f:
+                f.write("CF\tID\tName\n")
+                
+                for i in tqdm(range(0, len(compound_ids), batch_size), desc="Processing compounds"):
+                    batch = compound_ids[i:i + batch_size]
+                    compounds_info = get_compound_info_batch(batch)
+                    
+                    if len(compounds_info) != len(batch):
+                        print(f"Warning: Batch size mismatch. Expected {len(batch)}, got {len(compounds_info)} compounds")
+                    
+                    for formula, cpd_id, name, exact_mass in compounds_info:
+                        try:
+                            if formula != "N/A":
+                                parse_molecular_formula(formula)
+                                f.write(f"{formula}\t{cpd_id}\t{name}\n")
+                                valid_compounds += 1
+                            else:
+                                skipped_formulas.append((formula, cpd_id, name))
+                        except KeyError:
+                            skipped_formulas.append((formula, cpd_id, name))
+                    
+                    time.sleep(0.1)
             
-            if len(compounds_info) != len(batch):
-                print(f"Warning: Batch size mismatch. Expected {len(batch)}, got {len(compounds_info)} compounds")
+            print(f"\nCompound data saved to {output_file}")
+            print(f"Total valid compounds: {valid_compounds}")
             
-            for formula, cpd_id, name, exact_mass in compounds_info:
-                try:
-                    if formula != "N/A":
-                        parse_molecular_formula(formula)
-                        f.write(f"{formula}\t{cpd_id}\t{name}\n")
-                        valid_compounds += 1
-                    else:
-                        skipped_formulas.append((formula, cpd_id, name))
-                except KeyError:
-                    skipped_formulas.append((formula, cpd_id, name))
+            if skipped_formulas:
+                print(f"Skipped {len(skipped_formulas)} compounds with invalid chemical formulas:")
+                for cf, cpd_id, cpd_name in skipped_formulas[:10]:
+                    print(f"  - {cpd_id} ({cpd_name}): Formula '{cf}'")
+                if len(skipped_formulas) > 10:
+                    print(f"  ... and {len(skipped_formulas) - 10} more")
+        
+        except IOError as e:
+            print(f"Error: Failed to write to output file '{output_file}': {str(e)}")
+            sys.exit(1)
             
-            time.sleep(0.1)
-    
-    print(f"\nCompound data saved to {output_file}")
-    print(f"Total valid compounds: {valid_compounds}")
-    
-    if skipped_formulas:
-        print(f"Skipped {len(skipped_formulas)} compounds with invalid chemical formulas:")
-        for cf, cpd_id, cpd_name in skipped_formulas[:10]:
-            print(f"  - {cpd_id} ({cpd_name}): Formula '{cf}'")
-        if len(skipped_formulas) > 10:
-            print(f"  ... and {len(skipped_formulas) - 10} more")
+    except Exception as e:
+        print(f"Error: An unexpected error occurred: {str(e)}")
+        sys.exit(1)
 
 def main():
     parser = argparse.ArgumentParser(description='Extract compound information from KEGG')

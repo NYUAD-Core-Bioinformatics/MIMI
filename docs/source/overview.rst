@@ -18,12 +18,9 @@ Features
 - Isotopic pattern analysis
 - Batch processing capabilities
 
-Getting Started
----------------
-For detailed instructions on how to install and use mimi, please refer to:
-
-- :doc:`installation` - Complete installation guide
-- :doc:`quickstart` - Detailed usage instructions and examples
+Usage guide
+----------
+For instructions on how to install and use mimi, please refer to :doc:`workflow`.
 
 License
 -------

@@ -118,7 +118,11 @@ def main():
 
     # Create log directory if it doesn't exist
     log_dir = os.path.join(os.getcwd(), 'log')
-    os.makedirs(log_dir, exist_ok=True)
+    try:
+        os.makedirs(log_dir, exist_ok=True)
+    except OSError as e:
+        print(f"Error: Failed to create log directory '{log_dir}': {str(e)}")
+        sys.exit(1)
 
     # Setup debug log file if debug mode is enabled
     timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -142,7 +146,11 @@ def main():
 
     # Open debug file if in debug mode and attach to args object
     if args.debug:
-        args.debug_fp = open(debug_file, 'w')
+        try:
+            args.debug_fp = open(debug_file, 'w')
+        except IOError as e:
+            print(f"Error: Failed to create debug file '{debug_file}': {str(e)}")
+            sys.exit(1)
     else:
         args.debug_fp = None
 
@@ -228,8 +236,25 @@ def main():
     if args.debug_fp:
         args.debug_fp.close()
 
-    with open(args.cache + '.pkl','wb') as f:
-        pickle.dump(compound_precompute, f)
+    try:
+        # Create cache directory if it doesn't exist
+        cache_dir = os.path.dirname(args.cache)
+        if cache_dir and not os.path.exists(cache_dir):
+            try:
+                os.makedirs(cache_dir)
+                print(f"Created cache directory: {cache_dir}")
+            except OSError as e:
+                print(f"Error: Failed to create cache directory '{cache_dir}': {str(e)}")
+                sys.exit(1)
+
+        with open(args.cache + '.pkl','wb') as f:
+            pickle.dump(compound_precompute, f)
+    except IOError as e:
+        print(f"Error: Failed to write cache file '{args.cache}.pkl': {str(e)}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: An unexpected error occurred: {str(e)}")
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
