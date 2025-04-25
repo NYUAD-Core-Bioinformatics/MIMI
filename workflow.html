@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Detailed Workflow &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
+  <title>Workflow &mdash; Mass Spectrometry Tool 1.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Command Reference" href="command_reference.html" />
-    <link rel="prev" title="Quick Start Guide" href="quickstart.html" /> 
+    <link rel="prev" title="Overview" href="overview.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,30 +46,24 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Detailed Workflow</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#database-preparation">Database Preparation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#hmdb-extraction">HMDB Extraction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#kegg-extraction">KEGG Extraction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#custom-database">Custom Database</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#cache-creation">Cache Creation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#cache-inspection">Cache Inspection</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#sample-analysis">Sample Analysis</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#basic-analysis">Basic Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#multiple-cache-analysis">Multiple Cache Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#batch-processing">Batch Processing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ppm-threshold-optimization">PPM Threshold Optimization</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#result-interpretation">Result Interpretation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#best-practices-and-troubleshooting">Best Practices and Troubleshooting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#common-issues-and-solutions">Common Issues and Solutions:</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Workflow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-workflow">Basic Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-options">Database Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mass-range-filtering">Mass Range Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-database-format">Custom Database Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-preparation-from-kegg-and-hmdb">Database Preparation from KEGG and HMDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cache-creation">Cache Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#isotope-configuration">Isotope Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verify-cache">Verify Cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-analysis">Sample Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-file-format">Input File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ppm-thresholds">PPM Thresholds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiple-cache-analysis">Multiple Cache Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#batch-processing">Batch Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#results-format">Results Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#complete-example">Complete Example</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
@@ -94,7 +88,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Detailed Workflow</li>
+      <li class="breadcrumb-item active">Workflow</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/workflow.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -104,75 +98,85 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="detailed-workflow">
-<h1>Detailed Workflow<a class="headerlink" href="#detailed-workflow" title="Permalink to this headline"></a></h1>
-<p>This document provides a detailed explanation of MIMI’s workflow for mass spectrometry data analysis.</p>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
-<p>MIMI’s workflow consists of three main phases:</p>
+  <section id="workflow">
+<h1>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline"></a></h1>
+<p>MIMI is a tool for analyzing mass spectrometry data. It helps identify compounds by matching observed masses against known compounds and verifying their isotope patterns.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<p>MIMI can be installed using conda, which is the recommended method as it handles all dependencies automatically:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">mimi</span>
+</pre></div>
+</div>
+<p>Alternatively, you can install from source if you need the latest development version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">NYUAD</span><span class="o">-</span><span class="n">Core</span><span class="o">-</span><span class="n">Bioinformatics</span><span class="o">/</span><span class="n">MIMI</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">MIMI</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="basic-workflow">
+<h2>Basic Workflow<a class="headerlink" href="#basic-workflow" title="Permalink to this headline"></a></h2>
+<p>MIMI’s analysis involves three steps:</p>
 <ol class="arabic simple">
-<li><p><strong>Database Preparation</strong>: Extract and format compound data</p></li>
-<li><p><strong>Cache Creation</strong>: Precompute molecular masses and isotope patterns</p></li>
-<li><p><strong>Sample Analysis</strong>: Match sample masses against cached data</p></li>
+<li><p>Prepare your compound database</p></li>
+<li><p>Create cache files for faster matching</p></li>
+<li><p>Analyze your samples</p></li>
 </ol>
-<p>Each phase is described in detail below.</p>
 </section>
-<section id="database-preparation">
-<h2>Database Preparation<a class="headerlink" href="#database-preparation" title="Permalink to this headline"></a></h2>
-<p>Before analysis, you need a database of compounds with their chemical formulas. MIMI provides tools to extract this information from common databases:</p>
-<section id="hmdb-extraction">
-<h3>HMDB Extraction<a class="headerlink" href="#hmdb-extraction" title="Permalink to this headline"></a></h3>
-<p>The Human Metabolome Database (HMDB) contains detailed information about small molecule metabolites found in the human body.</p>
+<section id="database-options">
+<h2>Database Options<a class="headerlink" href="#database-options" title="Permalink to this headline"></a></h2>
+<p>MIMI supports two prepare your compound database from external sources:</p>
 <ol class="arabic">
-<li><p>Download the HMDB database XML file from <a class="reference external" href="https://hmdb.ca/downloads">https://hmdb.ca/downloads</a></p></li>
-<li><p>Extract metabolites using the MIMI tool:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span>
-</pre></div>
-</div>
+<li><p><strong>KEGG Database</strong>:
+- Broad compound coverage
+- Uses REST API
+- Includes pathway data
+- Works well for general biological samples</p></li>
+<li><p><strong>HMDB Database</strong> (For human samples):
+- Human-specific metabolites
+- Requires XML file download
+- More detailed metabolite info
+- Best for clinical samples</p>
+<p>The HMDB database is provided as an XML file named “hmdb_metabolites.xml”. This file contains:</p>
+<ul class="simple">
+<li><p>Detailed information about each metabolite</p></li>
+<li><p>Chemical formulas and molecular weights</p></li>
+<li><p>Names and identifiers</p></li>
+<li><p>Additional metadata about human metabolites</p></li>
+</ul>
+<p>Download the HMDB XML file from <a class="reference external" href="https://hmdb.ca/downloads">https://hmdb.ca/downloads</a> and save it as “hmdb_metabolites.xml”.</p>
 </li>
 </ol>
-<p>This extracts metabolites with molecular weights between 100 and 500 Da.</p>
 </section>
-<section id="kegg-extraction">
-<h3>KEGG Extraction<a class="headerlink" href="#kegg-extraction" title="Permalink to this headline"></a></h3>
-<p>The Kyoto Encyclopedia of Genes and Genomes (KEGG) provides a comprehensive database of compounds.</p>
-<ol class="arabic">
-<li><p>Extract compounds by mass range:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
-</pre></div>
-</div>
+<section id="mass-range-filtering">
+<h2>Mass Range Filtering<a class="headerlink" href="#mass-range-filtering" title="Permalink to this headline"></a></h2>
+<p>Filter compounds by mass using:</p>
+<ul class="simple">
+<li><p><cite>-l</cite>: Lower mass limit (e.g., 40 Da)</p>
+<ul>
+<li><p>Filters out compounds lighter than this mass</p></li>
+<li><p>Useful for removing small molecules or contaminants</p></li>
+<li><p>Example: -l 100 filters out compounds &lt; 100 Da</p></li>
+</ul>
 </li>
-<li><p>Or extract specific compounds by ID:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">i</span> <span class="n">compound_ids</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
-</pre></div>
-</div>
+<li><p><cite>-u</cite>: Upper mass limit (e.g., 400 Da)</p>
+<ul>
+<li><p>Filters out compounds heavier than this mass</p></li>
+<li><p>Useful for focusing on specific mass ranges</p></li>
+<li><p>Example: -u 500 filters out compounds &gt; 500 Da</p></li>
+</ul>
 </li>
-</ol>
-<p>Example of <code class="docutils literal notranslate"><span class="pre">compound_ids.tsv</span></code> file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span>
-<span class="n">C00003</span>
-<span class="n">C00006</span>
-<span class="n">C00015</span>
-<span class="n">C00016</span>
-<span class="n">C00018</span>
-<span class="n">C00019</span>
-<span class="n">C00021</span>
-<span class="n">C00024</span>
-</pre></div>
-</div>
-<p>This file should contain a header row with <strong>ID</strong> followed by the KEGG compound IDs you wish to extract.</p>
-<p>You can download a sample <code class="docutils literal notranslate"><span class="pre">compound_ids.tsv</span></code> file from the following link: <a class="reference external" href="https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/main/data/processed/compound_ids.tsv">compound_ids.tsv</a></p>
+</ul>
+<p>Example: <cite>-l 40 -u 400</cite> keeps compounds between 40-400 Da.</p>
 </section>
-<section id="custom-database">
-<h3>Custom Database<a class="headerlink" href="#custom-database" title="Permalink to this headline"></a></h3>
-<p>You can also create your own compound database as a TSV file. While the file can include other metadata, it must contain the following mandatory columns:</p>
-<ol class="arabic simple">
-<li><p><strong>CF</strong>: Chemical formula (e.g., C6H12O6)</p></li>
-<li><p><strong>ID</strong>: Compound identifier</p></li>
-<li><p><strong>Name</strong>: Compound name</p></li>
-</ol>
-<p>These columns can appear in any order within the file.</p>
-<p>Updated Example:</p>
+<section id="custom-database-format">
+<h2>Custom Database Format<a class="headerlink" href="#custom-database-format" title="Permalink to this headline"></a></h2>
+<p>Create a custom database when:
+- Working with novel compounds
+- Have specific compounds of interest
+- Need to add custom annotations
+- Combining multiple sources</p>
+<p>The file must contain these required columns:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CF</span>      <span class="n">ID</span>        <span class="n">Name</span>
 <span class="n">C6H12O6</span> <span class="n">C00031</span>    <span class="n">Glucose</span>
 <span class="n">C5H10O5</span> <span class="n">C00036</span>    <span class="n">Ribose</span>
@@ -181,298 +185,330 @@
 <span class="n">C4H8O4</span>  <span class="n">C00043</span>    <span class="n">Erythritol</span>
 </pre></div>
 </div>
-<p>Ensure that your TSV file includes a header row and follows this format for compatibility with MIMI.</p>
 </section>
+<section id="database-preparation-from-kegg-and-hmdb">
+<h2>Database Preparation from KEGG and HMDB<a class="headerlink" href="#database-preparation-from-kegg-and-hmdb" title="Permalink to this headline"></a></h2>
+<p>The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.</p>
+<p>For KEGG database, use the following command to extract compounds within a specific mass range:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">40</span> <span class="o">-</span><span class="n">u</span> <span class="mi">400</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+<p>Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 100 and 500 Da from the KEGG database.</p>
+<p>For HMDB database, first download the XML file, then use this command to extract the metabolites:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+<p>Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.</p>
 </section>
 <section id="cache-creation">
 <h2>Cache Creation<a class="headerlink" href="#cache-creation" title="Permalink to this headline"></a></h2>
-<p>Once you have your compound database, create cache files for efficient analysis:</p>
-<ol class="arabic">
-<li><p><strong>Natural abundance cache</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
-</pre></div>
-</div>
-</li>
-<li><p><strong>Labeled compounds cache</strong> (e.g., 95% C13-labeled):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_13C</span>
-</pre></div>
-</div>
-</li>
-</ol>
-<dl class="simple">
-<dt>Parameters:</dt><dd><ul class="simple">
-<li><p><cite>-i neg</cite>: Ionization mode (negative)</p></li>
-<li><p><cite>-d data/processed/KEGGDB.tsv</cite>: Input database file</p></li>
-<li><p><cite>-c db_nat</cite>: Output cache file name</p></li>
-<li><p><cite>-l data/processed/C13_95.json</cite>: Optional labeled atoms configuration</p></li>
+<p>After preparing your database, create cache files to store precomputed molecular masses and isotope patterns. This step:
+- Significantly speeds up analysis
+- Is required before running any analysis
+- Should be repeated when:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Updating your compound database</p></li>
+<li><p>Changing isotope configurations</p></li>
+<li><p>Starting a new project</p></li>
 </ul>
-</dd>
-</dl>
-<p>Example C13 labeling configuration (C13_95.json):</p>
+</div></blockquote>
+<p>For natural abundance compounds, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span>
+</pre></div>
+</div>
+<p>Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database. This file will be used for fast matching during analysis.</p>
+</section>
+<section id="isotope-configuration">
+<h2>Isotope Configuration<a class="headerlink" href="#isotope-configuration" title="Permalink to this headline"></a></h2>
+<p>MIMI uses atomic weights and natural isotope abundances from the National Institute of Standards and Technology (NIST), Gaithersburg, MD, which are distributed with the MIMI package in JSON format. The data is sourced from the NIST Atomic Weights and Isotopic Compositions database (<a class="reference external" href="https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses">https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses</a>). MIMI always parses this file first as the basis for isotopic analysis.</p>
+<p>For samples with stable isotope enrichment, you need to specify new values for all elements with non-natural ratios. This is particularly important for experimental studies that employ stable isotope labeling with:
+- Carbon (13C)
+- Hydrogen (2H)
+- Nitrogen (15N)
+- Oxygen (17O, 18O)
+- Sulfur (33S, 34S)</p>
+<p>Key points about isotope configuration:</p>
+<ul class="simple">
+<li><p>Use the <cite>–label</cite> (<cite>-l</cite>) option with a custom JSON file</p></li>
+<li><p>Only specify the elements you want to override</p></li>
+<li><p>Isotope abundances must sum to 1.0 (MIMI verifies this)</p></li>
+<li><p>For multiple labeled elements, include all in one file</p></li>
+</ul>
+<p>Example: For 95% 13C labeling:</p>
+<ul class="simple">
+<li><p>13C proportion: 0.95</p></li>
+<li><p>12C proportion: 0.05</p></li>
+<li><p>Total must equal 1.0</p></li>
+</ul>
+<p>Create a C13_95.json file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-            <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">12.000</span><span class="p">,</span>
-            <span class="s2">&quot;isotope_abundance&quot;</span><span class="p">:</span> <span class="mf">0.05</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-            <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">13.00335484</span><span class="p">,</span>
-            <span class="s2">&quot;isotope_abundance&quot;</span><span class="p">:</span> <span class="mf">0.95</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
+  <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">12.000</span><span class="p">,</span>
+      <span class="s2">&quot;isotope_abundance&quot;</span><span class="p">:</span> <span class="mf">0.05</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+      <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+      <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">13.00335484</span><span class="p">,</span>
+      <span class="s2">&quot;isotope_abundance&quot;</span><span class="p">:</span> <span class="mf">0.95</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<section id="cache-inspection">
-<h3>Cache Inspection<a class="headerlink" href="#cache-inspection" title="Permalink to this headline"></a></h3>
-<p>To verify the contents of your cache files:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span>
-
+<p>For C13-labeled compounds, create a cache with the isotope configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span>
+</pre></div>
+</div>
+<p>Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. Use this when analyzing labeled samples.</p>
+</section>
+<section id="verify-cache">
+<h2>Verify Cache<a class="headerlink" href="#verify-cache" title="Permalink to this headline"></a></h2>
+<p>Before proceeding with analysis, it’s good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">2</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">2</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span>
 <span class="c1"># Cache Metadata:</span>
-<span class="c1"># Creation Date: YYYY-MM-DDTHH:MM:SS</span>
+<span class="c1"># Creation Date: 2025-04-26T00:08:03</span>
 <span class="c1"># MIMI Version: 1.0.0</span>
 
 <span class="c1"># Creation Parameters:</span>
-<span class="c1"># Full Command: /path/to/mimi_cache_create -i neg -d path/to/KEGGDB.tsv -c outdir/db_nat</span>
+<span class="c1"># Full Command: /Users/nr83/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat</span>
 <span class="c1"># Ionization Mode: neg</span>
 <span class="c1"># Labeled Atoms File: None</span>
-<span class="c1"># Compound DB Files: path/to/KEGGDB.tsv</span>
+<span class="c1"># Compound DB Files: data/processed/kegg_compounds.tsv</span>
 <span class="c1"># Cache Output File: outdir/db_nat.pkl</span>
-<span class="c1"># Isotope Data File: path/to/natural_isotope_abundance_NIST.json</span>
+<span class="c1"># Isotope Data File: mimi/data/natural_isotope_abundance_NIST.json</span>
 
 <span class="o">============================================================</span>
-<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00003</span>
-<span class="n">Name</span><span class="p">:</span>             <span class="n">NAD</span><span class="o">+</span>
-<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C21</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H28</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O14</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C07350</span>
+<span class="n">Name</span><span class="p">:</span>             <span class="n">Phlorisovalerophenone</span>
+<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C11</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O4</span>
 <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
-<span class="n">Mass</span><span class="p">:</span>             <span class="mf">663.109671</span>
+<span class="n">Mass</span><span class="p">:</span>             <span class="mf">209.081932</span>
 <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
 <span class="o">------------------------------------------------------------</span>
 <span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
-  <span class="n">Variant</span> <span class="c1">#1:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C20</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H28</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O14</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">664.113026</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.227130</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+<span class="n">Variant</span> <span class="c1">#1:</span>
+<span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C10</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O4</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>           <span class="mf">210.085287</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.118973</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
 <span class="o">------------------------------------------------------------</span>
-  <span class="n">Variant</span> <span class="c1">#2:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C21</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H28</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O13</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">665.113916</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.028770</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-
-<span class="o">============================================================</span>
-<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00006</span>
-<span class="n">Name</span><span class="p">:</span>             <span class="n">NADP</span><span class="o">+</span>
-<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C21</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H29</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O17</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P3</span>
-<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
-<span class="n">Mass</span><span class="p">:</span>             <span class="mf">743.076002</span>
-<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-<span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
-  <span class="n">Variant</span> <span class="c1">#1:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C20</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H29</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O17</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P3</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">744.079357</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.227130</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-  <span class="n">Variant</span> <span class="c1">#2:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C21</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H29</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N7</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O16</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P3</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">745.080247</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.034935</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+<span class="n">Variant</span> <span class="c1">#2:</span>
+<span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C11</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O3</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>           <span class="mf">211.086177</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.008220</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
 <span class="o">------------------------------------------------------------</span>
 
 <span class="o">============================================================</span>
-<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00015</span>
-<span class="n">Name</span><span class="p">:</span>             <span class="n">UDP</span>
-<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C9</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N2</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O12</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
+<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C08999</span>
+<span class="n">Name</span><span class="p">:</span>             <span class="n">Capillarisin</span>
+<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C16</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H12</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O7</span>
 <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
-<span class="n">Mass</span><span class="p">:</span>             <span class="mf">402.994921</span>
+<span class="n">Mass</span><span class="p">:</span>             <span class="mf">315.051026</span>
 <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
 <span class="o">------------------------------------------------------------</span>
 <span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
-  <span class="n">Variant</span> <span class="c1">#1:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C8</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N2</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O12</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">403.998276</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.097342</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+<span class="n">Variant</span> <span class="c1">#1:</span>
+<span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C15</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H12</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O7</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>           <span class="mf">316.054381</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.173052</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
 <span class="o">------------------------------------------------------------</span>
-  <span class="n">Variant</span> <span class="c1">#2:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C9</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H14</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N2</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O11</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">404.999166</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.024660</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-
-<span class="o">============================================================</span>
-<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00016</span>
-<span class="n">Name</span><span class="p">:</span>             <span class="n">FAD</span>
-<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C27</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H33</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N9</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O15</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
-<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
-<span class="n">Mass</span><span class="p">:</span>             <span class="mf">784.149859</span>
-<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-<span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
-  <span class="n">Variant</span> <span class="c1">#1:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C26</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H33</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N9</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O15</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">785.153214</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.292025</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-  <span class="n">Variant</span> <span class="c1">#2:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C27</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H33</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N8</span> <span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="n">N1</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O15</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P2</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">785.146894</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.032880</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-
-<span class="o">============================================================</span>
-<span class="n">Compound</span> <span class="n">ID</span><span class="p">:</span>      <span class="n">C00018</span>
-<span class="n">Name</span><span class="p">:</span>             <span class="n">Pyridoxal</span> <span class="n">phosphate</span>
-<span class="n">Formula</span><span class="p">:</span>          <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C8</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H10</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O6</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P1</span>
-<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>    <span class="n">Yes</span> <span class="p">(</span><span class="n">most</span> <span class="n">abundant</span> <span class="n">isotope</span><span class="p">)</span>
-<span class="n">Mass</span><span class="p">:</span>             <span class="mf">246.017298</span>
-<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span>   <span class="mf">1.000000</span> <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-<span class="n">ISOTOPE</span> <span class="n">VARIANTS</span><span class="p">:</span>
-  <span class="n">Variant</span> <span class="c1">#1:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C7</span> <span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="n">C1</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H10</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N1</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O6</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P1</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">247.020652</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.086526</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
-<span class="o">------------------------------------------------------------</span>
-  <span class="n">Variant</span> <span class="c1">#2:</span>
-  <span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C8</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H10</span> <span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="n">N1</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O5</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span> <span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="n">P1</span>
-  <span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
-  <span class="n">Mass</span><span class="p">:</span>           <span class="mf">248.021543</span>
-  <span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.012330</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+<span class="n">Variant</span> <span class="c1">#2:</span>
+<span class="n">Formula</span><span class="p">:</span>        <span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="n">C16</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="n">H12</span> <span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="n">O6</span> <span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="n">O1</span>
+<span class="n">Mono</span><span class="o">-</span><span class="n">isotopic</span><span class="p">:</span>  <span class="n">No</span> <span class="p">(</span><span class="n">isotope</span> <span class="n">variant</span><span class="p">)</span>
+<span class="n">Mass</span><span class="p">:</span>           <span class="mf">317.055271</span>
+<span class="n">Relative</span> <span class="n">Abund</span><span class="p">:</span> <span class="mf">0.014385</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
 <span class="o">------------------------------------------------------------</span>
 </pre></div>
 </div>
-</section>
 </section>
 <section id="sample-analysis">
 <h2>Sample Analysis<a class="headerlink" href="#sample-analysis" title="Permalink to this headline"></a></h2>
-<p>With your cache files prepared, you can analyze mass spectrometry samples:</p>
-<section id="basic-analysis">
-<h3>Basic Analysis<a class="headerlink" href="#basic-analysis" title="Permalink to this headline"></a></h3>
-<p>Analyze a single sample against a single cache:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
-</pre></div>
-</div>
-<dl class="simple">
-<dt>Parameters:</dt><dd><ul class="simple">
-<li><p><cite>-p 1.0</cite>: PPM tolerance for initial mass matching</p></li>
-<li><p><cite>-vp 1.0</cite>: PPM tolerance for isotope pattern verification</p></li>
-<li><p><cite>-c db_nat</cite>: Cache file(s) to use</p></li>
-<li><p><cite>-s data/processed/testdata1.asc</cite>: Sample file(s) to analyze</p></li>
-<li><p><cite>-o results.tsv</cite>: Output file for results</p></li>
-</ul>
-</dd>
-</dl>
 </section>
-<section id="multiple-cache-analysis">
-<h3>Multiple Cache Analysis<a class="headerlink" href="#multiple-cache-analysis" title="Permalink to this headline"></a></h3>
-<p>Analyze a sample against multiple caches simultaneously:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_13C</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
-</pre></div>
-</div>
-<p>This is useful for comparing natural abundance patterns with labeled patterns.</p>
-</section>
-<section id="batch-processing">
-<h3>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h3>
-<p>Process multiple samples in a single run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
-</pre></div>
-</div>
-</section>
-<section id="ppm-threshold-optimization">
-<h3>PPM Threshold Optimization<a class="headerlink" href="#ppm-threshold-optimization" title="Permalink to this headline"></a></h3>
-<p>The PPM threshold critically affects match precision and reliability:</p>
+<section id="input-file-format">
+<h2>Input File Format<a class="headerlink" href="#input-file-format" title="Permalink to this headline"></a></h2>
+<p>MIMI accepts mass spectrometry data in .asc format. Each line contains three columns:</p>
 <ul class="simple">
-<li><p><strong>&lt;0.5 ppm</strong> Excellent mass accuracy, high confidence in exactmass identification</p></li>
-<li><p><strong>0.5 - 1 ppm</strong> Good mass accuracy, reliable identification with isotope finestructure validation</p></li>
-<li><p><strong>1-2 ppm</strong> Low mass accuracy, unreliable identifications</p></li>
-<li><p><strong>&gt;2 ppm</strong> should not be used for ultra high resolution mass spectrometry data</p></li>
+<li><p>Mass (m/z)</p></li>
+<li><p>Intensity</p></li>
+<li><p>Resolution</p></li>
 </ul>
-<p>Example threshold usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Highest confidence analysis</span>
+<p>Example input file (data/processed/testdata1.asc):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">43.16184</span>    <span class="mi">1089317</span>    <span class="mf">0.00003</span>
+<span class="mf">43.28766</span>    <span class="mi">1115802</span>    <span class="mf">0.00003</span>
+<span class="mf">43.28946</span>    <span class="mi">1226947</span>    <span class="mf">0.00003</span>
+<span class="mf">43.30269</span>    <span class="mi">1107425</span>    <span class="mf">0.00005</span>
+<span class="mf">43.36457</span>    <span class="mi">2236071</span>    <span class="mf">0.00004</span>
+<span class="mf">43.36459</span>    <span class="mi">1891040</span>    <span class="mf">0.00004</span>
+<span class="mf">43.37268</span>    <span class="mi">1281049</span>    <span class="mf">0.00004</span>
+<span class="mf">43.4223</span>     <span class="mi">2184166</span>    <span class="mf">0.00002</span>
+<span class="mf">43.42234</span>    <span class="mi">23344476</span>   <span class="mf">0.00004</span>
+<span class="mf">43.42237</span>    <span class="mi">22443004</span>   <span class="mf">0.00004</span>
+</pre></div>
+</div>
+<p>Now you’re ready to analyze your mass spectrometry data. The analysis command matches your sample masses against the precomputed database and verifies matches using isotope patterns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+<p>Key parameters:</p>
+<ul class="simple">
+<li><p><cite>-p 1.0</cite>: Mass matching tolerance (1 ppm) - controls how close the observed mass needs to be to the theoretical mass</p></li>
+<li><p><cite>-vp 1.0</cite>: Isotope pattern verification tolerance (1 ppm) - controls how well the isotope pattern must match</p></li>
+<li><p><cite>-c</cite>: Cache files to use (can specify multiple for comparing natural and labeled patterns)</p></li>
+<li><p><cite>-s</cite>: Sample file to analyze (in .asc format)</p></li>
+<li><p><cite>-o</cite>: Output file for results</p></li>
+</ul>
+</section>
+<section id="ppm-thresholds">
+<h2>PPM Thresholds<a class="headerlink" href="#ppm-thresholds" title="Permalink to this headline"></a></h2>
+<p>The PPM threshold affects match precision and reliability:</p>
+<ul class="simple">
+<li><p><strong>&lt;0.5 ppm</strong>: Excellent mass accuracy, high confidence in exact mass identification</p></li>
+<li><p><strong>0.5 - 1 ppm</strong>: Good mass accuracy, reliable identification with isotope pattern validation</p></li>
+<li><p><strong>1-2 ppm</strong>: Lower mass accuracy, less reliable identifications</p></li>
+<li><p><strong>&gt;2 ppm</strong>: Not recommended for high-resolution mass spectrometry data</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># High confidence analysis</span>
 <span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">0.5</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">0.5</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_excellent</span><span class="o">.</span><span class="n">tsv</span>
 
-<span class="c1"># Good confidence analysis</span>
+<span class="c1"># Standard confidence analysis</span>
 <span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results_good</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </section>
+<section id="multiple-cache-analysis">
+<h2>Multiple Cache Analysis<a class="headerlink" href="#multiple-cache-analysis" title="Permalink to this headline"></a></h2>
+<p>You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_13C</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+<p>Use this when:
+- Comparing natural and labeled patterns
+- Need to identify labeled compounds
+- Studying metabolic flux
+- Validating matches</p>
 </section>
-<section id="result-interpretation">
-<h2>Result Interpretation<a class="headerlink" href="#result-interpretation" title="Permalink to this headline"></a></h2>
-<p>The output TSV file contains the following columns:</p>
+<section id="batch-processing">
+<h2>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h2>
+<p>MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+<p>Use this when:
+- Processing replicates
+- Analyzing time series
+- Comparing conditions
+- Need consistent analysis</p>
+</section>
+<section id="results-format">
+<h2>Results Format<a class="headerlink" href="#results-format" title="Permalink to this headline"></a></h2>
+<p>The output TSV file contains these columns:</p>
 <ol class="arabic simple">
-<li><p><strong>Compound ID</strong>: Identifier from the original database</p></li>
-<li><p><strong>Formula</strong>: Chemical formula of the matched compound</p></li>
+<li><p><strong>CF</strong>: Chemical formula of the matched compound</p></li>
+<li><p><strong>ID</strong>: Compound identifier from the original database</p></li>
 <li><p><strong>Name</strong>: Compound name</p></li>
-<li><p><strong>Mass</strong>: Calculated mass of the compound</p></li>
-<li><p><strong>Sample Mass</strong>: Observed mass in the sample</p></li>
-<li><p><strong>PPM</strong>: Parts per million difference between calculated and observed mass</p></li>
-<li><p><strong>Intensity</strong>: Signal intensity in the sample</p></li>
-<li><p><strong>Isotope Score</strong>: Confidence score based on isotope pattern matching</p></li>
-<li><p><strong>Cache Source</strong>: Which cache file provided the match</p></li>
+<li><p><strong>C</strong>: Number of carbon atoms</p></li>
+<li><p><strong>H</strong>: Number of hydrogen atoms</p></li>
+<li><p><strong>N</strong>: Number of nitrogen atoms</p></li>
+<li><p><strong>O</strong>: Number of oxygen atoms</p></li>
+<li><p><strong>P</strong>: Number of phosphorus atoms</p></li>
+<li><p><strong>S</strong>: Number of sulfur atoms</p></li>
+<li><p><strong>db_mass_nat</strong>: Calculated mass for natural abundance</p></li>
+<li><p><strong>db_mass_C13</strong>: Calculated mass for C13-labeled (if applicable)</p></li>
+<li><p><strong>mass_measured</strong>: Observed mass in the sample</p></li>
+<li><p><strong>error_ppm</strong>: Parts per million difference between calculated and observed mass</p></li>
+<li><p><strong>intensity</strong>: Signal intensity in the sample</p></li>
+<li><p><strong>iso_count</strong>: Number of isotopes detected</p></li>
 </ol>
+<p>Example output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">head</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+<span class="n">Log</span> <span class="n">file</span>    <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">aaa</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">results_20250426_000954</span><span class="o">.</span><span class="n">log</span>
+                                            <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span>
+                                            <span class="n">nat</span>                             <span class="n">C13</span>
+<span class="n">CF</span>  <span class="n">ID</span>      <span class="n">Name</span>    <span class="n">C</span>       <span class="n">H</span>       <span class="n">N</span>       <span class="n">O</span>       <span class="n">P</span>       <span class="n">S</span>       <span class="n">db_mass_nat</span>     <span class="n">db_mass_C13</span>     <span class="n">mass_measured</span>   <span class="n">error_ppm</span>       <span class="n">intensity</span>       <span class="n">iso_count</span>       <span class="n">mass_measured</span>   <span class="n">error_ppm</span>       <span class="n">intensity</span>       <span class="n">iso_count</span>
+<span class="n">C11H14O4</span>    <span class="n">C07350</span>  <span class="n">Phlorisovalerophenone</span>   <span class="mi">11</span>      <span class="mi">14</span>      <span class="mi">0</span>       <span class="mi">4</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">209.0819324625</span>  <span class="mf">220.1188357025</span>  <span class="mf">209.08196</span>       <span class="o">-</span><span class="mf">0.13170674143304906</span>    <span class="mi">70452888</span>        <span class="mi">4</span>       <span class="mf">220.11904</span>       <span class="o">-</span><span class="mf">0.9281236626259696</span>     <span class="mi">2468919</span> <span class="mi">4</span>
+<span class="n">C19H32O2</span>    <span class="n">C14975</span>  <span class="n">D</span><span class="o">-</span><span class="n">Homo</span><span class="o">-</span><span class="mi">17</span><span class="n">a</span><span class="o">-</span><span class="n">oxa</span><span class="o">-</span><span class="mi">5</span><span class="n">alpha</span><span class="o">-</span><span class="n">androstan</span><span class="o">-</span><span class="mi">3</span><span class="n">beta</span><span class="o">-</span><span class="n">ol</span>        <span class="mi">19</span>      <span class="mi">32</span>      <span class="mi">0</span>       <span class="mi">2</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">291.23295380350004</span>              <span class="mf">291.23279</span>       <span class="mf">0.5624483695140763</span>      <span class="mi">40499464</span>        <span class="mi">3</span>
+<span class="n">C5H11NO</span>     <span class="n">C03982</span>  <span class="mi">2</span><span class="o">-</span><span class="n">Methylpropanal</span> <span class="n">O</span><span class="o">-</span><span class="n">methyloxime</span>  <span class="mi">5</span>       <span class="mi">11</span>      <span class="mi">1</span>       <span class="mi">1</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">100.07678751153</span>         <span class="mf">100.07675</span>       <span class="mf">0.37482747926595726008075</span>       <span class="mi">1</span>
+<span class="n">C19H23NO3</span>   <span class="n">C07537</span>  <span class="n">Ethylmorphine</span>   <span class="mi">19</span>      <span class="mi">23</span>      <span class="mi">1</span>       <span class="mi">3</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">312.16051713743</span>         <span class="mf">312.16039</span>       <span class="mf">0.40728222511613404</span>     <span class="mi">36973960</span>        <span class="mi">8</span>
+<span class="n">C6H10O4</span>     <span class="n">C00659</span>  <span class="mi">2</span><span class="o">-</span><span class="n">Aceto</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="n">hydroxybutanoate</span>      <span class="mi">6</span>       <span class="mi">10</span>      <span class="mi">0</span>       <span class="mi">4</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">145.05063233357998</span>      <span class="mf">151.07076137358</span> <span class="mf">145.05063</span>       <span class="mf">0.016088037214963827</span>    <span class="mi">257498272</span>       <span class="mi">4</span>       <span class="mf">151.0707</span>        <span class="mf">0.40625717025790326</span>     <span class="mi">3857517</span> <span class="mi">3</span>
+<span class="n">C15H15NO</span>    <span class="n">C15043</span>  <span class="mi">2</span><span class="o">-</span><span class="p">[</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="n">Pyridinyl</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">butenyl</span><span class="p">]</span><span class="n">phenol</span>     <span class="mi">15</span>      <span class="mi">15</span>      <span class="mi">1</span>       <span class="mi">1</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">224.10808764045</span>         <span class="mf">224.10799</span>       <span class="mf">0.43568463341037544</span>     <span class="mi">26747608</span>        <span class="mi">4</span>
+</pre></div>
+</div>
 </section>
-<section id="best-practices-and-troubleshooting">
-<h2>Best Practices and Troubleshooting<a class="headerlink" href="#best-practices-and-troubleshooting" title="Permalink to this headline"></a></h2>
-<ol class="arabic simple">
-<li><p>Always combine mass accuracy with isotope pattern matching</p></li>
-<li><p>Compare results from natural and labeled caches</p></li>
-<li><p>Process replicates together for consistency</p></li>
-<li><p>Verify important matches manually</p></li>
-</ol>
-</section>
-<section id="common-issues-and-solutions">
-<h2>Common Issues and Solutions:<a class="headerlink" href="#common-issues-and-solutions" title="Permalink to this headline"></a></h2>
-<ol class="arabic simple">
-<li><dl class="simple">
-<dt><strong>No matches found</strong>:</dt><dd><ul class="simple">
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline"></a></h2>
+<ol class="arabic">
+<li><p><strong>Data Quality</strong>:
+- Always combine mass accuracy with isotope pattern matching
+- Compare results from natural and labeled caches
+- Process replicates together for consistency
+- Verify important matches manually</p></li>
+<li><p><strong>Common Issues and Solutions</strong>:
+- <strong>No matches found</strong>:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>Increase PPM threshold</p></li>
 <li><p>Verify sample format</p></li>
 <li><p>Check ionization mode</p></li>
 </ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>Too many matches</strong>:</dt><dd><ul class="simple">
-<li><p>Decrease PPM threshold</p></li>
-<li><p>Use stricter verification PPM</p></li>
-<li><p>Filter by isotope score</p></li>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Too many matches</strong>:
+- Decrease PPM threshold
+- Use stricter verification PPM
+- Filter by isotope score</p></li>
+<li><p><strong>Cache creation errors</strong>:
+- Verify chemical formulas
+- Check labeling configuration
+- Enable debugging</p></li>
+<li><p><strong>Performance issues</strong>:
+- Use focused databases
+- Process samples in smaller batches
+- Optimize mass ranges</p></li>
 </ul>
-</dd>
-</dl>
 </li>
-<li><dl class="simple">
-<dt><strong>Cache creation errors</strong>:</dt><dd><ul class="simple">
-<li><p>Verify chemical formulas</p></li>
-<li><p>Check labeling configuration</p></li>
-<li><p>Enable debugging</p></li>
-</ul>
-</dd>
-</dl>
+</ol>
+</section>
+<section id="complete-example">
+<h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this headline"></a></h2>
+<p>Here’s a complete example from start to finish:</p>
+<ol class="arabic">
+<li><p>First, extract compounds from KEGG within your desired mass range:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">40</span> <span class="o">-</span><span class="n">u</span> <span class="mi">400</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
 </li>
-<li><dl class="simple">
-<dt><strong>Performance issues</strong>:</dt><dd><ul class="simple">
-<li><p>Use focused databases</p></li>
-<li><p>Process samples in smaller batches</p></li>
-<li><p>Optimize mass ranges</p></li>
-</ul>
-</dd>
-</dl>
+<li><p>Create both natural abundance and C13-labeled caches:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Natural abundance</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span>
+
+<span class="c1"># C13-labeled</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span>
+</pre></div>
+</div>
+</li>
+<li><p>Verify the cache contents to ensure everything was processed correctly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">2</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</li>
+<li><p>Finally, analyze your sample using both caches:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
 </li>
 </ol>
 </section>
@@ -482,7 +518,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quick Start Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="command_reference.html" class="btn btn-neutral float-right" title="Command Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

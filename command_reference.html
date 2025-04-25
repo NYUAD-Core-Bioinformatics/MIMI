@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Architecture Design" href="architecture.html" />
-    <link rel="prev" title="Detailed Workflow" href="workflow.html" /> 
+    <link rel="prev" title="Workflow" href="workflow.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,10 +46,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow.html">Detailed Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hmdb-database">HMDB Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#downloading-hmdb-data">Downloading HMDB Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extracting-metabolites">Extracting Metabolites</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#mimi-hmdb-extract">mimi_hmdb_extract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mimi-kegg-extract">mimi_kegg_extract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mimi-cache-create">mimi_cache_create</a></li>
@@ -90,130 +93,292 @@
              
   <section id="command-reference">
 <h1>Command Reference<a class="headerlink" href="#command-reference" title="Permalink to this headline"></a></h1>
-<p>This section provides detailed information about all command-line tools available in MIMI.</p>
+<p>This section provides detailed information about all command-line tools available in MIMI, including their purpose, when to use them, and what results to expect.</p>
+<section id="hmdb-database">
+<h2>HMDB Database<a class="headerlink" href="#hmdb-database" title="Permalink to this headline"></a></h2>
+<p>The Human Metabolome Database (HMDB) is a comprehensive resource containing detailed information about metabolites found in the human body. MIMI provides tools to work with HMDB data, particularly for extracting and processing metabolite information.</p>
+<section id="downloading-hmdb-data">
+<h3>Downloading HMDB Data<a class="headerlink" href="#downloading-hmdb-data" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Visit the HMDB downloads page: <a class="reference external" href="https://hmdb.ca/downloads">https://hmdb.ca/downloads</a></p></li>
+<li><p>Download the complete metabolites XML file (named “hmdb_metabolites.xml”)</p></li>
+<li><p>This file contains detailed information about each metabolite, including:
+- Chemical formulas
+- Names and synonyms
+- Identifiers (HMDB ID, InChI, SMILES)
+- Molecular weights
+- Other chemical properties</p></li>
+</ol>
+</section>
+<section id="extracting-metabolites">
+<h3>Extracting Metabolites<a class="headerlink" href="#extracting-metabolites" title="Permalink to this headline"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">mimi_hmdb_extract</span></code> command processes the HMDB XML file to extract relevant metabolite information and save it in a tab-separated format.</p>
+</section>
+</section>
 <section id="mimi-hmdb-extract">
 <h2>mimi_hmdb_extract<a class="headerlink" href="#mimi-hmdb-extract" title="Permalink to this headline"></a></h2>
-<p>This tool extracts metabolite information from the Human Metabolome Database (HMDB)
-XML file and converts it to a TSV format that can be used with MIMI. It can filter
-metabolites by molecular weight range and validates chemical formulas to ensure
-compatibility with MIMI’s formula parser.</p>
+<p>Purpose: Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.</p>
+<p>Key Features:
+- Human-specific metabolite database
+- Requires downloading complete HMDB XML file
+- Includes detailed metabolite information
+- Validates chemical formulas
+- Filters by molecular weight range</p>
+<p>When to use:
+- Analyzing human samples
+- Studying human metabolism
+- Need detailed metabolite information
+- Working with clinical samples</p>
+<p>Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">--</span><span class="n">help</span>
 <span class="n">usage</span><span class="p">:</span> <span class="n">mimi_hmdb_extract</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">x</span> <span class="n">XML</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
-
-<span class="n">Extract</span> <span class="n">metabolite</span> <span class="n">information</span> <span class="kn">from</span><span class="w"> </span><span class="nn">HMDB</span> <span class="n">XML</span> <span class="n">file</span>
-
-<span class="n">options</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
-  <span class="o">-</span><span class="n">x</span> <span class="n">XML</span><span class="p">,</span> <span class="o">--</span><span class="n">xml</span> <span class="n">XML</span>     <span class="n">Path</span> <span class="n">to</span> <span class="n">HMDB</span> <span class="n">metabolites</span> <span class="n">XML</span> <span class="n">file</span>
-  <span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">,</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">mass</span> <span class="n">MIN_MASS</span>
-                        <span class="n">Lower</span> <span class="n">bound</span> <span class="n">of</span> <span class="n">molecular</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">Da</span>
-  <span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">,</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">mass</span> <span class="n">MAX_MASS</span>
-                        <span class="n">Upper</span> <span class="n">bound</span> <span class="n">of</span> <span class="n">molecular</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">Da</span>
-  <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                        <span class="n">Output</span> <span class="n">TSV</span> <span class="n">file</span> <span class="n">path</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">metabolites</span><span class="o">.</span><span class="n">tsv</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl>
+<dt>Required Parameters:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-x <var>XML</var></span>, <span class="option">--xml <var>XML</var></span></kbd></dt>
+<dd><p>Path to HMDB metabolites XML file (required)
+Download from <a class="reference external" href="https://hmdb.ca/downloads">https://hmdb.ca/downloads</a></p>
+</dd>
+</dl>
+</dd>
+<dt>Optional Parameters:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-l <var>MIN_MASS</var></span>, <span class="option">--min-mass <var>MIN_MASS</var></span></kbd></dt>
+<dd><p>Lower bound of molecular weight in Da (default: no limit)
+Filters out compounds lighter than this mass
+Example: -l 100 filters out compounds &lt; 100 Da</p>
+</dd>
+<dt><kbd><span class="option">-u <var>MAX_MASS</var></span>, <span class="option">--max-mass <var>MAX_MASS</var></span></kbd></dt>
+<dd><p>Upper bound of molecular weight in Da (default: no limit)
+Filters out compounds heavier than this mass
+Example: -u 500 filters out compounds &gt; 500 Da</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output TSV file path (default: metabolites.tsv)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Expected Output:
+- TSV file with columns: ID, Name, Formula, Mass
+- Only includes metabolites within specified mass range
+- Validated chemical formulas
+- Human-specific metabolites</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract metabolites between 100-500 Da</span>
+<span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </section>
 <section id="mimi-kegg-extract">
 <h2>mimi_kegg_extract<a class="headerlink" href="#mimi-kegg-extract" title="Permalink to this headline"></a></h2>
-<p>This tool extracts compound information from the KEGG database using its REST API.
-It can retrieve compounds within a specific molecular weight range or from a list
-of compound IDs. The tool handles KEGG’s 10,000 result limit by breaking large
-mass ranges into smaller chunks.</p>
+<p>Purpose: Extracts compound information from the KEGG database using its REST API. Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.</p>
+<p>Key Features:
+- Broad compound coverage
+- Uses KEGG REST API
+- Includes pathway information
+- Can extract by mass range or specific IDs
+- Handles KEGG’s 10,000 result limit</p>
+<p>When to use:
+- Analyzing general biological samples
+- Need broad compound coverage
+- Studying metabolic pathways
+- Working with non-human samples</p>
+<p>Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">--</span><span class="n">help</span>
 <span class="n">usage</span><span class="p">:</span> <span class="n">mimi_kegg_extract</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">COMPOUND_IDS</span><span class="p">]</span>
                         <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl>
+<dt>Optional Parameters:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-l <var>MIN_MASS</var></span>, <span class="option">--min-mass <var>MIN_MASS</var></span></kbd></dt>
+<dd><p>Lower bound of molecular weight in Da (default: no limit)
+Filters out compounds lighter than this mass
+Example: -l 100 filters out compounds &lt; 100 Da</p>
+</dd>
+<dt><kbd><span class="option">-u <var>MAX_MASS</var></span>, <span class="option">--max-mass <var>MAX_MASS</var></span></kbd></dt>
+<dd><p>Upper bound of molecular weight in Da (default: no limit)
+Filters out compounds heavier than this mass
+Example: -u 500 filters out compounds &gt; 500 Da</p>
+</dd>
+<dt><kbd><span class="option">-i <var>COMPOUND_IDS</var></span>, <span class="option">--input <var>COMPOUND_IDS</var></span></kbd></dt>
+<dd><p>Input TSV file containing KEGG compound IDs</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output TSV file path (default: kegg_compounds.tsv)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Expected Output:
+- TSV file with columns: ID, Name, Formula, Mass
+- Compounds within specified mass range
+- Pathway information when available
+- Broad coverage of biological compounds</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract compounds between 100-500 Da</span>
+<span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
 
-<span class="n">Extract</span> <span class="n">compound</span> <span class="n">information</span> <span class="kn">from</span><span class="w"> </span><span class="nn">KEGG</span>
-
-<span class="n">options</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
-  <span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">,</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">mass</span> <span class="n">MIN_MASS</span>
-                        <span class="n">Lower</span> <span class="n">bound</span> <span class="n">of</span> <span class="n">molecular</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">Da</span>
-  <span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">,</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">mass</span> <span class="n">MAX_MASS</span>
-                        <span class="n">Upper</span> <span class="n">bound</span> <span class="n">of</span> <span class="n">molecular</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">Da</span>
-  <span class="o">-</span><span class="n">i</span> <span class="n">COMPOUND_IDS</span><span class="p">,</span> <span class="o">--</span><span class="nb">input</span> <span class="n">COMPOUND_IDS</span>
-                        <span class="n">Input</span> <span class="n">TSV</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">KEGG</span> <span class="n">compound</span> <span class="n">IDs</span>
-  <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                        <span class="n">Output</span> <span class="n">TSV</span> <span class="n">file</span> <span class="n">path</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span><span class="p">)</span>
+<span class="c1"># Extract specific compounds by ID</span>
+<span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">i</span> <span class="n">compound_ids</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </section>
 <section id="mimi-cache-create">
 <h2>mimi_cache_create<a class="headerlink" href="#mimi-cache-create" title="Permalink to this headline"></a></h2>
-<p>This tool creates precomputed cache files containing molecular mass data and isotope
-patterns for compounds. These cache files significantly speed up analysis by avoiding
-repeated calculations. You can create different cache files for different isotope
-configurations (natural abundance, C13-labeled, etc.).</p>
+<p>Purpose: Creates precomputed cache files containing molecular mass data and isotope patterns for compounds. These cache files significantly speed up analysis by avoiding repeated calculations.</p>
+<p>When to use:
+- After updating your compound database
+- Switching between different isotope configurations
+- Starting a new analysis project
+- Need to optimize analysis speed</p>
+<p>Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">--</span><span class="n">help</span>
 <span class="n">usage</span><span class="p">:</span> <span class="n">mimi_cache_create</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">JSON</span><span class="p">]</span> <span class="o">-</span><span class="n">d</span> <span class="n">DBTSV</span> <span class="p">[</span><span class="n">DBTSV</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">i</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">}</span> <span class="o">-</span><span class="n">c</span>
                         <span class="n">DBBINARY</span>
+</pre></div>
+</div>
+<dl>
+<dt>Required Parameters:</dt><dd><dl class="simple">
+<dt>-d DBTSV [DBTSV …], –dbfile DBTSV [DBTSV …]</dt><dd><p>File(s) with list of compounds (required)</p>
+</dd>
+<dt>-i {pos,neg}, –ion {pos,neg}</dt><dd><p>Ionization mode (required)</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">-c <var>DBBINARY</var></span>, <span class="option">--cache <var>DBBINARY</var></span></kbd></dt>
+<dd><p>Binary DB output file (required)</p>
+</dd>
+</dl>
+</dd>
+<dt>Optional Parameters:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-l <var>JSON</var></span>, <span class="option">--label <var>JSON</var></span></kbd></dt>
+<dd><p>JSON file specifying labeled atoms configuration</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Expected Output:
+- Binary cache file (.pkl)
+- Precomputed masses for all compounds
+- Isotope patterns (natural or labeled)
+- Optimized for fast searching</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create natural abundance cache</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
 
-<span class="n">Molecular</span> <span class="n">Isotope</span> <span class="n">Mass</span> <span class="n">Identifier</span>
-
-<span class="n">options</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
-  <span class="o">-</span><span class="n">l</span> <span class="n">JSON</span><span class="p">,</span> <span class="o">--</span><span class="n">label</span> <span class="n">JSON</span>
-                        <span class="n">Labeled</span> <span class="n">atoms</span>
-  <span class="o">-</span><span class="n">d</span> <span class="n">DBTSV</span> <span class="p">[</span><span class="n">DBTSV</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">dbfile</span> <span class="n">DBTSV</span> <span class="p">[</span><span class="n">DBTSV</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">File</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">with</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">compounds</span>
-  <span class="o">-</span><span class="n">i</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">},</span> <span class="o">--</span><span class="n">ion</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">}</span>
-                        <span class="n">Ionisation</span> <span class="n">mode</span>
-  <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span><span class="p">,</span> <span class="o">--</span><span class="n">cache</span> <span class="n">DBBINARY</span>
-                        <span class="n">Binary</span> <span class="n">DB</span> <span class="n">output</span> <span class="n">file</span>
+<span class="c1"># Create C13-labeled cache</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_13C</span>
 </pre></div>
 </div>
 </section>
 <section id="mimi-cache-dump">
 <h2>mimi_cache_dump<a class="headerlink" href="#mimi-cache-dump" title="Permalink to this headline"></a></h2>
-<p>This tool dumps the contents of a MIMI cache file to a human-readable TSV format.
-It’s useful for inspecting cache files, verifying their contents, and understanding
-the isotope patterns being used for analysis. The output includes compound information,
-chemical formulas with nominal masses, and isotope variant details.</p>
+<p>Purpose: Dumps the contents of a MIMI cache file to a human-readable TSV format. Useful for inspecting cache files and verifying their contents.</p>
+<p>When to use:
+- Debugging analysis issues
+- Checking compound coverage
+- Verifying isotope patterns
+- Understanding cache structure</p>
+<p>Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="o">--</span><span class="n">help</span>
 <span class="n">usage</span><span class="p">:</span> <span class="n">mimi_cache_dump</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NUM_COMPOUNDS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">NUM_ISOTOPES</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
-                      <span class="n">cache_file</span>
-
-<span class="n">MIMI</span> <span class="n">Cache</span> <span class="n">Dump</span> <span class="n">Tool</span>
-
-<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
-  <span class="n">cache_file</span>            <span class="n">Input</span> <span class="n">cache</span> <span class="n">file</span> <span class="p">(</span><span class="o">.</span><span class="n">pkl</span><span class="p">)</span>
-
-<span class="n">options</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
-  <span class="o">-</span><span class="n">n</span> <span class="n">NUM_COMPOUNDS</span><span class="p">,</span> <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">compounds</span> <span class="n">NUM_COMPOUNDS</span>
-                        <span class="n">Number</span> <span class="n">of</span> <span class="n">compounds</span> <span class="n">to</span> <span class="n">output</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="nb">all</span><span class="p">)</span>
-  <span class="o">-</span><span class="n">i</span> <span class="n">NUM_ISOTOPES</span><span class="p">,</span> <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">isotopes</span> <span class="n">NUM_ISOTOPES</span>
-                        <span class="n">Number</span> <span class="n">of</span> <span class="n">isotopes</span> <span class="n">per</span> <span class="n">compound</span> <span class="n">to</span> <span class="n">output</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span>
-                        <span class="nb">all</span><span class="p">)</span>
-  <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                        <span class="n">Output</span> <span class="n">file</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">stdout</span><span class="p">)</span>
+                    <span class="n">cache_file</span>
+</pre></div>
+</div>
+<dl>
+<dt>Required Parameters:</dt><dd><p>cache_file            Input cache file (.pkl)</p>
+</dd>
+<dt>Optional Parameters:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-n <var>NUM_COMPOUNDS</var></span>, <span class="option">--num-compounds <var>NUM_COMPOUNDS</var></span></kbd></dt>
+<dd><p>Number of compounds to output (default: all)</p>
+</dd>
+<dt><kbd><span class="option">-i <var>NUM_ISOTOPES</var></span>, <span class="option">--num-isotopes <var>NUM_ISOTOPES</var></span></kbd></dt>
+<dd><p>Number of isotopes per compound to output (default: all)</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output file (default: stdout)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Expected Output:
+- Cache metadata (creation date, version)
+- Creation parameters
+- Compound information:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ID and name</p></li>
+<li><p>Chemical formula</p></li>
+<li><p>Mass and relative abundance</p></li>
+<li><p>Isotope variants with their masses and abundances</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dump first 5 compounds with 2 isotopes each</span>
+<span class="n">mimi_cache_dump</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">o</span> <span class="n">cache_contents</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </section>
 <section id="mimi-mass-analysis">
 <h2>mimi_mass_analysis<a class="headerlink" href="#mimi-mass-analysis" title="Permalink to this headline"></a></h2>
-<p>This tool analyzes mass spectrometry data by comparing sample masses against precomputed
-molecular masses stored in cache files. It can process multiple samples against multiple
-cache files simultaneously, allowing for efficient batch processing and comparison of
-different isotope configurations.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mmimi_mass_analysis</span> <span class="o">--</span><span class="n">help</span>
+<p>Purpose: Analyzes mass spectrometry data by comparing sample masses against precomputed molecular masses stored in cache files.</p>
+<p>When to use:
+- After creating/updating caches
+- Processing new samples
+- Comparing different conditions
+- Validating results</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">--</span><span class="n">help</span>
 <span class="n">usage</span><span class="p">:</span> <span class="n">mimi_mass_analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">p</span> <span class="n">PPM</span> <span class="o">-</span><span class="n">vp</span> <span class="n">VPPM</span> <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">s</span>
                           <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span>
+</pre></div>
+</div>
+<dl>
+<dt>Required Parameters:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-p <var>PPM</var></span>, <span class="option">--ppm <var>PPM</var></span></kbd></dt>
+<dd><p>Parts per million for the mono isotopic mass of
+chemical formula (required)</p>
+</dd>
+</dl>
+<p>-vp VPPM              Parts per million for verification of isotopes (required)
+-c DBBINARY [DBBINARY …], –cache DBBINARY [DBBINARY …]</p>
+<blockquote>
+<div><p>Binary DB input file(s) (required)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>-s SAMPLE [SAMPLE …], –sample SAMPLE [SAMPLE …]</dt><dd><p>Input sample file(s) (required)</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Output file (required)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Expected Output:
+- TSV file with columns:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Compound ID</p></li>
+<li><p>Formula</p></li>
+<li><p>Name</p></li>
+<li><p>Mass</p></li>
+<li><p>Sample Mass</p></li>
+<li><p>PPM</p></li>
+<li><p>Intensity</p></li>
+<li><p>Isotope Score</p></li>
+<li><p>Cache Source</p></li>
+</ol>
+</div></blockquote>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze single sample with natural abundance cache</span>
+<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
 
-<span class="n">Molecular</span> <span class="n">Isotope</span> <span class="n">Mass</span> <span class="n">Identifier</span>
-
-<span class="n">options</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
-  <span class="o">-</span><span class="n">p</span> <span class="n">PPM</span><span class="p">,</span> <span class="o">--</span><span class="n">ppm</span> <span class="n">PPM</span>     <span class="n">Parts</span> <span class="n">per</span> <span class="n">million</span> <span class="k">for</span> <span class="n">the</span> <span class="n">mono</span> <span class="n">isotopic</span> <span class="n">mass</span> <span class="n">of</span>
-                        <span class="n">chemical</span> <span class="n">formula</span>
-  <span class="o">-</span><span class="n">vp</span> <span class="n">VPPM</span>              <span class="n">Parts</span> <span class="n">per</span> <span class="n">million</span> <span class="k">for</span> <span class="n">verification</span> <span class="n">of</span> <span class="n">isotopes</span>
-  <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">cache</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">Binary</span> <span class="n">DB</span> <span class="nb">input</span> <span class="n">file</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-  <span class="o">-</span><span class="n">s</span> <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">sample</span> <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">Input</span> <span class="n">sample</span> <span class="n">file</span>
-  <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                        <span class="n">Output</span> <span class="n">file</span>
+<span class="c1"># Analyze multiple samples with multiple caches</span>
+<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_13C</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample1</span><span class="o">.</span><span class="n">asc</span> <span class="n">sample2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </section>
@@ -223,7 +388,7 @@ different isotope configurations.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="workflow.html" class="btn btn-neutral float-left" title="Detailed Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="workflow.html" class="btn btn-neutral float-left" title="Workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

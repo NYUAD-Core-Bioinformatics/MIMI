@@ -18,8 +18,6 @@ MIMI (Molecular Isotope Mass Identifier) is a powerful tool for analyzing isotop
    
    introduction
    overview
-   installation
-   quickstart
    workflow
    command_reference
    architecture

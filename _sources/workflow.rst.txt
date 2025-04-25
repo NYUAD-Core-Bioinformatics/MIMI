@@ -1,77 +1,87 @@
-Detailed Workflow
-=================
+Workflow
+========
 
-This document provides a detailed explanation of MIMI's workflow for mass spectrometry data analysis.
+MIMI is a tool for analyzing mass spectrometry data. It helps identify compounds by matching observed masses against known compounds and verifying their isotope patterns.
 
-Overview
---------
+Installation
+------------
 
-MIMI's workflow consists of three main phases:
+MIMI can be installed using conda, which is the recommended method as it handles all dependencies automatically::
 
-1. **Database Preparation**: Extract and format compound data
-2. **Cache Creation**: Precompute molecular masses and isotope patterns
-3. **Sample Analysis**: Match sample masses against cached data
+    conda install -c conda-forge mimi
 
-Each phase is described in detail below.
+Alternatively, you can install from source if you need the latest development version::
 
-Database Preparation
---------------------
+    git clone https://github.com/NYUAD-Core-Bioinformatics/MIMI.git
+    cd MIMI
+    pip install .
 
-Before analysis, you need a database of compounds with their chemical formulas. MIMI provides tools to extract this information from common databases:
+Basic Workflow
+-------------
 
-HMDB Extraction
-~~~~~~~~~~~~~~~
+MIMI's analysis involves three steps:
 
-The Human Metabolome Database (HMDB) contains detailed information about small molecule metabolites found in the human body.
+1. Prepare your compound database
+2. Create cache files for faster matching
+3. Analyze your samples
 
-1. Download the HMDB database XML file from https://hmdb.ca/downloads
-2. Extract metabolites using the MIMI tool::
+Database Options
+---------------
 
-    mimi_hmdb_extract -x hmdb_metabolites.xml -o hmdb_compounds.tsv -l 100 -u 500
+MIMI supports two prepare your compound database from external sources:
 
-This extracts metabolites with molecular weights between 100 and 500 Da.
+1. **KEGG Database**:
+   - Broad compound coverage
+   - Uses REST API
+   - Includes pathway data
+   - Works well for general biological samples
 
-KEGG Extraction
-~~~~~~~~~~~~~~~
 
-The Kyoto Encyclopedia of Genes and Genomes (KEGG) provides a comprehensive database of compounds.
+2. **HMDB Database** (For human samples):
+   - Human-specific metabolites
+   - Requires XML file download
+   - More detailed metabolite info
+   - Best for clinical samples
 
-1. Extract compounds by mass range::
 
-    mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
+   The HMDB database is provided as an XML file named "hmdb_metabolites.xml". This file contains:
+   
+   - Detailed information about each metabolite
+   - Chemical formulas and molecular weights
+   - Names and identifiers
+   - Additional metadata about human metabolites
 
-2. Or extract specific compounds by ID::
+   Download the HMDB XML file from https://hmdb.ca/downloads and save it as "hmdb_metabolites.xml".
 
-    mimi_kegg_extract -i compound_ids.tsv -o kegg_compounds.tsv
+Mass Range Filtering
+-------------------
 
-Example of ``compound_ids.tsv`` file::
+Filter compounds by mass using:
 
-    ID
-    C00003
-    C00006
-    C00015
-    C00016
-    C00018
-    C00019
-    C00021
-    C00024
+- `-l`: Lower mass limit (e.g., 40 Da)
 
-This file should contain a header row with **ID** followed by the KEGG compound IDs you wish to extract.
+  - Filters out compounds lighter than this mass
+  - Useful for removing small molecules or contaminants
+  - Example: -l 100 filters out compounds < 100 Da
 
-You can download a sample ``compound_ids.tsv`` file from the following link: `compound_ids.tsv <https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/main/data/processed/compound_ids.tsv>`_
+- `-u`: Upper mass limit (e.g., 400 Da)
 
-Custom Database
-~~~~~~~~~~~~~~~
+  - Filters out compounds heavier than this mass
+  - Useful for focusing on specific mass ranges
+  - Example: -u 500 filters out compounds > 500 Da
 
-You can also create your own compound database as a TSV file. While the file can include other metadata, it must contain the following mandatory columns:
+Example: `-l 40 -u 400` keeps compounds between 40-400 Da.
 
-1. **CF**: Chemical formula (e.g., C6H12O6)
-2. **ID**: Compound identifier
-3. **Name**: Compound name
+Custom Database Format
+---------------------
 
-These columns can appear in any order within the file.
+Create a custom database when:
+- Working with novel compounds
+- Have specific compounds of interest
+- Need to add custom annotations
+- Combining multiple sources
 
-Updated Example::
+The file must contain these required columns::
 
     CF      ID        Name
     C6H12O6 C00031    Glucose
@@ -80,277 +90,325 @@ Updated Example::
     C7H6O2  C00042    Benzoic Acid
     C4H8O4  C00043    Erythritol
 
-Ensure that your TSV file includes a header row and follows this format for compatibility with MIMI.
+Database Preparation from KEGG and HMDB
+--------------------------------------
+
+The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.
+
+For KEGG database, use the following command to extract compounds within a specific mass range::
+
+    mimi_kegg_extract -l 40 -u 400 -o data/processed/kegg_compounds.tsv
+
+Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 100 and 500 Da from the KEGG database.
+
+For HMDB database, first download the XML file, then use this command to extract the metabolites::
+
+    mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds.tsv
+
+Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.
 
 Cache Creation
---------------
+-------------
 
-Once you have your compound database, create cache files for efficient analysis:
+After preparing your database, create cache files to store precomputed molecular masses and isotope patterns. This step:
+- Significantly speeds up analysis
+- Is required before running any analysis
+- Should be repeated when:
+  * Updating your compound database
+  * Changing isotope configurations
+  * Starting a new project
 
-1. **Natural abundance cache**::
+For natural abundance compounds, use::
 
-    mimi_cache_create -i neg -d data/processed/KEGGDB.tsv -c db_nat
+    mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
 
-2. **Labeled compounds cache** (e.g., 95% C13-labeled)::
+Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database. This file will be used for fast matching during analysis.
 
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/KEGGDB.tsv -c db_13C
+Isotope Configuration
+--------------------
 
-Parameters:
-  - `-i neg`: Ionization mode (negative)
-  - `-d data/processed/KEGGDB.tsv`: Input database file
-  - `-c db_nat`: Output cache file name
-  - `-l data/processed/C13_95.json`: Optional labeled atoms configuration
+MIMI uses atomic weights and natural isotope abundances from the National Institute of Standards and Technology (NIST), Gaithersburg, MD, which are distributed with the MIMI package in JSON format. The data is sourced from the NIST Atomic Weights and Isotopic Compositions database (https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses). MIMI always parses this file first as the basis for isotopic analysis.
 
-Example C13 labeling configuration (C13_95.json)::
+For samples with stable isotope enrichment, you need to specify new values for all elements with non-natural ratios. This is particularly important for experimental studies that employ stable isotope labeling with:
+- Carbon (13C)
+- Hydrogen (2H)
+- Nitrogen (15N)
+- Oxygen (17O, 18O)
+- Sulfur (33S, 34S)
+
+Key points about isotope configuration:
+
+- Use the `--label` (`-l`) option with a custom JSON file
+- Only specify the elements you want to override
+- Isotope abundances must sum to 1.0 (MIMI verifies this)
+- For multiple labeled elements, include all in one file
+
+Example: For 95% 13C labeling:
+
+- 13C proportion: 0.95
+- 12C proportion: 0.05
+- Total must equal 1.0
+
+Create a C13_95.json file::
 
     {
-        "C": [
-            {
-                "element_symbol": "C",
-                "nominal_mass": 12,
-                "exact_mass": 12.000,
-                "isotope_abundance": 0.05
-            },
-            {
-                "element_symbol": "C",
-                "nominal_mass": 13,
-                "exact_mass": 13.00335484,
-                "isotope_abundance": 0.95
-            }
-        ]
+      "C": [
+        {
+          "periodic_number": 6,
+          "element_symbol": "C",
+          "nominal_mass": 12,
+          "exact_mass": 12.000,
+          "isotope_abundance": 0.05
+        },
+        {
+          "periodic_number": 6,
+          "element_symbol": "C",
+          "nominal_mass": 13,
+          "exact_mass": 13.00335484,
+          "isotope_abundance": 0.95
+        }
+      ]
     }
 
-Cache Inspection
-~~~~~~~~~~~~~~~~
+For C13-labeled compounds, create a cache with the isotope configuration::
 
-To verify the contents of your cache files::
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
 
-    mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl
+Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. Use this when analyzing labeled samples.
 
+Verify Cache
+-----------
+
+Before proceeding with analysis, it's good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly::
+
+    mimi_cache_dump outdir/db_nat.pkl -n 2 -i 2
+
+Example output::
+
+    mimi_cache_dump outdir/db_nat.pkl -n 2 -i 2
     # Cache Metadata:
-    # Creation Date: YYYY-MM-DDTHH:MM:SS
+    # Creation Date: 2025-04-26T00:08:03
     # MIMI Version: 1.0.0
 
     # Creation Parameters:
-    # Full Command: /path/to/mimi_cache_create -i neg -d path/to/KEGGDB.tsv -c outdir/db_nat
+    # Full Command: /Users/nr83/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
     # Ionization Mode: neg
     # Labeled Atoms File: None
-    # Compound DB Files: path/to/KEGGDB.tsv
+    # Compound DB Files: data/processed/kegg_compounds.tsv
     # Cache Output File: outdir/db_nat.pkl
-    # Isotope Data File: path/to/natural_isotope_abundance_NIST.json
+    # Isotope Data File: mimi/data/natural_isotope_abundance_NIST.json
 
     ============================================================
-    Compound ID:      C00003
-    Name:             NAD+
-    Formula:          [12]C21[1]H28[14]N7[16]O14[31]P2
+    Compound ID:      C07350
+    Name:             Phlorisovalerophenone
+    Formula:          [12]C11[1]H14[16]O4
     Mono-isotopic:    Yes (most abundant isotope)
-    Mass:             663.109671
+    Mass:             209.081932
     Relative Abund:   1.000000 (reference)
     ------------------------------------------------------------
     ISOTOPE VARIANTS:
-      Variant #1:
-      Formula:        [12]C20 [13]C1 [1]H28 [14]N7 [16]O14 [31]P2
-      Mono-isotopic:  No (isotope variant)
-      Mass:           664.113026
-      Relative Abund: 0.227130 (expected)
+    Variant #1:
+    Formula:        [12]C10 [13]C1 [1]H14 [16]O4
+    Mono-isotopic:  No (isotope variant)
+    Mass:           210.085287
+    Relative Abund: 0.118973 (expected)
     ------------------------------------------------------------
-      Variant #2:
-      Formula:        [12]C21 [1]H28 [14]N7 [16]O13 [18]O1 [31]P2
-      Mono-isotopic:  No (isotope variant)
-      Mass:           665.113916
-      Relative Abund: 0.028770 (expected)
-    ------------------------------------------------------------
-
-    ============================================================
-    Compound ID:      C00006
-    Name:             NADP+
-    Formula:          [12]C21[1]H29[14]N7[16]O17[31]P3
-    Mono-isotopic:    Yes (most abundant isotope)
-    Mass:             743.076002
-    Relative Abund:   1.000000 (reference)
-    ------------------------------------------------------------
-    ISOTOPE VARIANTS:
-      Variant #1:
-      Formula:        [12]C20 [13]C1 [1]H29 [14]N7 [16]O17 [31]P3
-      Mono-isotopic:  No (isotope variant)
-      Mass:           744.079357
-      Relative Abund: 0.227130 (expected)
-    ------------------------------------------------------------
-      Variant #2:
-      Formula:        [12]C21 [1]H29 [14]N7 [16]O16 [18]O1 [31]P3
-      Mono-isotopic:  No (isotope variant)
-      Mass:           745.080247
-      Relative Abund: 0.034935 (expected)
+    Variant #2:
+    Formula:        [12]C11 [1]H14 [16]O3 [18]O1
+    Mono-isotopic:  No (isotope variant)
+    Mass:           211.086177
+    Relative Abund: 0.008220 (expected)
     ------------------------------------------------------------
 
     ============================================================
-    Compound ID:      C00015
-    Name:             UDP
-    Formula:          [12]C9[1]H14[14]N2[16]O12[31]P2
+    Compound ID:      C08999
+    Name:             Capillarisin
+    Formula:          [12]C16[1]H12[16]O7
     Mono-isotopic:    Yes (most abundant isotope)
-    Mass:             402.994921
+    Mass:             315.051026
     Relative Abund:   1.000000 (reference)
     ------------------------------------------------------------
     ISOTOPE VARIANTS:
-      Variant #1:
-      Formula:        [12]C8 [13]C1 [1]H14 [14]N2 [16]O12 [31]P2
-      Mono-isotopic:  No (isotope variant)
-      Mass:           403.998276
-      Relative Abund: 0.097342 (expected)
+    Variant #1:
+    Formula:        [12]C15 [13]C1 [1]H12 [16]O7
+    Mono-isotopic:  No (isotope variant)
+    Mass:           316.054381
+    Relative Abund: 0.173052 (expected)
     ------------------------------------------------------------
-      Variant #2:
-      Formula:        [12]C9 [1]H14 [14]N2 [16]O11 [18]O1 [31]P2
-      Mono-isotopic:  No (isotope variant)
-      Mass:           404.999166
-      Relative Abund: 0.024660 (expected)
-    ------------------------------------------------------------
-
-    ============================================================
-    Compound ID:      C00016
-    Name:             FAD
-    Formula:          [12]C27[1]H33[14]N9[16]O15[31]P2
-    Mono-isotopic:    Yes (most abundant isotope)
-    Mass:             784.149859
-    Relative Abund:   1.000000 (reference)
-    ------------------------------------------------------------
-    ISOTOPE VARIANTS:
-      Variant #1:
-      Formula:        [12]C26 [13]C1 [1]H33 [14]N9 [16]O15 [31]P2
-      Mono-isotopic:  No (isotope variant)
-      Mass:           785.153214
-      Relative Abund: 0.292025 (expected)
-    ------------------------------------------------------------
-      Variant #2:
-      Formula:        [12]C27 [1]H33 [14]N8 [15]N1 [16]O15 [31]P2
-      Mono-isotopic:  No (isotope variant)
-      Mass:           785.146894
-      Relative Abund: 0.032880 (expected)
-    ------------------------------------------------------------
-
-    ============================================================
-    Compound ID:      C00018
-    Name:             Pyridoxal phosphate
-    Formula:          [12]C8[1]H10[14]N[16]O6[31]P1
-    Mono-isotopic:    Yes (most abundant isotope)
-    Mass:             246.017298
-    Relative Abund:   1.000000 (reference)
-    ------------------------------------------------------------
-    ISOTOPE VARIANTS:
-      Variant #1:
-      Formula:        [12]C7 [13]C1 [1]H10 [14]N1 [16]O6 [31]P1
-      Mono-isotopic:  No (isotope variant)
-      Mass:           247.020652
-      Relative Abund: 0.086526 (expected)
-    ------------------------------------------------------------
-      Variant #2:
-      Formula:        [12]C8 [1]H10 [14]N1 [16]O5 [18]O1 [31]P1
-      Mono-isotopic:  No (isotope variant)
-      Mass:           248.021543
-      Relative Abund: 0.012330 (expected)
+    Variant #2:
+    Formula:        [12]C16 [1]H12 [16]O6 [18]O1
+    Mono-isotopic:  No (isotope variant)
+    Mass:           317.055271
+    Relative Abund: 0.014385 (expected)
     ------------------------------------------------------------
 
 Sample Analysis
----------------
+--------------
 
-With your cache files prepared, you can analyze mass spectrometry samples:
+Input File Format
+----------------
 
-Basic Analysis
-~~~~~~~~~~~~~~
+MIMI accepts mass spectrometry data in .asc format. Each line contains three columns:
 
-Analyze a single sample against a single cache::
+- Mass (m/z)
+- Intensity
+- Resolution
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/processed/testdata1.asc -o results.tsv
+Example input file (data/processed/testdata1.asc)::
 
-Parameters:
-  - `-p 1.0`: PPM tolerance for initial mass matching
-  - `-vp 1.0`: PPM tolerance for isotope pattern verification
-  - `-c db_nat`: Cache file(s) to use
-  - `-s data/processed/testdata1.asc`: Sample file(s) to analyze
-  - `-o results.tsv`: Output file for results
+    43.16184    1089317    0.00003
+    43.28766    1115802    0.00003
+    43.28946    1226947    0.00003
+    43.30269    1107425    0.00005
+    43.36457    2236071    0.00004
+    43.36459    1891040    0.00004
+    43.37268    1281049    0.00004
+    43.4223     2184166    0.00002
+    43.42234    23344476   0.00004
+    43.42237    22443004   0.00004
+
+Now you're ready to analyze your mass spectrometry data. The analysis command matches your sample masses against the precomputed database and verifies matches using isotope patterns::
+
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13 -s data/processed/testdata1.asc -o outdir/results.tsv
+
+Key parameters:
+
+- `-p 1.0`: Mass matching tolerance (1 ppm) - controls how close the observed mass needs to be to the theoretical mass
+- `-vp 1.0`: Isotope pattern verification tolerance (1 ppm) - controls how well the isotope pattern must match
+- `-c`: Cache files to use (can specify multiple for comparing natural and labeled patterns)
+- `-s`: Sample file to analyze (in .asc format)
+- `-o`: Output file for results
+
+PPM Thresholds
+-------------
+
+The PPM threshold affects match precision and reliability:
+
+- **<0.5 ppm**: Excellent mass accuracy, high confidence in exact mass identification
+- **0.5 - 1 ppm**: Good mass accuracy, reliable identification with isotope pattern validation
+- **1-2 ppm**: Lower mass accuracy, less reliable identifications
+- **>2 ppm**: Not recommended for high-resolution mass spectrometry data
+
+Example::
+
+    # High confidence analysis
+    mimi_mass_analysis -p 0.5 -vp 0.5 -c db_nat -s sample.asc -o results_excellent.tsv
+
+    # Standard confidence analysis
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results_good.tsv
 
 Multiple Cache Analysis
-~~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
-Analyze a sample against multiple caches simultaneously::
+You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns::
 
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s data/processed/testdata1.asc -o results.tsv
 
-This is useful for comparing natural abundance patterns with labeled patterns.
+Use this when:
+- Comparing natural and labeled patterns
+- Need to identify labeled compounds
+- Studying metabolic flux
+- Validating matches
 
 Batch Processing
-~~~~~~~~~~~~~~~~
+---------------
 
-Process multiple samples in a single run::
+MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions::
 
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o batch_results.tsv
 
-PPM Threshold Optimization
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Use this when:
+- Processing replicates
+- Analyzing time series
+- Comparing conditions
+- Need consistent analysis
 
-The PPM threshold critically affects match precision and reliability:
+Results Format
+-------------
 
-- **<0.5 ppm** Excellent mass accuracy, high confidence in exactmass identification
+The output TSV file contains these columns:
 
-- **0.5 - 1 ppm** Good mass accuracy, reliable identification with isotope finestructure validation
-
-- **1-2 ppm** Low mass accuracy, unreliable identifications
-
-- **>2 ppm** should not be used for ultra high resolution mass spectrometry data
-
-Example threshold usage::
-
-    # Highest confidence analysis
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c db_nat -s sample.asc -o results_excellent.tsv
-
-    # Good confidence analysis
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results_good.tsv
-
-Result Interpretation
----------------------
-
-The output TSV file contains the following columns:
-
-1. **Compound ID**: Identifier from the original database
-2. **Formula**: Chemical formula of the matched compound
+1. **CF**: Chemical formula of the matched compound
+2. **ID**: Compound identifier from the original database
 3. **Name**: Compound name
-4. **Mass**: Calculated mass of the compound
-5. **Sample Mass**: Observed mass in the sample
-6. **PPM**: Parts per million difference between calculated and observed mass
-7. **Intensity**: Signal intensity in the sample
-8. **Isotope Score**: Confidence score based on isotope pattern matching
-9. **Cache Source**: Which cache file provided the match
+4. **C**: Number of carbon atoms
+5. **H**: Number of hydrogen atoms
+6. **N**: Number of nitrogen atoms
+7. **O**: Number of oxygen atoms
+8. **P**: Number of phosphorus atoms
+9. **S**: Number of sulfur atoms
+10. **db_mass_nat**: Calculated mass for natural abundance
+11. **db_mass_C13**: Calculated mass for C13-labeled (if applicable)
+12. **mass_measured**: Observed mass in the sample
+13. **error_ppm**: Parts per million difference between calculated and observed mass
+14. **intensity**: Signal intensity in the sample
+15. **iso_count**: Number of isotopes detected
 
-Best Practices and Troubleshooting
-----------------------------------
+Example output::
 
-1. Always combine mass accuracy with isotope pattern matching
+    head outdir/results.tsv
+    Log file	/Users/aaa/test/log/results_20250426_000954.log
+                                                data/processed/testdata1.asc						
+                                                nat				C13			
+    CF	ID	Name	C	H	N	O	P	S	db_mass_nat	db_mass_C13	mass_measured	error_ppm	intensity	iso_count	mass_measured	error_ppm	intensity	iso_count
+    C11H14O4	C07350	Phlorisovalerophenone	11	14	0	4	0	0	209.0819324625	220.1188357025	209.08196	-0.13170674143304906	70452888	4	220.11904	-0.9281236626259696	2468919	4
+    C19H32O2	C14975	D-Homo-17a-oxa-5alpha-androstan-3beta-ol	19	32	0	2	0	0	291.23295380350004		291.23279	0.5624483695140763	40499464	3				
+    C5H11NO	C03982	2-Methylpropanal O-methyloxime	5	11	1	1	0	0	100.07678751153		100.07675	0.37482747926595726008075	1				
+    C19H23NO3	C07537	Ethylmorphine	19	23	1	3	0	0	312.16051713743		312.16039	0.40728222511613404	36973960	8				
+    C6H10O4	C00659	2-Aceto-2-hydroxybutanoate	6	10	0	4	0	0	145.05063233357998	151.07076137358	145.05063	0.016088037214963827	257498272	4	151.0707	0.40625717025790326	3857517	3
+    C15H15NO	C15043	2-[2-(4-Pyridinyl)-1-butenyl]phenol	15	15	1	1	0	0	224.10808764045		224.10799	0.43568463341037544	26747608	4
 
-2. Compare results from natural and labeled caches
+Troubleshooting
+--------------
 
-3. Process replicates together for consistency
+1. **Data Quality**:
+   - Always combine mass accuracy with isotope pattern matching
+   - Compare results from natural and labeled caches
+   - Process replicates together for consistency
+   - Verify important matches manually
 
-4. Verify important matches manually
+2. **Common Issues and Solutions**:
+   - **No matches found**:
+     - Increase PPM threshold
+     - Verify sample format
+     - Check ionization mode
+   
+   - **Too many matches**:
+     - Decrease PPM threshold
+     - Use stricter verification PPM
+     - Filter by isotope score
+   
+   - **Cache creation errors**:
+     - Verify chemical formulas
+     - Check labeling configuration
+     - Enable debugging
+   
+   - **Performance issues**:
+     - Use focused databases
+     - Process samples in smaller batches
+     - Optimize mass ranges
 
-Common Issues and Solutions:
------------------------------
+Complete Example
+---------------
 
-1. **No matches found**:
-    - Increase PPM threshold
-    - Verify sample format
-    - Check ionization mode
+Here's a complete example from start to finish:
 
-2. **Too many matches**:
-    - Decrease PPM threshold
-    - Use stricter verification PPM
-    - Filter by isotope score
+1. First, extract compounds from KEGG within your desired mass range::
 
-3. **Cache creation errors**:
-    - Verify chemical formulas
-    - Check labeling configuration
-    - Enable debugging
+    mimi_kegg_extract -l 40 -u 400 -o data/processed/kegg_compounds.tsv
 
-4. **Performance issues**:
-    - Use focused databases
-    - Process samples in smaller batches
-    - Optimize mass ranges
+2. Create both natural abundance and C13-labeled caches::
 
+    # Natural abundance
+    mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
+
+    # C13-labeled
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
+
+3. Verify the cache contents to ensure everything was processed correctly::
+
+    mimi_cache_dump outdir/db_nat.pkl -n 2 -i 2
+
+4. Finally, analyze your sample using both caches::
+
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13 -s data/processed/testdata1.asc -o outdir/results.tsv 
