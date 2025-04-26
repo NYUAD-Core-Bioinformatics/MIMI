@@ -138,13 +138,13 @@ def create_plots(outdir):
     
     # Set BMC publication style
     plt.rcParams.update({
-        'font.size': 14,
-        'axes.titlesize': 16,
-        'axes.labelsize': 14,
-        'xtick.labelsize': 12,
-        'ytick.labelsize': 12,
-        'legend.fontsize': 12,
-        'figure.titlesize': 18,
+        'font.size': 16,
+        'axes.titlesize': 18,
+        'axes.labelsize': 16,
+        'xtick.labelsize': 16,
+        'ytick.labelsize': 16,
+        'legend.fontsize': 16,
+        'figure.titlesize': 20,
         'pdf.fonttype': 42,
         'ps.fonttype': 42,
         'svg.fonttype': 'none'
@@ -202,7 +202,7 @@ def create_plots(outdir):
     # Add value labels
     for ax in [ax1, ax2]:
         for container in ax.containers:
-            ax.bar_label(container, fmt='%.1f', fontsize=10)
+            ax.bar_label(container, fmt='%.1f', fontsize=12)
         # Increase axis label font sizes
         ax.xaxis.label.set_fontsize(14)
         ax.yaxis.label.set_fontsize(14)

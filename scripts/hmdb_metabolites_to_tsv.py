@@ -36,14 +36,14 @@ xml_file = "/Users/nr83/Downloads/hmdb_metabolites.xml"  # Update with actual fi
 metabolite_data = parse_hmdb_xml(xml_file)
 
 # Print output in tab-separated format
-print("CF\tID\tname")
+print("CF\tID\tName")
 for cf, met_id, met_name in metabolite_data:
     print(f"{cf}\t{met_id}\t{met_name}")
 
 # Save to a file (optional)
 output_file = "metabolites.tsv"
 with open(output_file, "w") as f:
-    f.write("CF\tID\tname\n")
+    f.write("CF\tID\tName\n")
     for cf, met_id, met_name in metabolite_data:
         f.write(f"{cf}\t{met_id}\t{met_name}\n")
 

@@ -56,6 +56,7 @@ INSTALL_REQUIRES = [
     'json5',
     'urllib3',
     'tqdm',
+    'requests',
 ]
 PYTHON_REQUIRES = '>=3.11.11'
 

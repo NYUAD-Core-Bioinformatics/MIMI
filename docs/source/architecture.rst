@@ -8,6 +8,13 @@ Overview
    :width: 600
    :alt: MIMI Architecture Overview
 
+Detailed Flow Diagram
+----------------------
+
+.. image:: _static/mimi_arch2.png
+   :width: 600
+   :alt: MIMI Detailed Flow Diagram
+
 MIMI's architecture is designed around efficient mass spectrometry data processing and analysis. The system follows a modular design pattern with clear separation of concerns between data handling, processing, and analysis components.
 
 Core Components

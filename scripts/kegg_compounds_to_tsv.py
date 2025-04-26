@@ -150,7 +150,7 @@ def main():
     
     with open(output_file, 'w') as f:
         # Write header
-        f.write("CF\tID\tname\n")
+        f.write("CF\tID\tName\n")
         
         # Process in batches with progress bar
         for i in tqdm(range(0, len(compound_ids), batch_size), desc="Processing compounds"):

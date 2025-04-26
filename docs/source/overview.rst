@@ -19,7 +19,7 @@ Features
 - Batch processing capabilities
 
 Usage guide
-----------
+-----------
 For instructions on how to install and use mimi, please refer to :doc:`workflow`.
 
 License
