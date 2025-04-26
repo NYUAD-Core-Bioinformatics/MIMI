@@ -26,8 +26,10 @@ Step1: Prepare your compound database
 
 * This involves extracting compounds from either KEGG (for general biological samples) or HMDB (for human-specific metabolites) or manually create a custom database.
 * You can filter compounds by mass range using -l (lower limit) and -u (upper limit) parameters
-* The output is a TSV file containing compounds with their chemical formulas, IDs, and names
+* The output is a TSV file containing compounds with their chemical formulas(CF), Compound IDs(ID), and names(Name)
 * You can also create a custom database with specific compounds of interest
+
+See for more details: :ref:`step1-database-preparation-from-kegg-and-hmdb` :ref:`database-options`, :ref:`mass-range-filtering`, :ref:`custom-database-format`, 
 
 Step2: Create cache files for faster matching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,18 +37,24 @@ Step2: Create cache files for faster matching
 * This step precomputes molecular masses and isotope patterns for all compounds in your database
 * You can create caches for different isotope configurations (natural abundance or labeled)
 * The cache creation is essential for fast analysis performance
+* You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp).
 * You can verify the cache contents using `mimi_cache_dump` to ensure everything was processed correctly
 
-Step3: Analyze your samples
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+See for more details: :ref:`step2-cache-creation`, :ref:`ppm-thresholds`, :ref:`isotope-configuration`  :ref:`verify-cache`
 
-* This step matches your mass spectrometry data against the precomputed database
-* You can analyze samples in .asc format (containing mass, intensity, and resolution)
-* The analysis includes mass matching and isotope pattern verification
-* You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp)
-* The output is a TSV file containing detailed information about matched compounds
+Step3: Sample Analysis
+~~~~~~~~~~~~~~~~~~~~~~
 
-Each step builds upon the previous one, creating a complete pipeline for compound identification in mass spectrometry data.
+- This step matches your mass spectrometry data against the precomputed database.
+- You can analyze samples in `.asc` format, which should contain mass, intensity, and resolution columns.
+- The analysis process includes both mass matching and isotope pattern verification.
+- Multiple cache files can be specified for comparative or labeled analyses.
+- The output is a TSV file containing detailed information about all matched compounds.
+- For convenience, a provided script allows you to run comprehensive analysis across multiple cache files and sample files, testing different PPM thresholds automatically.
+
+See for more details: :ref:`step3-sample-analysis`, :ref:`input-file-format`,, :ref:`multiple-cache-analysis`, :ref:`batch-processing`, :ref:`results-format`, :ref:`comprehensive-analysis-runs`
+
+.. _database-options:
 
 Database Options
 ----------------
@@ -78,6 +86,8 @@ MIMI supports two ways to prepare your compound database from external sources w
 
    Download the HMDB XML file from https://hmdb.ca/downloads and save it as "hmdb_metabolites.xml".
 
+.. _mass-range-filtering:
+
 Mass Range Filtering
 --------------------
 
@@ -97,6 +107,8 @@ Filter compounds by mass using:
 
 Example: `-l 40 -u 400` keeps compounds between 40-400 Da.
 
+.. _custom-database-format:
+
 Custom Database Format
 ----------------------
 
@@ -115,6 +127,8 @@ The file must contain these required columns::
     C7H6O2  C00042    Benzoic Acid
     C4H8O4  C00043    Erythritol
 
+.. _step1-database-preparation-from-kegg-and-hmdb:
+
 Step1: Database Preparation from KEGG and HMDB
 ----------------------------------------------
 
@@ -131,6 +145,8 @@ For HMDB database, first download the XML file, then use this command to extract
     mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds.tsv
 
 Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.
+
+.. _step2-cache-creation:
 
 Step2:Cache Creation
 --------------------
@@ -150,6 +166,8 @@ For natural abundance compounds, use::
     mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
 
 Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database. This file will be used for fast matching during analysis.
+
+.. _isotope-configuration:
 
 Isotope Configuration
 ---------------------
@@ -242,8 +260,10 @@ Expected Output: A cache file with isotope patterns adjusted for 95% C13 labelin
 
 Use this when analyzing labeled samples.
 
-Step3: Verify Cache
--------------------
+.. _verify-cache:
+
+Verify Cache
+-------------
 
 Before proceeding with analysis, it's good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly::
 
@@ -308,8 +328,12 @@ Example output::
     Relative Abund: 0.014385 (expected)
     ------------------------------------------------------------
 
-Sample Analysis
----------------
+.. _step3-sample-analysis:
+
+Step3: Sample Analysis
+----------------------
+
+.. _input-file-format:
 
 Input File Format
 -----------------
@@ -345,6 +369,8 @@ Key parameters:
 - `-s`: Sample file to analyze (in .asc format)
 - `-o`: Output file for results
 
+.. _ppm-thresholds:
+
 PPM Thresholds
 --------------
 
@@ -363,6 +389,8 @@ Example::
     # Standard confidence analysis
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results_good.tsv
 
+.. _multiple-cache-analysis:
+
 Multiple Cache Analysis
 -----------------------
 
@@ -372,6 +400,8 @@ You can analyze your samples against multiple caches simultaneously. This is use
 
 
 
+.. _batch-processing:
+
 Batch Processing
 ----------------
 
@@ -380,6 +410,8 @@ MIMI supports processing multiple samples in a single run. This is useful for an
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o batch_results.tsv
 
 
+
+.. _results-format:
 
 Results Format
 --------------
@@ -415,6 +447,8 @@ Example output::
     C19H23NO3	C07537	Ethylmorphine	19	23	1	3	0	0	312.16051713743		312.16039	0.40728222511613404	36973960	8				
     C6H10O4	C00659	2-Aceto-2-hydroxybutanoate	6	10	0	4	0	0	145.05063233357998	151.07076137358	145.05063	0.016088037214963827	257498272	4	151.0707	0.40625717025790326	3857517	3
     C15H15NO	C15043	2-[2-(4-Pyridinyl)-1-butenyl]phenol	15	15	1	1	0	0	224.10808764045		224.10799	0.43568463341037544	26747608	4
+
+.. _comprehensive-analysis-runs:
 
 Comprehensive Analysis Runs
 ---------------------------
