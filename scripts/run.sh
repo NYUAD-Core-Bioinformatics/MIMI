@@ -50,19 +50,6 @@ for test_file in "${test_files[@]}"; do
     done
 done
 
-# Remove the first two rows from all output TSV files
-# echo "Removing first two rows from all output files..."
-# for output_file in "$outdir"/*.tsv; do
-#     if [ -f "$output_file" ]; then
-#         # Create a temporary file
-#         temp_file=$(mktemp)
-#         # Skip the first two lines and write the rest to the temp file
-#         tail -n +3 "$output_file" > "$temp_file"
-#         # Replace the original file with the temp file
-#         mv "$temp_file" "$output_file"
-#         echo "Processed: $(basename "$output_file")"
-#     fi
-# done
 
 echo "Processing complete."
 
