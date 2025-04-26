@@ -51,7 +51,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#basic-workflow">Basic Workflow</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#step1-prepare-your-compound-database">Step1: Prepare your compound database</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step2-create-cache-files-for-faster-matching">Step2: Create cache files for faster matching</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step3-analyze-your-samples">Step3: Analyze your samples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step3-sample-analysis">Step3: Sample Analysis</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#database-options">Database Options</a></li>
@@ -60,8 +60,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#step1-database-preparation-from-kegg-and-hmdb">Step1: Database Preparation from KEGG and HMDB</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#step2-cache-creation">Step2:Cache Creation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#isotope-configuration">Isotope Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step3-verify-cache">Step3: Verify Cache</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sample-analysis">Sample Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verify-cache">Verify Cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Step3: Sample Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#input-file-format">Input File Format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ppm-thresholds">PPM Thresholds</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multiple-cache-analysis">Multiple Cache Analysis</a></li>
@@ -126,9 +126,10 @@
 <ul class="simple">
 <li><p>This involves extracting compounds from either KEGG (for general biological samples) or HMDB (for human-specific metabolites) or manually create a custom database.</p></li>
 <li><p>You can filter compounds by mass range using -l (lower limit) and -u (upper limit) parameters</p></li>
-<li><p>The output is a TSV file containing compounds with their chemical formulas, IDs, and names</p></li>
+<li><p>The output is a TSV file containing compounds with their chemical formulas(CF), Compound IDs(ID), and names(Name)</p></li>
 <li><p>You can also create a custom database with specific compounds of interest</p></li>
 </ul>
+<p>See for more details: <a class="reference internal" href="#step1-database-preparation-from-kegg-and-hmdb"><span class="std std-ref">Step1: Database Preparation from KEGG and HMDB</span></a> <a class="reference internal" href="#database-options"><span class="std std-ref">Database Options</span></a>, <a class="reference internal" href="#mass-range-filtering"><span class="std std-ref">Mass Range Filtering</span></a>, <a class="reference internal" href="#custom-database-format"><span class="std std-ref">Custom Database Format</span></a>,</p>
 </section>
 <section id="step2-create-cache-files-for-faster-matching">
 <h3>Step2: Create cache files for faster matching<a class="headerlink" href="#step2-create-cache-files-for-faster-matching" title="Permalink to this headline"></a></h3>
@@ -136,23 +137,26 @@
 <li><p>This step precomputes molecular masses and isotope patterns for all compounds in your database</p></li>
 <li><p>You can create caches for different isotope configurations (natural abundance or labeled)</p></li>
 <li><p>The cache creation is essential for fast analysis performance</p></li>
+<li><p>You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp).</p></li>
 <li><p>You can verify the cache contents using <cite>mimi_cache_dump</cite> to ensure everything was processed correctly</p></li>
 </ul>
+<p>See for more details: <a class="reference internal" href="#step2-cache-creation"><span class="std std-ref">Step2:Cache Creation</span></a>, <a class="reference internal" href="#ppm-thresholds"><span class="std std-ref">PPM Thresholds</span></a>, <a class="reference internal" href="#isotope-configuration"><span class="std std-ref">Isotope Configuration</span></a>  <a class="reference internal" href="#verify-cache"><span class="std std-ref">Verify Cache</span></a></p>
 </section>
-<section id="step3-analyze-your-samples">
-<h3>Step3: Analyze your samples<a class="headerlink" href="#step3-analyze-your-samples" title="Permalink to this headline"></a></h3>
+<section id="step3-sample-analysis">
+<h3>Step3: Sample Analysis<a class="headerlink" href="#step3-sample-analysis" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><p>This step matches your mass spectrometry data against the precomputed database</p></li>
-<li><p>You can analyze samples in .asc format (containing mass, intensity, and resolution)</p></li>
-<li><p>The analysis includes mass matching and isotope pattern verification</p></li>
-<li><p>You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp)</p></li>
-<li><p>The output is a TSV file containing detailed information about matched compounds</p></li>
+<li><p>This step matches your mass spectrometry data against the precomputed database.</p></li>
+<li><p>You can analyze samples in <cite>.asc</cite> format, which should contain mass, intensity, and resolution columns.</p></li>
+<li><p>The analysis process includes both mass matching and isotope pattern verification.</p></li>
+<li><p>Multiple cache files can be specified for comparative or labeled analyses.</p></li>
+<li><p>The output is a TSV file containing detailed information about all matched compounds.</p></li>
+<li><p>For convenience, a provided script allows you to run comprehensive analysis across multiple cache files and sample files, testing different PPM thresholds automatically.</p></li>
 </ul>
-<p>Each step builds upon the previous one, creating a complete pipeline for compound identification in mass spectrometry data.</p>
+<p>See for more details: <a class="reference internal" href="#id8"><span class="std std-ref">Step3: Sample Analysis</span></a>, <a class="reference internal" href="#input-file-format"><span class="std std-ref">Input File Format</span></a>,, <a class="reference internal" href="#multiple-cache-analysis"><span class="std std-ref">Multiple Cache Analysis</span></a>, <a class="reference internal" href="#batch-processing"><span class="std std-ref">Batch Processing</span></a>, <a class="reference internal" href="#results-format"><span class="std std-ref">Results Format</span></a>, <a class="reference internal" href="#comprehensive-analysis-runs"><span class="std std-ref">Comprehensive Analysis Runs</span></a></p>
 </section>
 </section>
 <section id="database-options">
-<h2>Database Options<a class="headerlink" href="#database-options" title="Permalink to this headline"></a></h2>
+<span id="id1"></span><h2>Database Options<a class="headerlink" href="#database-options" title="Permalink to this headline"></a></h2>
 <p>MIMI supports two ways to prepare your compound database from external sources with a given mass range:</p>
 <ol class="arabic">
 <li><p><strong>KEGG Database</strong>:</p>
@@ -182,7 +186,7 @@
 </ol>
 </section>
 <section id="mass-range-filtering">
-<h2>Mass Range Filtering<a class="headerlink" href="#mass-range-filtering" title="Permalink to this headline"></a></h2>
+<span id="id2"></span><h2>Mass Range Filtering<a class="headerlink" href="#mass-range-filtering" title="Permalink to this headline"></a></h2>
 <p>Filter compounds by mass using:</p>
 <ul class="simple">
 <li><p><cite>-l</cite>: Lower mass limit (e.g., 40 Da)</p>
@@ -203,7 +207,7 @@
 <p>Example: <cite>-l 40 -u 400</cite> keeps compounds between 40-400 Da.</p>
 </section>
 <section id="custom-database-format">
-<h2>Custom Database Format<a class="headerlink" href="#custom-database-format" title="Permalink to this headline"></a></h2>
+<span id="id3"></span><h2>Custom Database Format<a class="headerlink" href="#custom-database-format" title="Permalink to this headline"></a></h2>
 <p>Create a custom database when:
 - Working with novel compounds
 - Having specific compounds of interest
@@ -220,7 +224,7 @@
 </div>
 </section>
 <section id="step1-database-preparation-from-kegg-and-hmdb">
-<h2>Step1: Database Preparation from KEGG and HMDB<a class="headerlink" href="#step1-database-preparation-from-kegg-and-hmdb" title="Permalink to this headline"></a></h2>
+<span id="id4"></span><h2>Step1: Database Preparation from KEGG and HMDB<a class="headerlink" href="#step1-database-preparation-from-kegg-and-hmdb" title="Permalink to this headline"></a></h2>
 <p>The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.</p>
 <p>For KEGG database, use the following command to extract compounds within a specific mass range:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">40</span> <span class="o">-</span><span class="n">u</span> <span class="mi">400</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
@@ -234,7 +238,7 @@
 <p>Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.</p>
 </section>
 <section id="step2-cache-creation">
-<h2>Step2:Cache Creation<a class="headerlink" href="#step2-cache-creation" title="Permalink to this headline"></a></h2>
+<span id="id5"></span><h2>Step2:Cache Creation<a class="headerlink" href="#step2-cache-creation" title="Permalink to this headline"></a></h2>
 <p>Create cache files to store precomputed molecular masses and isotope patterns. This step is essential for:</p>
 <ul class="simple">
 <li><p>Fast analysis performance</p></li>
@@ -254,7 +258,7 @@
 <p>Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database. This file will be used for fast matching during analysis.</p>
 </section>
 <section id="isotope-configuration">
-<h2>Isotope Configuration<a class="headerlink" href="#isotope-configuration" title="Permalink to this headline"></a></h2>
+<span id="id6"></span><h2>Isotope Configuration<a class="headerlink" href="#isotope-configuration" title="Permalink to this headline"></a></h2>
 <p>MIMI uses atomic weights and natural isotope abundances from the National Institute of Standards and Technology (NIST). The original data, sourced from the <a class="reference external" href="https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses">NIST Atomic Weights database</a>, was converted from plain text to JSON format for easier processing and is distributed with MIMI as <a class="reference external" href="https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/refs/heads/main/mimi/data/natural_isotope_abundance_NIST.json">natural_isotope_abundance_NIST.json</a>. This file serves as the foundation for all isotopic calculations.</p>
 <p>For each element in <cite>natural_isotope_abundance_NIST.json</cite>, it provides detailed information about all its naturally occurring isotopes, including:</p>
 <ol class="arabic simple">
@@ -339,8 +343,8 @@ This is particularly useful for experimental studies using stable isotope labeli
 <p>Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling.</p>
 <p>Use this when analyzing labeled samples.</p>
 </section>
-<section id="step3-verify-cache">
-<h2>Step3: Verify Cache<a class="headerlink" href="#step3-verify-cache" title="Permalink to this headline"></a></h2>
+<section id="verify-cache">
+<span id="id7"></span><h2>Verify Cache<a class="headerlink" href="#verify-cache" title="Permalink to this headline"></a></h2>
 <p>Before proceeding with analysis, it’s good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">2</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span>
 </pre></div>
@@ -405,11 +409,11 @@ This is particularly useful for experimental studies using stable isotope labeli
 </pre></div>
 </div>
 </section>
-<section id="sample-analysis">
-<h2>Sample Analysis<a class="headerlink" href="#sample-analysis" title="Permalink to this headline"></a></h2>
+<section id="id8">
+<span id="id9"></span><h2>Step3: Sample Analysis<a class="headerlink" href="#id8" title="Permalink to this headline"></a></h2>
 </section>
 <section id="input-file-format">
-<h2>Input File Format<a class="headerlink" href="#input-file-format" title="Permalink to this headline"></a></h2>
+<span id="id10"></span><h2>Input File Format<a class="headerlink" href="#input-file-format" title="Permalink to this headline"></a></h2>
 <p>MIMI accepts mass spectrometry data in .asc format. Each line contains three columns:</p>
 <ul class="simple">
 <li><p>Mass (m/z)</p></li>
@@ -443,7 +447,7 @@ This is particularly useful for experimental studies using stable isotope labeli
 </ul>
 </section>
 <section id="ppm-thresholds">
-<h2>PPM Thresholds<a class="headerlink" href="#ppm-thresholds" title="Permalink to this headline"></a></h2>
+<span id="id11"></span><h2>PPM Thresholds<a class="headerlink" href="#ppm-thresholds" title="Permalink to this headline"></a></h2>
 <p>The PPM threshold affects match precision and reliability:</p>
 <ul class="simple">
 <li><p><strong>&lt;0.5 ppm</strong>: Excellent mass accuracy, high confidence in exact mass identification</p></li>
@@ -461,21 +465,21 @@ This is particularly useful for experimental studies using stable isotope labeli
 </div>
 </section>
 <section id="multiple-cache-analysis">
-<h2>Multiple Cache Analysis<a class="headerlink" href="#multiple-cache-analysis" title="Permalink to this headline"></a></h2>
+<span id="id12"></span><h2>Multiple Cache Analysis<a class="headerlink" href="#multiple-cache-analysis" title="Permalink to this headline"></a></h2>
 <p>You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_13C</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </section>
 <section id="batch-processing">
-<h2>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h2>
+<span id="id13"></span><h2>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h2>
 <p>MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </section>
 <section id="results-format">
-<h2>Results Format<a class="headerlink" href="#results-format" title="Permalink to this headline"></a></h2>
+<span id="id14"></span><h2>Results Format<a class="headerlink" href="#results-format" title="Permalink to this headline"></a></h2>
 <p>The output TSV file contains these columns:</p>
 <ul class="simple">
 <li><p><strong>CF</strong>: Chemical formula of the matched compound</p></li>
@@ -510,7 +514,7 @@ This is particularly useful for experimental studies using stable isotope labeli
 </div>
 </section>
 <section id="comprehensive-analysis-runs">
-<h2>Comprehensive Analysis Runs<a class="headerlink" href="#comprehensive-analysis-runs" title="Permalink to this headline"></a></h2>
+<span id="id15"></span><h2>Comprehensive Analysis Runs<a class="headerlink" href="#comprehensive-analysis-runs" title="Permalink to this headline"></a></h2>
 <p>MIMI provides a comprehensive analysis script that allows you to perform multiple analyses with different parameter combinations in a single run. This is particularly useful for:</p>
 <ul class="simple">
 <li><p>Testing different mass matching tolerances</p></li>
