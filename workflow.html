@@ -48,14 +48,19 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Workflow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#basic-workflow">Basic Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-workflow">Basic Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step1-prepare-your-compound-database">Step1: Prepare your compound database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step2-create-cache-files-for-faster-matching">Step2: Create cache files for faster matching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step3-analyze-your-samples">Step3: Analyze your samples</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#database-options">Database Options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mass-range-filtering">Mass Range Filtering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-database-format">Custom Database Format</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#database-preparation-from-kegg-and-hmdb">Database Preparation from KEGG and HMDB</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#cache-creation">Cache Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step1-database-preparation-from-kegg-and-hmdb">Step1: Database Preparation from KEGG and HMDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step2-cache-creation">Step2:Cache Creation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#isotope-configuration">Isotope Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#verify-cache">Verify Cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step3-verify-cache">Step3: Verify Cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sample-analysis">Sample Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#input-file-format">Input File Format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ppm-thresholds">PPM Thresholds</a></li>
@@ -116,11 +121,35 @@
 <section id="basic-workflow">
 <h2>Basic Workflow<a class="headerlink" href="#basic-workflow" title="Permalink to this headline"></a></h2>
 <p>MIMI’s analysis involves three steps:</p>
-<ol class="arabic simple">
-<li><p>Prepare your compound database</p></li>
-<li><p>Create cache files for faster matching</p></li>
-<li><p>Analyze your samples</p></li>
-</ol>
+<section id="step1-prepare-your-compound-database">
+<h3>Step1: Prepare your compound database<a class="headerlink" href="#step1-prepare-your-compound-database" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>This involves extracting compounds from either KEGG (for general biological samples) or HMDB (for human-specific metabolites) or manually create a custom database.</p></li>
+<li><p>You can filter compounds by mass range using -l (lower limit) and -u (upper limit) parameters</p></li>
+<li><p>The output is a TSV file containing compounds with their chemical formulas, IDs, and names</p></li>
+<li><p>You can also create a custom database with specific compounds of interest</p></li>
+</ul>
+</section>
+<section id="step2-create-cache-files-for-faster-matching">
+<h3>Step2: Create cache files for faster matching<a class="headerlink" href="#step2-create-cache-files-for-faster-matching" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>This step precomputes molecular masses and isotope patterns for all compounds in your database</p></li>
+<li><p>You can create caches for different isotope configurations (natural abundance or labeled)</p></li>
+<li><p>The cache creation is essential for fast analysis performance</p></li>
+<li><p>You can verify the cache contents using <cite>mimi_cache_dump</cite> to ensure everything was processed correctly</p></li>
+</ul>
+</section>
+<section id="step3-analyze-your-samples">
+<h3>Step3: Analyze your samples<a class="headerlink" href="#step3-analyze-your-samples" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>This step matches your mass spectrometry data against the precomputed database</p></li>
+<li><p>You can analyze samples in .asc format (containing mass, intensity, and resolution)</p></li>
+<li><p>The analysis includes mass matching and isotope pattern verification</p></li>
+<li><p>You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp)</p></li>
+<li><p>The output is a TSV file containing detailed information about matched compounds</p></li>
+</ul>
+<p>Each step builds upon the previous one, creating a complete pipeline for compound identification in mass spectrometry data.</p>
+</section>
 </section>
 <section id="database-options">
 <h2>Database Options<a class="headerlink" href="#database-options" title="Permalink to this headline"></a></h2>
@@ -190,8 +219,8 @@
 </pre></div>
 </div>
 </section>
-<section id="database-preparation-from-kegg-and-hmdb">
-<h2>Database Preparation from KEGG and HMDB<a class="headerlink" href="#database-preparation-from-kegg-and-hmdb" title="Permalink to this headline"></a></h2>
+<section id="step1-database-preparation-from-kegg-and-hmdb">
+<h2>Step1: Database Preparation from KEGG and HMDB<a class="headerlink" href="#step1-database-preparation-from-kegg-and-hmdb" title="Permalink to this headline"></a></h2>
 <p>The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.</p>
 <p>For KEGG database, use the following command to extract compounds within a specific mass range:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">40</span> <span class="o">-</span><span class="n">u</span> <span class="mi">400</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
@@ -204,8 +233,8 @@
 </div>
 <p>Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.</p>
 </section>
-<section id="cache-creation">
-<h2>Cache Creation<a class="headerlink" href="#cache-creation" title="Permalink to this headline"></a></h2>
+<section id="step2-cache-creation">
+<h2>Step2:Cache Creation<a class="headerlink" href="#step2-cache-creation" title="Permalink to this headline"></a></h2>
 <p>Create cache files to store precomputed molecular masses and isotope patterns. This step is essential for:</p>
 <ul class="simple">
 <li><p>Fast analysis performance</p></li>
@@ -310,8 +339,8 @@ This is particularly useful for experimental studies using stable isotope labeli
 <p>Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling.</p>
 <p>Use this when analyzing labeled samples.</p>
 </section>
-<section id="verify-cache">
-<h2>Verify Cache<a class="headerlink" href="#verify-cache" title="Permalink to this headline"></a></h2>
+<section id="step3-verify-cache">
+<h2>Step3: Verify Cache<a class="headerlink" href="#step3-verify-cache" title="Permalink to this headline"></a></h2>
 <p>Before proceeding with analysis, it’s good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">2</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span>
 </pre></div>

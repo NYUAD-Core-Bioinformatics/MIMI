@@ -21,9 +21,32 @@ Basic Workflow
 
 MIMI's analysis involves three steps:
 
-1. Prepare your compound database
-2. Create cache files for faster matching
-3. Analyze your samples
+Step1: Prepare your compound database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* This involves extracting compounds from either KEGG (for general biological samples) or HMDB (for human-specific metabolites) or manually create a custom database.
+* You can filter compounds by mass range using -l (lower limit) and -u (upper limit) parameters
+* The output is a TSV file containing compounds with their chemical formulas, IDs, and names
+* You can also create a custom database with specific compounds of interest
+
+Step2: Create cache files for faster matching
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* This step precomputes molecular masses and isotope patterns for all compounds in your database
+* You can create caches for different isotope configurations (natural abundance or labeled)
+* The cache creation is essential for fast analysis performance
+* You can verify the cache contents using `mimi_cache_dump` to ensure everything was processed correctly
+
+Step3: Analyze your samples
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* This step matches your mass spectrometry data against the precomputed database
+* You can analyze samples in .asc format (containing mass, intensity, and resolution)
+* The analysis includes mass matching and isotope pattern verification
+* You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp)
+* The output is a TSV file containing detailed information about matched compounds
+
+Each step builds upon the previous one, creating a complete pipeline for compound identification in mass spectrometry data.
 
 Database Options
 ----------------
@@ -92,8 +115,8 @@ The file must contain these required columns::
     C7H6O2  C00042    Benzoic Acid
     C4H8O4  C00043    Erythritol
 
-Database Preparation from KEGG and HMDB
----------------------------------------
+Step1: Database Preparation from KEGG and HMDB
+----------------------------------------------
 
 The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.
 
@@ -109,8 +132,8 @@ For HMDB database, first download the XML file, then use this command to extract
 
 Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.
 
-Cache Creation
---------------
+Step2:Cache Creation
+--------------------
 
 Create cache files to store precomputed molecular masses and isotope patterns. This step is essential for:
 
@@ -219,8 +242,8 @@ Expected Output: A cache file with isotope patterns adjusted for 95% C13 labelin
 
 Use this when analyzing labeled samples.
 
-Verify Cache
-------------
+Step3: Verify Cache
+-------------------
 
 Before proceeding with analysis, it's good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly::
 
