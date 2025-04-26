@@ -215,7 +215,9 @@ For C13-labeled compounds, create a cache with the isotope configuration::
 
     mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
 
-Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. Use this when analyzing labeled samples.
+Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. 
+
+Use this when analyzing labeled samples.
 
 Verify Cache
 ------------
@@ -345,11 +347,7 @@ You can analyze your samples against multiple caches simultaneously. This is use
 
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s data/processed/testdata1.asc -o results.tsv
 
-Use this when:
-- Comparing natural and labeled patterns
-- Need to identify labeled compounds
-- Studying metabolic flux
-- Validating matches
+
 
 Batch Processing
 ----------------
@@ -358,11 +356,7 @@ MIMI supports processing multiple samples in a single run. This is useful for an
 
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o batch_results.tsv
 
-Use this when:
-- Processing replicates
-- Analyzing time series
-- Comparing conditions
-- Need consistent analysis
+
 
 Results Format
 --------------
@@ -398,6 +392,120 @@ Example output::
     C19H23NO3	C07537	Ethylmorphine	19	23	1	3	0	0	312.16051713743		312.16039	0.40728222511613404	36973960	8				
     C6H10O4	C00659	2-Aceto-2-hydroxybutanoate	6	10	0	4	0	0	145.05063233357998	151.07076137358	145.05063	0.016088037214963827	257498272	4	151.0707	0.40625717025790326	3857517	3
     C15H15NO	C15043	2-[2-(4-Pyridinyl)-1-butenyl]phenol	15	15	1	1	0	0	224.10808764045		224.10799	0.43568463341037544	26747608	4
+
+Comprehensive Analysis Runs
+---------------------------
+
+MIMI provides a comprehensive analysis script that allows you to perform multiple analyses with different parameter combinations in a single run. This is particularly useful for:
+
+- Testing different mass matching tolerances
+- Comparing isotope pattern verification thresholds
+- Analyzing multiple samples simultaneously
+- Generating results for different parameter combinations
+
+The comprehensive run script (`run.sh`) performs the following steps:
+
+1. **Setup and Validation**:
+
+   - Checks for required input and output directories
+   - Creates the output directory if it doesn't exist
+   - Validates the input parameters
+
+2. **Cache Creation**:
+
+   - Creates two cache files:
+
+     * Natural abundance cache (`db_nat.pkl`)
+     * C13-labeled cache (`db_C13.pkl`)
+
+   - Uses the test database and C13 labeling configuration
+
+3. **Parameter Testing**:
+
+   - Tests different combinations of parameters:
+
+     * Mass matching tolerance (p): 0.1, 0.5, 1.0 ppm
+     * Isotope pattern verification (vp): 0.1, 0.5, 1.0 ppm
+
+4. **Analysis Types**:
+
+   - **Fixed vp Analysis**: Varies mass matching tolerance while keeping isotope verification fixed at 0.5 ppm
+   - **Fixed p Analysis**: Varies isotope verification while keeping mass matching fixed at 0.5 ppm
+
+Example Usage::
+
+    ./run.sh data_directory output_directory
+
+The script content::
+
+    #!/bin/bash
+
+    # Check if both output and data directories are provided as arguments
+    if [ $# -ne 2 ]; then
+        echo "Usage: $0 <data_directory> <output_directory>"
+        exit 1
+    fi
+
+    # Get directories from command line arguments
+    datadir="$1"
+    outdir="$2"
+
+    # Create output directory
+    mkdir -p "$outdir"
+
+    # Create cache files in outdir and check for success
+    mimi_cache_create  -i neg   -d "$datadir/testDB.tsv"  -c "$outdir/db_nat"
+    mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$datadir/testDB.tsv"  -c "$outdir/db_C13"
+
+    if [ ! -f "$outdir/db_nat.pkl" ] || [ ! -f "$outdir/db_C13.pkl" ]; then
+        echo "Error: Failed to create cache files"
+        exit 1
+    fi
+
+    # Define test data files
+    test_files=("testdata1.asc" "testdata2.asc")
+
+    # Define parameter sets
+    p_values=(0.1 0.5 1)
+    vp_values=(0.1 0.5 1)
+
+    # Loop through each test file
+    for test_file in "${test_files[@]}"; do
+        base_name=$(basename "$test_file" .asc)
+        
+        # Analysis for top graph (fixed vp=0.5, varying p)
+        for p in "${p_values[@]}"; do
+            p_str=$(echo $p | tr -d '.')
+            mimi_mass_analysis -p $p -vp 0.5 -c "$outdir/db_nat" "$outdir/db_C13" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p${p_str}_vp05_combined.tsv"
+        done
+        
+        # Analysis for bottom graph (fixed p=0.5, varying vp)
+        for vp in "${vp_values[@]}"; do
+            # Format vp value without underscore, just remove the dot
+            vp_str=$(echo $vp | tr -d '.')
+            mimi_mass_analysis -p 0.5 -vp $vp -c "$outdir/db_nat" "$outdir/db_C13" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv"
+        done
+    done
+
+    echo "Processing complete."
+
+
+
+Example output files for testdata1.asc::
+
+    ntestdata1_p01_vp05_combined.tsv    # p=0.1, vp=0.5
+    ntestdata1_p05_vp05_combined.tsv    # p=0.5, vp=0.5
+    ntestdata1_p1_vp05_combined.tsv     # p=1.0, vp=0.5
+    ntestdata1_p05_vp01_combined.tsv    # p=0.5, vp=0.1
+    ntestdata1_p05_vp05_combined.tsv    # p=0.5, vp=0.5
+    ntestdata1_p05_vp1_combined.tsv     # p=0.5, vp=1.0
+
+This comprehensive analysis approach helps you:
+
+- Find optimal parameter combinations for your data
+- Compare results across different parameter settings
+- Generate multiple result sets for further analysis
+- Validate the robustness of your compound identifications
 
 Troubleshooting
 ---------------

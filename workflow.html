@@ -62,6 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#multiple-cache-analysis">Multiple Cache Analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#batch-processing">Batch Processing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#results-format">Results Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comprehensive-analysis-runs">Comprehensive Analysis Runs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#complete-example">Complete Example</a></li>
 </ul>
@@ -306,7 +307,8 @@ This is particularly useful for experimental studies using stable isotope labeli
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span>
 </pre></div>
 </div>
-<p>Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. Use this when analyzing labeled samples.</p>
+<p>Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling.</p>
+<p>Use this when analyzing labeled samples.</p>
 </section>
 <section id="verify-cache">
 <h2>Verify Cache<a class="headerlink" href="#verify-cache" title="Permalink to this headline"></a></h2>
@@ -435,11 +437,6 @@ This is particularly useful for experimental studies using stable isotope labeli
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_13C</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
-<p>Use this when:
-- Comparing natural and labeled patterns
-- Need to identify labeled compounds
-- Studying metabolic flux
-- Validating matches</p>
 </section>
 <section id="batch-processing">
 <h2>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h2>
@@ -447,11 +444,6 @@ This is particularly useful for experimental studies using stable isotope labeli
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
-<p>Use this when:
-- Processing replicates
-- Analyzing time series
-- Comparing conditions
-- Need consistent analysis</p>
 </section>
 <section id="results-format">
 <h2>Results Format<a class="headerlink" href="#results-format" title="Permalink to this headline"></a></h2>
@@ -487,6 +479,126 @@ This is particularly useful for experimental studies using stable isotope labeli
 <span class="n">C15H15NO</span>    <span class="n">C15043</span>  <span class="mi">2</span><span class="o">-</span><span class="p">[</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="n">Pyridinyl</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">butenyl</span><span class="p">]</span><span class="n">phenol</span>     <span class="mi">15</span>      <span class="mi">15</span>      <span class="mi">1</span>       <span class="mi">1</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">224.10808764045</span>         <span class="mf">224.10799</span>       <span class="mf">0.43568463341037544</span>     <span class="mi">26747608</span>        <span class="mi">4</span>
 </pre></div>
 </div>
+</section>
+<section id="comprehensive-analysis-runs">
+<h2>Comprehensive Analysis Runs<a class="headerlink" href="#comprehensive-analysis-runs" title="Permalink to this headline"></a></h2>
+<p>MIMI provides a comprehensive analysis script that allows you to perform multiple analyses with different parameter combinations in a single run. This is particularly useful for:</p>
+<ul class="simple">
+<li><p>Testing different mass matching tolerances</p></li>
+<li><p>Comparing isotope pattern verification thresholds</p></li>
+<li><p>Analyzing multiple samples simultaneously</p></li>
+<li><p>Generating results for different parameter combinations</p></li>
+</ul>
+<p>The comprehensive run script (<cite>run.sh</cite>) performs the following steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Setup and Validation</strong>:</p>
+<ul class="simple">
+<li><p>Checks for required input and output directories</p></li>
+<li><p>Creates the output directory if it doesn’t exist</p></li>
+<li><p>Validates the input parameters</p></li>
+</ul>
+</li>
+<li><p><strong>Cache Creation</strong>:</p>
+<ul class="simple">
+<li><p>Creates two cache files:</p>
+<ul>
+<li><p>Natural abundance cache (<cite>db_nat.pkl</cite>)</p></li>
+<li><p>C13-labeled cache (<cite>db_C13.pkl</cite>)</p></li>
+</ul>
+</li>
+<li><p>Uses the test database and C13 labeling configuration</p></li>
+</ul>
+</li>
+<li><p><strong>Parameter Testing</strong>:</p>
+<ul class="simple">
+<li><p>Tests different combinations of parameters:</p>
+<ul>
+<li><p>Mass matching tolerance (p): 0.1, 0.5, 1.0 ppm</p></li>
+<li><p>Isotope pattern verification (vp): 0.1, 0.5, 1.0 ppm</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Analysis Types</strong>:</p>
+<ul class="simple">
+<li><p><strong>Fixed vp Analysis</strong>: Varies mass matching tolerance while keeping isotope verification fixed at 0.5 ppm</p></li>
+<li><p><strong>Fixed p Analysis</strong>: Varies isotope verification while keeping mass matching fixed at 0.5 ppm</p></li>
+</ul>
+</li>
+</ol>
+<p>Example Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">run</span><span class="o">.</span><span class="n">sh</span> <span class="n">data_directory</span> <span class="n">output_directory</span>
+</pre></div>
+</div>
+<p>The script content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+
+# Check if both output and data directories are provided as arguments
+if [ $# -ne 2 ]; then
+    echo &quot;Usage: $0 &lt;data_directory&gt; &lt;output_directory&gt;&quot;
+    exit 1
+fi
+
+# Get directories from command line arguments
+datadir=&quot;$1&quot;
+outdir=&quot;$2&quot;
+
+# Create output directory
+mkdir -p &quot;$outdir&quot;
+
+# Create cache files in outdir and check for success
+mimi_cache_create  -i neg   -d &quot;$datadir/testDB.tsv&quot;  -c &quot;$outdir/db_nat&quot;
+mimi_cache_create  -i neg   -l &quot;$datadir/C13_95.json&quot; -d &quot;$datadir/testDB.tsv&quot;  -c &quot;$outdir/db_C13&quot;
+
+if [ ! -f &quot;$outdir/db_nat.pkl&quot; ] || [ ! -f &quot;$outdir/db_C13.pkl&quot; ]; then
+    echo &quot;Error: Failed to create cache files&quot;
+    exit 1
+fi
+
+# Define test data files
+test_files=(&quot;testdata1.asc&quot; &quot;testdata2.asc&quot;)
+
+# Define parameter sets
+p_values=(0.1 0.5 1)
+vp_values=(0.1 0.5 1)
+
+# Loop through each test file
+for test_file in &quot;${test_files[@]}&quot;; do
+    base_name=$(basename &quot;$test_file&quot; .asc)
+
+    # Analysis for top graph (fixed vp=0.5, varying p)
+    for p in &quot;${p_values[@]}&quot;; do
+        p_str=$(echo $p | tr -d &#39;.&#39;)
+        mimi_mass_analysis -p $p -vp 0.5 -c &quot;$outdir/db_nat&quot; &quot;$outdir/db_C13&quot; -s &quot;$datadir/$test_file&quot; -o &quot;$outdir/n${base_name}_p${p_str}_vp05_combined.tsv&quot;
+    done
+
+    # Analysis for bottom graph (fixed p=0.5, varying vp)
+    for vp in &quot;${vp_values[@]}&quot;; do
+        # Format vp value without underscore, just remove the dot
+        vp_str=$(echo $vp | tr -d &#39;.&#39;)
+        mimi_mass_analysis -p 0.5 -vp $vp -c &quot;$outdir/db_nat&quot; &quot;$outdir/db_C13&quot; -s &quot;$datadir/$test_file&quot; -o &quot;$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv&quot;
+    done
+done
+
+echo &quot;Processing complete.&quot;
+</pre></div>
+</div>
+<p>Example output files for testdata1.asc:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ntestdata1_p01_vp05_combined</span><span class="o">.</span><span class="n">tsv</span>    <span class="c1"># p=0.1, vp=0.5</span>
+<span class="n">ntestdata1_p05_vp05_combined</span><span class="o">.</span><span class="n">tsv</span>    <span class="c1"># p=0.5, vp=0.5</span>
+<span class="n">ntestdata1_p1_vp05_combined</span><span class="o">.</span><span class="n">tsv</span>     <span class="c1"># p=1.0, vp=0.5</span>
+<span class="n">ntestdata1_p05_vp01_combined</span><span class="o">.</span><span class="n">tsv</span>    <span class="c1"># p=0.5, vp=0.1</span>
+<span class="n">ntestdata1_p05_vp05_combined</span><span class="o">.</span><span class="n">tsv</span>    <span class="c1"># p=0.5, vp=0.5</span>
+<span class="n">ntestdata1_p05_vp1_combined</span><span class="o">.</span><span class="n">tsv</span>     <span class="c1"># p=0.5, vp=1.0</span>
+</pre></div>
+</div>
+<p>This comprehensive analysis approach helps you:</p>
+<ul class="simple">
+<li><p>Find optimal parameter combinations for your data</p></li>
+<li><p>Compare results across different parameter settings</p></li>
+<li><p>Generate multiple result sets for further analysis</p></li>
+<li><p>Validate the robustness of your compound identifications</p></li>
+</ul>
 </section>
 <section id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline"></a></h2>
