@@ -17,7 +17,7 @@ Alternatively, you can install from source if you need the latest development ve
     pip install .
 
 Basic Workflow
--------------
+--------------
 
 MIMI's analysis involves three steps:
 
@@ -26,11 +26,12 @@ MIMI's analysis involves three steps:
 3. Analyze your samples
 
 Database Options
----------------
+----------------
 
-MIMI supports two prepare your compound database from external sources:
+MIMI supports two ways to prepare your compound database from external sources with a given mass range:
 
 1. **KEGG Database**:
+
    - Broad compound coverage
    - Uses REST API
    - Includes pathway data
@@ -38,6 +39,7 @@ MIMI supports two prepare your compound database from external sources:
 
 
 2. **HMDB Database** (For human samples):
+
    - Human-specific metabolites
    - Requires XML file download
    - More detailed metabolite info
@@ -54,7 +56,7 @@ MIMI supports two prepare your compound database from external sources:
    Download the HMDB XML file from https://hmdb.ca/downloads and save it as "hmdb_metabolites.xml".
 
 Mass Range Filtering
--------------------
+--------------------
 
 Filter compounds by mass using:
 
@@ -68,17 +70,17 @@ Filter compounds by mass using:
 
   - Filters out compounds heavier than this mass
   - Useful for focusing on specific mass ranges
-  - Example: -u 500 filters out compounds > 500 Da
+  - Example: -u 400 filters out compounds > 400 Da
 
 Example: `-l 40 -u 400` keeps compounds between 40-400 Da.
 
 Custom Database Format
----------------------
+----------------------
 
 Create a custom database when:
 - Working with novel compounds
-- Have specific compounds of interest
-- Need to add custom annotations
+- Having specific compounds of interest
+- Needing to add custom annotations
 - Combining multiple sources
 
 The file must contain these required columns::
@@ -91,7 +93,7 @@ The file must contain these required columns::
     C4H8O4  C00043    Erythritol
 
 Database Preparation from KEGG and HMDB
---------------------------------------
+---------------------------------------
 
 The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.
 
@@ -99,7 +101,7 @@ For KEGG database, use the following command to extract compounds within a speci
 
     mimi_kegg_extract -l 40 -u 400 -o data/processed/kegg_compounds.tsv
 
-Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 100 and 500 Da from the KEGG database.
+Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 40 and 400 Da from the KEGG database.
 
 For HMDB database, first download the XML file, then use this command to extract the metabolites::
 
@@ -108,15 +110,17 @@ For HMDB database, first download the XML file, then use this command to extract
 Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.
 
 Cache Creation
--------------
+--------------
 
-After preparing your database, create cache files to store precomputed molecular masses and isotope patterns. This step:
-- Significantly speeds up analysis
-- Is required before running any analysis
-- Should be repeated when:
-  * Updating your compound database
-  * Changing isotope configurations
-  * Starting a new project
+Create cache files to store precomputed molecular masses and isotope patterns. This step is essential for:
+
+- Fast analysis performance
+- Initial setup before any analysis
+- Updates when:
+
+  * Database changes
+  * Isotope settings change
+  * New project begins
 
 For natural abundance compounds, use::
 
@@ -125,11 +129,51 @@ For natural abundance compounds, use::
 Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database. This file will be used for fast matching during analysis.
 
 Isotope Configuration
---------------------
+---------------------
 
-MIMI uses atomic weights and natural isotope abundances from the National Institute of Standards and Technology (NIST), Gaithersburg, MD, which are distributed with the MIMI package in JSON format. The data is sourced from the NIST Atomic Weights and Isotopic Compositions database (https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses). MIMI always parses this file first as the basis for isotopic analysis.
+MIMI uses atomic weights and natural isotope abundances from the National Institute of Standards and Technology (NIST). The original data, sourced from the `NIST Atomic Weights database <https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses>`_, was converted from plain text to JSON format for easier processing and is distributed with MIMI as `natural_isotope_abundance_NIST.json <https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/refs/heads/main/mimi/data/natural_isotope_abundance_NIST.json>`_. This file serves as the foundation for all isotopic calculations.
 
-For samples with stable isotope enrichment, you need to specify new values for all elements with non-natural ratios. This is particularly important for experimental studies that employ stable isotope labeling with:
+For each element in `natural_isotope_abundance_NIST.json`, it provides detailed information about all its naturally occurring isotopes, including:
+
+1. **Element Organization**: Data is organized by element symbol (e.g., "H", "C", "O", etc.)
+2. **Isotope Information**: For each isotope of an element, the file includes:
+
+   - `periodic_number`: The atomic number of the element
+   - `element_symbol`: The chemical symbol of the element
+   - `nominal_mass`: The mass number (number of protons + neutrons)
+   - `exact_mass`: The precise atomic mass in atomic mass units (u)
+   - `natural_abundance`: The relative abundance of the isotope in nature
+
+Example entry for Carbon (C):
+::
+
+    "C": [
+        {
+            "periodic_number": 6,
+            "element_symbol": "C",
+            "nominal_mass": 12,
+            "exact_mass": 12.0,
+            "natural_abundance": 0.9893
+        },
+        {
+            "periodic_number": 6,
+            "element_symbol": "C",
+            "nominal_mass": 13,
+            "exact_mass": 13.00335483507,
+            "natural_abundance": 0.0107
+        }
+    ]
+
+This data is used for:
+
+- Calculating exact molecular masses
+- Determining molecular isotope patterns
+- Computing Molecular abundances
+
+
+For samples with stable isotope enrichment, you can override these values using the `--label` (`-l`) option with a custom JSON file. 
+This is particularly useful for experimental studies using stable isotope labeling with:
+
 - Carbon (13C)
 - Hydrogen (2H)
 - Nitrogen (15N)
@@ -143,14 +187,11 @@ Key points about isotope configuration:
 - Isotope abundances must sum to 1.0 (MIMI verifies this)
 - For multiple labeled elements, include all in one file
 
-Example: For 95% 13C labeling:
+Example: For 95% 13C labeling, you can use the provided configuration file at `C13_95.json <https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/refs/heads/main/data/processed/C13_95.json>`_:
 
-- 13C proportion: 0.95
-- 12C proportion: 0.05
-- Total must equal 1.0
+::
 
-Create a C13_95.json file::
-
+    C13_95.json 
     {
       "C": [
         {
@@ -177,7 +218,7 @@ For C13-labeled compounds, create a cache with the isotope configuration::
 Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. Use this when analyzing labeled samples.
 
 Verify Cache
------------
+------------
 
 Before proceeding with analysis, it's good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly::
 
@@ -191,7 +232,7 @@ Example output::
     # MIMI Version: 1.0.0
 
     # Creation Parameters:
-    # Full Command: /Users/nr83/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
+    # Full Command: /Users/aaa/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
     # Ionization Mode: neg
     # Labeled Atoms File: None
     # Compound DB Files: data/processed/kegg_compounds.tsv
@@ -243,10 +284,10 @@ Example output::
     ------------------------------------------------------------
 
 Sample Analysis
---------------
+---------------
 
 Input File Format
-----------------
+-----------------
 
 MIMI accepts mass spectrometry data in .asc format. Each line contains three columns:
 
@@ -280,7 +321,7 @@ Key parameters:
 - `-o`: Output file for results
 
 PPM Thresholds
--------------
+--------------
 
 The PPM threshold affects match precision and reliability:
 
@@ -298,7 +339,7 @@ Example::
     mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results_good.tsv
 
 Multiple Cache Analysis
-----------------------
+-----------------------
 
 You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns::
 
@@ -311,7 +352,7 @@ Use this when:
 - Validating matches
 
 Batch Processing
----------------
+----------------
 
 MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions::
 
@@ -324,25 +365,25 @@ Use this when:
 - Need consistent analysis
 
 Results Format
--------------
+--------------
 
 The output TSV file contains these columns:
 
-1. **CF**: Chemical formula of the matched compound
-2. **ID**: Compound identifier from the original database
-3. **Name**: Compound name
-4. **C**: Number of carbon atoms
-5. **H**: Number of hydrogen atoms
-6. **N**: Number of nitrogen atoms
-7. **O**: Number of oxygen atoms
-8. **P**: Number of phosphorus atoms
-9. **S**: Number of sulfur atoms
-10. **db_mass_nat**: Calculated mass for natural abundance
-11. **db_mass_C13**: Calculated mass for C13-labeled (if applicable)
-12. **mass_measured**: Observed mass in the sample
-13. **error_ppm**: Parts per million difference between calculated and observed mass
-14. **intensity**: Signal intensity in the sample
-15. **iso_count**: Number of isotopes detected
+- **CF**: Chemical formula of the matched compound
+- **ID**: Compound identifier from the original database
+- **Name**: Compound name
+- **C**: Number of carbon atoms
+- **H**: Number of hydrogen atoms
+- **N**: Number of nitrogen atoms
+- **O**: Number of oxygen atoms
+- **P**: Number of phosphorus atoms
+- **S**: Number of sulfur atoms
+- **db_mass_nat**: Calculated mass for natural abundance(User specified)
+- **db_mass_C13**: Calculated mass for C13-labeled (User specified)
+- **mass_measured**: Observed mass in the sample
+- **error_ppm**: Parts per million difference between calculated and observed mass
+- **intensity**: Signal intensity in the sample
+- **iso_count**: Number of isotopes detected
 
 Example output::
 
@@ -359,37 +400,43 @@ Example output::
     C15H15NO	C15043	2-[2-(4-Pyridinyl)-1-butenyl]phenol	15	15	1	1	0	0	224.10808764045		224.10799	0.43568463341037544	26747608	4
 
 Troubleshooting
---------------
+---------------
 
 1. **Data Quality**:
+
    - Always combine mass accuracy with isotope pattern matching
    - Compare results from natural and labeled caches
    - Process replicates together for consistency
    - Verify important matches manually
 
 2. **Common Issues and Solutions**:
+
    - **No matches found**:
+
      - Increase PPM threshold
      - Verify sample format
      - Check ionization mode
    
    - **Too many matches**:
+
      - Decrease PPM threshold
      - Use stricter verification PPM
      - Filter by isotope score
    
    - **Cache creation errors**:
+
      - Verify chemical formulas
      - Check labeling configuration
      - Enable debugging
    
    - **Performance issues**:
+
      - Use focused databases
      - Process samples in smaller batches
      - Optimize mass ranges
 
 Complete Example
----------------
+----------------
 
 Here's a complete example from start to finish:
 

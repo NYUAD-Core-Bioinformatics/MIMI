@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Command Reference" href="command_reference.html" />
+    <link rel="next" title="Architecture Design" href="architecture.html" />
     <link rel="prev" title="Overview" href="overview.html" /> 
 </head>
 
@@ -66,11 +66,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#complete-example">Complete Example</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mimi_architecture.html">MIMI architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference.html">Command Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mimi_package.html">mimi package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -125,18 +123,23 @@
 </section>
 <section id="database-options">
 <h2>Database Options<a class="headerlink" href="#database-options" title="Permalink to this headline"></a></h2>
-<p>MIMI supports two prepare your compound database from external sources:</p>
+<p>MIMI supports two ways to prepare your compound database from external sources with a given mass range:</p>
 <ol class="arabic">
-<li><p><strong>KEGG Database</strong>:
-- Broad compound coverage
-- Uses REST API
-- Includes pathway data
-- Works well for general biological samples</p></li>
-<li><p><strong>HMDB Database</strong> (For human samples):
-- Human-specific metabolites
-- Requires XML file download
-- More detailed metabolite info
-- Best for clinical samples</p>
+<li><p><strong>KEGG Database</strong>:</p>
+<ul class="simple">
+<li><p>Broad compound coverage</p></li>
+<li><p>Uses REST API</p></li>
+<li><p>Includes pathway data</p></li>
+<li><p>Works well for general biological samples</p></li>
+</ul>
+</li>
+<li><p><strong>HMDB Database</strong> (For human samples):</p>
+<ul class="simple">
+<li><p>Human-specific metabolites</p></li>
+<li><p>Requires XML file download</p></li>
+<li><p>More detailed metabolite info</p></li>
+<li><p>Best for clinical samples</p></li>
+</ul>
 <p>The HMDB database is provided as an XML file named “hmdb_metabolites.xml”. This file contains:</p>
 <ul class="simple">
 <li><p>Detailed information about each metabolite</p></li>
@@ -163,7 +166,7 @@
 <ul>
 <li><p>Filters out compounds heavier than this mass</p></li>
 <li><p>Useful for focusing on specific mass ranges</p></li>
-<li><p>Example: -u 500 filters out compounds &gt; 500 Da</p></li>
+<li><p>Example: -u 400 filters out compounds &gt; 400 Da</p></li>
 </ul>
 </li>
 </ul>
@@ -173,8 +176,8 @@
 <h2>Custom Database Format<a class="headerlink" href="#custom-database-format" title="Permalink to this headline"></a></h2>
 <p>Create a custom database when:
 - Working with novel compounds
-- Have specific compounds of interest
-- Need to add custom annotations
+- Having specific compounds of interest
+- Needing to add custom annotations
 - Combining multiple sources</p>
 <p>The file must contain these required columns:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CF</span>      <span class="n">ID</span>        <span class="n">Name</span>
@@ -193,7 +196,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">40</span> <span class="o">-</span><span class="n">u</span> <span class="mi">400</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
-<p>Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 100 and 500 Da from the KEGG database.</p>
+<p>Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 40 and 400 Da from the KEGG database.</p>
 <p>For HMDB database, first download the XML file, then use this command to extract the metabolites:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
@@ -202,17 +205,18 @@
 </section>
 <section id="cache-creation">
 <h2>Cache Creation<a class="headerlink" href="#cache-creation" title="Permalink to this headline"></a></h2>
-<p>After preparing your database, create cache files to store precomputed molecular masses and isotope patterns. This step:
-- Significantly speeds up analysis
-- Is required before running any analysis
-- Should be repeated when:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Updating your compound database</p></li>
-<li><p>Changing isotope configurations</p></li>
-<li><p>Starting a new project</p></li>
+<p>Create cache files to store precomputed molecular masses and isotope patterns. This step is essential for:</p>
+<ul class="simple">
+<li><p>Fast analysis performance</p></li>
+<li><p>Initial setup before any analysis</p></li>
+<li><p>Updates when:</p>
+<ul>
+<li><p>Database changes</p></li>
+<li><p>Isotope settings change</p></li>
+<li><p>New project begins</p></li>
 </ul>
-</div></blockquote>
+</li>
+</ul>
 <p>For natural abundance compounds, use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span>
 </pre></div>
@@ -221,13 +225,54 @@
 </section>
 <section id="isotope-configuration">
 <h2>Isotope Configuration<a class="headerlink" href="#isotope-configuration" title="Permalink to this headline"></a></h2>
-<p>MIMI uses atomic weights and natural isotope abundances from the National Institute of Standards and Technology (NIST), Gaithersburg, MD, which are distributed with the MIMI package in JSON format. The data is sourced from the NIST Atomic Weights and Isotopic Compositions database (<a class="reference external" href="https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses">https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses</a>). MIMI always parses this file first as the basis for isotopic analysis.</p>
-<p>For samples with stable isotope enrichment, you need to specify new values for all elements with non-natural ratios. This is particularly important for experimental studies that employ stable isotope labeling with:
-- Carbon (13C)
-- Hydrogen (2H)
-- Nitrogen (15N)
-- Oxygen (17O, 18O)
-- Sulfur (33S, 34S)</p>
+<p>MIMI uses atomic weights and natural isotope abundances from the National Institute of Standards and Technology (NIST). The original data, sourced from the <a class="reference external" href="https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses">NIST Atomic Weights database</a>, was converted from plain text to JSON format for easier processing and is distributed with MIMI as <a class="reference external" href="https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/refs/heads/main/mimi/data/natural_isotope_abundance_NIST.json">natural_isotope_abundance_NIST.json</a>. This file serves as the foundation for all isotopic calculations.</p>
+<p>For each element in <cite>natural_isotope_abundance_NIST.json</cite>, it provides detailed information about all its naturally occurring isotopes, including:</p>
+<ol class="arabic simple">
+<li><p><strong>Element Organization</strong>: Data is organized by element symbol (e.g., “H”, “C”, “O”, etc.)</p></li>
+<li><p><strong>Isotope Information</strong>: For each isotope of an element, the file includes:</p>
+<ul class="simple">
+<li><p><cite>periodic_number</cite>: The atomic number of the element</p></li>
+<li><p><cite>element_symbol</cite>: The chemical symbol of the element</p></li>
+<li><p><cite>nominal_mass</cite>: The mass number (number of protons + neutrons)</p></li>
+<li><p><cite>exact_mass</cite>: The precise atomic mass in atomic mass units (u)</p></li>
+<li><p><cite>natural_abundance</cite>: The relative abundance of the isotope in nature</p></li>
+</ul>
+</li>
+</ol>
+<p>Example entry for Carbon (C):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span>
+        <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.9893</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="s2">&quot;element_symbol&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nominal_mass&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s2">&quot;exact_mass&quot;</span><span class="p">:</span> <span class="mf">13.00335483507</span><span class="p">,</span>
+        <span class="s2">&quot;natural_abundance&quot;</span><span class="p">:</span> <span class="mf">0.0107</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>This data is used for:</p>
+<ul class="simple">
+<li><p>Calculating exact molecular masses</p></li>
+<li><p>Determining molecular isotope patterns</p></li>
+<li><p>Computing Molecular abundances</p></li>
+</ul>
+<p>For samples with stable isotope enrichment, you can override these values using the <cite>–label</cite> (<cite>-l</cite>) option with a custom JSON file.
+This is particularly useful for experimental studies using stable isotope labeling with:</p>
+<ul class="simple">
+<li><p>Carbon (13C)</p></li>
+<li><p>Hydrogen (2H)</p></li>
+<li><p>Nitrogen (15N)</p></li>
+<li><p>Oxygen (17O, 18O)</p></li>
+<li><p>Sulfur (33S, 34S)</p></li>
+</ul>
 <p>Key points about isotope configuration:</p>
 <ul class="simple">
 <li><p>Use the <cite>–label</cite> (<cite>-l</cite>) option with a custom JSON file</p></li>
@@ -235,14 +280,9 @@
 <li><p>Isotope abundances must sum to 1.0 (MIMI verifies this)</p></li>
 <li><p>For multiple labeled elements, include all in one file</p></li>
 </ul>
-<p>Example: For 95% 13C labeling:</p>
-<ul class="simple">
-<li><p>13C proportion: 0.95</p></li>
-<li><p>12C proportion: 0.05</p></li>
-<li><p>Total must equal 1.0</p></li>
-</ul>
-<p>Create a C13_95.json file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<p>Example: For 95% 13C labeling, you can use the provided configuration file at <a class="reference external" href="https://raw.githubusercontent.com/NYUAD-Core-Bioinformatics/MIMI/refs/heads/main/data/processed/C13_95.json">C13_95.json</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span>
+<span class="p">{</span>
   <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="s2">&quot;periodic_number&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
@@ -281,7 +321,7 @@
 <span class="c1"># MIMI Version: 1.0.0</span>
 
 <span class="c1"># Creation Parameters:</span>
-<span class="c1"># Full Command: /Users/nr83/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat</span>
+<span class="c1"># Full Command: /Users/aaa/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat</span>
 <span class="c1"># Ionization Mode: neg</span>
 <span class="c1"># Labeled Atoms File: None</span>
 <span class="c1"># Compound DB Files: data/processed/kegg_compounds.tsv</span>
@@ -416,7 +456,7 @@
 <section id="results-format">
 <h2>Results Format<a class="headerlink" href="#results-format" title="Permalink to this headline"></a></h2>
 <p>The output TSV file contains these columns:</p>
-<ol class="arabic simple">
+<ul class="simple">
 <li><p><strong>CF</strong>: Chemical formula of the matched compound</p></li>
 <li><p><strong>ID</strong>: Compound identifier from the original database</p></li>
 <li><p><strong>Name</strong>: Compound name</p></li>
@@ -426,13 +466,13 @@
 <li><p><strong>O</strong>: Number of oxygen atoms</p></li>
 <li><p><strong>P</strong>: Number of phosphorus atoms</p></li>
 <li><p><strong>S</strong>: Number of sulfur atoms</p></li>
-<li><p><strong>db_mass_nat</strong>: Calculated mass for natural abundance</p></li>
-<li><p><strong>db_mass_C13</strong>: Calculated mass for C13-labeled (if applicable)</p></li>
+<li><p><strong>db_mass_nat</strong>: Calculated mass for natural abundance(User specified)</p></li>
+<li><p><strong>db_mass_C13</strong>: Calculated mass for C13-labeled (User specified)</p></li>
 <li><p><strong>mass_measured</strong>: Observed mass in the sample</p></li>
 <li><p><strong>error_ppm</strong>: Parts per million difference between calculated and observed mass</p></li>
 <li><p><strong>intensity</strong>: Signal intensity in the sample</p></li>
 <li><p><strong>iso_count</strong>: Number of isotopes detected</p></li>
-</ol>
+</ul>
 <p>Example output:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">head</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
 <span class="n">Log</span> <span class="n">file</span>    <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">aaa</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">results_20250426_000954</span><span class="o">.</span><span class="n">log</span>
@@ -450,34 +490,45 @@
 </section>
 <section id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline"></a></h2>
-<ol class="arabic">
-<li><p><strong>Data Quality</strong>:
-- Always combine mass accuracy with isotope pattern matching
-- Compare results from natural and labeled caches
-- Process replicates together for consistency
-- Verify important matches manually</p></li>
-<li><p><strong>Common Issues and Solutions</strong>:
-- <strong>No matches found</strong>:</p>
-<blockquote>
-<div><ul class="simple">
+<ol class="arabic simple">
+<li><p><strong>Data Quality</strong>:</p>
+<ul class="simple">
+<li><p>Always combine mass accuracy with isotope pattern matching</p></li>
+<li><p>Compare results from natural and labeled caches</p></li>
+<li><p>Process replicates together for consistency</p></li>
+<li><p>Verify important matches manually</p></li>
+</ul>
+</li>
+<li><p><strong>Common Issues and Solutions</strong>:</p>
+<ul class="simple">
+<li><p><strong>No matches found</strong>:</p>
+<ul>
 <li><p>Increase PPM threshold</p></li>
 <li><p>Verify sample format</p></li>
 <li><p>Check ionization mode</p></li>
 </ul>
-</div></blockquote>
-<ul class="simple">
-<li><p><strong>Too many matches</strong>:
-- Decrease PPM threshold
-- Use stricter verification PPM
-- Filter by isotope score</p></li>
-<li><p><strong>Cache creation errors</strong>:
-- Verify chemical formulas
-- Check labeling configuration
-- Enable debugging</p></li>
-<li><p><strong>Performance issues</strong>:
-- Use focused databases
-- Process samples in smaller batches
-- Optimize mass ranges</p></li>
+</li>
+<li><p><strong>Too many matches</strong>:</p>
+<ul>
+<li><p>Decrease PPM threshold</p></li>
+<li><p>Use stricter verification PPM</p></li>
+<li><p>Filter by isotope score</p></li>
+</ul>
+</li>
+<li><p><strong>Cache creation errors</strong>:</p>
+<ul>
+<li><p>Verify chemical formulas</p></li>
+<li><p>Check labeling configuration</p></li>
+<li><p>Enable debugging</p></li>
+</ul>
+</li>
+<li><p><strong>Performance issues</strong>:</p>
+<ul>
+<li><p>Use focused databases</p></li>
+<li><p>Process samples in smaller batches</p></li>
+<li><p>Optimize mass ranges</p></li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
@@ -519,7 +570,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="command_reference.html" class="btn btn-neutral float-right" title="Command Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
