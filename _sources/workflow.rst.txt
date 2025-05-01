@@ -77,14 +77,14 @@ MIMI supports two ways to prepare your compound database from external sources w
    - Best for clinical samples
 
 
-   The HMDB database is provided as an XML file named "hmdb_metabolites.xml". This file contains:
+   The HMDB database is provided as an XML file named **hmdb_metabolites.xml**. This file contains:
    
    - Detailed information about each metabolite
    - Chemical formulas and molecular weights
    - Names and identifiers
    - Additional metadata about human metabolites
 
-   Download the HMDB XML file from https://hmdb.ca/downloads and save it as "hmdb_metabolites.xml".
+   Download the HMDB XML file from `https://hmdb.ca/downloads <https://hmdb.ca/downloads>`_ and save it as **hmdb_metabolites.xml**.
 
 .. _mass-range-filtering:
 
@@ -99,13 +99,13 @@ Filter compounds by mass using:
   - Useful for removing small molecules or contaminants
   - Example: -l 100 filters out compounds < 100 Da
 
-- `-u`: Upper mass limit (e.g., 400 Da)
+- `-u`: Upper mass limit (e.g., 1000 Da)
 
   - Filters out compounds heavier than this mass
   - Useful for focusing on specific mass ranges
-  - Example: -u 400 filters out compounds > 400 Da
+  - Example: -u 1000 filters out compounds > 1000 Da
 
-Example: `-l 40 -u 400` keeps compounds between 40-400 Da.
+Example: `-l 40 -u 1000` keeps compounds between 40-1000 Da.
 
 .. _custom-database-format:
 
@@ -113,6 +113,7 @@ Custom Database Format
 ----------------------
 
 Create a custom database when:
+
 - Working with novel compounds
 - Having specific compounds of interest
 - Needing to add custom annotations
@@ -133,23 +134,50 @@ Step1: Database Preparation from KEGG and HMDB
 ----------------------------------------------
 
 The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.
+Since the observed mass range is 40-1000 Da from Mass Spectrometry, we recommend to use the mass range 20-1000 Da for KEGG
+
+Mass Spectrometry data::
+
+    $ head data/processed/testdata1.asc 
+    43.16184	1089317	0.00003
+    43.28766	1115802	0.00003
+    43.28946	1226947	0.00003
+    43.30269	1107425	0.00005
+    43.36457	2236071	0.00004
+    43.36459	1891040	0.00004
+    43.37268	1281049	0.00004
+    43.4223	2184166	0.00002
+    43.42234	23344476	0.00004
+    43.42237	22443004	0.00004
+
+    $ tail  data/processed/testdata1.asc 
+    998.43509	1206308	0.00535
+    998.46616	1131300	0.00695
+    998.73782	1093661	0.00813
+    999.04497	1088280	0.00781
+    999.2502	1257493	0.00659
+    999.26602	1114389	0.00842
+    999.50487	2941816	0.02121
+    999.52689	2547575	0.01782
+    999.90084	1347088	0.00892
+    999.99347	2578292	0.00277
 
 For KEGG database, use the following command to extract compounds within a specific mass range::
 
-    mimi_kegg_extract -l 20 -u 900 -o data/processed/kegg_compounds.tsv
+    mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
 
-Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 40 and 400 Da from the KEGG database.
+Expected Output: A TSV file containing compounds with their chemical formulas(CF), IDs(ID), and names(Name). The file will include compounds with molecular weights between 40 and 1000 Da from the KEGG database.
 
 For HMDB database, first download the XML file, then use this command to extract the metabolites::
 
-    mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds.tsv
+    mimi_hmdb_extract -l 40 -u 1000 -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
 
 Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.
 
 .. _step2-cache-creation:
 
-Step2:Cache Creation
---------------------
+Step2: Cache Creation
+---------------------
 
 Create cache files to store precomputed molecular masses and isotope patterns. This step is essential for:
 
@@ -163,7 +191,7 @@ Create cache files to store precomputed molecular masses and isotope patterns. T
 
 For natural abundance compounds, use::
 
-    mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
+    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_nat
 
 Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database. This file will be used for fast matching during analysis.
 
@@ -254,7 +282,7 @@ Example: For 95% 13C labeling, you can use the provided configuration file at `C
 
 For C13-labeled compounds, create a cache with the isotope configuration::
 
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_C13
 
 Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. 
 
@@ -277,10 +305,10 @@ Example output::
     # MIMI Version: 1.0.0
 
     # Creation Parameters:
-    # Full Command: /Users/aaa/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
+    # Full Command: /Users/aaa/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_nat
     # Ionization Mode: neg
     # Labeled Atoms File: None
-    # Compound DB Files: data/processed/kegg_compounds.tsv
+    # Compound DB Files: data/processed/kegg_compounds_40_1000Da.tsv
     # Cache Output File: outdir/db_nat.pkl
     # Isotope Data File: mimi/data/natural_isotope_abundance_NIST.json
 
@@ -434,26 +462,21 @@ The output TSV file contains these columns:
 - **intensity**: Signal intensity in the sample
 - **iso_count**: Number of isotopes detected
 
-Example output::
+Example output file::
 
-    head outdir/results.tsv
-    Log file	/Users/aaa/test/log/results_20250426_000954.log
+    Log file  /Users/aaa/test/log/results_20250426_000954.log
                                                                             data/processed/testdata1.asc						
-                                                                            db_nat                                          db_C13			
-    CF	      ID	    Name	            C	H	N	O	P	S	db_nat_mass db_C13_mass mass_measured error_ppm	    intensity	iso_count	mass_measured	error_ppm    intensity    iso_count
-    ..
-    .....
-    .......
-    C5H5N5    C00147	Adenine           5 5	5	0	0	0	134.0472187 139.0639929	134.04722     -0.009576476	10030305.6	3       139.06396     0.236698942   143680406.4	4
-    C5H9NO2   C00148	L-Proline         5 9	1	2	0	0	114.0560521 119.0728263	114.05601     0.368824269	  18852508.02	4       119.0728      0.220593068   72633081.84	5
-    C4H6O5    C00149	(S)-Malate        4 6	0	5	0	0	133.0142468 137.0276662	133.01424     0.051304504	  4229908.65	2       137.02769	    -0.173802639  2550057.38	4
-    C4H8N2O3  C00152	L-Asparagine      4 8	2	3	0	0	131.0462157 135.059635	131.04617	    0.348414563	  4418266.3   4       135.0596      0.259281095   123609409.5	8
-    C6H6N2O   C00153	Nicotinamide      6 6	2	1	0	0	121.0407364             121.04075     -0.112732212  640304.28   1		
-    C4H9NO2S  C00155	L-Homocysteine    4 9	1	2	0	1	134.0281232 138.0415426	134.02816	    -0.274263036	1882881.1	  3	      138.04156	    -0.126041477	554962.24	  7
-    C7H6O3	  C00156	4-Hydroxybenzoate	7 6	0	3	0 0 137.0244176	            137.02444	    -0.163583326	87231044.64	2				
-    ......
-    ... 
-    .
+                                                                            db_nat                                            db_C13			
+    CF        ID      Name              C H N O P S db_nat_mass db_C13_mass mass_measured error_ppm     intensity   iso_count mass_measured error_ppm     intensity     iso_count
+    C5H5N5    C00147  Adenine           5 5 5 0 0 0 134.0472187 139.0639929 134.04722     -0.009576476  10030305.6  3         139.06396     0.236698942   143680406.4   4
+    C5H9NO2   C00148  L-Proline         5 9 1 2 0 0 114.0560521 119.0728263 114.05601     0.368824269   18852508.02 4         119.0728      0.220593068   72633081.845  8
+    C4H6O5    C00149  (S)-Malate        4 6 0 5 0 0 133.0142468 137.0276662 133.01424     0.051304504   4229908.65  2         137.02769     -0.173802639  2550057.38    4
+    C4H8N2O3  C00152  L-Asparagine      4 8 2 3 0 0 131.0462157 135.059635  131.04617     0.348414563   4418266.3   4         135.0596      0.259281095   123609409.5   8
+    C6H6N2O   C00153  Nicotinamide      6 6 2 1 0 0 121.0407364             121.04075     -0.112732212  640304.28   1
+    C4H9NO2S  C00155  L-Homocysteine    4 9 1 2 0 1 134.0281232 138.0415426 134.02816     -0.274263036  1882881.1   3         138.04156     -0.126041477  554962.24     7
+    C7H6O3    C00156  4-Hydroxybenzoate	7 6 0 3 0 0 137.0244176             137.02444     -0.163583326  87231044.64 2
+  
+
 .. _comprehensive-analysis-runs:
 
 Comprehensive Analysis Runs

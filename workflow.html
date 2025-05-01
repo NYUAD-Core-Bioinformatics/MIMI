@@ -58,7 +58,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#mass-range-filtering">Mass Range Filtering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-database-format">Custom Database Format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#step1-database-preparation-from-kegg-and-hmdb">Step1: Database Preparation from KEGG and HMDB</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step2-cache-creation">Step2:Cache Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step2-cache-creation">Step2: Cache Creation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#isotope-configuration">Isotope Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#verify-cache">Verify Cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id8">Step3: Sample Analysis</a></li>
@@ -140,7 +140,7 @@
 <li><p>You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp).</p></li>
 <li><p>You can verify the cache contents using <cite>mimi_cache_dump</cite> to ensure everything was processed correctly</p></li>
 </ul>
-<p>See for more details: <a class="reference internal" href="#step2-cache-creation"><span class="std std-ref">Step2:Cache Creation</span></a>, <a class="reference internal" href="#ppm-thresholds"><span class="std std-ref">PPM Thresholds</span></a>, <a class="reference internal" href="#isotope-configuration"><span class="std std-ref">Isotope Configuration</span></a>  <a class="reference internal" href="#verify-cache"><span class="std std-ref">Verify Cache</span></a></p>
+<p>See for more details: <a class="reference internal" href="#step2-cache-creation"><span class="std std-ref">Step2: Cache Creation</span></a>, <a class="reference internal" href="#ppm-thresholds"><span class="std std-ref">PPM Thresholds</span></a>, <a class="reference internal" href="#isotope-configuration"><span class="std std-ref">Isotope Configuration</span></a>  <a class="reference internal" href="#verify-cache"><span class="std std-ref">Verify Cache</span></a></p>
 </section>
 <section id="step3-sample-analysis">
 <h3>Step3: Sample Analysis<a class="headerlink" href="#step3-sample-analysis" title="Permalink to this headline"></a></h3>
@@ -174,14 +174,14 @@
 <li><p>More detailed metabolite info</p></li>
 <li><p>Best for clinical samples</p></li>
 </ul>
-<p>The HMDB database is provided as an XML file named “hmdb_metabolites.xml”. This file contains:</p>
+<p>The HMDB database is provided as an XML file named <strong>hmdb_metabolites.xml</strong>. This file contains:</p>
 <ul class="simple">
 <li><p>Detailed information about each metabolite</p></li>
 <li><p>Chemical formulas and molecular weights</p></li>
 <li><p>Names and identifiers</p></li>
 <li><p>Additional metadata about human metabolites</p></li>
 </ul>
-<p>Download the HMDB XML file from <a class="reference external" href="https://hmdb.ca/downloads">https://hmdb.ca/downloads</a> and save it as “hmdb_metabolites.xml”.</p>
+<p>Download the HMDB XML file from <a class="reference external" href="https://hmdb.ca/downloads">https://hmdb.ca/downloads</a> and save it as <strong>hmdb_metabolites.xml</strong>.</p>
 </li>
 </ol>
 </section>
@@ -196,23 +196,25 @@
 <li><p>Example: -l 100 filters out compounds &lt; 100 Da</p></li>
 </ul>
 </li>
-<li><p><cite>-u</cite>: Upper mass limit (e.g., 400 Da)</p>
+<li><p><cite>-u</cite>: Upper mass limit (e.g., 1000 Da)</p>
 <ul>
 <li><p>Filters out compounds heavier than this mass</p></li>
 <li><p>Useful for focusing on specific mass ranges</p></li>
-<li><p>Example: -u 400 filters out compounds &gt; 400 Da</p></li>
+<li><p>Example: -u 1000 filters out compounds &gt; 1000 Da</p></li>
 </ul>
 </li>
 </ul>
-<p>Example: <cite>-l 40 -u 400</cite> keeps compounds between 40-400 Da.</p>
+<p>Example: <cite>-l 40 -u 1000</cite> keeps compounds between 40-1000 Da.</p>
 </section>
 <section id="custom-database-format">
 <span id="id3"></span><h2>Custom Database Format<a class="headerlink" href="#custom-database-format" title="Permalink to this headline"></a></h2>
-<p>Create a custom database when:
-- Working with novel compounds
-- Having specific compounds of interest
-- Needing to add custom annotations
-- Combining multiple sources</p>
+<p>Create a custom database when:</p>
+<ul class="simple">
+<li><p>Working with novel compounds</p></li>
+<li><p>Having specific compounds of interest</p></li>
+<li><p>Needing to add custom annotations</p></li>
+<li><p>Combining multiple sources</p></li>
+</ul>
 <p>The file must contain these required columns:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CF</span>      <span class="n">ID</span>        <span class="n">Name</span>
 <span class="n">C6H12O6</span> <span class="n">C00031</span>    <span class="n">Glucose</span>
@@ -225,20 +227,47 @@
 </section>
 <section id="step1-database-preparation-from-kegg-and-hmdb">
 <span id="id4"></span><h2>Step1: Database Preparation from KEGG and HMDB<a class="headerlink" href="#step1-database-preparation-from-kegg-and-hmdb" title="Permalink to this headline"></a></h2>
-<p>The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.</p>
-<p>For KEGG database, use the following command to extract compounds within a specific mass range:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">20</span> <span class="o">-</span><span class="n">u</span> <span class="mi">900</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+<p>The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.
+Since the observed mass range is 40-1000 Da from Mass Spectrometry, we recommend to use the mass range 20-1000 Da for KEGG</p>
+<p>Mass Spectrometry data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ head data/processed/testdata1.asc
+43.16184    1089317 0.00003
+43.28766    1115802 0.00003
+43.28946    1226947 0.00003
+43.30269    1107425 0.00005
+43.36457    2236071 0.00004
+43.36459    1891040 0.00004
+43.37268    1281049 0.00004
+43.4223     2184166 0.00002
+43.42234    23344476        0.00004
+43.42237    22443004        0.00004
+
+$ tail  data/processed/testdata1.asc
+998.43509   1206308 0.00535
+998.46616   1131300 0.00695
+998.73782   1093661 0.00813
+999.04497   1088280 0.00781
+999.2502    1257493 0.00659
+999.26602   1114389 0.00842
+999.50487   2941816 0.02121
+999.52689   2547575 0.01782
+999.90084   1347088 0.00892
+999.99347   2578292 0.00277
 </pre></div>
 </div>
-<p>Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 40 and 400 Da from the KEGG database.</p>
+<p>For KEGG database, use the following command to extract compounds within a specific mass range:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">40</span> <span class="o">-</span><span class="n">u</span> <span class="mi">1000</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds_40_1000Da</span><span class="o">.</span><span class="n">tsv</span>
+</pre></div>
+</div>
+<p>Expected Output: A TSV file containing compounds with their chemical formulas(CF), IDs(ID), and names(Name). The file will include compounds with molecular weights between 40 and 1000 Da from the KEGG database.</p>
 <p>For HMDB database, first download the XML file, then use this command to extract the metabolites:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">40</span> <span class="o">-</span><span class="n">u</span> <span class="mi">1000</span> <span class="o">-</span><span class="n">x</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">hmdb_compounds_40_1000Da</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 <p>Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.</p>
 </section>
 <section id="step2-cache-creation">
-<span id="id5"></span><h2>Step2:Cache Creation<a class="headerlink" href="#step2-cache-creation" title="Permalink to this headline"></a></h2>
+<span id="id5"></span><h2>Step2: Cache Creation<a class="headerlink" href="#step2-cache-creation" title="Permalink to this headline"></a></h2>
 <p>Create cache files to store precomputed molecular masses and isotope patterns. This step is essential for:</p>
 <ul class="simple">
 <li><p>Fast analysis performance</p></li>
@@ -252,7 +281,7 @@
 </li>
 </ul>
 <p>For natural abundance compounds, use:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds_40_1000Da</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span>
 </pre></div>
 </div>
 <p>Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database. This file will be used for fast matching during analysis.</p>
@@ -337,7 +366,7 @@ This is particularly useful for experimental studies using stable isotope labeli
 </pre></div>
 </div>
 <p>For C13-labeled compounds, create a cache with the isotope configuration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds_40_1000Da</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span>
 </pre></div>
 </div>
 <p>Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling.</p>
@@ -356,10 +385,10 @@ This is particularly useful for experimental studies using stable isotope labeli
 <span class="c1"># MIMI Version: 1.0.0</span>
 
 <span class="c1"># Creation Parameters:</span>
-<span class="c1"># Full Command: /Users/aaa/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat</span>
+<span class="c1"># Full Command: /Users/aaa/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_nat</span>
 <span class="c1"># Ionization Mode: neg</span>
 <span class="c1"># Labeled Atoms File: None</span>
-<span class="c1"># Compound DB Files: data/processed/kegg_compounds.tsv</span>
+<span class="c1"># Compound DB Files: data/processed/kegg_compounds_40_1000Da.tsv</span>
 <span class="c1"># Cache Output File: outdir/db_nat.pkl</span>
 <span class="c1"># Isotope Data File: mimi/data/natural_isotope_abundance_NIST.json</span>
 
@@ -498,25 +527,18 @@ This is particularly useful for experimental studies using stable isotope labeli
 <li><p><strong>intensity</strong>: Signal intensity in the sample</p></li>
 <li><p><strong>iso_count</strong>: Number of isotopes detected</p></li>
 </ul>
-<p>Example output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">head</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
-<span class="n">Log</span> <span class="n">file</span>    <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">aaa</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">results_20250426_000954</span><span class="o">.</span><span class="n">log</span>
+<p>Example output file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Log</span> <span class="n">file</span>  <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">aaa</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">results_20250426_000954</span><span class="o">.</span><span class="n">log</span>
                                                                         <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span>
-                                                                        <span class="n">db_nat</span>                                          <span class="n">db_C13</span>
-<span class="n">CF</span>        <span class="n">ID</span>            <span class="n">Name</span>                    <span class="n">C</span>   <span class="n">H</span>       <span class="n">N</span>       <span class="n">O</span>       <span class="n">P</span>       <span class="n">S</span>       <span class="n">db_nat_mass</span> <span class="n">db_C13_mass</span> <span class="n">mass_measured</span> <span class="n">error_ppm</span>     <span class="n">intensity</span>   <span class="n">iso_count</span>       <span class="n">mass_measured</span>   <span class="n">error_ppm</span>    <span class="n">intensity</span>    <span class="n">iso_count</span>
-<span class="o">..</span>
-<span class="o">.....</span>
-<span class="o">.......</span>
-<span class="n">C5H5N5</span>    <span class="n">C00147</span>    <span class="n">Adenine</span>           <span class="mi">5</span> <span class="mi">5</span>   <span class="mi">5</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">134.0472187</span> <span class="mf">139.0639929</span> <span class="mf">134.04722</span>     <span class="o">-</span><span class="mf">0.009576476</span>      <span class="mf">10030305.6</span>      <span class="mi">3</span>       <span class="mf">139.06396</span>     <span class="mf">0.236698942</span>   <span class="mf">143680406.4</span> <span class="mi">4</span>
-<span class="n">C5H9NO2</span>   <span class="n">C00148</span>    <span class="n">L</span><span class="o">-</span><span class="n">Proline</span>         <span class="mi">5</span> <span class="mi">9</span>   <span class="mi">1</span>       <span class="mi">2</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">114.0560521</span> <span class="mf">119.0728263</span> <span class="mf">114.05601</span>     <span class="mf">0.368824269</span>         <span class="mf">18852508.02</span>   <span class="mi">4</span>       <span class="mf">119.0728</span>      <span class="mf">0.220593068</span>   <span class="mf">72633081.84</span> <span class="mi">5</span>
-<span class="n">C4H6O5</span>    <span class="n">C00149</span>    <span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">-</span><span class="n">Malate</span>        <span class="mi">4</span> <span class="mi">6</span>   <span class="mi">0</span>       <span class="mi">5</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">133.0142468</span> <span class="mf">137.0276662</span> <span class="mf">133.01424</span>     <span class="mf">0.051304504</span>         <span class="mf">4229908.65</span>    <span class="mi">2</span>       <span class="mf">137.02769</span>           <span class="o">-</span><span class="mf">0.173802639</span>  <span class="mf">2550057.38</span>    <span class="mi">4</span>
-<span class="n">C4H8N2O3</span>  <span class="n">C00152</span>    <span class="n">L</span><span class="o">-</span><span class="n">Asparagine</span>      <span class="mi">4</span> <span class="mi">8</span>   <span class="mi">2</span>       <span class="mi">3</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">131.0462157</span> <span class="mf">135.059635</span>  <span class="mf">131.04617</span>           <span class="mf">0.348414563</span>   <span class="mf">4418266.3</span>   <span class="mi">4</span>       <span class="mf">135.0596</span>      <span class="mf">0.259281095</span>   <span class="mf">123609409.5</span>   <span class="mi">8</span>
-<span class="n">C6H6N2O</span>   <span class="n">C00153</span>    <span class="n">Nicotinamide</span>      <span class="mi">6</span> <span class="mi">6</span>   <span class="mi">2</span>       <span class="mi">1</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="mf">121.0407364</span>             <span class="mf">121.04075</span>     <span class="o">-</span><span class="mf">0.112732212</span>  <span class="mf">640304.28</span>   <span class="mi">1</span>
-<span class="n">C4H9NO2S</span>  <span class="n">C00155</span>    <span class="n">L</span><span class="o">-</span><span class="n">Homocysteine</span>    <span class="mi">4</span> <span class="mi">9</span>   <span class="mi">1</span>       <span class="mi">2</span>       <span class="mi">0</span>       <span class="mi">1</span>       <span class="mf">134.0281232</span> <span class="mf">138.0415426</span> <span class="mf">134.02816</span>           <span class="o">-</span><span class="mf">0.274263036</span>        <span class="mf">1882881.1</span>         <span class="mi">3</span>           <span class="mf">138.04156</span>     <span class="o">-</span><span class="mf">0.126041477</span>        <span class="mf">554962.24</span>         <span class="mi">7</span>
-<span class="n">C7H6O3</span>        <span class="n">C00156</span>        <span class="mi">4</span><span class="o">-</span><span class="n">Hydroxybenzoate</span>       <span class="mi">7</span> <span class="mi">6</span>     <span class="mi">0</span>       <span class="mi">3</span>       <span class="mi">0</span> <span class="mi">0</span> <span class="mf">137.0244176</span>             <span class="mf">137.02444</span>       <span class="o">-</span><span class="mf">0.163583326</span>        <span class="mf">87231044.64</span>     <span class="mi">2</span>
-<span class="o">......</span>
-<span class="o">...</span>
-<span class="o">.</span>
+                                                                        <span class="n">db_nat</span>                                            <span class="n">db_C13</span>
+<span class="n">CF</span>        <span class="n">ID</span>      <span class="n">Name</span>              <span class="n">C</span> <span class="n">H</span> <span class="n">N</span> <span class="n">O</span> <span class="n">P</span> <span class="n">S</span> <span class="n">db_nat_mass</span> <span class="n">db_C13_mass</span> <span class="n">mass_measured</span> <span class="n">error_ppm</span>     <span class="n">intensity</span>   <span class="n">iso_count</span> <span class="n">mass_measured</span> <span class="n">error_ppm</span>     <span class="n">intensity</span>     <span class="n">iso_count</span>
+<span class="n">C5H5N5</span>    <span class="n">C00147</span>  <span class="n">Adenine</span>           <span class="mi">5</span> <span class="mi">5</span> <span class="mi">5</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">134.0472187</span> <span class="mf">139.0639929</span> <span class="mf">134.04722</span>     <span class="o">-</span><span class="mf">0.009576476</span>  <span class="mf">10030305.6</span>  <span class="mi">3</span>         <span class="mf">139.06396</span>     <span class="mf">0.236698942</span>   <span class="mf">143680406.4</span>   <span class="mi">4</span>
+<span class="n">C5H9NO2</span>   <span class="n">C00148</span>  <span class="n">L</span><span class="o">-</span><span class="n">Proline</span>         <span class="mi">5</span> <span class="mi">9</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">114.0560521</span> <span class="mf">119.0728263</span> <span class="mf">114.05601</span>     <span class="mf">0.368824269</span>   <span class="mf">18852508.02</span> <span class="mi">4</span>         <span class="mf">119.0728</span>      <span class="mf">0.220593068</span>   <span class="mf">72633081.845</span>  <span class="mi">8</span>
+<span class="n">C4H6O5</span>    <span class="n">C00149</span>  <span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">-</span><span class="n">Malate</span>        <span class="mi">4</span> <span class="mi">6</span> <span class="mi">0</span> <span class="mi">5</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">133.0142468</span> <span class="mf">137.0276662</span> <span class="mf">133.01424</span>     <span class="mf">0.051304504</span>   <span class="mf">4229908.65</span>  <span class="mi">2</span>         <span class="mf">137.02769</span>     <span class="o">-</span><span class="mf">0.173802639</span>  <span class="mf">2550057.38</span>    <span class="mi">4</span>
+<span class="n">C4H8N2O3</span>  <span class="n">C00152</span>  <span class="n">L</span><span class="o">-</span><span class="n">Asparagine</span>      <span class="mi">4</span> <span class="mi">8</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">131.0462157</span> <span class="mf">135.059635</span>  <span class="mf">131.04617</span>     <span class="mf">0.348414563</span>   <span class="mf">4418266.3</span>   <span class="mi">4</span>         <span class="mf">135.0596</span>      <span class="mf">0.259281095</span>   <span class="mf">123609409.5</span>   <span class="mi">8</span>
+<span class="n">C6H6N2O</span>   <span class="n">C00153</span>  <span class="n">Nicotinamide</span>      <span class="mi">6</span> <span class="mi">6</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">121.0407364</span>             <span class="mf">121.04075</span>     <span class="o">-</span><span class="mf">0.112732212</span>  <span class="mf">640304.28</span>   <span class="mi">1</span>
+<span class="n">C4H9NO2S</span>  <span class="n">C00155</span>  <span class="n">L</span><span class="o">-</span><span class="n">Homocysteine</span>    <span class="mi">4</span> <span class="mi">9</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mf">134.0281232</span> <span class="mf">138.0415426</span> <span class="mf">134.02816</span>     <span class="o">-</span><span class="mf">0.274263036</span>  <span class="mf">1882881.1</span>   <span class="mi">3</span>         <span class="mf">138.04156</span>     <span class="o">-</span><span class="mf">0.126041477</span>  <span class="mf">554962.24</span>     <span class="mi">7</span>
+<span class="n">C7H6O3</span>    <span class="n">C00156</span>  <span class="mi">4</span><span class="o">-</span><span class="n">Hydroxybenzoate</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">0</span> <span class="mi">3</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">137.0244176</span>             <span class="mf">137.02444</span>     <span class="o">-</span><span class="mf">0.163583326</span>  <span class="mf">87231044.64</span> <span class="mi">2</span>
 </pre></div>
 </div>
 </section>
