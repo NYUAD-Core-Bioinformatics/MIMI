@@ -136,7 +136,7 @@ The first step in using MIMI is to prepare your compound database. This involves
 
 For KEGG database, use the following command to extract compounds within a specific mass range::
 
-    mimi_kegg_extract -l 40 -u 400 -o data/processed/kegg_compounds.tsv
+    mimi_kegg_extract -l 20 -u 900 -o data/processed/kegg_compounds.tsv
 
 Expected Output: A TSV file containing compounds with their chemical formulas, IDs, and names. The file will include compounds with molecular weights between 40 and 400 Da from the KEGG database.
 
@@ -438,16 +438,22 @@ Example output::
 
     head outdir/results.tsv
     Log file	/Users/aaa/test/log/results_20250426_000954.log
-                                                data/processed/testdata1.asc						
-                                                nat				C13			
-    CF	ID	Name	C	H	N	O	P	S	db_mass_nat	db_mass_C13	mass_measured	error_ppm	intensity	iso_count	mass_measured	error_ppm	intensity	iso_count
-    C11H14O4	C07350	Phlorisovalerophenone	11	14	0	4	0	0	209.0819324625	220.1188357025	209.08196	-0.13170674143304906	70452888	4	220.11904	-0.9281236626259696	2468919	4
-    C19H32O2	C14975	D-Homo-17a-oxa-5alpha-androstan-3beta-ol	19	32	0	2	0	0	291.23295380350004		291.23279	0.5624483695140763	40499464	3				
-    C5H11NO	C03982	2-Methylpropanal O-methyloxime	5	11	1	1	0	0	100.07678751153		100.07675	0.37482747926595726008075	1				
-    C19H23NO3	C07537	Ethylmorphine	19	23	1	3	0	0	312.16051713743		312.16039	0.40728222511613404	36973960	8				
-    C6H10O4	C00659	2-Aceto-2-hydroxybutanoate	6	10	0	4	0	0	145.05063233357998	151.07076137358	145.05063	0.016088037214963827	257498272	4	151.0707	0.40625717025790326	3857517	3
-    C15H15NO	C15043	2-[2-(4-Pyridinyl)-1-butenyl]phenol	15	15	1	1	0	0	224.10808764045		224.10799	0.43568463341037544	26747608	4
-
+                                                                            data/processed/testdata1.asc						
+                                                                            db_nat                                          db_C13			
+    CF	      ID	    Name	            C	H	N	O	P	S	db_nat_mass db_C13_mass mass_measured error_ppm	    intensity	iso_count	mass_measured	error_ppm    intensity    iso_count
+    ..
+    .....
+    .......
+    C5H5N5    C00147	Adenine           5 5	5	0	0	0	134.0472187 139.0639929	134.04722     -0.009576476	10030305.6	3       139.06396     0.236698942   143680406.4	4
+    C5H9NO2   C00148	L-Proline         5 9	1	2	0	0	114.0560521 119.0728263	114.05601     0.368824269	  18852508.02	4       119.0728      0.220593068   72633081.84	5
+    C4H6O5    C00149	(S)-Malate        4 6	0	5	0	0	133.0142468 137.0276662	133.01424     0.051304504	  4229908.65	2       137.02769	    -0.173802639  2550057.38	4
+    C4H8N2O3  C00152	L-Asparagine      4 8	2	3	0	0	131.0462157 135.059635	131.04617	    0.348414563	  4418266.3   4       135.0596      0.259281095   123609409.5	8
+    C6H6N2O   C00153	Nicotinamide      6 6	2	1	0	0	121.0407364             121.04075     -0.112732212  640304.28   1		
+    C4H9NO2S  C00155	L-Homocysteine    4 9	1	2	0	1	134.0281232 138.0415426	134.02816	    -0.274263036	1882881.1	  3	      138.04156	    -0.126041477	554962.24	  7
+    C7H6O3	  C00156	4-Hydroxybenzoate	7 6	0	3	0 0 137.0244176	            137.02444	    -0.163583326	87231044.64	2				
+    ......
+    ... 
+    .
 .. _comprehensive-analysis-runs:
 
 Comprehensive Analysis Runs
