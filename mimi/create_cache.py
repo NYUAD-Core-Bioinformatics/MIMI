@@ -111,10 +111,21 @@ def main():
     
     # Output
     ap.add_argument("-c", "--cache", dest="cache",
-                    help="Binary DB output file", metavar="DBBINARY", required=True)
-
+                    help="Binary DB output file (if not specified, will use base name from JSON file)", metavar="DBBINARY")
 
     args = ap.parse_args()
+
+    # If cache not specified, derive it from JSON file
+    if not args.cache:
+        if not args.jsonfile:
+            print("Error: Either -c/--cache must be specified or -l/--label must be provided to derive cache name", file=sys.stderr)
+            sys.exit(1)
+        args.cache = os.path.splitext(os.path.basename(args.jsonfile))[0]
+    else:
+        base_name = os.path.splitext(os.path.basename(args.cache))[0]
+        if base_name == '':
+            args.cache = os.path.join(args.cache, os.path.splitext(os.path.basename(args.jsonfile))[0])
+            
 
     # Create log directory if it doesn't exist
     log_dir = os.path.join(os.getcwd(), 'log')
@@ -126,9 +137,9 @@ def main():
 
     # Setup debug log file if debug mode is enabled
     timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-    base_output = os.path.splitext(os.path.basename(args.cache))[0]
-    debug_file = os.path.join(log_dir, f"{base_output}_{timestamp}.debug") if args.debug else None
-    log_file = os.path.join(log_dir, f"{base_output}_{timestamp}.log") if args.debug else None
+    
+    debug_file = os.path.join(log_dir, f"{base_name}_{timestamp}.debug") if args.debug else None
+    log_file = os.path.join(log_dir, f"{base_name}_{timestamp}.log") if args.debug else None
 
     # Update metadata to include computation method
     metadata = {

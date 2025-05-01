@@ -7,43 +7,43 @@ import sys
 def count_number_of_nat(df):
     """Count number of features for natural abundance data"""
     print('count_number_of_nat')
-    print(df[df['db_mass_nat'].notna()]['db_mass_nat'].describe())
-    return df[df['db_mass_nat'].notna()].shape[0]
+    print(df[df['db_nat_mass'].notna()]['db_nat_mass'].describe())
+    return df[df['db_nat_mass'].notna()].shape[0]
 
 def count_number_of_C13(df):
     """Count number of features for C13 data"""
     print('count_number_of_C13')
-    print(df[df['db_mass_C13'].notna()]['db_mass_C13'].describe())
-    return df[df['db_mass_C13'].notna()].shape[0]
+    print(df[df['db_C13_mass'].notna()]['db_C13_mass'].describe())
+    return df[df['db_C13_mass'].notna()].shape[0]
 
 # def mean_valid_isotopes_nat(df):
 #     """Count total number of valid isotopes for natural abundance data"""
 #     print('mean_valid_isotopes_nat')
-#     print(df[df['db_mass_nat'].notna()]['iso_valid'].describe())
-#     print(df[df['db_mass_nat'].notna()]['iso_valid'].mean())
-#     return df[df['db_mass_nat'].notna()]['iso_valid'].mean()
+#     print(df[df['db_nat_mass'].notna()]['iso_valid'].describe())
+#     print(df[df['db_nat_mass'].notna()]['iso_valid'].mean())
+#     return df[df['db_nat_mass'].notna()]['iso_valid'].mean()
 
 # def mean_valid_isotopes_C13(df):
 #     """Count total number of valid isotopes for C13 data"""
 #     print('mean_valid_isotopes_C13')
-#     print(df[df['db_mass_C13'].notna()]['iso_valid.1'].describe())
-#     print(df[df['db_mass_C13'].notna()]['iso_valid.1'].mean())
-#     return df[df['db_mass_C13'].notna()]['iso_valid.1'].mean()
+#     print(df[df['db_C13_mass'].notna()]['iso_valid.1'].describe())
+#     print(df[df['db_C13_mass'].notna()]['iso_valid.1'].mean())
+#     return df[df['db_C13_mass'].notna()]['iso_valid.1'].mean()
 
 
 def mean_isotopes_nat(df):
     """Count total number of valid isotopes for natural abundance data"""
     print('mean_isotopes_nat')
-    print(df[df['db_mass_nat'].notna()]['iso_count'].describe())
-    print(df[df['db_mass_nat'].notna()]['iso_count'].mean())
-    return df[df['db_mass_nat'].notna()]['iso_count'].mean()
+    print(df[df['db_nat_mass'].notna()]['iso_count'].describe())
+    print(df[df['db_nat_mass'].notna()]['iso_count'].mean())
+    return df[df['db_nat_mass'].notna()]['iso_count'].mean()
 
 def mean_isotopes_C13(df):
     """Count total number of valid isotopes for C13 data"""
     print('mean_isotopes_C13')
-    print(df[df['db_mass_C13'].notna()]['iso_count.1'].describe())
-    print(df[df['db_mass_C13'].notna()]['iso_count.1'].mean())
-    return df[df['db_mass_C13'].notna()]['iso_count.1'].mean()
+    print(df[df['db_C13_mass'].notna()]['iso_count.1'].describe())
+    print(df[df['db_C13_mass'].notna()]['iso_count.1'].mean())
+    return df[df['db_C13_mass'].notna()]['iso_count.1'].mean()
 
 def process_results(outdir):
     """Process all result files and compile data for plotting"""
