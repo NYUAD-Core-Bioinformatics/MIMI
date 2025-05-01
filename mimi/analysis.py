@@ -379,7 +379,8 @@ def main():
     write_log = create_logger(log_fp, debug_fp, args)
 
     for cache in args.cache_files:
-        method_name = cache.split('_')[-1]
+        # method_name = cache.split('_')
+        method_name = os.path.basename(cache)
         computation_methods.append(method_name)
         try:
             with open(cache + '.pkl', 'rb') as file:
@@ -420,7 +421,7 @@ def main():
    
     atom.load_isotope()
 
-    field_names = ['CF', 'ID', 'Name', 'C', 'H', 'N', 'O', 'P', 'S'] +  ['db_mass_' + method for method in computation_methods]
+    field_names = ['CF', 'ID', 'Name', 'C', 'H', 'N', 'O', 'P', 'S'] +  [method + '_mass' for method in computation_methods]
     
     # Write analysis metadata to log
     write_log("MIMI Mass Analysis Run Information:")
@@ -512,7 +513,7 @@ def main():
         
         mass_index = mass_indices[precomputed_chem_idx]
         
-        if False and db_size > 10 * avg_sample_size:
+        if db_size > 10 * avg_sample_size:
             # Database much larger than samples - search from samples
             ordered_matches = []  # Store matches in order of database appearance
             compound_matches = set()  # Track which compounds have been matched
