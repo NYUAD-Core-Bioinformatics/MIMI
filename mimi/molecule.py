@@ -258,7 +258,7 @@ def get_isotop_variants_mass(molecular_expression, ion, args):
 
         # molecular_abundance = float("%0.8f" % molecular_abundance)
 
-        if molecular_abundance < 0.000001:
+        if molecular_abundance < 1.0/args.noise_cutoff:
             continue
 
         isotop_name += debug_output
