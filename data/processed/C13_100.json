@@ -2,12 +2,11 @@
 {
       "C": [
             {
-                  "periodic_number": 6,
-                  "element_symbol": "C",
-                  "nominal_mass": 13,
-                  "exact_mass": 13.00335484,
-                  "natural_abundance": 1.0,
-                  "highest_abundance": 1.0
+                "periodic_number": 6,
+                "element_symbol": "C",
+                "nominal_mass": 13,
+                "exact_mass": 13.00335484,
+                "isotope_abundance": 1.0
             }
       ]
 }
