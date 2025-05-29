@@ -134,7 +134,7 @@ Step1: Database Preparation from KEGG and HMDB
 ----------------------------------------------
 
 The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.
-Since the observed mass range is 40-1000 Da from Mass Spectrometry, we recommend to use the mass range 20-1000 Da for KEGG
+Since the observed mass range is 40-1000 Da from Mass Spectrometry, we recommend to use the mass range  Da for KEGG
 
 Mass Spectrometry data::
 

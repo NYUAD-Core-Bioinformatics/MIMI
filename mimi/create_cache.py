@@ -105,6 +105,9 @@ def main():
     ap.add_argument("-d", "--dbfile", dest="dbfile", nargs='+',
                     help="File(s) with list of compounds", metavar="DBTSV", required=True)
     
+    ap.add_argument("-n", "--noise", dest="noise_cutoff", type=float, default=1e5, metavar="CUTOFF",
+                    help="Noise cutoff threshold (default: 1e5). Ignores isotope variants with relative abundance below 1/CUTOFF", required=False)
+    
     # Processing options
     ap.add_argument("-i", '--ion', dest="ion",
                     help="Ionisation mode", choices=['pos','neg'], required=True)

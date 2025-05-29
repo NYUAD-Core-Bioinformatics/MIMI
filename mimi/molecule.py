@@ -201,7 +201,7 @@ def get_isotop_variants_mass(molecular_expression, ion, args):
 
                 abundance_ratio = (
                     key_isotop['abundance']/key_isotop['highest_abundance']) ** n_atoms
-                if abundance_ratio < 0.000001:
+                if abundance_ratio < 1.0/args.noise_cutoff:
                     skip = True
                     break
 

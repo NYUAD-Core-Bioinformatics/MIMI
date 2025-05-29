@@ -152,6 +152,7 @@ Usage::
     Required Parameters:
         -d DBTSV [DBTSV ...], --dbfile DBTSV [DBTSV ...]
                               File(s) with list of compounds (required)
+        -n, --noise CUTOFF    Noise cutoff threshold (default: 1e5). Ignores isotope variants with relative abundance below 1/CUTOFF
         -i {pos,neg}, --ion {pos,neg}
                               Ionization mode (required)
         -c DBBINARY, --cache DBBINARY
