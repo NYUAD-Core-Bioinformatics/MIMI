@@ -46,25 +46,23 @@ When to use:
 - Need detailed metabolite information
 - Working with clinical samples
 
-Usage::
+.. code-block:: text
 
-    mimi_hmdb_extract --help
+    $ mimi_hmdb_extract --help
     usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
 
-    Required Parameters:
-        -x XML, --xml XML     Path to HMDB metabolites XML file
-    
-    Optional Parameters:
-        -l MIN_MASS, --min-mass MIN_MASS
-                              Lower bound of molecular weight in Da (default: no limit)
-                              Filters out compounds lighter than this mass
-                              Example: -l 100 filters out compounds < 100 Da
-        -u MAX_MASS, --max-mass MAX_MASS
-                              Upper bound of molecular weight in Da (default: no limit)
-                              Filters out compounds heavier than this mass
-                              Example: -u 500 filters out compounds > 500 Da
-        -o OUTPUT, --output OUTPUT
-                              Output TSV file path (default: metabolites.tsv)
+    Extract metabolite information from HMDB XML file
+
+    options:
+    -h, --help            show this help message and exit
+    -x XML, --xml XML     Path to HMDB metabolites XML file
+    -l MIN_MASS, --min-mass MIN_MASS
+                            Lower bound of molecular weight in Da
+    -u MAX_MASS, --max-mass MAX_MASS
+                            Upper bound of molecular weight in Da
+    -o OUTPUT, --output OUTPUT
+                            Output TSV file path (default: metabolites.tsv)
+
 
 Expected Output:
 - TSV file with columns: ID, Name, Formula, Mass
@@ -75,7 +73,7 @@ Expected Output:
 Example::
 
     # Extract metabolites between 100-500 Da
-    mimi_hmdb_extract -x hmdb_metabolites.xml -l 100 -u 500 -o hmdb_compounds.tsv
+    $ mimi_hmdb_extract -x hmdb_metabolites.xml -l 100 -u 500 -o hmdb_compounds.tsv
 
 mimi_kegg_extract
 -----------------
@@ -97,25 +95,25 @@ When to use:
 - Studying metabolic pathways
 - Working with non-human samples
 
-Usage::
+.. code-block:: text
 
-    mimi_kegg_extract --help
-    usage: mimi_kegg_extract [-h] [-l MIN_MASS] [-u MAX_MASS] [-i COMPOUND_IDS]
-                            [-o OUTPUT]
+    $ mimi_kegg_extract --help
+    usage: mimi_kegg_extract [-h] [-l MIN_MASS] [-u MAX_MASS] [-i COMPOUND_IDS] [-o OUTPUT] [-b BATCH_SIZE]
 
-    Optional Parameters:
-        -l MIN_MASS, --min-mass MIN_MASS
-                              Lower bound of molecular weight in Da (default: no limit)
-                              Filters out compounds lighter than this mass
-                              Example: -l 100 filters out compounds < 100 Da
-        -u MAX_MASS, --max-mass MAX_MASS
-                              Upper bound of molecular weight in Da (default: no limit)
-                              Filters out compounds heavier than this mass
-                              Example: -u 500 filters out compounds > 500 Da
-        -i COMPOUND_IDS, --input COMPOUND_IDS
-                              Input TSV file containing KEGG compound IDs
-        -o OUTPUT, --output OUTPUT
-                              Output TSV file path (default: kegg_compounds.tsv)
+    Extract compound information from KEGG
+
+    options:
+    -h, --help            show this help message and exit
+    -l MIN_MASS, --min-mass MIN_MASS
+                            Lower bound of molecular weight in Da
+    -u MAX_MASS, --max-mass MAX_MASS
+                            Upper bound of molecular weight in Da
+    -i COMPOUND_IDS, --input COMPOUND_IDS
+                            Input TSV file containing KEGG compound IDs
+    -o OUTPUT, --output OUTPUT
+                            Output TSV file path (default: kegg_compounds.tsv)
+    -b BATCH_SIZE, --batch-size BATCH_SIZE
+                            Number of compounds to process in each batch (default: 5)
 
 Expected Output:
 
@@ -127,10 +125,10 @@ Expected Output:
 Examples::
 
     # Extract compounds between 100-500 Da
-    mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
+    $ mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
 
     # Extract specific compounds by ID
-    mimi_kegg_extract -i compound_ids.tsv -o kegg_compounds.tsv
+    $ mimi_kegg_extract -i compound_ids.tsv -o kegg_compounds.tsv
 
 mimi_cache_create
 -----------------
@@ -143,24 +141,25 @@ When to use:
 - Starting a new analysis project
 - Need to optimize analysis speed
 
-Usage::
+.. code-block:: text
 
-    mimi_cache_create --help
-    usage: mimi_cache_create [-h] [-l JSON] -d DBTSV [DBTSV ...] -i {pos,neg} 
-                            -c DBBINARY
+    $ mimi_cache_create  --help
+    usage: mimi_cache_create [-h] [-l JSON] [-n CUTOFF] -d DBTSV [DBTSV ...] -i {pos,neg} -c DBBINARY
 
-    Required Parameters:
-        -d DBTSV [DBTSV ...], --dbfile DBTSV [DBTSV ...]
-                              File(s) with list of compounds (required)
-        -n, --noise CUTOFF    Noise cutoff threshold (default: 1e5). Ignores isotope variants with relative abundance below 1/CUTOFF
-        -i {pos,neg}, --ion {pos,neg}
-                              Ionization mode (required)
-        -c DBBINARY, --cache DBBINARY
-                              Binary DB output file (required)
+    Molecular Isotope Mass Identifier
 
-    Optional Parameters:
-        -l JSON, --label JSON
-                              JSON file specifying labeled atoms configuration
+    options:
+    -h, --help            show this help message and exit
+    -l JSON, --label JSON
+                            Labeled atoms
+    -n CUTOFF, --noise CUTOFF
+                            Threshold for filtering molecular isotope variants with relative abundance below CUTOFF w.r.t. the monoisotopic mass (defaults to 1e-5)
+    -d DBTSV [DBTSV ...], --dbfile DBTSV [DBTSV ...]
+                            File(s) with list of compounds
+    -i {pos,neg}, --ion {pos,neg}
+                            Ionisation mode
+    -c DBBINARY, --cache DBBINARY
+                            Binary DB output file (if not specified, will use base name from JSON file)
 
 Expected Output:
 
@@ -172,10 +171,10 @@ Expected Output:
 Examples::
 
     # Create natural abundance cache
-    mimi_cache_create -i neg -d data/processed/KEGGDB.tsv -c db_nat
+    $ mimi_cache_create -i neg -d data/processed/KEGGDB.tsv -c db_nat
 
     # Create C13-labeled cache
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/KEGGDB.tsv -c db_13C
+    $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/KEGGDB.tsv -c db_13C
 
 mimi_cache_dump
 ---------------
@@ -189,22 +188,26 @@ When to use:
 - Verifying isotope patterns
 - Understanding cache structure
 
-Usage::
+.. code-block:: text
 
-    mimi_cache_dump --help
-    usage: mimi_cache_dump [-h] [-n NUM_COMPOUNDS] [-i NUM_ISOTOPES] [-o OUTPUT]
-                        cache_file
+    
+    $ mimi_cache_dump --help
+    usage: mimi_cache_dump [-h] [-n NUM_COMPOUNDS] [-i NUM_ISOTOPES] [-o OUTPUT] cache_file
 
-    Required Parameters:
-        cache_file            Input cache file (.pkl)
+    MIMI Cache Dump Tool
 
-    Optional Parameters:
-        -n NUM_COMPOUNDS, --num-compounds NUM_COMPOUNDS
-                              Number of compounds to output (default: all)
-        -i NUM_ISOTOPES, --num-isotopes NUM_ISOTOPES
-                              Number of isotopes per compound to output (default: all)
-        -o OUTPUT, --output OUTPUT
-                              Output file (default: stdout)
+    positional arguments:
+    cache_file            Input cache file (.pkl)
+
+    options:
+    -h, --help            show this help message and exit
+    -n NUM_COMPOUNDS, --num-compounds NUM_COMPOUNDS
+                            Number of compounds to output (default: all)
+    -i NUM_ISOTOPES, --num-isotopes NUM_ISOTOPES
+                            Number of isotopes per compound to output (default: all)
+    -o OUTPUT, --output OUTPUT
+                            Output file (default: stdout)
+
 
 Expected Output:
 
@@ -220,7 +223,7 @@ Expected Output:
 Example::
 
     # Dump first 5 compounds with 2 isotopes each
-    mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o cache_contents.tsv
+    $ mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o cache_contents.tsv
 
 mimi_mass_analysis
 ------------------
@@ -234,22 +237,24 @@ When to use:
 - Comparing different conditions
 - Validating results
 
-Usage::
+.. code-block:: text
 
-    mimi_mass_analysis --help
-    usage: mimi_mass_analysis [-h] -p PPM -vp VPPM -c DBBINARY [DBBINARY ...] -s
-                              SAMPLE [SAMPLE ...] -o OUTPUT
+   
+    $ mimi_mass_analysis --help
+    usage: mimi_mass_analysis [-h] -p PPM -vp VPPM -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
 
-    Required Parameters:
-        -p PPM, --ppm PPM     Parts per million for the mono isotopic mass of
-                              chemical formula (required)
-        -vp VPPM              Parts per million for verification of isotopes (required)
-        -c DBBINARY [DBBINARY ...], --cache DBBINARY [DBBINARY ...]
-                              Binary DB input file(s) (required)
-        -s SAMPLE [SAMPLE ...], --sample SAMPLE [SAMPLE ...]
-                              Input sample file(s) (required)
-        -o OUTPUT, --output OUTPUT
-                              Output file (required)
+    Molecular Isotope Mass Identifier
+
+    options:
+    -h, --help            show this help message and exit
+    -p PPM, --ppm PPM     Parts per million for the mono isotopic mass of chemical formula
+    -vp VPPM              Parts per million for verification of isotopes
+    -c DBBINARY [DBBINARY ...], --cache DBBINARY [DBBINARY ...]
+                            Binary DB input file(s)
+    -s SAMPLE [SAMPLE ...], --sample SAMPLE [SAMPLE ...]
+                            Input sample file
+    -o OUTPUT, --output OUTPUT
+                            Output file
 
 Expected Output:
 
@@ -273,8 +278,8 @@ Expected Output:
 Examples::
 
     # Analyze single sample with natural abundance cache
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results.tsv
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results.tsv
 
     # Analyze multiple samples with multiple caches
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s sample1.asc sample2.asc -o batch_results.tsv
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s sample1.asc sample2.asc -o batch_results.tsv
                   
