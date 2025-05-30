@@ -134,24 +134,20 @@
 <li><p>Need detailed metabolite information</p></li>
 <li><p>Working with clinical samples</p></li>
 </ul>
-<p>Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_hmdb_extract</span> <span class="o">--</span><span class="n">help</span>
-<span class="n">usage</span><span class="p">:</span> <span class="n">mimi_hmdb_extract</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">x</span> <span class="n">XML</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_hmdb_extract --help
+usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
 
-<span class="n">Required</span> <span class="n">Parameters</span><span class="p">:</span>
-    <span class="o">-</span><span class="n">x</span> <span class="n">XML</span><span class="p">,</span> <span class="o">--</span><span class="n">xml</span> <span class="n">XML</span>     <span class="n">Path</span> <span class="n">to</span> <span class="n">HMDB</span> <span class="n">metabolites</span> <span class="n">XML</span> <span class="n">file</span>
+Extract metabolite information from HMDB XML file
 
-<span class="n">Optional</span> <span class="n">Parameters</span><span class="p">:</span>
-    <span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">,</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">mass</span> <span class="n">MIN_MASS</span>
-                          <span class="n">Lower</span> <span class="n">bound</span> <span class="n">of</span> <span class="n">molecular</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">Da</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">no</span> <span class="n">limit</span><span class="p">)</span>
-                          <span class="n">Filters</span> <span class="n">out</span> <span class="n">compounds</span> <span class="n">lighter</span> <span class="n">than</span> <span class="n">this</span> <span class="n">mass</span>
-                          <span class="n">Example</span><span class="p">:</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="n">filters</span> <span class="n">out</span> <span class="n">compounds</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="n">Da</span>
-    <span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">,</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">mass</span> <span class="n">MAX_MASS</span>
-                          <span class="n">Upper</span> <span class="n">bound</span> <span class="n">of</span> <span class="n">molecular</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">Da</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">no</span> <span class="n">limit</span><span class="p">)</span>
-                          <span class="n">Filters</span> <span class="n">out</span> <span class="n">compounds</span> <span class="n">heavier</span> <span class="n">than</span> <span class="n">this</span> <span class="n">mass</span>
-                          <span class="n">Example</span><span class="p">:</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="n">filters</span> <span class="n">out</span> <span class="n">compounds</span> <span class="o">&gt;</span> <span class="mi">500</span> <span class="n">Da</span>
-    <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                          <span class="n">Output</span> <span class="n">TSV</span> <span class="n">file</span> <span class="n">path</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">metabolites</span><span class="o">.</span><span class="n">tsv</span><span class="p">)</span>
+options:
+-h, --help            show this help message and exit
+-x XML, --xml XML     Path to HMDB metabolites XML file
+-l MIN_MASS, --min-mass MIN_MASS
+                        Lower bound of molecular weight in Da
+-u MAX_MASS, --max-mass MAX_MASS
+                        Upper bound of molecular weight in Da
+-o OUTPUT, --output OUTPUT
+                        Output TSV file path (default: metabolites.tsv)
 </pre></div>
 </div>
 <p>Expected Output:
@@ -160,8 +156,8 @@
 - Validated chemical formulas
 - Human-specific metabolites</p>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract metabolites between 100-500 Da</span>
-<span class="n">mimi_hmdb_extract</span> <span class="o">-</span><span class="n">x</span> <span class="n">hmdb_metabolites</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">hmdb_compounds</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Extract metabolites between 100-500 Da
+$ mimi_hmdb_extract -x hmdb_metabolites.xml -l 100 -u 500 -o hmdb_compounds.tsv
 </pre></div>
 </div>
 </section>
@@ -183,24 +179,23 @@
 <li><p>Studying metabolic pathways</p></li>
 <li><p>Working with non-human samples</p></li>
 </ul>
-<p>Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_kegg_extract</span> <span class="o">--</span><span class="n">help</span>
-<span class="n">usage</span><span class="p">:</span> <span class="n">mimi_kegg_extract</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">COMPOUND_IDS</span><span class="p">]</span>
-                        <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_kegg_extract --help
+usage: mimi_kegg_extract [-h] [-l MIN_MASS] [-u MAX_MASS] [-i COMPOUND_IDS] [-o OUTPUT] [-b BATCH_SIZE]
 
-<span class="n">Optional</span> <span class="n">Parameters</span><span class="p">:</span>
-    <span class="o">-</span><span class="n">l</span> <span class="n">MIN_MASS</span><span class="p">,</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">mass</span> <span class="n">MIN_MASS</span>
-                          <span class="n">Lower</span> <span class="n">bound</span> <span class="n">of</span> <span class="n">molecular</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">Da</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">no</span> <span class="n">limit</span><span class="p">)</span>
-                          <span class="n">Filters</span> <span class="n">out</span> <span class="n">compounds</span> <span class="n">lighter</span> <span class="n">than</span> <span class="n">this</span> <span class="n">mass</span>
-                          <span class="n">Example</span><span class="p">:</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="n">filters</span> <span class="n">out</span> <span class="n">compounds</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="n">Da</span>
-    <span class="o">-</span><span class="n">u</span> <span class="n">MAX_MASS</span><span class="p">,</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">mass</span> <span class="n">MAX_MASS</span>
-                          <span class="n">Upper</span> <span class="n">bound</span> <span class="n">of</span> <span class="n">molecular</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">Da</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">no</span> <span class="n">limit</span><span class="p">)</span>
-                          <span class="n">Filters</span> <span class="n">out</span> <span class="n">compounds</span> <span class="n">heavier</span> <span class="n">than</span> <span class="n">this</span> <span class="n">mass</span>
-                          <span class="n">Example</span><span class="p">:</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="n">filters</span> <span class="n">out</span> <span class="n">compounds</span> <span class="o">&gt;</span> <span class="mi">500</span> <span class="n">Da</span>
-    <span class="o">-</span><span class="n">i</span> <span class="n">COMPOUND_IDS</span><span class="p">,</span> <span class="o">--</span><span class="nb">input</span> <span class="n">COMPOUND_IDS</span>
-                          <span class="n">Input</span> <span class="n">TSV</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">KEGG</span> <span class="n">compound</span> <span class="n">IDs</span>
-    <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                          <span class="n">Output</span> <span class="n">TSV</span> <span class="n">file</span> <span class="n">path</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span><span class="p">)</span>
+Extract compound information from KEGG
+
+options:
+-h, --help            show this help message and exit
+-l MIN_MASS, --min-mass MIN_MASS
+                        Lower bound of molecular weight in Da
+-u MAX_MASS, --max-mass MAX_MASS
+                        Upper bound of molecular weight in Da
+-i COMPOUND_IDS, --input COMPOUND_IDS
+                        Input TSV file containing KEGG compound IDs
+-o OUTPUT, --output OUTPUT
+                        Output TSV file path (default: kegg_compounds.tsv)
+-b BATCH_SIZE, --batch-size BATCH_SIZE
+                        Number of compounds to process in each batch (default: 5)
 </pre></div>
 </div>
 <p>Expected Output:</p>
@@ -211,11 +206,11 @@
 <li><p>Broad coverage of biological compounds</p></li>
 </ul>
 <p>Examples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract compounds between 100-500 Da</span>
-<span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">l</span> <span class="mi">100</span> <span class="o">-</span><span class="n">u</span> <span class="mi">500</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Extract compounds between 100-500 Da
+$ mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
 
-<span class="c1"># Extract specific compounds by ID</span>
-<span class="n">mimi_kegg_extract</span> <span class="o">-</span><span class="n">i</span> <span class="n">compound_ids</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">o</span> <span class="n">kegg_compounds</span><span class="o">.</span><span class="n">tsv</span>
+# Extract specific compounds by ID
+$ mimi_kegg_extract -i compound_ids.tsv -o kegg_compounds.tsv
 </pre></div>
 </div>
 </section>
@@ -227,23 +222,23 @@
 - Switching between different isotope configurations
 - Starting a new analysis project
 - Need to optimize analysis speed</p>
-<p>Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">--</span><span class="n">help</span>
-<span class="n">usage</span><span class="p">:</span> <span class="n">mimi_cache_create</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">JSON</span><span class="p">]</span> <span class="o">-</span><span class="n">d</span> <span class="n">DBTSV</span> <span class="p">[</span><span class="n">DBTSV</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">i</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">}</span>
-                        <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_cache_create  --help
+usage: mimi_cache_create [-h] [-l JSON] [-n CUTOFF] -d DBTSV [DBTSV ...] -i {pos,neg} -c DBBINARY
 
-<span class="n">Required</span> <span class="n">Parameters</span><span class="p">:</span>
-    <span class="o">-</span><span class="n">d</span> <span class="n">DBTSV</span> <span class="p">[</span><span class="n">DBTSV</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">dbfile</span> <span class="n">DBTSV</span> <span class="p">[</span><span class="n">DBTSV</span> <span class="o">...</span><span class="p">]</span>
-                          <span class="n">File</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">with</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">compounds</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span>
-    <span class="o">-</span><span class="n">n</span><span class="p">,</span> <span class="o">--</span><span class="n">noise</span> <span class="n">CUTOFF</span>    <span class="n">Noise</span> <span class="n">cutoff</span> <span class="n">threshold</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="mf">1e5</span><span class="p">)</span><span class="o">.</span> <span class="n">Ignores</span> <span class="n">isotope</span> <span class="n">variants</span> <span class="k">with</span> <span class="n">relative</span> <span class="n">abundance</span> <span class="n">below</span> <span class="mi">1</span><span class="o">/</span><span class="n">CUTOFF</span>
-    <span class="o">-</span><span class="n">i</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">},</span> <span class="o">--</span><span class="n">ion</span> <span class="p">{</span><span class="n">pos</span><span class="p">,</span><span class="n">neg</span><span class="p">}</span>
-                          <span class="n">Ionization</span> <span class="n">mode</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span>
-    <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span><span class="p">,</span> <span class="o">--</span><span class="n">cache</span> <span class="n">DBBINARY</span>
-                          <span class="n">Binary</span> <span class="n">DB</span> <span class="n">output</span> <span class="n">file</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span>
+Molecular Isotope Mass Identifier
 
-<span class="n">Optional</span> <span class="n">Parameters</span><span class="p">:</span>
-    <span class="o">-</span><span class="n">l</span> <span class="n">JSON</span><span class="p">,</span> <span class="o">--</span><span class="n">label</span> <span class="n">JSON</span>
-                          <span class="n">JSON</span> <span class="n">file</span> <span class="n">specifying</span> <span class="n">labeled</span> <span class="n">atoms</span> <span class="n">configuration</span>
+options:
+-h, --help            show this help message and exit
+-l JSON, --label JSON
+                        Labeled atoms
+-n CUTOFF, --noise CUTOFF
+                        Threshold for filtering molecular isotope variants with relative abundance below CUTOFF w.r.t. the monoisotopic mass (defaults to 1e-5)
+-d DBTSV [DBTSV ...], --dbfile DBTSV [DBTSV ...]
+                        File(s) with list of compounds
+-i {pos,neg}, --ion {pos,neg}
+                        Ionisation mode
+-c DBBINARY, --cache DBBINARY
+                        Binary DB output file (if not specified, will use base name from JSON file)
 </pre></div>
 </div>
 <p>Expected Output:</p>
@@ -254,11 +249,11 @@
 <li><p>Optimized for fast searching</p></li>
 </ul>
 <p>Examples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create natural abundance cache</span>
-<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Create natural abundance cache
+$ mimi_cache_create -i neg -d data/processed/KEGGDB.tsv -c db_nat
 
-<span class="c1"># Create C13-labeled cache</span>
-<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">KEGGDB</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_13C</span>
+# Create C13-labeled cache
+$ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/KEGGDB.tsv -c db_13C
 </pre></div>
 </div>
 </section>
@@ -272,21 +267,22 @@
 <li><p>Verifying isotope patterns</p></li>
 <li><p>Understanding cache structure</p></li>
 </ul>
-<p>Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="o">--</span><span class="n">help</span>
-<span class="n">usage</span><span class="p">:</span> <span class="n">mimi_cache_dump</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NUM_COMPOUNDS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">NUM_ISOTOPES</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
-                    <span class="n">cache_file</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_cache_dump --help
+usage: mimi_cache_dump [-h] [-n NUM_COMPOUNDS] [-i NUM_ISOTOPES] [-o OUTPUT] cache_file
 
-<span class="n">Required</span> <span class="n">Parameters</span><span class="p">:</span>
-    <span class="n">cache_file</span>            <span class="n">Input</span> <span class="n">cache</span> <span class="n">file</span> <span class="p">(</span><span class="o">.</span><span class="n">pkl</span><span class="p">)</span>
+MIMI Cache Dump Tool
 
-<span class="n">Optional</span> <span class="n">Parameters</span><span class="p">:</span>
-    <span class="o">-</span><span class="n">n</span> <span class="n">NUM_COMPOUNDS</span><span class="p">,</span> <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">compounds</span> <span class="n">NUM_COMPOUNDS</span>
-                          <span class="n">Number</span> <span class="n">of</span> <span class="n">compounds</span> <span class="n">to</span> <span class="n">output</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="nb">all</span><span class="p">)</span>
-    <span class="o">-</span><span class="n">i</span> <span class="n">NUM_ISOTOPES</span><span class="p">,</span> <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">isotopes</span> <span class="n">NUM_ISOTOPES</span>
-                          <span class="n">Number</span> <span class="n">of</span> <span class="n">isotopes</span> <span class="n">per</span> <span class="n">compound</span> <span class="n">to</span> <span class="n">output</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="nb">all</span><span class="p">)</span>
-    <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                          <span class="n">Output</span> <span class="n">file</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">stdout</span><span class="p">)</span>
+positional arguments:
+cache_file            Input cache file (.pkl)
+
+options:
+-h, --help            show this help message and exit
+-n NUM_COMPOUNDS, --num-compounds NUM_COMPOUNDS
+                        Number of compounds to output (default: all)
+-i NUM_ISOTOPES, --num-isotopes NUM_ISOTOPES
+                        Number of isotopes per compound to output (default: all)
+-o OUTPUT, --output OUTPUT
+                        Output file (default: stdout)
 </pre></div>
 </div>
 <p>Expected Output:</p>
@@ -303,8 +299,8 @@
 </li>
 </ul>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dump first 5 compounds with 2 isotopes each</span>
-<span class="n">mimi_cache_dump</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">o</span> <span class="n">cache_contents</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Dump first 5 compounds with 2 isotopes each
+$ mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o cache_contents.tsv
 </pre></div>
 </div>
 </section>
@@ -318,21 +314,21 @@
 <li><p>Comparing different conditions</p></li>
 <li><p>Validating results</p></li>
 </ul>
-<p>Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">--</span><span class="n">help</span>
-<span class="n">usage</span><span class="p">:</span> <span class="n">mimi_mass_analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">p</span> <span class="n">PPM</span> <span class="o">-</span><span class="n">vp</span> <span class="n">VPPM</span> <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">s</span>
-                          <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">]</span> <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis --help
+usage: mimi_mass_analysis [-h] -p PPM -vp VPPM -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
 
-<span class="n">Required</span> <span class="n">Parameters</span><span class="p">:</span>
-    <span class="o">-</span><span class="n">p</span> <span class="n">PPM</span><span class="p">,</span> <span class="o">--</span><span class="n">ppm</span> <span class="n">PPM</span>     <span class="n">Parts</span> <span class="n">per</span> <span class="n">million</span> <span class="k">for</span> <span class="n">the</span> <span class="n">mono</span> <span class="n">isotopic</span> <span class="n">mass</span> <span class="n">of</span>
-                          <span class="n">chemical</span> <span class="n">formula</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span>
-    <span class="o">-</span><span class="n">vp</span> <span class="n">VPPM</span>              <span class="n">Parts</span> <span class="n">per</span> <span class="n">million</span> <span class="k">for</span> <span class="n">verification</span> <span class="n">of</span> <span class="n">isotopes</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span>
-    <span class="o">-</span><span class="n">c</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">cache</span> <span class="n">DBBINARY</span> <span class="p">[</span><span class="n">DBBINARY</span> <span class="o">...</span><span class="p">]</span>
-                          <span class="n">Binary</span> <span class="n">DB</span> <span class="nb">input</span> <span class="n">file</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span>
-    <span class="o">-</span><span class="n">s</span> <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">sample</span> <span class="n">SAMPLE</span> <span class="p">[</span><span class="n">SAMPLE</span> <span class="o">...</span><span class="p">]</span>
-                          <span class="n">Input</span> <span class="n">sample</span> <span class="n">file</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span>
-    <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                          <span class="n">Output</span> <span class="n">file</span> <span class="p">(</span><span class="n">required</span><span class="p">)</span>
+Molecular Isotope Mass Identifier
+
+options:
+-h, --help            show this help message and exit
+-p PPM, --ppm PPM     Parts per million for the mono isotopic mass of chemical formula
+-vp VPPM              Parts per million for verification of isotopes
+-c DBBINARY [DBBINARY ...], --cache DBBINARY [DBBINARY ...]
+                        Binary DB input file(s)
+-s SAMPLE [SAMPLE ...], --sample SAMPLE [SAMPLE ...]
+                        Input sample file
+-o OUTPUT, --output OUTPUT
+                        Output file
 </pre></div>
 </div>
 <p>Expected Output:</p>
@@ -355,11 +351,11 @@
 - iso_count: Number of isotopes detected</p></li>
 </ul>
 <p>Examples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze single sample with natural abundance cache</span>
-<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Analyze single sample with natural abundance cache
+$ mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results.tsv
 
-<span class="c1"># Analyze multiple samples with multiple caches</span>
-<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">db_nat</span> <span class="n">db_13C</span> <span class="o">-</span><span class="n">s</span> <span class="n">sample1</span><span class="o">.</span><span class="n">asc</span> <span class="n">sample2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
+# Analyze multiple samples with multiple caches
+$ mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s sample1.asc sample2.asc -o batch_results.tsv
 </pre></div>
 </div>
 </section>
