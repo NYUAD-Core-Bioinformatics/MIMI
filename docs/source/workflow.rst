@@ -64,7 +64,7 @@ MIMI supports two ways to prepare your compound database from external sources w
 1. **KEGG Database**:
 
    - Broad compound coverage
-   - Uses REST API
+   - Uses `REST API <https://www.kegg.jp/kegg/rest/keggapi.html>`_ to extract compounds from KEGG
    - Includes pathway data
    - Works well for general biological samples
 
