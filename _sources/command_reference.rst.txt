@@ -129,7 +129,7 @@ Examples::
     # Create natural abundance cache
     $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
 
-    # Create C13-labeled cache
+    # Create C13-95% labeled cache
     $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_13C
 
 mimi_cache_dump
@@ -225,7 +225,7 @@ Expected Output:
   - P: Number of phosphorus atoms
   - S: Number of sulfur atoms
   - db_mass_nat: Calculated mass for natural abundance(User specified)
-  - db_mass_C13: Calculated mass for C13-labeled (User specified)
+  - db_mass_C13_95: Calculated mass for C13-95% labeled (User specified)
   - mass_measured: Observed mass in the sample
   - error_ppm: Parts per million difference between calculated and observed mass
   - intensity: Signal intensity in the sample

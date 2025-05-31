@@ -379,11 +379,11 @@ This is particularly useful for experimental studies using stable isotope labeli
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>For C13-labeled compounds, create a cache with the isotope configuration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds_40_1000Da_sorted_uniq</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span>
+<p>For C13-95% labeled compounds, create a cache with the isotope configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds_40_1000Da_sorted_uniq</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13_95</span>
 </pre></div>
 </div>
-<p>Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling.</p>
+<p>Expected Output: A cache file with isotope patterns adjusted for C13-95% labeling.</p>
 <p>Use this when analyzing labeled samples.</p>
 </section>
 <section id="verify-cache">
@@ -477,7 +477,7 @@ This is particularly useful for experimental studies using stable isotope labeli
 </pre></div>
 </div>
 <p>Now you’re ready to analyze your mass spectrometry data. The analysis command matches your sample masses against the precomputed database and verifies matches using isotope patterns:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13_95</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 <p>Key parameters:</p>
@@ -544,8 +544,8 @@ This is particularly useful for experimental studies using stable isotope labeli
 <p>Example output file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Log</span> <span class="n">file</span>  <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">aaa</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">results_20250426_000954</span><span class="o">.</span><span class="n">log</span>
                                                                         <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span>
-                                                                        <span class="n">db_nat</span>                                            <span class="n">db_C13</span>
-<span class="n">CF</span>        <span class="n">ID</span>      <span class="n">Name</span>              <span class="n">C</span> <span class="n">H</span> <span class="n">N</span> <span class="n">O</span> <span class="n">P</span> <span class="n">S</span> <span class="n">db_nat_mass</span> <span class="n">db_C13_mass</span> <span class="n">mass_measured</span> <span class="n">error_ppm</span>     <span class="n">intensity</span>   <span class="n">iso_count</span> <span class="n">mass_measured</span> <span class="n">error_ppm</span>     <span class="n">intensity</span>     <span class="n">iso_count</span>
+                                                                        <span class="n">db_nat</span>                                            <span class="n">db_C13_95</span>
+<span class="n">CF</span>        <span class="n">ID</span>      <span class="n">Name</span>              <span class="n">C</span> <span class="n">H</span> <span class="n">N</span> <span class="n">O</span> <span class="n">P</span> <span class="n">S</span> <span class="n">db_nat_mass</span> <span class="n">db_C13_95_mass</span> <span class="n">mass_measured</span> <span class="n">error_ppm</span>     <span class="n">intensity</span>   <span class="n">iso_count</span> <span class="n">mass_measured</span> <span class="n">error_ppm</span>     <span class="n">intensity</span>     <span class="n">iso_count</span>
 <span class="n">C5H5N5</span>    <span class="n">C00147</span>  <span class="n">Adenine</span>           <span class="mi">5</span> <span class="mi">5</span> <span class="mi">5</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">134.0472187</span> <span class="mf">139.0639929</span> <span class="mf">134.04722</span>     <span class="o">-</span><span class="mf">0.009576476</span>  <span class="mf">10030305.6</span>  <span class="mi">3</span>         <span class="mf">139.06396</span>     <span class="mf">0.236698942</span>   <span class="mf">143680406.4</span>   <span class="mi">4</span>
 <span class="n">C5H9NO2</span>   <span class="n">C00148</span>  <span class="n">L</span><span class="o">-</span><span class="n">Proline</span>         <span class="mi">5</span> <span class="mi">9</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">114.0560521</span> <span class="mf">119.0728263</span> <span class="mf">114.05601</span>     <span class="mf">0.368824269</span>   <span class="mf">18852508.02</span> <span class="mi">4</span>         <span class="mf">119.0728</span>      <span class="mf">0.220593068</span>   <span class="mf">72633081.845</span>  <span class="mi">8</span>
 <span class="n">C4H6O5</span>    <span class="n">C00149</span>  <span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">-</span><span class="n">Malate</span>        <span class="mi">4</span> <span class="mi">6</span> <span class="mi">0</span> <span class="mi">5</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mf">133.0142468</span> <span class="mf">137.0276662</span> <span class="mf">133.01424</span>     <span class="mf">0.051304504</span>   <span class="mf">4229908.65</span>  <span class="mi">2</span>         <span class="mf">137.02769</span>     <span class="o">-</span><span class="mf">0.173802639</span>  <span class="mf">2550057.38</span>    <span class="mi">4</span>
@@ -579,10 +579,10 @@ This is particularly useful for experimental studies using stable isotope labeli
 <li><p>Creates two cache files:</p>
 <ul>
 <li><p>Natural abundance cache (<cite>db_nat.pkl</cite>)</p></li>
-<li><p>C13-labeled cache (<cite>db_C13.pkl</cite>)</p></li>
+<li><p>C13-95% labeled cache (<cite>db_C13_95.pkl</cite>)</p></li>
 </ul>
 </li>
-<li><p>Uses the test database and C13 labeling configuration</p></li>
+<li><p>Uses the test database and C13-95% labeling configuration</p></li>
 </ul>
 </li>
 <li><p><strong>Parameter Testing</strong>:</p>
@@ -631,10 +631,10 @@ awk &#39;!seen[$1]++&#39; &quot;$outdir/testDB_sorted.tsv&quot; &gt; &quot;$outd
 
 # Create cache files in outdir and check for success
 mimi_cache_create  -i neg   -d &quot;$outdir/testDB_sorted_uniq.tsv&quot;  -c &quot;$outdir/db_nat&quot;
-mimi_cache_create  -i neg   -l &quot;$datadir/C13_95.json&quot; -d &quot;$outdir/testDB_sorted_uniq.tsv&quot;  -c &quot;$outdir/db_C13&quot;
+mimi_cache_create  -i neg   -l &quot;$datadir/C13_95.json&quot; -d &quot;$outdir/testDB_sorted_uniq.tsv&quot;  -c &quot;$outdir/db_C13_95&quot;
 
 
-if [ ! -f &quot;$outdir/db_nat.pkl&quot; ] || [ ! -f &quot;$outdir/db_C13.pkl&quot; ]; then
+if [ ! -f &quot;$outdir/db_nat.pkl&quot; ] || [ ! -f &quot;$outdir/db_C13_95.pkl&quot; ]; then
     echo &quot;Error: Failed to create cache files&quot;
     exit 1
 fi
@@ -653,14 +653,14 @@ for test_file in &quot;${test_files[@]}&quot;; do
     # Analysis for top graph (fixed vp=0.5, varying p)
     for p in &quot;${p_values[@]}&quot;; do
         p_str=$(echo $p | tr -d &#39;.&#39;)
-        mimi_mass_analysis -p $p -vp 0.5 -c &quot;$outdir/db_nat&quot; &quot;$outdir/db_C13&quot; -s &quot;$datadir/$test_file&quot; -o &quot;$outdir/n${base_name}_p${p_str}_vp05_combined.tsv&quot;
+        mimi_mass_analysis -p $p -vp 0.5 -c &quot;$outdir/db_nat&quot; &quot;$outdir/db_C13_95&quot; -s &quot;$datadir/$test_file&quot; -o &quot;$outdir/n${base_name}_p${p_str}_vp05_combined.tsv&quot;
     done
 
     # Analysis for bottom graph (fixed p=0.5, varying vp)
     for vp in &quot;${vp_values[@]}&quot;; do
         # Format vp value without underscore, just remove the dot
         vp_str=$(echo $vp | tr -d &#39;.&#39;)
-        mimi_mass_analysis -p 0.5 -vp $vp -c &quot;$outdir/db_nat&quot; &quot;$outdir/db_C13&quot; -s &quot;$datadir/$test_file&quot; -o &quot;$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv&quot;
+        mimi_mass_analysis -p 0.5 -vp $vp -c &quot;$outdir/db_nat&quot; &quot;$outdir/db_C13_95&quot; -s &quot;$datadir/$test_file&quot; -o &quot;$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv&quot;
     done
 done
 
@@ -743,12 +743,12 @@ echo &quot;Processing complete.&quot;
 </pre></div>
 </div>
 </li>
-<li><p>Create both natural abundance and C13-labeled caches:</p>
+<li><p>Create both natural abundance and C13-95% labeled caches:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Natural abundance</span>
 <span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds_40_1000Da_sorted_uniq</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span>
 
-<span class="c1"># C13-labeled</span>
-<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds_40_1000Da_sorted_uniq</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span>
+<span class="c1"># C13-95% labeled</span>
+<span class="n">mimi_cache_create</span> <span class="o">-</span><span class="n">i</span> <span class="n">neg</span> <span class="o">-</span><span class="n">l</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">C13_95</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">d</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">kegg_compounds_40_1000Da_sorted_uniq</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13_95</span>
 </pre></div>
 </div>
 </li>
@@ -758,7 +758,7 @@ echo &quot;Processing complete.&quot;
 </div>
 </li>
 <li><p>Finally, analyze your sample using both caches:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_nat</span> <span class="n">outdir</span><span class="o">/</span><span class="n">db_C13_95</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
 </pre></div>
 </div>
 </li>
