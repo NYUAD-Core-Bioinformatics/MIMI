@@ -208,7 +208,7 @@ Create cache files to store precomputed molecular masses and isotope patterns. T
 
 For natural abundance compounds, use::
 
-    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_nat
+    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
 
 Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database. This file will be used for fast matching during analysis.
 
@@ -299,7 +299,7 @@ Example: For 95% 13C labeling, you can use the provided configuration file at `C
 
 For C13-labeled compounds, create a cache with the isotope configuration::
 
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13
 
 Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. 
 
@@ -322,10 +322,10 @@ Example output::
     # MIMI Version: 1.0.0
 
     # Creation Parameters:
-    # Full Command: /Users/aaa/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_nat
+    # Full Command: /Users/aaa/anaconda3/envs/v_test/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
     # Ionization Mode: neg
     # Labeled Atoms File: None
-    # Compound DB Files: data/processed/kegg_compounds_40_1000Da.tsv
+    # Compound DB Files: data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
     # Cache Output File: outdir/db_nat.pkl
     # Isotope Data File: mimi/data/natural_isotope_abundance_NIST.json
 
@@ -667,13 +667,17 @@ Here's a complete example from start to finish:
 
     mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
 
+    # Sort and remove duplicates from KEGG compounds file
+    { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
+    awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+
 2. Create both natural abundance and C13-labeled caches::
 
     # Natural abundance
-    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_nat
+    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
 
     # C13-labeled
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13
 
 3. Verify the cache contents to ensure everything was processed correctly::
 
