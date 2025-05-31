@@ -49,13 +49,8 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture Design</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#hmdb-database">HMDB Database</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#downloading-hmdb-data">Downloading HMDB Data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#extracting-metabolites">Extracting Metabolites</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#mimi-hmdb-extract">mimi_hmdb_extract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mimi-kegg-extract">mimi_kegg_extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mimi-hmdb-extract">mimi_hmdb_extract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mimi-cache-create">mimi_cache_create</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mimi-cache-dump">mimi_cache_dump</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mimi-mass-analysis">mimi_mass_analysis</a></li>
@@ -92,93 +87,9 @@
   <section id="command-reference">
 <h1>Command Reference<a class="headerlink" href="#command-reference" title="Permalink to this headline"></a></h1>
 <p>This section provides detailed information about all command-line tools available in MIMI, including their purpose, when to use them, and what results to expect.</p>
-<section id="hmdb-database">
-<h2>HMDB Database<a class="headerlink" href="#hmdb-database" title="Permalink to this headline"></a></h2>
-<p>The Human Metabolome Database (HMDB) is a comprehensive resource containing detailed information about metabolites found in the human body. MIMI provides tools to work with HMDB data, particularly for extracting and processing metabolite information.</p>
-<section id="downloading-hmdb-data">
-<h3>Downloading HMDB Data<a class="headerlink" href="#downloading-hmdb-data" title="Permalink to this headline"></a></h3>
-<ol class="arabic simple">
-<li><p>Visit the HMDB downloads page: <a class="reference external" href="https://hmdb.ca/downloads">https://hmdb.ca/downloads</a></p></li>
-<li><p>Download the complete metabolites XML file (named “hmdb_metabolites.xml”)</p></li>
-<li><p>This file contains detailed information about each metabolite, including:</p>
-<ul class="simple">
-<li><p>Chemical formulas</p></li>
-<li><p>Names and synonyms</p></li>
-<li><p>Identifiers (HMDB ID, InChI, SMILES)</p></li>
-<li><p>Molecular weights</p></li>
-<li><p>Other chemical properties</p></li>
-</ul>
-</li>
-</ol>
-</section>
-<section id="extracting-metabolites">
-<h3>Extracting Metabolites<a class="headerlink" href="#extracting-metabolites" title="Permalink to this headline"></a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">mimi_hmdb_extract</span></code> command processes the HMDB XML file to extract relevant metabolite information and save it in a tab-separated format.</p>
-</section>
-</section>
-<section id="mimi-hmdb-extract">
-<h2>mimi_hmdb_extract<a class="headerlink" href="#mimi-hmdb-extract" title="Permalink to this headline"></a></h2>
-<p>Purpose: Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.</p>
-<p>Key Features:</p>
-<ul class="simple">
-<li><p>Human-specific metabolite database</p></li>
-<li><p>Requires downloading complete HMDB XML file</p></li>
-<li><p>Includes detailed metabolite information</p></li>
-<li><p>Validates chemical formulas</p></li>
-<li><p>Filters by molecular weight range</p></li>
-</ul>
-<p>When to use:</p>
-<ul class="simple">
-<li><p>Analyzing human samples</p></li>
-<li><p>Studying human metabolism</p></li>
-<li><p>Need detailed metabolite information</p></li>
-<li><p>Working with clinical samples</p></li>
-</ul>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_hmdb_extract --help
-usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
-
-Extract metabolite information from HMDB XML file
-
-options:
--h, --help            show this help message and exit
--x XML, --xml XML     Path to HMDB metabolites XML file
--l MIN_MASS, --min-mass MIN_MASS
-                        Lower bound of molecular weight in Da
--u MAX_MASS, --max-mass MAX_MASS
-                        Upper bound of molecular weight in Da
--o OUTPUT, --output OUTPUT
-                        Output TSV file path (default: metabolites.tsv)
-</pre></div>
-</div>
-<p>Expected Output:
-- TSV file with columns: ID, Name, Formula, Mass
-- Only includes metabolites within specified mass range
-- Validated chemical formulas
-- Human-specific metabolites</p>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Extract metabolites between 100-500 Da
-$ mimi_hmdb_extract -x hmdb_metabolites.xml -l 100 -u 500 -o hmdb_compounds.tsv
-</pre></div>
-</div>
-</section>
 <section id="mimi-kegg-extract">
 <h2>mimi_kegg_extract<a class="headerlink" href="#mimi-kegg-extract" title="Permalink to this headline"></a></h2>
 <p>Purpose: Extracts compound information from the KEGG database using its REST API. Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.</p>
-<p>Key Features:</p>
-<ul class="simple">
-<li><p>Broad compound coverage</p></li>
-<li><p>Uses KEGG REST API</p></li>
-<li><p>Includes pathway information</p></li>
-<li><p>Can extract by mass range or specific IDs</p></li>
-<li><p>Handles KEGG’s 10,000 result limit</p></li>
-</ul>
-<p>When to use:</p>
-<ul class="simple">
-<li><p>Analyzing general biological samples</p></li>
-<li><p>Need broad compound coverage</p></li>
-<li><p>Studying metabolic pathways</p></li>
-<li><p>Working with non-human samples</p></li>
-</ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_kegg_extract --help
 usage: mimi_kegg_extract [-h] [-l MIN_MASS] [-u MAX_MASS] [-i COMPOUND_IDS] [-o OUTPUT] [-b BATCH_SIZE]
 
@@ -205,12 +116,47 @@ options:
 <li><p>Pathway information when available</p></li>
 <li><p>Broad coverage of biological compounds</p></li>
 </ul>
-<p>Examples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Extract compounds between 100-500 Da
-$ mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Extract specific compounds by ID
+$ mimi_kegg_extract -i compound_ids.tsv -o data/processed/kegg_compounds.tsv
 
-# Extract specific compounds by ID
-$ mimi_kegg_extract -i compound_ids.tsv -o kegg_compounds.tsv
+
+# Extract compounds between 40-1000 Da
+$ mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
+
+# Sort and remove duplicates from the KEGG compounds file
+$ { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } &gt; data/processed/kegg_compounds_40_1000Da_sorted.tsv
+$ awk &#39;!seen[$1]++&#39; data/processed/kegg_compounds_40_1000Da_sorted.tsv &gt; data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+</pre></div>
+</div>
+</section>
+<section id="mimi-hmdb-extract">
+<h2>mimi_hmdb_extract<a class="headerlink" href="#mimi-hmdb-extract" title="Permalink to this headline"></a></h2>
+<p>Purpose: Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.</p>
+<p>Download the HMDB XML file from <a class="reference external" href="https://hmdb.ca/downloads">HMDB</a> and save it as <strong>hmdb_metabolites.xml</strong>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_hmdb_extract --help
+usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
+
+Extract metabolite information from HMDB XML file
+
+options:
+-h, --help            show this help message and exit
+-x XML, --xml XML     Path to HMDB metabolites XML file
+-l MIN_MASS, --min-mass MIN_MASS
+                        Lower bound of molecular weight in Da
+-u MAX_MASS, --max-mass MAX_MASS
+                        Upper bound of molecular weight in Da
+-o OUTPUT, --output OUTPUT
+                        Output TSV file path (default: metabolites.tsv)
+</pre></div>
+</div>
+<p>Expected Output:
+- TSV file with columns: ID, Name, Formula, Mass
+- Only includes metabolites within specified mass range
+- Validated chemical formulas
+- Human-specific metabolites</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Extract metabolites between 40-1000 Da
+$ mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -l 40 -u 1000 -o data/processed/hmdb_compounds_40_1000Da.tsv
 </pre></div>
 </div>
 </section>
@@ -250,10 +196,10 @@ options:
 </ul>
 <p>Examples:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Create natural abundance cache
-$ mimi_cache_create -i neg -d data/processed/KEGGDB.tsv -c db_nat
+$ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
 
 # Create C13-labeled cache
-$ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/KEGGDB.tsv -c db_13C
+$ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_13C
 </pre></div>
 </div>
 </section>
@@ -300,7 +246,7 @@ options:
 </ul>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Dump first 5 compounds with 2 isotopes each
-$ mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o cache_contents.tsv
+$ mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o outdir/cache_contents.tsv
 </pre></div>
 </div>
 </section>
@@ -352,10 +298,10 @@ options:
 </ul>
 <p>Examples:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Analyze single sample with natural abundance cache
-$ mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results.tsv
+$ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results.tsv
 
 # Analyze multiple samples with multiple caches
-$ mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s sample1.asc sample2.asc -o batch_results.tsv
+$ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_13C -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
 </pre></div>
 </div>
 </section>
