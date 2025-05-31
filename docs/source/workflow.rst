@@ -297,11 +297,11 @@ Example: For 95% 13C labeling, you can use the provided configuration file at `C
       ]
     }
 
-For C13-labeled compounds, create a cache with the isotope configuration::
+For C13-95% labeled compounds, create a cache with the isotope configuration::
 
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13_95
 
-Expected Output: A cache file with isotope patterns adjusted for 95% C13 labeling. 
+Expected Output: A cache file with isotope patterns adjusted for C13-95% labeling. 
 
 Use this when analyzing labeled samples.
 
@@ -404,7 +404,7 @@ Example input file (data/processed/testdata1.asc)::
 
 Now you're ready to analyze your mass spectrometry data. The analysis command matches your sample masses against the precomputed database and verifies matches using isotope patterns::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13 -s data/processed/testdata1.asc -o outdir/results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13_95 -s data/processed/testdata1.asc -o outdir/results.tsv
 
 Key parameters:
 
@@ -483,8 +483,8 @@ Example output file::
 
     Log file  /Users/aaa/test/log/results_20250426_000954.log
                                                                             data/processed/testdata1.asc						
-                                                                            db_nat                                            db_C13			
-    CF        ID      Name              C H N O P S db_nat_mass db_C13_mass mass_measured error_ppm     intensity   iso_count mass_measured error_ppm     intensity     iso_count
+                                                                            db_nat                                            db_C13_95			
+    CF        ID      Name              C H N O P S db_nat_mass db_C13_95_mass mass_measured error_ppm     intensity   iso_count mass_measured error_ppm     intensity     iso_count
     C5H5N5    C00147  Adenine           5 5 5 0 0 0 134.0472187 139.0639929 134.04722     -0.009576476  10030305.6  3         139.06396     0.236698942   143680406.4   4
     C5H9NO2   C00148  L-Proline         5 9 1 2 0 0 114.0560521 119.0728263 114.05601     0.368824269   18852508.02 4         119.0728      0.220593068   72633081.845  8
     C4H6O5    C00149  (S)-Malate        4 6 0 5 0 0 133.0142468 137.0276662 133.01424     0.051304504   4229908.65  2         137.02769     -0.173802639  2550057.38    4
@@ -519,9 +519,9 @@ The comprehensive run script (`run.sh`) performs the following steps:
    - Creates two cache files:
 
      * Natural abundance cache (`db_nat.pkl`)
-     * C13-labeled cache (`db_C13.pkl`)
+     * C13-95% labeled cache (`db_C13_95.pkl`)
 
-   - Uses the test database and C13 labeling configuration
+   - Uses the test database and C13-95% labeling configuration
 
 3. **Parameter Testing**:
 
@@ -565,10 +565,10 @@ The script content::
 
     # Create cache files in outdir and check for success
     mimi_cache_create  -i neg   -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_nat"
-    mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_C13"
+    mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_C13_95"
 
 
-    if [ ! -f "$outdir/db_nat.pkl" ] || [ ! -f "$outdir/db_C13.pkl" ]; then
+    if [ ! -f "$outdir/db_nat.pkl" ] || [ ! -f "$outdir/db_C13_95.pkl" ]; then
         echo "Error: Failed to create cache files"
         exit 1
     fi
@@ -587,14 +587,14 @@ The script content::
         # Analysis for top graph (fixed vp=0.5, varying p)
         for p in "${p_values[@]}"; do
             p_str=$(echo $p | tr -d '.')
-            mimi_mass_analysis -p $p -vp 0.5 -c "$outdir/db_nat" "$outdir/db_C13" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p${p_str}_vp05_combined.tsv"
+            mimi_mass_analysis -p $p -vp 0.5 -c "$outdir/db_nat" "$outdir/db_C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p${p_str}_vp05_combined.tsv"
         done
         
         # Analysis for bottom graph (fixed p=0.5, varying vp)
         for vp in "${vp_values[@]}"; do
             # Format vp value without underscore, just remove the dot
             vp_str=$(echo $vp | tr -d '.')
-            mimi_mass_analysis -p 0.5 -vp $vp -c "$outdir/db_nat" "$outdir/db_C13" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv"
+            mimi_mass_analysis -p 0.5 -vp $vp -c "$outdir/db_nat" "$outdir/db_C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv"
         done
     done
 
@@ -671,13 +671,13 @@ Here's a complete example from start to finish:
     { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
     awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
 
-2. Create both natural abundance and C13-labeled caches::
+2. Create both natural abundance and C13-95% labeled caches::
 
     # Natural abundance
     mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
 
-    # C13-labeled
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13
+    # C13-95% labeled
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13_95
 
 3. Verify the cache contents to ensure everything was processed correctly::
 
@@ -685,4 +685,4 @@ Here's a complete example from start to finish:
 
 4. Finally, analyze your sample using both caches::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13 -s data/processed/testdata1.asc -o outdir/results.tsv 
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13_95 -s data/processed/testdata1.asc -o outdir/results.tsv 
