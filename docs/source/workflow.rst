@@ -160,6 +160,7 @@ Here's how to prepare databases from different sources using a typical mass rang
     awk '!seen[$1]++' data/processed/hmdb_compounds_40_1000Da_sorted.tsv > data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
 
 The output in both cases will be a TSV file containing:
+
 - Chemical formulas (CF)
 - Compound IDs (ID)
 - Compound names (Name)
