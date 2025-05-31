@@ -3,6 +3,8 @@ Workflow
 
 MIMI is a tool for analyzing mass spectrometry data. It helps identify compounds by matching observed masses against known compounds and verifying their isotope patterns.
 
+.. _installation:
+
 Installation
 ------------
 
@@ -16,127 +18,154 @@ Alternatively, you can install from source if you need the latest development ve
     cd MIMI
     pip install .
 
+
+
 Basic Workflow
 --------------
 
 MIMI's analysis involves three steps:
 
-Step1: Prepare your compound database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* This involves extracting compounds from either KEGG (for general biological samples) or HMDB (for human-specific metabolites) or manually create a custom database.
-* You can filter compounds by mass range using -l (lower limit) and -u (upper limit) parameters
+
+1. Database Preparation
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Choose and prepare a compound database from KEGG, HMDB, or create a custom one
+* Filter compounds by mass range using -l (lower limit) and -u (upper limit) parameters
 * The output is a TSV file containing compounds with their chemical formulas(CF), Compound IDs(ID), and names(Name)
 * You can also create a custom database with specific compounds of interest
 
-See for more details: :ref:`step1-database-preparation-from-kegg-and-hmdb` :ref:`database-options`, :ref:`mass-range-filtering`, :ref:`custom-database-format`, 
+See for more details: :ref:`database-preparation`, :ref:`database-sources`, :ref:`mass-range-filtering`, :ref:`database-preparation-example`
 
-Step2: Create cache files for faster matching
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+2. Cache Creation
+~~~~~~~~~~~~~~~~~~
 
 * This step precomputes molecular masses and isotope patterns for all compounds in your database
 * You can create caches for different isotope configurations (natural abundance or labeled)
 * The cache creation is essential for fast analysis performance
-* You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp).
+* You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp)
 * You can verify the cache contents using `mimi_cache_dump` to ensure everything was processed correctly
 
-See for more details: :ref:`step2-cache-creation`, :ref:`ppm-thresholds`, :ref:`isotope-configuration`  :ref:`verify-cache`
-
-Step3: Sample Analysis
-~~~~~~~~~~~~~~~~~~~~~~
-
-- This step matches your mass spectrometry data against the precomputed database.
-- You can analyze samples in `.asc` format, which should contain mass, intensity, and resolution columns.
-- The analysis process includes both mass matching and isotope pattern verification.
-- Multiple cache files can be specified for comparative or labeled analyses.
-- The output is a TSV file containing detailed information about all matched compounds.
-- For convenience, a provided script allows you to run comprehensive analysis across multiple cache files and sample files, testing different PPM thresholds automatically.
-
-See for more details: :ref:`step3-sample-analysis`, :ref:`input-file-format`,, :ref:`multiple-cache-analysis`, :ref:`batch-processing`, :ref:`results-format`, :ref:`comprehensive-analysis-runs`
-
-.. _database-options:
-
-Database Options
-----------------
-
-MIMI supports two ways to prepare your compound database from external sources with a given mass range:
-
-1. **KEGG Database**:
-
-   - Broad compound coverage
-   - Uses `REST API <https://www.kegg.jp/kegg/rest/keggapi.html>`_ to extract compounds from KEGG
-   - Includes pathway data
-   - Works well for general biological samples
+See for more details: :ref:`step2-cache-creation`, :ref:`ppm-thresholds`, :ref:`isotope-configuration`, :ref:`verify-cache`
 
 
-2. **HMDB Database** (For human samples):
 
-   - Human-specific metabolites
-   - Requires XML file download
-   - More detailed metabolite info
-   - Best for clinical samples
+3. Sample Analysis
+~~~~~~~~~~~~~~~~~~~
 
+- This step matches your mass spectrometry data against the precomputed database
+- You can analyze samples in `.asc` format, which should contain mass, intensity, and resolution columns
+- The analysis process includes both mass matching and isotope pattern verification
+- Multiple cache files can be specified for comparative or labeled analyses
+- The output is a TSV file containing detailed information about all matched compounds
+- For convenience, a provided script allows you to run comprehensive analysis across multiple cache files and sample files, testing different PPM thresholds automatically
 
-   The HMDB database is provided as an XML file named **hmdb_metabolites.xml**. This file contains:
+See for more details: :ref:`step3-sample-analysis`, :ref:`input-file-format`, :ref:`multiple-cache-analysis`, :ref:`batch-processing`, :ref:`results-format`, :ref:`comprehensive-analysis-runs`
+
+.. _database-preparation:
+
+Step1: Database Preparation
+---------------------------
+
+MIMI provides flexible options for preparing your compound database. You can either use established databases (KEGG or HMDB) or create a custom database. The choice depends on your research needs:
+
+.. _database-sources:
+
+Database Sources
+~~~~~~~~~~~~~~~~
+
+1. **KEGG Database**
    
-   - Detailed information about each metabolite
-   - Chemical formulas and molecular weights
-   - Names and identifiers
-   - Additional metadata about human metabolites
+   Best for general biological samples:
+   
+   - Comprehensive compound coverage
+   - Integrated pathway information
+   - Access via `REST API <https://www.kegg.jp/kegg/rest/keggapi.html>`_
+   - Suitable for broad metabolomics studies
 
-   Download the HMDB XML file from `https://hmdb.ca/downloads <https://hmdb.ca/downloads>`_ and save it as **hmdb_metabolites.xml**.
+2. **HMDB Database**
+   
+   Optimal for human studies:
+   
+   - Human-specific metabolites
+   - Detailed metabolite annotations
+   - Requires `HMDB <https://hmdb.ca/downloads>`_ XML file
+   - Best for clinical and biomedical research
+
+3. **Custom Database**
+   
+   Create your own when:
+   
+   - Working with novel compounds
+   - Focusing on specific compounds of interest
+   - Needing custom annotations
+   - Combining multiple data sources
+
+   Required format (TSV file)::
+
+       CF      ID        Name
+       C6H12O6 C00031    Glucose
+       C5H10O5 C00036    Ribose
+       C3H7NO2 C00041    Alanine
+       C7H6O2  C00042    Benzoic Acid
+       C4H8O4  C00043    Erythritol
 
 .. _mass-range-filtering:
 
 Mass Range Filtering
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
-Filter compounds by mass using:
+All database preparation methods support mass filtering to focus on your range of interest:
 
-- `-l`: Lower mass limit (e.g., 40 Da)
+- `-l`: Lower mass limit
+  
+  - Excludes compounds below specified mass
+  - Example: `-l 40` removes compounds < 40 Da
+  - Useful for filtering out small molecules/contaminants
 
-  - Filters out compounds lighter than this mass
-  - Useful for removing small molecules or contaminants
-  - Example: -l 100 filters out compounds < 100 Da
+- `-u`: Upper mass limit
+  
+  - Excludes compounds above specified mass
+  - Example: `-u 1000` removes compounds > 1000 Da
+  - Helps focus on relevant mass ranges
 
-- `-u`: Upper mass limit (e.g., 1000 Da)
+Example: `-l 40 -u 1000` retains only compounds between 40-1000 Da.
 
-  - Filters out compounds heavier than this mass
-  - Useful for focusing on specific mass ranges
-  - Example: -u 1000 filters out compounds > 1000 Da
 
-Example: `-l 40 -u 1000` keeps compounds between 40-1000 Da.
+.. _database-preparation-example:
 
-.. _custom-database-format:
+Database Preparation Example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Custom Database Format
-----------------------
+Here's how to prepare databases from different sources using a typical mass range of 40-1000 Da (based on common MS data ranges):
 
-Create a custom database when:
+1. **From KEGG**::
 
-- Working with novel compounds
-- Having specific compounds of interest
-- Needing to add custom annotations
-- Combining multiple sources
+    # Extract compounds
+    mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
 
-The file must contain these required columns::
+    # Sort and remove duplicates
+    { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
+    awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
 
-    CF      ID        Name
-    C6H12O6 C00031    Glucose
-    C5H10O5 C00036    Ribose
-    C3H7NO2 C00041    Alanine
-    C7H6O2  C00042    Benzoic Acid
-    C4H8O4  C00043    Erythritol
+2. **From HMDB**::
 
-.. _step1-database-preparation-from-kegg-and-hmdb:
+    # First download the HMDB XML file, then extract compounds
+    mimi_hmdb_extract -l 40 -u 1000 -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
 
-Step1: Database Preparation from KEGG and HMDB
-----------------------------------------------
+    # Sort and remove duplicates
+    { head -n 1 data/processed/hmdb_compounds_40_1000Da.tsv; tail -n +2 data/processed/hmdb_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/hmdb_compounds_40_1000Da_sorted.tsv
+    awk '!seen[$1]++' data/processed/hmdb_compounds_40_1000Da_sorted.tsv > data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
 
-The first step in using MIMI is to prepare your compound database. This involves extracting relevant compounds from either KEGG or HMDB and saving them in a format that MIMI can use.
-Since the observed mass range is 40-1000 Da from Mass Spectrometry, we use the same mass range 40-1000 Da for KEGG and HMDB.
+The output in both cases will be a TSV file containing:
+- Chemical formulas (CF)
+- Compound IDs (ID)
+- Compound names (Name)
+- Only compounds within the specified mass range
 
-Mass Spectrometry data::
+This mass range we used is suitable for typical MS data, as shown in this example data::
 
     $ head data/processed/testdata1.asc 
     43.16184	1089317	0.00003
@@ -150,7 +179,7 @@ Mass Spectrometry data::
     43.42234	23344476	0.00004
     43.42237	22443004	0.00004
 
-    $ tail  data/processed/testdata1.asc 
+    $ tail data/processed/testdata1.asc 
     998.43509	1206308	0.00535
     998.46616	1131300	0.00695
     998.73782	1093661	0.00813
@@ -161,18 +190,6 @@ Mass Spectrometry data::
     999.52689	2547575	0.01782
     999.90084	1347088	0.00892
     999.99347	2578292	0.00277
-
-For KEGG database, use the following command to extract compounds within a specific mass range::
-
-    mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
-
-Expected Output: A TSV file containing compounds with their chemical formulas(CF), IDs(ID), and names(Name). The file will include compounds with molecular weights between 40 and 1000 Da from the KEGG database.
-
-For HMDB database, first download the XML file, then use this command to extract the metabolites::
-
-    mimi_hmdb_extract -l 40 -u 1000 -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
-
-Expected Output: Similar to KEGG, but with human metabolites from HMDB. Useful when studying human samples and need human-specific compounds.
 
 .. _step2-cache-creation:
 
@@ -211,7 +228,7 @@ For each element in `natural_isotope_abundance_NIST.json`, it provides detailed 
    - `element_symbol`: The chemical symbol of the element
    - `nominal_mass`: The mass number (number of protons + neutrons)
    - `exact_mass`: The precise atomic mass in atomic mass units (u)
-   - `natural_abundance`: The relative abundance of the isotope in nature
+   - `isotope_abundance`: The relative abundance of the isotope in nature
 
 Example entry for Carbon (C):
 ::
@@ -222,14 +239,14 @@ Example entry for Carbon (C):
             "element_symbol": "C",
             "nominal_mass": 12,
             "exact_mass": 12.0,
-            "natural_abundance": 0.9893
+            "isotope_abundance": 0.9893
         },
         {
             "periodic_number": 6,
             "element_symbol": "C",
             "nominal_mass": 13,
             "exact_mass": 13.00335483507,
-            "natural_abundance": 0.0107
+            "isotope_abundance": 0.0107
         }
     ]
 
@@ -412,10 +429,10 @@ The PPM threshold affects match precision and reliability:
 Example::
 
     # High confidence analysis
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c db_nat -s sample.asc -o results_excellent.tsv
+    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results_excellent.tsv
 
     # Standard confidence analysis
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results_good.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results_good.tsv
 
 .. _multiple-cache-analysis:
 
@@ -424,7 +441,7 @@ Multiple Cache Analysis
 
 You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s data/processed/testdata1.asc -o results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_13C -s data/processed/testdata1.asc -o outdir/results.tsv
 
 
 
@@ -435,7 +452,7 @@ Batch Processing
 
 MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o batch_results.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
 
 
 
@@ -520,7 +537,7 @@ The comprehensive run script (`run.sh`) performs the following steps:
 
 Example Usage::
 
-    ./run.sh data_directory output_directory
+    sh ./run.sh data/processed outdir
 
 The script content::
 
@@ -539,9 +556,17 @@ The script content::
     # Create output directory
     mkdir -p "$outdir"
 
+    # Sort and remove duplicates from KEGG compounds file
+    cp "$datadir/kegg_compounds_40_1000Da.tsv" "$outdir/testDB.tsv"
+    { head -n 1 "$outdir/testDB.tsv"; tail -n +2 "$outdir/testDB.tsv" | sort -k2,2; } > "$outdir/testDB_sorted.tsv"
+    awk '!seen[$1]++' "$outdir/testDB_sorted.tsv" > "$outdir/testDB_sorted_uniq.tsv"
+
+
+
     # Create cache files in outdir and check for success
-    mimi_cache_create  -i neg   -d "$datadir/testDB.tsv"  -c "$outdir/db_nat"
-    mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$datadir/testDB.tsv"  -c "$outdir/db_C13"
+    mimi_cache_create  -i neg   -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_nat"
+    mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_C13"
+
 
     if [ ! -f "$outdir/db_nat.pkl" ] || [ ! -f "$outdir/db_C13.pkl" ]; then
         echo "Error: Failed to create cache files"
@@ -573,7 +598,11 @@ The script content::
         done
     done
 
+
     echo "Processing complete."
+
+
+
 
 
 
@@ -636,15 +665,15 @@ Here's a complete example from start to finish:
 
 1. First, extract compounds from KEGG within your desired mass range::
 
-    mimi_kegg_extract -l 40 -u 400 -o data/processed/kegg_compounds.tsv
+    mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
 
 2. Create both natural abundance and C13-labeled caches::
 
     # Natural abundance
-    mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
+    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_nat
 
     # C13-labeled
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da.tsv -c outdir/db_C13
 
 3. Verify the cache contents to ensure everything was processed correctly::
 

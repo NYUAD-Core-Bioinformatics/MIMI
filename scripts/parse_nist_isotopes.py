@@ -68,9 +68,9 @@ def parse_nist_data(nist_file):
 
     # Calculate highest abundance for each element
     # for element in isotopes:
-    #     isotopes_with_abundance = [iso for iso in isotopes[element] if 'natural_abundance' in iso]
+    #     isotopes_with_abundance = [iso for iso in isotopes[element] if 'isotope_abundance' in iso]
     #     if isotopes_with_abundance:
-    #         highest_abundance = max(iso['natural_abundance'] for iso in isotopes_with_abundance)
+    #         highest_abundance = max(iso['isotope_abundance'] for iso in isotopes_with_abundance)
     #         for isotope in isotopes[element]:
     #             isotope['highest_abundance'] = highest_abundance
 
@@ -82,10 +82,10 @@ def update_iupac_json(nist_data, output_file):
     
     for element, isotopes in nist_data.items():
         # Only include isotopes with natural abundance
-        natural_isotopes = [iso for iso in isotopes if 'natural_abundance' in iso]
+        natural_isotopes = [iso for iso in isotopes if 'isotope_abundance' in iso]
         if natural_isotopes:
             formatted_data[element] = sorted(natural_isotopes, 
-                                          key=lambda x: x['natural_abundance'],
+                                          key=lambda x: x['isotope_abundance'],
                                           reverse=True)
 
     # Write to JSON file

@@ -202,7 +202,10 @@ def create_plots(outdir):
     # Add value labels
     for ax in [ax1, ax2]:
         for container in ax.containers:
-            ax.bar_label(container, fmt='%.1f', fontsize=12)
+            if ax == ax1:
+                ax.bar_label(container, fmt='%d', fontsize=12)
+            else:
+                ax.bar_label(container, fmt='%.1f', fontsize=12)
         # Increase axis label font sizes
         ax.xaxis.label.set_fontsize(14)
         ax.yaxis.label.set_fontsize(14)

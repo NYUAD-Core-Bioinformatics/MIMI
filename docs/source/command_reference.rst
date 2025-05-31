@@ -3,97 +3,10 @@ Command Reference
 
 This section provides detailed information about all command-line tools available in MIMI, including their purpose, when to use them, and what results to expect.
 
-HMDB Database
--------------
-
-The Human Metabolome Database (HMDB) is a comprehensive resource containing detailed information about metabolites found in the human body. MIMI provides tools to work with HMDB data, particularly for extracting and processing metabolite information.
-
-Downloading HMDB Data
-~~~~~~~~~~~~~~~~~~~~~
-
-1. Visit the HMDB downloads page: https://hmdb.ca/downloads
-2. Download the complete metabolites XML file (named "hmdb_metabolites.xml")
-3. This file contains detailed information about each metabolite, including:
-
-   - Chemical formulas
-   - Names and synonyms
-   - Identifiers (HMDB ID, InChI, SMILES)
-   - Molecular weights
-   - Other chemical properties
-
-Extracting Metabolites
-~~~~~~~~~~~~~~~~~~~~~~
-
-The ``mimi_hmdb_extract`` command processes the HMDB XML file to extract relevant metabolite information and save it in a tab-separated format.
-
-mimi_hmdb_extract
------------------
-
-Purpose: Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.
-
-Key Features:
-
-- Human-specific metabolite database
-- Requires downloading complete HMDB XML file
-- Includes detailed metabolite information
-- Validates chemical formulas
-- Filters by molecular weight range
-
-When to use:
-
-- Analyzing human samples
-- Studying human metabolism
-- Need detailed metabolite information
-- Working with clinical samples
-
-.. code-block:: text
-
-    $ mimi_hmdb_extract --help
-    usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
-
-    Extract metabolite information from HMDB XML file
-
-    options:
-    -h, --help            show this help message and exit
-    -x XML, --xml XML     Path to HMDB metabolites XML file
-    -l MIN_MASS, --min-mass MIN_MASS
-                            Lower bound of molecular weight in Da
-    -u MAX_MASS, --max-mass MAX_MASS
-                            Upper bound of molecular weight in Da
-    -o OUTPUT, --output OUTPUT
-                            Output TSV file path (default: metabolites.tsv)
-
-
-Expected Output:
-- TSV file with columns: ID, Name, Formula, Mass
-- Only includes metabolites within specified mass range
-- Validated chemical formulas
-- Human-specific metabolites
-
-Example::
-
-    # Extract metabolites between 100-500 Da
-    $ mimi_hmdb_extract -x hmdb_metabolites.xml -l 100 -u 500 -o hmdb_compounds.tsv
-
 mimi_kegg_extract
 -----------------
 
 Purpose: Extracts compound information from the KEGG database using its REST API. Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.
-
-Key Features:
-
-- Broad compound coverage
-- Uses KEGG REST API
-- Includes pathway information
-- Can extract by mass range or specific IDs
-- Handles KEGG's 10,000 result limit
-
-When to use:
-
-- Analyzing general biological samples
-- Need broad compound coverage
-- Studying metabolic pathways
-- Working with non-human samples
 
 .. code-block:: text
 
@@ -122,13 +35,56 @@ Expected Output:
 - Pathway information when available
 - Broad coverage of biological compounds
 
-Examples::
-
-    # Extract compounds between 100-500 Da
-    $ mimi_kegg_extract -l 100 -u 500 -o kegg_compounds.tsv
+.. code-block:: text
 
     # Extract specific compounds by ID
-    $ mimi_kegg_extract -i compound_ids.tsv -o kegg_compounds.tsv
+    $ mimi_kegg_extract -i compound_ids.tsv -o data/processed/kegg_compounds.tsv
+
+
+    # Extract compounds between 40-1000 Da
+    $ mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
+
+    # Sort and remove duplicates from the KEGG compounds file
+    $ { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
+    $ awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+
+
+mimi_hmdb_extract
+-----------------
+
+Purpose: Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.
+
+Download the HMDB XML file from `HMDB <https://hmdb.ca/downloads>`_ and save it as **hmdb_metabolites.xml**.
+
+.. code-block:: text
+
+    $ mimi_hmdb_extract --help
+    usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
+
+    Extract metabolite information from HMDB XML file
+
+    options:
+    -h, --help            show this help message and exit
+    -x XML, --xml XML     Path to HMDB metabolites XML file
+    -l MIN_MASS, --min-mass MIN_MASS
+                            Lower bound of molecular weight in Da
+    -u MAX_MASS, --max-mass MAX_MASS
+                            Upper bound of molecular weight in Da
+    -o OUTPUT, --output OUTPUT
+                            Output TSV file path (default: metabolites.tsv)
+
+
+Expected Output:
+- TSV file with columns: ID, Name, Formula, Mass
+- Only includes metabolites within specified mass range
+- Validated chemical formulas
+- Human-specific metabolites
+
+Example::
+
+    # Extract metabolites between 40-1000 Da
+    $ mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -l 40 -u 1000 -o data/processed/hmdb_compounds_40_1000Da.tsv
+
 
 mimi_cache_create
 -----------------
@@ -171,10 +127,10 @@ Expected Output:
 Examples::
 
     # Create natural abundance cache
-    $ mimi_cache_create -i neg -d data/processed/KEGGDB.tsv -c db_nat
+    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
 
     # Create C13-labeled cache
-    $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/KEGGDB.tsv -c db_13C
+    $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_13C
 
 mimi_cache_dump
 ---------------
@@ -223,7 +179,7 @@ Expected Output:
 Example::
 
     # Dump first 5 compounds with 2 isotopes each
-    $ mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o cache_contents.tsv
+    $ mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o outdir/cache_contents.tsv
 
 mimi_mass_analysis
 ------------------
@@ -278,8 +234,8 @@ Expected Output:
 Examples::
 
     # Analyze single sample with natural abundance cache
-    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat -s sample.asc -o results.tsv
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results.tsv
 
     # Analyze multiple samples with multiple caches
-    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c db_nat db_13C -s sample1.asc sample2.asc -o batch_results.tsv
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_13C -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
                   

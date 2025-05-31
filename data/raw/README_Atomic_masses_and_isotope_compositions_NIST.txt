@@ -24,27 +24,25 @@ MIMI field correspondence:
   Atomic Symbol 	=> element_symbol
   Mass Number   	=> nominal_mass
   Relative Atomic Mass 	=> exact_mass
-  Isotopic Composition 	=> natural_abundance
+  Isotopic Composition 	=> isotope_abundance
 
 Example of MIMI .json format:
 
-  "H": [
-            {
-                  "periodic_number": 1,
-                  "element_symbol": "H",
-                  "nominal_mass": 1,
-                  "exact_mass": 1.00782503223,
-                  "natural_abundance": 0.999885,
-                  "highest_abundance": 0.999885
-            },
-            {
-                  "periodic_number": 1,
-                  "element_symbol": "H",
-                  "nominal_mass": 2,
-                  "exact_mass": 2.01410177812,
-                  "natural_abundance": 0.000115,
-                  "highest_abundance": 0.999885
-            }
-      ],
+      "H": [
+                  {
+                        "periodic_number": 1,
+                        "element_symbol": "H",
+                        "nominal_mass": 1,
+                        "exact_mass": 1.00782503223,
+                        "isotope_abundance": 0.999885
+                  },
+                  {
+                        "periodic_number": 1,
+                        "element_symbol": "H",
+                        "nominal_mass": 2,
+                        "exact_mass": 2.01410177812,
+                        "isotope_abundance": 0.000115
+                  }
+            ]
 
 ————————————————————————————————————————————————————————————

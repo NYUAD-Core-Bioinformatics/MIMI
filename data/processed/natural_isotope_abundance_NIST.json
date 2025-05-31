@@ -5,14 +5,14 @@
                   "element_symbol": "H",
                   "nominal_mass": 1,
                   "exact_mass": 1.00782503223,
-                  "natural_abundance": 0.999885
+                  "isotope_abundance": 0.999885
             },
             {
                   "periodic_number": 1,
                   "element_symbol": "H",
                   "nominal_mass": 2,
                   "exact_mass": 2.01410177812,
-                  "natural_abundance": 0.000115
+                  "isotope_abundance": 0.000115
             }
       ],
       "He": [
@@ -21,14 +21,14 @@
                   "element_symbol": "He",
                   "nominal_mass": 4,
                   "exact_mass": 4.00260325413,
-                  "natural_abundance": 0.99999866
+                  "isotope_abundance": 0.99999866
             },
             {
                   "periodic_number": 2,
                   "element_symbol": "He",
                   "nominal_mass": 3,
                   "exact_mass": 3.0160293201,
-                  "natural_abundance": 1.34e-06
+                  "isotope_abundance": 1.34e-06
             }
       ],
       "Li": [
@@ -37,14 +37,14 @@
                   "element_symbol": "Li",
                   "nominal_mass": 7,
                   "exact_mass": 7.0160034366,
-                  "natural_abundance": 0.9241
+                  "isotope_abundance": 0.9241
             },
             {
                   "periodic_number": 3,
                   "element_symbol": "Li",
                   "nominal_mass": 6,
                   "exact_mass": 6.0151228874,
-                  "natural_abundance": 0.0759
+                  "isotope_abundance": 0.0759
             }
       ],
       "Be": [
@@ -53,7 +53,7 @@
                   "element_symbol": "Be",
                   "nominal_mass": 9,
                   "exact_mass": 9.012183065,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "B": [
@@ -62,14 +62,14 @@
                   "element_symbol": "B",
                   "nominal_mass": 11,
                   "exact_mass": 11.00930536,
-                  "natural_abundance": 0.801
+                  "isotope_abundance": 0.801
             },
             {
                   "periodic_number": 5,
                   "element_symbol": "B",
                   "nominal_mass": 10,
                   "exact_mass": 10.01293695,
-                  "natural_abundance": 0.199
+                  "isotope_abundance": 0.199
             }
       ],
       "C": [
@@ -78,14 +78,14 @@
                   "element_symbol": "C",
                   "nominal_mass": 12,
                   "exact_mass": 12.0,
-                  "natural_abundance": 0.9893
+                  "isotope_abundance": 0.9893
             },
             {
                   "periodic_number": 6,
                   "element_symbol": "C",
                   "nominal_mass": 13,
                   "exact_mass": 13.00335483507,
-                  "natural_abundance": 0.0107
+                  "isotope_abundance": 0.0107
             }
       ],
       "N": [
@@ -94,14 +94,14 @@
                   "element_symbol": "N",
                   "nominal_mass": 14,
                   "exact_mass": 14.00307400443,
-                  "natural_abundance": 0.99636
+                  "isotope_abundance": 0.99636
             },
             {
                   "periodic_number": 7,
                   "element_symbol": "N",
                   "nominal_mass": 15,
                   "exact_mass": 15.00010889888,
-                  "natural_abundance": 0.00364
+                  "isotope_abundance": 0.00364
             }
       ],
       "O": [
@@ -110,21 +110,21 @@
                   "element_symbol": "O",
                   "nominal_mass": 16,
                   "exact_mass": 15.99491461957,
-                  "natural_abundance": 0.99757
+                  "isotope_abundance": 0.99757
             },
             {
                   "periodic_number": 8,
                   "element_symbol": "O",
                   "nominal_mass": 18,
                   "exact_mass": 17.99915961286,
-                  "natural_abundance": 0.00205
+                  "isotope_abundance": 0.00205
             },
             {
                   "periodic_number": 8,
                   "element_symbol": "O",
                   "nominal_mass": 17,
                   "exact_mass": 16.9991317565,
-                  "natural_abundance": 0.00038
+                  "isotope_abundance": 0.00038
             }
       ],
       "F": [
@@ -133,7 +133,7 @@
                   "element_symbol": "F",
                   "nominal_mass": 19,
                   "exact_mass": 18.99840316273,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Ne": [
@@ -142,21 +142,21 @@
                   "element_symbol": "Ne",
                   "nominal_mass": 20,
                   "exact_mass": 19.9924401762,
-                  "natural_abundance": 0.9048
+                  "isotope_abundance": 0.9048
             },
             {
                   "periodic_number": 10,
                   "element_symbol": "Ne",
                   "nominal_mass": 22,
                   "exact_mass": 21.991385114,
-                  "natural_abundance": 0.0925
+                  "isotope_abundance": 0.0925
             },
             {
                   "periodic_number": 10,
                   "element_symbol": "Ne",
                   "nominal_mass": 21,
                   "exact_mass": 20.993846685,
-                  "natural_abundance": 0.0027
+                  "isotope_abundance": 0.0027
             }
       ],
       "Na": [
@@ -165,7 +165,7 @@
                   "element_symbol": "Na",
                   "nominal_mass": 23,
                   "exact_mass": 22.989769282,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Mg": [
@@ -174,21 +174,21 @@
                   "element_symbol": "Mg",
                   "nominal_mass": 24,
                   "exact_mass": 23.985041697,
-                  "natural_abundance": 0.7899
+                  "isotope_abundance": 0.7899
             },
             {
                   "periodic_number": 12,
                   "element_symbol": "Mg",
                   "nominal_mass": 26,
                   "exact_mass": 25.982592968,
-                  "natural_abundance": 0.1101
+                  "isotope_abundance": 0.1101
             },
             {
                   "periodic_number": 12,
                   "element_symbol": "Mg",
                   "nominal_mass": 25,
                   "exact_mass": 24.985836976,
-                  "natural_abundance": 0.1
+                  "isotope_abundance": 0.1
             }
       ],
       "Al": [
@@ -197,7 +197,7 @@
                   "element_symbol": "Al",
                   "nominal_mass": 27,
                   "exact_mass": 26.98153853,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Si": [
@@ -206,21 +206,21 @@
                   "element_symbol": "Si",
                   "nominal_mass": 28,
                   "exact_mass": 27.97692653465,
-                  "natural_abundance": 0.92223
+                  "isotope_abundance": 0.92223
             },
             {
                   "periodic_number": 14,
                   "element_symbol": "Si",
                   "nominal_mass": 29,
                   "exact_mass": 28.9764946649,
-                  "natural_abundance": 0.04685
+                  "isotope_abundance": 0.04685
             },
             {
                   "periodic_number": 14,
                   "element_symbol": "Si",
                   "nominal_mass": 30,
                   "exact_mass": 29.973770136,
-                  "natural_abundance": 0.03092
+                  "isotope_abundance": 0.03092
             }
       ],
       "P": [
@@ -229,7 +229,7 @@
                   "element_symbol": "P",
                   "nominal_mass": 31,
                   "exact_mass": 30.97376199842,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "S": [
@@ -238,28 +238,28 @@
                   "element_symbol": "S",
                   "nominal_mass": 32,
                   "exact_mass": 31.9720711744,
-                  "natural_abundance": 0.9499
+                  "isotope_abundance": 0.9499
             },
             {
                   "periodic_number": 16,
                   "element_symbol": "S",
                   "nominal_mass": 34,
                   "exact_mass": 33.967867004,
-                  "natural_abundance": 0.0425
+                  "isotope_abundance": 0.0425
             },
             {
                   "periodic_number": 16,
                   "element_symbol": "S",
                   "nominal_mass": 33,
                   "exact_mass": 32.9714589098,
-                  "natural_abundance": 0.0075
+                  "isotope_abundance": 0.0075
             },
             {
                   "periodic_number": 16,
                   "element_symbol": "S",
                   "nominal_mass": 36,
                   "exact_mass": 35.96708071,
-                  "natural_abundance": 0.0001
+                  "isotope_abundance": 0.0001
             }
       ],
       "Cl": [
@@ -268,14 +268,14 @@
                   "element_symbol": "Cl",
                   "nominal_mass": 35,
                   "exact_mass": 34.968852682,
-                  "natural_abundance": 0.7576
+                  "isotope_abundance": 0.7576
             },
             {
                   "periodic_number": 17,
                   "element_symbol": "Cl",
                   "nominal_mass": 37,
                   "exact_mass": 36.965902602,
-                  "natural_abundance": 0.2424
+                  "isotope_abundance": 0.2424
             }
       ],
       "Ar": [
@@ -284,21 +284,21 @@
                   "element_symbol": "Ar",
                   "nominal_mass": 40,
                   "exact_mass": 39.9623831237,
-                  "natural_abundance": 0.996035
+                  "isotope_abundance": 0.996035
             },
             {
                   "periodic_number": 18,
                   "element_symbol": "Ar",
                   "nominal_mass": 36,
                   "exact_mass": 35.967545105,
-                  "natural_abundance": 0.003336
+                  "isotope_abundance": 0.003336
             },
             {
                   "periodic_number": 18,
                   "element_symbol": "Ar",
                   "nominal_mass": 38,
                   "exact_mass": 37.96273211,
-                  "natural_abundance": 0.000629
+                  "isotope_abundance": 0.000629
             }
       ],
       "K": [
@@ -307,21 +307,21 @@
                   "element_symbol": "K",
                   "nominal_mass": 39,
                   "exact_mass": 38.9637064864,
-                  "natural_abundance": 0.932581
+                  "isotope_abundance": 0.932581
             },
             {
                   "periodic_number": 19,
                   "element_symbol": "K",
                   "nominal_mass": 41,
                   "exact_mass": 40.9618252579,
-                  "natural_abundance": 0.067302
+                  "isotope_abundance": 0.067302
             },
             {
                   "periodic_number": 19,
                   "element_symbol": "K",
                   "nominal_mass": 40,
                   "exact_mass": 39.963998166,
-                  "natural_abundance": 0.000117
+                  "isotope_abundance": 0.000117
             }
       ],
       "Ca": [
@@ -330,42 +330,42 @@
                   "element_symbol": "Ca",
                   "nominal_mass": 40,
                   "exact_mass": 39.962590863,
-                  "natural_abundance": 0.96941
+                  "isotope_abundance": 0.96941
             },
             {
                   "periodic_number": 20,
                   "element_symbol": "Ca",
                   "nominal_mass": 44,
                   "exact_mass": 43.95548156,
-                  "natural_abundance": 0.02086
+                  "isotope_abundance": 0.02086
             },
             {
                   "periodic_number": 20,
                   "element_symbol": "Ca",
                   "nominal_mass": 42,
                   "exact_mass": 41.95861783,
-                  "natural_abundance": 0.00647
+                  "isotope_abundance": 0.00647
             },
             {
                   "periodic_number": 20,
                   "element_symbol": "Ca",
                   "nominal_mass": 48,
                   "exact_mass": 47.95252276,
-                  "natural_abundance": 0.00187
+                  "isotope_abundance": 0.00187
             },
             {
                   "periodic_number": 20,
                   "element_symbol": "Ca",
                   "nominal_mass": 43,
                   "exact_mass": 42.95876644,
-                  "natural_abundance": 0.00135
+                  "isotope_abundance": 0.00135
             },
             {
                   "periodic_number": 20,
                   "element_symbol": "Ca",
                   "nominal_mass": 46,
                   "exact_mass": 45.953689,
-                  "natural_abundance": 4e-05
+                  "isotope_abundance": 4e-05
             }
       ],
       "Sc": [
@@ -374,7 +374,7 @@
                   "element_symbol": "Sc",
                   "nominal_mass": 45,
                   "exact_mass": 44.95590828,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Ti": [
@@ -383,35 +383,35 @@
                   "element_symbol": "Ti",
                   "nominal_mass": 48,
                   "exact_mass": 47.94794198,
-                  "natural_abundance": 0.7372
+                  "isotope_abundance": 0.7372
             },
             {
                   "periodic_number": 22,
                   "element_symbol": "Ti",
                   "nominal_mass": 46,
                   "exact_mass": 45.95262772,
-                  "natural_abundance": 0.0825
+                  "isotope_abundance": 0.0825
             },
             {
                   "periodic_number": 22,
                   "element_symbol": "Ti",
                   "nominal_mass": 47,
                   "exact_mass": 46.95175879,
-                  "natural_abundance": 0.0744
+                  "isotope_abundance": 0.0744
             },
             {
                   "periodic_number": 22,
                   "element_symbol": "Ti",
                   "nominal_mass": 49,
                   "exact_mass": 48.94786568,
-                  "natural_abundance": 0.0541
+                  "isotope_abundance": 0.0541
             },
             {
                   "periodic_number": 22,
                   "element_symbol": "Ti",
                   "nominal_mass": 50,
                   "exact_mass": 49.94478689,
-                  "natural_abundance": 0.0518
+                  "isotope_abundance": 0.0518
             }
       ],
       "V": [
@@ -420,14 +420,14 @@
                   "element_symbol": "V",
                   "nominal_mass": 51,
                   "exact_mass": 50.94395704,
-                  "natural_abundance": 0.9975
+                  "isotope_abundance": 0.9975
             },
             {
                   "periodic_number": 23,
                   "element_symbol": "V",
                   "nominal_mass": 50,
                   "exact_mass": 49.94715601,
-                  "natural_abundance": 0.0025
+                  "isotope_abundance": 0.0025
             }
       ],
       "Cr": [
@@ -436,28 +436,28 @@
                   "element_symbol": "Cr",
                   "nominal_mass": 52,
                   "exact_mass": 51.94050623,
-                  "natural_abundance": 0.83789
+                  "isotope_abundance": 0.83789
             },
             {
                   "periodic_number": 24,
                   "element_symbol": "Cr",
                   "nominal_mass": 53,
                   "exact_mass": 52.94064815,
-                  "natural_abundance": 0.09501
+                  "isotope_abundance": 0.09501
             },
             {
                   "periodic_number": 24,
                   "element_symbol": "Cr",
                   "nominal_mass": 50,
                   "exact_mass": 49.94604183,
-                  "natural_abundance": 0.04345
+                  "isotope_abundance": 0.04345
             },
             {
                   "periodic_number": 24,
                   "element_symbol": "Cr",
                   "nominal_mass": 54,
                   "exact_mass": 53.93887916,
-                  "natural_abundance": 0.02365
+                  "isotope_abundance": 0.02365
             }
       ],
       "Mn": [
@@ -466,7 +466,7 @@
                   "element_symbol": "Mn",
                   "nominal_mass": 55,
                   "exact_mass": 54.93804391,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Fe": [
@@ -475,28 +475,28 @@
                   "element_symbol": "Fe",
                   "nominal_mass": 56,
                   "exact_mass": 55.93493633,
-                  "natural_abundance": 0.91754
+                  "isotope_abundance": 0.91754
             },
             {
                   "periodic_number": 26,
                   "element_symbol": "Fe",
                   "nominal_mass": 54,
                   "exact_mass": 53.93960899,
-                  "natural_abundance": 0.05845
+                  "isotope_abundance": 0.05845
             },
             {
                   "periodic_number": 26,
                   "element_symbol": "Fe",
                   "nominal_mass": 57,
                   "exact_mass": 56.93539284,
-                  "natural_abundance": 0.02119
+                  "isotope_abundance": 0.02119
             },
             {
                   "periodic_number": 26,
                   "element_symbol": "Fe",
                   "nominal_mass": 58,
                   "exact_mass": 57.93327443,
-                  "natural_abundance": 0.00282
+                  "isotope_abundance": 0.00282
             }
       ],
       "Co": [
@@ -505,7 +505,7 @@
                   "element_symbol": "Co",
                   "nominal_mass": 59,
                   "exact_mass": 58.93319429,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Ni": [
@@ -514,35 +514,35 @@
                   "element_symbol": "Ni",
                   "nominal_mass": 58,
                   "exact_mass": 57.93534241,
-                  "natural_abundance": 0.68077
+                  "isotope_abundance": 0.68077
             },
             {
                   "periodic_number": 28,
                   "element_symbol": "Ni",
                   "nominal_mass": 60,
                   "exact_mass": 59.93078588,
-                  "natural_abundance": 0.26223
+                  "isotope_abundance": 0.26223
             },
             {
                   "periodic_number": 28,
                   "element_symbol": "Ni",
                   "nominal_mass": 62,
                   "exact_mass": 61.92834537,
-                  "natural_abundance": 0.036346
+                  "isotope_abundance": 0.036346
             },
             {
                   "periodic_number": 28,
                   "element_symbol": "Ni",
                   "nominal_mass": 61,
                   "exact_mass": 60.93105557,
-                  "natural_abundance": 0.011399
+                  "isotope_abundance": 0.011399
             },
             {
                   "periodic_number": 28,
                   "element_symbol": "Ni",
                   "nominal_mass": 64,
                   "exact_mass": 63.92796682,
-                  "natural_abundance": 0.009255
+                  "isotope_abundance": 0.009255
             }
       ],
       "Cu": [
@@ -551,14 +551,14 @@
                   "element_symbol": "Cu",
                   "nominal_mass": 63,
                   "exact_mass": 62.92959772,
-                  "natural_abundance": 0.6915
+                  "isotope_abundance": 0.6915
             },
             {
                   "periodic_number": 29,
                   "element_symbol": "Cu",
                   "nominal_mass": 65,
                   "exact_mass": 64.9277897,
-                  "natural_abundance": 0.3085
+                  "isotope_abundance": 0.3085
             }
       ],
       "Zn": [
@@ -567,35 +567,35 @@
                   "element_symbol": "Zn",
                   "nominal_mass": 64,
                   "exact_mass": 63.92914201,
-                  "natural_abundance": 0.4917
+                  "isotope_abundance": 0.4917
             },
             {
                   "periodic_number": 30,
                   "element_symbol": "Zn",
                   "nominal_mass": 66,
                   "exact_mass": 65.92603381,
-                  "natural_abundance": 0.2773
+                  "isotope_abundance": 0.2773
             },
             {
                   "periodic_number": 30,
                   "element_symbol": "Zn",
                   "nominal_mass": 68,
                   "exact_mass": 67.92484455,
-                  "natural_abundance": 0.1845
+                  "isotope_abundance": 0.1845
             },
             {
                   "periodic_number": 30,
                   "element_symbol": "Zn",
                   "nominal_mass": 67,
                   "exact_mass": 66.92712775,
-                  "natural_abundance": 0.0404
+                  "isotope_abundance": 0.0404
             },
             {
                   "periodic_number": 30,
                   "element_symbol": "Zn",
                   "nominal_mass": 70,
                   "exact_mass": 69.9253192,
-                  "natural_abundance": 0.0061
+                  "isotope_abundance": 0.0061
             }
       ],
       "Ga": [
@@ -604,14 +604,14 @@
                   "element_symbol": "Ga",
                   "nominal_mass": 69,
                   "exact_mass": 68.9255735,
-                  "natural_abundance": 0.60108
+                  "isotope_abundance": 0.60108
             },
             {
                   "periodic_number": 31,
                   "element_symbol": "Ga",
                   "nominal_mass": 71,
                   "exact_mass": 70.92470258,
-                  "natural_abundance": 0.39892
+                  "isotope_abundance": 0.39892
             }
       ],
       "Ge": [
@@ -620,35 +620,35 @@
                   "element_symbol": "Ge",
                   "nominal_mass": 74,
                   "exact_mass": 73.921177761,
-                  "natural_abundance": 0.365
+                  "isotope_abundance": 0.365
             },
             {
                   "periodic_number": 32,
                   "element_symbol": "Ge",
                   "nominal_mass": 72,
                   "exact_mass": 71.922075826,
-                  "natural_abundance": 0.2745
+                  "isotope_abundance": 0.2745
             },
             {
                   "periodic_number": 32,
                   "element_symbol": "Ge",
                   "nominal_mass": 70,
                   "exact_mass": 69.92424875,
-                  "natural_abundance": 0.2057
+                  "isotope_abundance": 0.2057
             },
             {
                   "periodic_number": 32,
                   "element_symbol": "Ge",
                   "nominal_mass": 73,
                   "exact_mass": 72.923458956,
-                  "natural_abundance": 0.0775
+                  "isotope_abundance": 0.0775
             },
             {
                   "periodic_number": 32,
                   "element_symbol": "Ge",
                   "nominal_mass": 76,
                   "exact_mass": 75.921402726,
-                  "natural_abundance": 0.0773
+                  "isotope_abundance": 0.0773
             }
       ],
       "As": [
@@ -657,7 +657,7 @@
                   "element_symbol": "As",
                   "nominal_mass": 75,
                   "exact_mass": 74.92159457,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Se": [
@@ -666,42 +666,42 @@
                   "element_symbol": "Se",
                   "nominal_mass": 80,
                   "exact_mass": 79.9165218,
-                  "natural_abundance": 0.4961
+                  "isotope_abundance": 0.4961
             },
             {
                   "periodic_number": 34,
                   "element_symbol": "Se",
                   "nominal_mass": 78,
                   "exact_mass": 77.91730928,
-                  "natural_abundance": 0.2377
+                  "isotope_abundance": 0.2377
             },
             {
                   "periodic_number": 34,
                   "element_symbol": "Se",
                   "nominal_mass": 76,
                   "exact_mass": 75.919213704,
-                  "natural_abundance": 0.0937
+                  "isotope_abundance": 0.0937
             },
             {
                   "periodic_number": 34,
                   "element_symbol": "Se",
                   "nominal_mass": 82,
                   "exact_mass": 81.9166995,
-                  "natural_abundance": 0.0873
+                  "isotope_abundance": 0.0873
             },
             {
                   "periodic_number": 34,
                   "element_symbol": "Se",
                   "nominal_mass": 77,
                   "exact_mass": 76.919914154,
-                  "natural_abundance": 0.0763
+                  "isotope_abundance": 0.0763
             },
             {
                   "periodic_number": 34,
                   "element_symbol": "Se",
                   "nominal_mass": 74,
                   "exact_mass": 73.922475934,
-                  "natural_abundance": 0.0089
+                  "isotope_abundance": 0.0089
             }
       ],
       "Br": [
@@ -710,14 +710,14 @@
                   "element_symbol": "Br",
                   "nominal_mass": 79,
                   "exact_mass": 78.9183376,
-                  "natural_abundance": 0.5069
+                  "isotope_abundance": 0.5069
             },
             {
                   "periodic_number": 35,
                   "element_symbol": "Br",
                   "nominal_mass": 81,
                   "exact_mass": 80.9162897,
-                  "natural_abundance": 0.4931
+                  "isotope_abundance": 0.4931
             }
       ],
       "Kr": [
@@ -726,42 +726,42 @@
                   "element_symbol": "Kr",
                   "nominal_mass": 84,
                   "exact_mass": 83.9114977282,
-                  "natural_abundance": 0.56987
+                  "isotope_abundance": 0.56987
             },
             {
                   "periodic_number": 36,
                   "element_symbol": "Kr",
                   "nominal_mass": 86,
                   "exact_mass": 85.9106106269,
-                  "natural_abundance": 0.17279
+                  "isotope_abundance": 0.17279
             },
             {
                   "periodic_number": 36,
                   "element_symbol": "Kr",
                   "nominal_mass": 82,
                   "exact_mass": 81.91348273,
-                  "natural_abundance": 0.11593
+                  "isotope_abundance": 0.11593
             },
             {
                   "periodic_number": 36,
                   "element_symbol": "Kr",
                   "nominal_mass": 83,
                   "exact_mass": 82.91412716,
-                  "natural_abundance": 0.115
+                  "isotope_abundance": 0.115
             },
             {
                   "periodic_number": 36,
                   "element_symbol": "Kr",
                   "nominal_mass": 80,
                   "exact_mass": 79.91637808,
-                  "natural_abundance": 0.02286
+                  "isotope_abundance": 0.02286
             },
             {
                   "periodic_number": 36,
                   "element_symbol": "Kr",
                   "nominal_mass": 78,
                   "exact_mass": 77.92036494,
-                  "natural_abundance": 0.00355
+                  "isotope_abundance": 0.00355
             }
       ],
       "Rb": [
@@ -770,14 +770,14 @@
                   "element_symbol": "Rb",
                   "nominal_mass": 85,
                   "exact_mass": 84.9117897379,
-                  "natural_abundance": 0.7217
+                  "isotope_abundance": 0.7217
             },
             {
                   "periodic_number": 37,
                   "element_symbol": "Rb",
                   "nominal_mass": 87,
                   "exact_mass": 86.909180531,
-                  "natural_abundance": 0.2783
+                  "isotope_abundance": 0.2783
             }
       ],
       "Sr": [
@@ -786,28 +786,28 @@
                   "element_symbol": "Sr",
                   "nominal_mass": 88,
                   "exact_mass": 87.9056125,
-                  "natural_abundance": 0.8258
+                  "isotope_abundance": 0.8258
             },
             {
                   "periodic_number": 38,
                   "element_symbol": "Sr",
                   "nominal_mass": 86,
                   "exact_mass": 85.9092606,
-                  "natural_abundance": 0.0986
+                  "isotope_abundance": 0.0986
             },
             {
                   "periodic_number": 38,
                   "element_symbol": "Sr",
                   "nominal_mass": 87,
                   "exact_mass": 86.9088775,
-                  "natural_abundance": 0.07
+                  "isotope_abundance": 0.07
             },
             {
                   "periodic_number": 38,
                   "element_symbol": "Sr",
                   "nominal_mass": 84,
                   "exact_mass": 83.9134191,
-                  "natural_abundance": 0.0056
+                  "isotope_abundance": 0.0056
             }
       ],
       "Y": [
@@ -816,7 +816,7 @@
                   "element_symbol": "Y",
                   "nominal_mass": 89,
                   "exact_mass": 88.9058403,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Zr": [
@@ -825,35 +825,35 @@
                   "element_symbol": "Zr",
                   "nominal_mass": 90,
                   "exact_mass": 89.9046977,
-                  "natural_abundance": 0.5145
+                  "isotope_abundance": 0.5145
             },
             {
                   "periodic_number": 40,
                   "element_symbol": "Zr",
                   "nominal_mass": 94,
                   "exact_mass": 93.9063108,
-                  "natural_abundance": 0.1738
+                  "isotope_abundance": 0.1738
             },
             {
                   "periodic_number": 40,
                   "element_symbol": "Zr",
                   "nominal_mass": 92,
                   "exact_mass": 91.9050347,
-                  "natural_abundance": 0.1715
+                  "isotope_abundance": 0.1715
             },
             {
                   "periodic_number": 40,
                   "element_symbol": "Zr",
                   "nominal_mass": 91,
                   "exact_mass": 90.9056396,
-                  "natural_abundance": 0.1122
+                  "isotope_abundance": 0.1122
             },
             {
                   "periodic_number": 40,
                   "element_symbol": "Zr",
                   "nominal_mass": 96,
                   "exact_mass": 95.9082714,
-                  "natural_abundance": 0.028
+                  "isotope_abundance": 0.028
             }
       ],
       "Nb": [
@@ -862,7 +862,7 @@
                   "element_symbol": "Nb",
                   "nominal_mass": 93,
                   "exact_mass": 92.906373,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Mo": [
@@ -871,49 +871,49 @@
                   "element_symbol": "Mo",
                   "nominal_mass": 98,
                   "exact_mass": 97.90540482,
-                  "natural_abundance": 0.2439
+                  "isotope_abundance": 0.2439
             },
             {
                   "periodic_number": 42,
                   "element_symbol": "Mo",
                   "nominal_mass": 96,
                   "exact_mass": 95.90467612,
-                  "natural_abundance": 0.1667
+                  "isotope_abundance": 0.1667
             },
             {
                   "periodic_number": 42,
                   "element_symbol": "Mo",
                   "nominal_mass": 95,
                   "exact_mass": 94.90583877,
-                  "natural_abundance": 0.1584
+                  "isotope_abundance": 0.1584
             },
             {
                   "periodic_number": 42,
                   "element_symbol": "Mo",
                   "nominal_mass": 92,
                   "exact_mass": 91.90680796,
-                  "natural_abundance": 0.1453
+                  "isotope_abundance": 0.1453
             },
             {
                   "periodic_number": 42,
                   "element_symbol": "Mo",
                   "nominal_mass": 100,
                   "exact_mass": 99.9074718,
-                  "natural_abundance": 0.0982
+                  "isotope_abundance": 0.0982
             },
             {
                   "periodic_number": 42,
                   "element_symbol": "Mo",
                   "nominal_mass": 97,
                   "exact_mass": 96.90601812,
-                  "natural_abundance": 0.096
+                  "isotope_abundance": 0.096
             },
             {
                   "periodic_number": 42,
                   "element_symbol": "Mo",
                   "nominal_mass": 94,
                   "exact_mass": 93.9050849,
-                  "natural_abundance": 0.0915
+                  "isotope_abundance": 0.0915
             }
       ],
       "Ru": [
@@ -922,49 +922,49 @@
                   "element_symbol": "Ru",
                   "nominal_mass": 102,
                   "exact_mass": 101.9043441,
-                  "natural_abundance": 0.3155
+                  "isotope_abundance": 0.3155
             },
             {
                   "periodic_number": 44,
                   "element_symbol": "Ru",
                   "nominal_mass": 104,
                   "exact_mass": 103.9054275,
-                  "natural_abundance": 0.1862
+                  "isotope_abundance": 0.1862
             },
             {
                   "periodic_number": 44,
                   "element_symbol": "Ru",
                   "nominal_mass": 101,
                   "exact_mass": 100.9055769,
-                  "natural_abundance": 0.1706
+                  "isotope_abundance": 0.1706
             },
             {
                   "periodic_number": 44,
                   "element_symbol": "Ru",
                   "nominal_mass": 99,
                   "exact_mass": 98.9059341,
-                  "natural_abundance": 0.1276
+                  "isotope_abundance": 0.1276
             },
             {
                   "periodic_number": 44,
                   "element_symbol": "Ru",
                   "nominal_mass": 100,
                   "exact_mass": 99.9042143,
-                  "natural_abundance": 0.126
+                  "isotope_abundance": 0.126
             },
             {
                   "periodic_number": 44,
                   "element_symbol": "Ru",
                   "nominal_mass": 96,
                   "exact_mass": 95.90759025,
-                  "natural_abundance": 0.0554
+                  "isotope_abundance": 0.0554
             },
             {
                   "periodic_number": 44,
                   "element_symbol": "Ru",
                   "nominal_mass": 98,
                   "exact_mass": 97.9052868,
-                  "natural_abundance": 0.0187
+                  "isotope_abundance": 0.0187
             }
       ],
       "Rh": [
@@ -973,7 +973,7 @@
                   "element_symbol": "Rh",
                   "nominal_mass": 103,
                   "exact_mass": 102.905498,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Pd": [
@@ -982,42 +982,42 @@
                   "element_symbol": "Pd",
                   "nominal_mass": 106,
                   "exact_mass": 105.9034804,
-                  "natural_abundance": 0.2733
+                  "isotope_abundance": 0.2733
             },
             {
                   "periodic_number": 46,
                   "element_symbol": "Pd",
                   "nominal_mass": 108,
                   "exact_mass": 107.9038916,
-                  "natural_abundance": 0.2646
+                  "isotope_abundance": 0.2646
             },
             {
                   "periodic_number": 46,
                   "element_symbol": "Pd",
                   "nominal_mass": 105,
                   "exact_mass": 104.9050796,
-                  "natural_abundance": 0.2233
+                  "isotope_abundance": 0.2233
             },
             {
                   "periodic_number": 46,
                   "element_symbol": "Pd",
                   "nominal_mass": 110,
                   "exact_mass": 109.9051722,
-                  "natural_abundance": 0.1172
+                  "isotope_abundance": 0.1172
             },
             {
                   "periodic_number": 46,
                   "element_symbol": "Pd",
                   "nominal_mass": 104,
                   "exact_mass": 103.9040305,
-                  "natural_abundance": 0.1114
+                  "isotope_abundance": 0.1114
             },
             {
                   "periodic_number": 46,
                   "element_symbol": "Pd",
                   "nominal_mass": 102,
                   "exact_mass": 101.9056022,
-                  "natural_abundance": 0.0102
+                  "isotope_abundance": 0.0102
             }
       ],
       "Ag": [
@@ -1026,14 +1026,14 @@
                   "element_symbol": "Ag",
                   "nominal_mass": 107,
                   "exact_mass": 106.9050916,
-                  "natural_abundance": 0.51839
+                  "isotope_abundance": 0.51839
             },
             {
                   "periodic_number": 47,
                   "element_symbol": "Ag",
                   "nominal_mass": 109,
                   "exact_mass": 108.9047553,
-                  "natural_abundance": 0.48161
+                  "isotope_abundance": 0.48161
             }
       ],
       "Cd": [
@@ -1042,56 +1042,56 @@
                   "element_symbol": "Cd",
                   "nominal_mass": 114,
                   "exact_mass": 113.90336509,
-                  "natural_abundance": 0.2873
+                  "isotope_abundance": 0.2873
             },
             {
                   "periodic_number": 48,
                   "element_symbol": "Cd",
                   "nominal_mass": 112,
                   "exact_mass": 111.90276287,
-                  "natural_abundance": 0.2413
+                  "isotope_abundance": 0.2413
             },
             {
                   "periodic_number": 48,
                   "element_symbol": "Cd",
                   "nominal_mass": 111,
                   "exact_mass": 110.90418287,
-                  "natural_abundance": 0.128
+                  "isotope_abundance": 0.128
             },
             {
                   "periodic_number": 48,
                   "element_symbol": "Cd",
                   "nominal_mass": 110,
                   "exact_mass": 109.90300661,
-                  "natural_abundance": 0.1249
+                  "isotope_abundance": 0.1249
             },
             {
                   "periodic_number": 48,
                   "element_symbol": "Cd",
                   "nominal_mass": 113,
                   "exact_mass": 112.90440813,
-                  "natural_abundance": 0.1222
+                  "isotope_abundance": 0.1222
             },
             {
                   "periodic_number": 48,
                   "element_symbol": "Cd",
                   "nominal_mass": 116,
                   "exact_mass": 115.90476315,
-                  "natural_abundance": 0.0749
+                  "isotope_abundance": 0.0749
             },
             {
                   "periodic_number": 48,
                   "element_symbol": "Cd",
                   "nominal_mass": 106,
                   "exact_mass": 105.9064599,
-                  "natural_abundance": 0.0125
+                  "isotope_abundance": 0.0125
             },
             {
                   "periodic_number": 48,
                   "element_symbol": "Cd",
                   "nominal_mass": 108,
                   "exact_mass": 107.9041834,
-                  "natural_abundance": 0.0089
+                  "isotope_abundance": 0.0089
             }
       ],
       "In": [
@@ -1100,14 +1100,14 @@
                   "element_symbol": "In",
                   "nominal_mass": 115,
                   "exact_mass": 114.903878776,
-                  "natural_abundance": 0.9571
+                  "isotope_abundance": 0.9571
             },
             {
                   "periodic_number": 49,
                   "element_symbol": "In",
                   "nominal_mass": 113,
                   "exact_mass": 112.90406184,
-                  "natural_abundance": 0.0429
+                  "isotope_abundance": 0.0429
             }
       ],
       "Sn": [
@@ -1116,70 +1116,70 @@
                   "element_symbol": "Sn",
                   "nominal_mass": 120,
                   "exact_mass": 119.90220163,
-                  "natural_abundance": 0.3258
+                  "isotope_abundance": 0.3258
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 118,
                   "exact_mass": 117.90160657,
-                  "natural_abundance": 0.2422
+                  "isotope_abundance": 0.2422
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 116,
                   "exact_mass": 115.9017428,
-                  "natural_abundance": 0.1454
+                  "isotope_abundance": 0.1454
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 119,
                   "exact_mass": 118.90331117,
-                  "natural_abundance": 0.0859
+                  "isotope_abundance": 0.0859
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 117,
                   "exact_mass": 116.90295398,
-                  "natural_abundance": 0.0768
+                  "isotope_abundance": 0.0768
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 124,
                   "exact_mass": 123.9052766,
-                  "natural_abundance": 0.0579
+                  "isotope_abundance": 0.0579
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 122,
                   "exact_mass": 121.9034438,
-                  "natural_abundance": 0.0463
+                  "isotope_abundance": 0.0463
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 112,
                   "exact_mass": 111.90482387,
-                  "natural_abundance": 0.0097
+                  "isotope_abundance": 0.0097
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 114,
                   "exact_mass": 113.9027827,
-                  "natural_abundance": 0.0066
+                  "isotope_abundance": 0.0066
             },
             {
                   "periodic_number": 50,
                   "element_symbol": "Sn",
                   "nominal_mass": 115,
                   "exact_mass": 114.903344699,
-                  "natural_abundance": 0.0034
+                  "isotope_abundance": 0.0034
             }
       ],
       "Sb": [
@@ -1188,14 +1188,14 @@
                   "element_symbol": "Sb",
                   "nominal_mass": 121,
                   "exact_mass": 120.903812,
-                  "natural_abundance": 0.5721
+                  "isotope_abundance": 0.5721
             },
             {
                   "periodic_number": 51,
                   "element_symbol": "Sb",
                   "nominal_mass": 123,
                   "exact_mass": 122.9042132,
-                  "natural_abundance": 0.4279
+                  "isotope_abundance": 0.4279
             }
       ],
       "Te": [
@@ -1204,56 +1204,56 @@
                   "element_symbol": "Te",
                   "nominal_mass": 130,
                   "exact_mass": 129.906222748,
-                  "natural_abundance": 0.3408
+                  "isotope_abundance": 0.3408
             },
             {
                   "periodic_number": 52,
                   "element_symbol": "Te",
                   "nominal_mass": 128,
                   "exact_mass": 127.90446128,
-                  "natural_abundance": 0.3174
+                  "isotope_abundance": 0.3174
             },
             {
                   "periodic_number": 52,
                   "element_symbol": "Te",
                   "nominal_mass": 126,
                   "exact_mass": 125.9033109,
-                  "natural_abundance": 0.1884
+                  "isotope_abundance": 0.1884
             },
             {
                   "periodic_number": 52,
                   "element_symbol": "Te",
                   "nominal_mass": 125,
                   "exact_mass": 124.9044299,
-                  "natural_abundance": 0.0707
+                  "isotope_abundance": 0.0707
             },
             {
                   "periodic_number": 52,
                   "element_symbol": "Te",
                   "nominal_mass": 124,
                   "exact_mass": 123.9028171,
-                  "natural_abundance": 0.0474
+                  "isotope_abundance": 0.0474
             },
             {
                   "periodic_number": 52,
                   "element_symbol": "Te",
                   "nominal_mass": 122,
                   "exact_mass": 121.9030435,
-                  "natural_abundance": 0.0255
+                  "isotope_abundance": 0.0255
             },
             {
                   "periodic_number": 52,
                   "element_symbol": "Te",
                   "nominal_mass": 123,
                   "exact_mass": 122.9042698,
-                  "natural_abundance": 0.0089
+                  "isotope_abundance": 0.0089
             },
             {
                   "periodic_number": 52,
                   "element_symbol": "Te",
                   "nominal_mass": 120,
                   "exact_mass": 119.9040593,
-                  "natural_abundance": 0.0009
+                  "isotope_abundance": 0.0009
             }
       ],
       "I": [
@@ -1262,7 +1262,7 @@
                   "element_symbol": "I",
                   "nominal_mass": 127,
                   "exact_mass": 126.9044719,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Xe": [
@@ -1271,63 +1271,63 @@
                   "element_symbol": "Xe",
                   "nominal_mass": 132,
                   "exact_mass": 131.9041550856,
-                  "natural_abundance": 0.269086
+                  "isotope_abundance": 0.269086
             },
             {
                   "periodic_number": 54,
                   "element_symbol": "Xe",
                   "nominal_mass": 129,
                   "exact_mass": 128.9047808611,
-                  "natural_abundance": 0.264006
+                  "isotope_abundance": 0.264006
             },
             {
                   "periodic_number": 54,
                   "element_symbol": "Xe",
                   "nominal_mass": 131,
                   "exact_mass": 130.90508406,
-                  "natural_abundance": 0.212324
+                  "isotope_abundance": 0.212324
             },
             {
                   "periodic_number": 54,
                   "element_symbol": "Xe",
                   "nominal_mass": 134,
                   "exact_mass": 133.90539466,
-                  "natural_abundance": 0.104357
+                  "isotope_abundance": 0.104357
             },
             {
                   "periodic_number": 54,
                   "element_symbol": "Xe",
                   "nominal_mass": 136,
                   "exact_mass": 135.907214484,
-                  "natural_abundance": 0.088573
+                  "isotope_abundance": 0.088573
             },
             {
                   "periodic_number": 54,
                   "element_symbol": "Xe",
                   "nominal_mass": 130,
                   "exact_mass": 129.903509349,
-                  "natural_abundance": 0.04071
+                  "isotope_abundance": 0.04071
             },
             {
                   "periodic_number": 54,
                   "element_symbol": "Xe",
                   "nominal_mass": 128,
                   "exact_mass": 127.903531,
-                  "natural_abundance": 0.019102
+                  "isotope_abundance": 0.019102
             },
             {
                   "periodic_number": 54,
                   "element_symbol": "Xe",
                   "nominal_mass": 124,
                   "exact_mass": 123.905892,
-                  "natural_abundance": 0.000952
+                  "isotope_abundance": 0.000952
             },
             {
                   "periodic_number": 54,
                   "element_symbol": "Xe",
                   "nominal_mass": 126,
                   "exact_mass": 125.9042983,
-                  "natural_abundance": 0.00089
+                  "isotope_abundance": 0.00089
             }
       ],
       "Cs": [
@@ -1336,7 +1336,7 @@
                   "element_symbol": "Cs",
                   "nominal_mass": 133,
                   "exact_mass": 132.905451961,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Ba": [
@@ -1345,49 +1345,49 @@
                   "element_symbol": "Ba",
                   "nominal_mass": 138,
                   "exact_mass": 137.905247,
-                  "natural_abundance": 0.71698
+                  "isotope_abundance": 0.71698
             },
             {
                   "periodic_number": 56,
                   "element_symbol": "Ba",
                   "nominal_mass": 137,
                   "exact_mass": 136.90582714,
-                  "natural_abundance": 0.11232
+                  "isotope_abundance": 0.11232
             },
             {
                   "periodic_number": 56,
                   "element_symbol": "Ba",
                   "nominal_mass": 136,
                   "exact_mass": 135.90457573,
-                  "natural_abundance": 0.07854
+                  "isotope_abundance": 0.07854
             },
             {
                   "periodic_number": 56,
                   "element_symbol": "Ba",
                   "nominal_mass": 135,
                   "exact_mass": 134.90568838,
-                  "natural_abundance": 0.06592
+                  "isotope_abundance": 0.06592
             },
             {
                   "periodic_number": 56,
                   "element_symbol": "Ba",
                   "nominal_mass": 134,
                   "exact_mass": 133.90450818,
-                  "natural_abundance": 0.02417
+                  "isotope_abundance": 0.02417
             },
             {
                   "periodic_number": 56,
                   "element_symbol": "Ba",
                   "nominal_mass": 130,
                   "exact_mass": 129.9063207,
-                  "natural_abundance": 0.00106
+                  "isotope_abundance": 0.00106
             },
             {
                   "periodic_number": 56,
                   "element_symbol": "Ba",
                   "nominal_mass": 132,
                   "exact_mass": 131.9050611,
-                  "natural_abundance": 0.00101
+                  "isotope_abundance": 0.00101
             }
       ],
       "La": [
@@ -1396,14 +1396,14 @@
                   "element_symbol": "La",
                   "nominal_mass": 139,
                   "exact_mass": 138.9063563,
-                  "natural_abundance": 0.9991119
+                  "isotope_abundance": 0.9991119
             },
             {
                   "periodic_number": 57,
                   "element_symbol": "La",
                   "nominal_mass": 138,
                   "exact_mass": 137.9071149,
-                  "natural_abundance": 0.0008881
+                  "isotope_abundance": 0.0008881
             }
       ],
       "Ce": [
@@ -1412,28 +1412,28 @@
                   "element_symbol": "Ce",
                   "nominal_mass": 140,
                   "exact_mass": 139.9054431,
-                  "natural_abundance": 0.8845
+                  "isotope_abundance": 0.8845
             },
             {
                   "periodic_number": 58,
                   "element_symbol": "Ce",
                   "nominal_mass": 142,
                   "exact_mass": 141.9092504,
-                  "natural_abundance": 0.11114
+                  "isotope_abundance": 0.11114
             },
             {
                   "periodic_number": 58,
                   "element_symbol": "Ce",
                   "nominal_mass": 138,
                   "exact_mass": 137.905991,
-                  "natural_abundance": 0.00251
+                  "isotope_abundance": 0.00251
             },
             {
                   "periodic_number": 58,
                   "element_symbol": "Ce",
                   "nominal_mass": 136,
                   "exact_mass": 135.90712921,
-                  "natural_abundance": 0.00185
+                  "isotope_abundance": 0.00185
             }
       ],
       "Pr": [
@@ -1442,7 +1442,7 @@
                   "element_symbol": "Pr",
                   "nominal_mass": 141,
                   "exact_mass": 140.9076576,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Nd": [
@@ -1451,49 +1451,49 @@
                   "element_symbol": "Nd",
                   "nominal_mass": 142,
                   "exact_mass": 141.907729,
-                  "natural_abundance": 0.27152
+                  "isotope_abundance": 0.27152
             },
             {
                   "periodic_number": 60,
                   "element_symbol": "Nd",
                   "nominal_mass": 144,
                   "exact_mass": 143.910093,
-                  "natural_abundance": 0.23798
+                  "isotope_abundance": 0.23798
             },
             {
                   "periodic_number": 60,
                   "element_symbol": "Nd",
                   "nominal_mass": 146,
                   "exact_mass": 145.9131226,
-                  "natural_abundance": 0.17189
+                  "isotope_abundance": 0.17189
             },
             {
                   "periodic_number": 60,
                   "element_symbol": "Nd",
                   "nominal_mass": 143,
                   "exact_mass": 142.90982,
-                  "natural_abundance": 0.12174
+                  "isotope_abundance": 0.12174
             },
             {
                   "periodic_number": 60,
                   "element_symbol": "Nd",
                   "nominal_mass": 145,
                   "exact_mass": 144.9125793,
-                  "natural_abundance": 0.08293
+                  "isotope_abundance": 0.08293
             },
             {
                   "periodic_number": 60,
                   "element_symbol": "Nd",
                   "nominal_mass": 148,
                   "exact_mass": 147.9168993,
-                  "natural_abundance": 0.05756
+                  "isotope_abundance": 0.05756
             },
             {
                   "periodic_number": 60,
                   "element_symbol": "Nd",
                   "nominal_mass": 150,
                   "exact_mass": 149.9209022,
-                  "natural_abundance": 0.05638
+                  "isotope_abundance": 0.05638
             }
       ],
       "Sm": [
@@ -1502,49 +1502,49 @@
                   "element_symbol": "Sm",
                   "nominal_mass": 152,
                   "exact_mass": 151.9197397,
-                  "natural_abundance": 0.2675
+                  "isotope_abundance": 0.2675
             },
             {
                   "periodic_number": 62,
                   "element_symbol": "Sm",
                   "nominal_mass": 154,
                   "exact_mass": 153.9222169,
-                  "natural_abundance": 0.2275
+                  "isotope_abundance": 0.2275
             },
             {
                   "periodic_number": 62,
                   "element_symbol": "Sm",
                   "nominal_mass": 147,
                   "exact_mass": 146.9149044,
-                  "natural_abundance": 0.1499
+                  "isotope_abundance": 0.1499
             },
             {
                   "periodic_number": 62,
                   "element_symbol": "Sm",
                   "nominal_mass": 149,
                   "exact_mass": 148.9171921,
-                  "natural_abundance": 0.1382
+                  "isotope_abundance": 0.1382
             },
             {
                   "periodic_number": 62,
                   "element_symbol": "Sm",
                   "nominal_mass": 148,
                   "exact_mass": 147.9148292,
-                  "natural_abundance": 0.1124
+                  "isotope_abundance": 0.1124
             },
             {
                   "periodic_number": 62,
                   "element_symbol": "Sm",
                   "nominal_mass": 150,
                   "exact_mass": 149.9172829,
-                  "natural_abundance": 0.0738
+                  "isotope_abundance": 0.0738
             },
             {
                   "periodic_number": 62,
                   "element_symbol": "Sm",
                   "nominal_mass": 144,
                   "exact_mass": 143.9120065,
-                  "natural_abundance": 0.0307
+                  "isotope_abundance": 0.0307
             }
       ],
       "Eu": [
@@ -1553,14 +1553,14 @@
                   "element_symbol": "Eu",
                   "nominal_mass": 153,
                   "exact_mass": 152.921238,
-                  "natural_abundance": 0.5219
+                  "isotope_abundance": 0.5219
             },
             {
                   "periodic_number": 63,
                   "element_symbol": "Eu",
                   "nominal_mass": 151,
                   "exact_mass": 150.9198578,
-                  "natural_abundance": 0.4781
+                  "isotope_abundance": 0.4781
             }
       ],
       "Gd": [
@@ -1569,49 +1569,49 @@
                   "element_symbol": "Gd",
                   "nominal_mass": 158,
                   "exact_mass": 157.9241123,
-                  "natural_abundance": 0.2484
+                  "isotope_abundance": 0.2484
             },
             {
                   "periodic_number": 64,
                   "element_symbol": "Gd",
                   "nominal_mass": 160,
                   "exact_mass": 159.9270624,
-                  "natural_abundance": 0.2186
+                  "isotope_abundance": 0.2186
             },
             {
                   "periodic_number": 64,
                   "element_symbol": "Gd",
                   "nominal_mass": 156,
                   "exact_mass": 155.9221312,
-                  "natural_abundance": 0.2047
+                  "isotope_abundance": 0.2047
             },
             {
                   "periodic_number": 64,
                   "element_symbol": "Gd",
                   "nominal_mass": 157,
                   "exact_mass": 156.9239686,
-                  "natural_abundance": 0.1565
+                  "isotope_abundance": 0.1565
             },
             {
                   "periodic_number": 64,
                   "element_symbol": "Gd",
                   "nominal_mass": 155,
                   "exact_mass": 154.9226305,
-                  "natural_abundance": 0.148
+                  "isotope_abundance": 0.148
             },
             {
                   "periodic_number": 64,
                   "element_symbol": "Gd",
                   "nominal_mass": 154,
                   "exact_mass": 153.9208741,
-                  "natural_abundance": 0.0218
+                  "isotope_abundance": 0.0218
             },
             {
                   "periodic_number": 64,
                   "element_symbol": "Gd",
                   "nominal_mass": 152,
                   "exact_mass": 151.9197995,
-                  "natural_abundance": 0.002
+                  "isotope_abundance": 0.002
             }
       ],
       "Tb": [
@@ -1620,7 +1620,7 @@
                   "element_symbol": "Tb",
                   "nominal_mass": 159,
                   "exact_mass": 158.9253547,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Dy": [
@@ -1629,49 +1629,49 @@
                   "element_symbol": "Dy",
                   "nominal_mass": 164,
                   "exact_mass": 163.9291819,
-                  "natural_abundance": 0.2826
+                  "isotope_abundance": 0.2826
             },
             {
                   "periodic_number": 66,
                   "element_symbol": "Dy",
                   "nominal_mass": 162,
                   "exact_mass": 161.9268056,
-                  "natural_abundance": 0.25475
+                  "isotope_abundance": 0.25475
             },
             {
                   "periodic_number": 66,
                   "element_symbol": "Dy",
                   "nominal_mass": 163,
                   "exact_mass": 162.9287383,
-                  "natural_abundance": 0.24896
+                  "isotope_abundance": 0.24896
             },
             {
                   "periodic_number": 66,
                   "element_symbol": "Dy",
                   "nominal_mass": 161,
                   "exact_mass": 160.9269405,
-                  "natural_abundance": 0.18889
+                  "isotope_abundance": 0.18889
             },
             {
                   "periodic_number": 66,
                   "element_symbol": "Dy",
                   "nominal_mass": 160,
                   "exact_mass": 159.9252046,
-                  "natural_abundance": 0.02329
+                  "isotope_abundance": 0.02329
             },
             {
                   "periodic_number": 66,
                   "element_symbol": "Dy",
                   "nominal_mass": 158,
                   "exact_mass": 157.9244159,
-                  "natural_abundance": 0.00095
+                  "isotope_abundance": 0.00095
             },
             {
                   "periodic_number": 66,
                   "element_symbol": "Dy",
                   "nominal_mass": 156,
                   "exact_mass": 155.9242847,
-                  "natural_abundance": 0.00056
+                  "isotope_abundance": 0.00056
             }
       ],
       "Ho": [
@@ -1680,7 +1680,7 @@
                   "element_symbol": "Ho",
                   "nominal_mass": 165,
                   "exact_mass": 164.9303288,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Er": [
@@ -1689,42 +1689,42 @@
                   "element_symbol": "Er",
                   "nominal_mass": 166,
                   "exact_mass": 165.9302995,
-                  "natural_abundance": 0.33503
+                  "isotope_abundance": 0.33503
             },
             {
                   "periodic_number": 68,
                   "element_symbol": "Er",
                   "nominal_mass": 168,
                   "exact_mass": 167.9323767,
-                  "natural_abundance": 0.26978
+                  "isotope_abundance": 0.26978
             },
             {
                   "periodic_number": 68,
                   "element_symbol": "Er",
                   "nominal_mass": 167,
                   "exact_mass": 166.9320546,
-                  "natural_abundance": 0.22869
+                  "isotope_abundance": 0.22869
             },
             {
                   "periodic_number": 68,
                   "element_symbol": "Er",
                   "nominal_mass": 170,
                   "exact_mass": 169.9354702,
-                  "natural_abundance": 0.1491
+                  "isotope_abundance": 0.1491
             },
             {
                   "periodic_number": 68,
                   "element_symbol": "Er",
                   "nominal_mass": 164,
                   "exact_mass": 163.9292088,
-                  "natural_abundance": 0.01601
+                  "isotope_abundance": 0.01601
             },
             {
                   "periodic_number": 68,
                   "element_symbol": "Er",
                   "nominal_mass": 162,
                   "exact_mass": 161.9287884,
-                  "natural_abundance": 0.00139
+                  "isotope_abundance": 0.00139
             }
       ],
       "Tm": [
@@ -1733,7 +1733,7 @@
                   "element_symbol": "Tm",
                   "nominal_mass": 169,
                   "exact_mass": 168.9342179,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Yb": [
@@ -1742,49 +1742,49 @@
                   "element_symbol": "Yb",
                   "nominal_mass": 174,
                   "exact_mass": 173.9388664,
-                  "natural_abundance": 0.32026
+                  "isotope_abundance": 0.32026
             },
             {
                   "periodic_number": 70,
                   "element_symbol": "Yb",
                   "nominal_mass": 172,
                   "exact_mass": 171.9363859,
-                  "natural_abundance": 0.2168
+                  "isotope_abundance": 0.2168
             },
             {
                   "periodic_number": 70,
                   "element_symbol": "Yb",
                   "nominal_mass": 173,
                   "exact_mass": 172.9382151,
-                  "natural_abundance": 0.16103
+                  "isotope_abundance": 0.16103
             },
             {
                   "periodic_number": 70,
                   "element_symbol": "Yb",
                   "nominal_mass": 171,
                   "exact_mass": 170.9363302,
-                  "natural_abundance": 0.1409
+                  "isotope_abundance": 0.1409
             },
             {
                   "periodic_number": 70,
                   "element_symbol": "Yb",
                   "nominal_mass": 176,
                   "exact_mass": 175.9425764,
-                  "natural_abundance": 0.12996
+                  "isotope_abundance": 0.12996
             },
             {
                   "periodic_number": 70,
                   "element_symbol": "Yb",
                   "nominal_mass": 170,
                   "exact_mass": 169.9347664,
-                  "natural_abundance": 0.02982
+                  "isotope_abundance": 0.02982
             },
             {
                   "periodic_number": 70,
                   "element_symbol": "Yb",
                   "nominal_mass": 168,
                   "exact_mass": 167.9338896,
-                  "natural_abundance": 0.00123
+                  "isotope_abundance": 0.00123
             }
       ],
       "Lu": [
@@ -1793,14 +1793,14 @@
                   "element_symbol": "Lu",
                   "nominal_mass": 175,
                   "exact_mass": 174.9407752,
-                  "natural_abundance": 0.97401
+                  "isotope_abundance": 0.97401
             },
             {
                   "periodic_number": 71,
                   "element_symbol": "Lu",
                   "nominal_mass": 176,
                   "exact_mass": 175.9426897,
-                  "natural_abundance": 0.02599
+                  "isotope_abundance": 0.02599
             }
       ],
       "Hf": [
@@ -1809,42 +1809,42 @@
                   "element_symbol": "Hf",
                   "nominal_mass": 180,
                   "exact_mass": 179.946557,
-                  "natural_abundance": 0.3508
+                  "isotope_abundance": 0.3508
             },
             {
                   "periodic_number": 72,
                   "element_symbol": "Hf",
                   "nominal_mass": 178,
                   "exact_mass": 177.9437058,
-                  "natural_abundance": 0.2728
+                  "isotope_abundance": 0.2728
             },
             {
                   "periodic_number": 72,
                   "element_symbol": "Hf",
                   "nominal_mass": 177,
                   "exact_mass": 176.9432277,
-                  "natural_abundance": 0.186
+                  "isotope_abundance": 0.186
             },
             {
                   "periodic_number": 72,
                   "element_symbol": "Hf",
                   "nominal_mass": 179,
                   "exact_mass": 178.9458232,
-                  "natural_abundance": 0.1362
+                  "isotope_abundance": 0.1362
             },
             {
                   "periodic_number": 72,
                   "element_symbol": "Hf",
                   "nominal_mass": 176,
                   "exact_mass": 175.9414076,
-                  "natural_abundance": 0.0526
+                  "isotope_abundance": 0.0526
             },
             {
                   "periodic_number": 72,
                   "element_symbol": "Hf",
                   "nominal_mass": 174,
                   "exact_mass": 173.9400461,
-                  "natural_abundance": 0.0016
+                  "isotope_abundance": 0.0016
             }
       ],
       "Ta": [
@@ -1853,14 +1853,14 @@
                   "element_symbol": "Ta",
                   "nominal_mass": 181,
                   "exact_mass": 180.9479958,
-                  "natural_abundance": 0.9998799
+                  "isotope_abundance": 0.9998799
             },
             {
                   "periodic_number": 73,
                   "element_symbol": "Ta",
                   "nominal_mass": 180,
                   "exact_mass": 179.9474648,
-                  "natural_abundance": 0.0001201
+                  "isotope_abundance": 0.0001201
             }
       ],
       "W": [
@@ -1869,35 +1869,35 @@
                   "element_symbol": "W",
                   "nominal_mass": 184,
                   "exact_mass": 183.95093092,
-                  "natural_abundance": 0.3064
+                  "isotope_abundance": 0.3064
             },
             {
                   "periodic_number": 74,
                   "element_symbol": "W",
                   "nominal_mass": 186,
                   "exact_mass": 185.9543628,
-                  "natural_abundance": 0.2843
+                  "isotope_abundance": 0.2843
             },
             {
                   "periodic_number": 74,
                   "element_symbol": "W",
                   "nominal_mass": 182,
                   "exact_mass": 181.94820394,
-                  "natural_abundance": 0.265
+                  "isotope_abundance": 0.265
             },
             {
                   "periodic_number": 74,
                   "element_symbol": "W",
                   "nominal_mass": 183,
                   "exact_mass": 182.95022275,
-                  "natural_abundance": 0.1431
+                  "isotope_abundance": 0.1431
             },
             {
                   "periodic_number": 74,
                   "element_symbol": "W",
                   "nominal_mass": 180,
                   "exact_mass": 179.9467108,
-                  "natural_abundance": 0.0012
+                  "isotope_abundance": 0.0012
             }
       ],
       "Re": [
@@ -1906,14 +1906,14 @@
                   "element_symbol": "Re",
                   "nominal_mass": 187,
                   "exact_mass": 186.9557501,
-                  "natural_abundance": 0.626
+                  "isotope_abundance": 0.626
             },
             {
                   "periodic_number": 75,
                   "element_symbol": "Re",
                   "nominal_mass": 185,
                   "exact_mass": 184.9529545,
-                  "natural_abundance": 0.374
+                  "isotope_abundance": 0.374
             }
       ],
       "Os": [
@@ -1922,49 +1922,49 @@
                   "element_symbol": "Os",
                   "nominal_mass": 192,
                   "exact_mass": 191.961477,
-                  "natural_abundance": 0.4078
+                  "isotope_abundance": 0.4078
             },
             {
                   "periodic_number": 76,
                   "element_symbol": "Os",
                   "nominal_mass": 190,
                   "exact_mass": 189.9584437,
-                  "natural_abundance": 0.2626
+                  "isotope_abundance": 0.2626
             },
             {
                   "periodic_number": 76,
                   "element_symbol": "Os",
                   "nominal_mass": 189,
                   "exact_mass": 188.9581442,
-                  "natural_abundance": 0.1615
+                  "isotope_abundance": 0.1615
             },
             {
                   "periodic_number": 76,
                   "element_symbol": "Os",
                   "nominal_mass": 188,
                   "exact_mass": 187.9558352,
-                  "natural_abundance": 0.1324
+                  "isotope_abundance": 0.1324
             },
             {
                   "periodic_number": 76,
                   "element_symbol": "Os",
                   "nominal_mass": 187,
                   "exact_mass": 186.9557474,
-                  "natural_abundance": 0.0196
+                  "isotope_abundance": 0.0196
             },
             {
                   "periodic_number": 76,
                   "element_symbol": "Os",
                   "nominal_mass": 186,
                   "exact_mass": 185.953835,
-                  "natural_abundance": 0.0159
+                  "isotope_abundance": 0.0159
             },
             {
                   "periodic_number": 76,
                   "element_symbol": "Os",
                   "nominal_mass": 184,
                   "exact_mass": 183.9524885,
-                  "natural_abundance": 0.0002
+                  "isotope_abundance": 0.0002
             }
       ],
       "Ir": [
@@ -1973,14 +1973,14 @@
                   "element_symbol": "Ir",
                   "nominal_mass": 193,
                   "exact_mass": 192.9629216,
-                  "natural_abundance": 0.627
+                  "isotope_abundance": 0.627
             },
             {
                   "periodic_number": 77,
                   "element_symbol": "Ir",
                   "nominal_mass": 191,
                   "exact_mass": 190.9605893,
-                  "natural_abundance": 0.373
+                  "isotope_abundance": 0.373
             }
       ],
       "Pt": [
@@ -1989,42 +1989,42 @@
                   "element_symbol": "Pt",
                   "nominal_mass": 195,
                   "exact_mass": 194.9647917,
-                  "natural_abundance": 0.3378
+                  "isotope_abundance": 0.3378
             },
             {
                   "periodic_number": 78,
                   "element_symbol": "Pt",
                   "nominal_mass": 194,
                   "exact_mass": 193.9626809,
-                  "natural_abundance": 0.3286
+                  "isotope_abundance": 0.3286
             },
             {
                   "periodic_number": 78,
                   "element_symbol": "Pt",
                   "nominal_mass": 196,
                   "exact_mass": 195.96495209,
-                  "natural_abundance": 0.2521
+                  "isotope_abundance": 0.2521
             },
             {
                   "periodic_number": 78,
                   "element_symbol": "Pt",
                   "nominal_mass": 198,
                   "exact_mass": 197.9678949,
-                  "natural_abundance": 0.07356
+                  "isotope_abundance": 0.07356
             },
             {
                   "periodic_number": 78,
                   "element_symbol": "Pt",
                   "nominal_mass": 192,
                   "exact_mass": 191.9610387,
-                  "natural_abundance": 0.00782
+                  "isotope_abundance": 0.00782
             },
             {
                   "periodic_number": 78,
                   "element_symbol": "Pt",
                   "nominal_mass": 190,
                   "exact_mass": 189.9599297,
-                  "natural_abundance": 0.00012
+                  "isotope_abundance": 0.00012
             }
       ],
       "Au": [
@@ -2033,7 +2033,7 @@
                   "element_symbol": "Au",
                   "nominal_mass": 197,
                   "exact_mass": 196.96656879,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Hg": [
@@ -2042,49 +2042,49 @@
                   "element_symbol": "Hg",
                   "nominal_mass": 202,
                   "exact_mass": 201.9706434,
-                  "natural_abundance": 0.2986
+                  "isotope_abundance": 0.2986
             },
             {
                   "periodic_number": 80,
                   "element_symbol": "Hg",
                   "nominal_mass": 200,
                   "exact_mass": 199.96832659,
-                  "natural_abundance": 0.231
+                  "isotope_abundance": 0.231
             },
             {
                   "periodic_number": 80,
                   "element_symbol": "Hg",
                   "nominal_mass": 199,
                   "exact_mass": 198.96828064,
-                  "natural_abundance": 0.1687
+                  "isotope_abundance": 0.1687
             },
             {
                   "periodic_number": 80,
                   "element_symbol": "Hg",
                   "nominal_mass": 201,
                   "exact_mass": 200.97030284,
-                  "natural_abundance": 0.1318
+                  "isotope_abundance": 0.1318
             },
             {
                   "periodic_number": 80,
                   "element_symbol": "Hg",
                   "nominal_mass": 198,
                   "exact_mass": 197.9667686,
-                  "natural_abundance": 0.0997
+                  "isotope_abundance": 0.0997
             },
             {
                   "periodic_number": 80,
                   "element_symbol": "Hg",
                   "nominal_mass": 204,
                   "exact_mass": 203.97349398,
-                  "natural_abundance": 0.0687
+                  "isotope_abundance": 0.0687
             },
             {
                   "periodic_number": 80,
                   "element_symbol": "Hg",
                   "nominal_mass": 196,
                   "exact_mass": 195.9658326,
-                  "natural_abundance": 0.0015
+                  "isotope_abundance": 0.0015
             }
       ],
       "Tl": [
@@ -2093,14 +2093,14 @@
                   "element_symbol": "Tl",
                   "nominal_mass": 205,
                   "exact_mass": 204.9744278,
-                  "natural_abundance": 0.7048
+                  "isotope_abundance": 0.7048
             },
             {
                   "periodic_number": 81,
                   "element_symbol": "Tl",
                   "nominal_mass": 203,
                   "exact_mass": 202.9723446,
-                  "natural_abundance": 0.2952
+                  "isotope_abundance": 0.2952
             }
       ],
       "Pb": [
@@ -2109,28 +2109,28 @@
                   "element_symbol": "Pb",
                   "nominal_mass": 208,
                   "exact_mass": 207.9766525,
-                  "natural_abundance": 0.524
+                  "isotope_abundance": 0.524
             },
             {
                   "periodic_number": 82,
                   "element_symbol": "Pb",
                   "nominal_mass": 206,
                   "exact_mass": 205.9744657,
-                  "natural_abundance": 0.241
+                  "isotope_abundance": 0.241
             },
             {
                   "periodic_number": 82,
                   "element_symbol": "Pb",
                   "nominal_mass": 207,
                   "exact_mass": 206.9758973,
-                  "natural_abundance": 0.221
+                  "isotope_abundance": 0.221
             },
             {
                   "periodic_number": 82,
                   "element_symbol": "Pb",
                   "nominal_mass": 204,
                   "exact_mass": 203.973044,
-                  "natural_abundance": 0.014
+                  "isotope_abundance": 0.014
             }
       ],
       "Bi": [
@@ -2139,7 +2139,7 @@
                   "element_symbol": "Bi",
                   "nominal_mass": 209,
                   "exact_mass": 208.9803991,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Th": [
@@ -2148,7 +2148,7 @@
                   "element_symbol": "Th",
                   "nominal_mass": 232,
                   "exact_mass": 232.0380558,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "Pa": [
@@ -2157,7 +2157,7 @@
                   "element_symbol": "Pa",
                   "nominal_mass": 231,
                   "exact_mass": 231.0358842,
-                  "natural_abundance": 1.0
+                  "isotope_abundance": 1.0
             }
       ],
       "U": [
@@ -2166,21 +2166,21 @@
                   "element_symbol": "U",
                   "nominal_mass": 238,
                   "exact_mass": 238.0507884,
-                  "natural_abundance": 0.992742
+                  "isotope_abundance": 0.992742
             },
             {
                   "periodic_number": 92,
                   "element_symbol": "U",
                   "nominal_mass": 235,
                   "exact_mass": 235.0439301,
-                  "natural_abundance": 0.007204
+                  "isotope_abundance": 0.007204
             },
             {
                   "periodic_number": 92,
                   "element_symbol": "U",
                   "nominal_mass": 234,
                   "exact_mass": 234.0409523,
-                  "natural_abundance": 5.4e-05
+                  "isotope_abundance": 5.4e-05
             }
       ]
 }

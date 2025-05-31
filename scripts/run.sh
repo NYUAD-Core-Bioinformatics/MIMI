@@ -13,13 +13,18 @@ outdir="$2"
 # Create output directory
 mkdir -p "$outdir"
 
+# Sort and remove duplicates from KEGG compounds file
+cp "$datadir/kegg_compounds_40_1000Da.tsv" "$outdir/testDB.tsv"
+{ head -n 1 "$outdir/testDB.tsv"; tail -n +2 "$outdir/testDB.tsv" | sort -k2,2; } > "$outdir/testDB_sorted.tsv"
+awk '!seen[$1]++' "$outdir/testDB_sorted.tsv" > "$outdir/testDB_sorted_uniq.tsv"
+
+
+
 # Create cache files in outdir and check for success
-mimi_cache_create  -i neg   -d "$datadir/testDB.tsv"  -c "$outdir/db_nat"
-mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$datadir/testDB.tsv"  -c "$outdir/db_C13"
+mimi_cache_create  -i neg   -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_nat"
+mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_C13"
 
 
-# mimi_cache_create  -i neg   -d "kegg_compounds_40-1000Da.tsv"  -c "$outdir/db_nat"
-# mimi_cache_create  -i neg -l "$datadir/C13_95.json"  -d "kegg_compounds_40-1000Da.tsv"  -c "$outdir/db_C13"
 if [ ! -f "$outdir/db_nat.pkl" ] || [ ! -f "$outdir/db_C13.pkl" ]; then
     echo "Error: Failed to create cache files"
     exit 1

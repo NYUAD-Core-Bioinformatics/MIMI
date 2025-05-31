@@ -128,7 +128,7 @@ def load_labelled_atoms(jsonfile):
         sorted_data = {}
         for element, isotopes in new_data.items():
             if isotopes:
-                # Rename natural_abundance to abundance
+                # Rename isotope_abundance to abundance
                 for isotope in isotopes:
                     isotope["abundance"] = isotope.pop("isotope_abundance")
                 highest_abundance = max(isotope["abundance"] for isotope in isotopes)
@@ -178,9 +178,9 @@ def load_isotope():
     # Sort isotopes and add highest_abundance for each element
     for element, isotopes in data.items():
         if isotopes:
-            # Rename natural_abundance to abundance
+            # Rename isotope_abundance to abundance
             for isotope in isotopes:
-                isotope["abundance"] = isotope.pop("natural_abundance")
+                isotope["abundance"] = isotope.pop("isotope_abundance")
             highest_abundance = max(isotope["abundance"] for isotope in isotopes)
             data[element] = sorted(
                 [dict(isotope, highest_abundance=highest_abundance) 

@@ -201,7 +201,7 @@ def get_isotop_variants_mass(molecular_expression, ion, args):
 
                 abundance_ratio = (
                     key_isotop['abundance']/key_isotop['highest_abundance']) ** n_atoms
-                if abundance_ratio < 1.0/args.noise_cutoff:
+                if abundance_ratio < args.noise_cutoff:
                     skip = True
                     break
 
@@ -256,9 +256,9 @@ def get_isotop_variants_mass(molecular_expression, ion, args):
                 debug_output += '[' + str(isotop['nominal_mass']) + ']' + str(
                     isotop['element_symbol']) + str(isotop_count) + ' '
 
-        # molecular_abundance = float("%0.8f" % molecular_abundance)
 
-        if molecular_abundance < 1.0/args.noise_cutoff:
+
+        if molecular_abundance < args.noise_cutoff:
             continue
 
         isotop_name += debug_output

@@ -100,20 +100,24 @@ def main():
                     action='store_true', default=False, help=argparse.SUPPRESS)
     
     # Input configuration
-    ap.add_argument("-l", "--label", dest="jsonfile",
+    ap.add_argument("-l", "--label", dest="jsonfile", required=False,
                     help="Labeled atoms", metavar="JSON")
+    
+    ap.add_argument("-n", "--noise", dest="noise_cutoff", type=float, default=1e-5, metavar="CUTOFF",
+                    help="Threshold for filtering molecular isotope variants with relative abundance below CUTOFF w.r.t. the monoisotopic mass (defaults to 1e-5)", required=False)
+    
+
+
     ap.add_argument("-d", "--dbfile", dest="dbfile", nargs='+',
                     help="File(s) with list of compounds", metavar="DBTSV", required=True)
     
-    ap.add_argument("-n", "--noise", dest="noise_cutoff", type=float, default=1e5, metavar="CUTOFF",
-                    help="Noise cutoff threshold (default: 1e5). Ignores isotope variants with relative abundance below 1/CUTOFF", required=False)
     
     # Processing options
     ap.add_argument("-i", '--ion', dest="ion",
                     help="Ionisation mode", choices=['pos','neg'], required=True)
     
     # Output
-    ap.add_argument("-c", "--cache", dest="cache",
+    ap.add_argument("-c", "--cache", dest="cache", required=True,
                     help="Binary DB output file (if not specified, will use base name from JSON file)", metavar="DBBINARY")
 
     args = ap.parse_args()
