@@ -89,7 +89,7 @@
 <p>This section provides detailed information about all command-line tools available in MIMI, including their purpose, when to use them, and what results to expect.</p>
 <section id="mimi-kegg-extract">
 <h2>mimi_kegg_extract<a class="headerlink" href="#mimi-kegg-extract" title="Permalink to this headline"></a></h2>
-<p>Purpose: Extracts compound information from the KEGG database using its REST API. Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.</p>
+<p>Extracts compound information from the KEGG database using its REST API. Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_kegg_extract --help
 usage: mimi_kegg_extract [-h] [-l MIN_MASS] [-u MAX_MASS] [-i COMPOUND_IDS] [-o OUTPUT] [-b BATCH_SIZE]
 
@@ -109,13 +109,6 @@ options:
                         Number of compounds to process in each batch (default: 5)
 </pre></div>
 </div>
-<p>Expected Output:</p>
-<ul class="simple">
-<li><p>TSV file with columns: ID, Name, Formula, Mass</p></li>
-<li><p>Compounds within specified mass range</p></li>
-<li><p>Pathway information when available</p></li>
-<li><p>Broad coverage of biological compounds</p></li>
-</ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Extract specific compounds by ID
 $ mimi_kegg_extract -i compound_ids.tsv -o data/processed/kegg_compounds.tsv
 
@@ -131,7 +124,7 @@ $ awk &#39;!seen[$1]++&#39; data/processed/kegg_compounds_40_1000Da_sorted.tsv &
 </section>
 <section id="mimi-hmdb-extract">
 <h2>mimi_hmdb_extract<a class="headerlink" href="#mimi-hmdb-extract" title="Permalink to this headline"></a></h2>
-<p>Purpose: Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.</p>
+<p>Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.</p>
 <p>Download the HMDB XML file from <a class="reference external" href="https://hmdb.ca/downloads">HMDB</a> and save it as <strong>hmdb_metabolites.xml</strong>.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_hmdb_extract --help
 usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
@@ -149,11 +142,6 @@ options:
                         Output TSV file path (default: metabolites.tsv)
 </pre></div>
 </div>
-<p>Expected Output:
-- TSV file with columns: ID, Name, Formula, Mass
-- Only includes metabolites within specified mass range
-- Validated chemical formulas
-- Human-specific metabolites</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Extract metabolites between 40-1000 Da
 $ mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -l 40 -u 1000 -o data/processed/hmdb_compounds_40_1000Da.tsv
@@ -162,12 +150,7 @@ $ mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -l 40 -u 1000 -o data
 </section>
 <section id="mimi-cache-create">
 <h2>mimi_cache_create<a class="headerlink" href="#mimi-cache-create" title="Permalink to this headline"></a></h2>
-<p>Purpose: Creates precomputed cache files containing molecular mass data and isotope patterns for compounds. These cache files significantly speed up analysis by avoiding repeated calculations.</p>
-<p>When to use:
-- After updating your compound database
-- Switching between different isotope configurations
-- Starting a new analysis project
-- Need to optimize analysis speed</p>
+<p>Creates precomputed cache files containing molecular mass data and isotope patterns for compounds. These cache files significantly speed up analysis by avoiding repeated calculations.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_cache_create  --help
 usage: mimi_cache_create [-h] [-l JSON] [-n CUTOFF] -d DBTSV [DBTSV ...] -i {pos,neg} -c DBBINARY
 
@@ -187,32 +170,17 @@ options:
                         Binary DB output file (if not specified, will use base name from JSON file)
 </pre></div>
 </div>
-<p>Expected Output:</p>
-<ul class="simple">
-<li><p>Binary cache file (.pkl)</p></li>
-<li><p>Precomputed masses for all compounds</p></li>
-<li><p>Isotope patterns (natural or labeled)</p></li>
-<li><p>Optimized for fast searching</p></li>
-</ul>
-<p>Examples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Create natural abundance cache
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Create natural abundance cache
 $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
 
 # Create C13-95% labeled cache
-$ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_13C
+$ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13_95
 </pre></div>
 </div>
 </section>
 <section id="mimi-cache-dump">
 <h2>mimi_cache_dump<a class="headerlink" href="#mimi-cache-dump" title="Permalink to this headline"></a></h2>
-<p>Purpose: Dumps the contents of a MIMI cache file to a human-readable TSV format. Useful for inspecting cache files and verifying their contents.</p>
-<p>When to use:</p>
-<ul class="simple">
-<li><p>Debugging analysis issues</p></li>
-<li><p>Checking compound coverage</p></li>
-<li><p>Verifying isotope patterns</p></li>
-<li><p>Understanding cache structure</p></li>
-</ul>
+<p>Dumps the contents of a MIMI cache file to a human-readable TSV format. Useful for inspecting cache files and verifying their contents.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_cache_dump --help
 usage: mimi_cache_dump [-h] [-n NUM_COMPOUNDS] [-i NUM_ISOTOPES] [-o OUTPUT] cache_file
 
@@ -231,35 +199,14 @@ options:
                         Output file (default: stdout)
 </pre></div>
 </div>
-<p>Expected Output:</p>
-<ul class="simple">
-<li><p>Cache metadata (creation date, version)</p></li>
-<li><p>Creation parameters</p></li>
-<li><p>Compound information:</p>
-<ul>
-<li><p>ID and name</p></li>
-<li><p>Chemical formula</p></li>
-<li><p>Mass and relative abundance</p></li>
-<li><p>Isotope variants with their masses and abundances</p></li>
-</ul>
-</li>
-</ul>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Dump first 5 compounds with 2 isotopes each
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Dump first 5 compounds with 2 isotopes each
 $ mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o outdir/cache_contents.tsv
 </pre></div>
 </div>
 </section>
 <section id="mimi-mass-analysis">
 <h2>mimi_mass_analysis<a class="headerlink" href="#mimi-mass-analysis" title="Permalink to this headline"></a></h2>
-<p>Purpose: Analyzes mass spectrometry data by comparing sample masses against precomputed molecular masses stored in cache files.</p>
-<p>When to use:</p>
-<ul class="simple">
-<li><p>After creating/updating caches</p></li>
-<li><p>Processing new samples</p></li>
-<li><p>Comparing different conditions</p></li>
-<li><p>Validating results</p></li>
-</ul>
+<p>Analyzes mass spectrometry data by comparing sample masses against precomputed molecular masses stored in cache files.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis --help
 usage: mimi_mass_analysis [-h] -p PPM -vp VPPM -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
 
@@ -277,27 +224,7 @@ options:
                         Output file
 </pre></div>
 </div>
-<p>Expected Output:</p>
-<ul class="simple">
-<li><p>TSV file with columns:
-- CF: Chemical formula of the matched compound
-- ID: Compound identifier from the original database
-- Name: Compound name
-- C: Number of carbon atoms
-- H: Number of hydrogen atoms
-- N: Number of nitrogen atoms
-- O: Number of oxygen atoms
-- P: Number of phosphorus atoms
-- S: Number of sulfur atoms
-- db_mass_nat: Calculated mass for natural abundance(User specified)
-- db_mass_C13_95: Calculated mass for C13-95% labeled (User specified)
-- mass_measured: Observed mass in the sample
-- error_ppm: Parts per million difference between calculated and observed mass
-- intensity: Signal intensity in the sample
-- iso_count: Number of isotopes detected</p></li>
-</ul>
-<p>Examples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Analyze single sample with natural abundance cache
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Analyze single sample with natural abundance cache
 $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results.tsv
 
 # Analyze multiple samples with multiple caches
