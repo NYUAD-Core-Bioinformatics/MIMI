@@ -560,7 +560,7 @@ Let's work through a detailed example calculation for the following molecular is
 
   .. math::
 
-     \left(\frac{0.0107}{0.9893}\right)^2 = (0.0108)^2 = 0.00011664
+     \left(\frac{0.0107}{0.9893}\right)^2 * 21 = (0.0108)^2 * 21 = 0.00011664
 
 - For 17O:
 
@@ -582,19 +582,7 @@ Let's work through a detailed example calculation for the following molecular is
 
      \binom{14}{1} = 14
 
-**Step 3: Compute contributions**
 
-- Carbon contribution:
-
-  .. math::
-
-     0.00011664 \times 210 = 0.0244944
-
-- Oxygen contribution:
-
-  .. math::
-
-     0.000381 \times 14 = 0.005334
 
 **Step 4: Compute final relative abundance**
 
@@ -602,9 +590,9 @@ Let's work through a detailed example calculation for the following molecular is
 
   .. math::
 
-     0.0244944 \times 0.005334 = 0.0001306
+     (0.00011664 \times 21) \times  (0.000381 \times 14) = 0.00001306
 
-Thus, the **relative abundance** of the isotopologue **[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2** is approximately **0.00013** which is the same as the result from the MIMI software.
+Thus, the **relative abundance** of the isotopologue **[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2** is approximately **0.000013** which is the same as the result from the MIMI software.
 
 .. code-block:: text
 
@@ -616,15 +604,6 @@ Thus, the **relative abundance** of the isotopologue **[12]C19 [13]C2 [1]H28 [14
     Relative Abund: 0.000013 (expected)
 
 
-
-**Key Takeaway:**
-
-The **final relative abundance** is the product of:
-
-1. The fractional abundance of minor isotopes (adjusted by their count),
-2. The number of permutations of these minor isotopes in the molecule (combinatorial factor).
-
-This ensures the predicted isotopologue peak intensities match experimental observations in mass spectrometry data.
 
 
 
