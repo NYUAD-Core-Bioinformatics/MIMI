@@ -568,23 +568,11 @@ Let's work through a detailed example calculation for the following molecular is
 
      \frac{0.00038}{0.99757} \approx 0.000381
 
-**Step 2: Calculate combinatorial factors**
-
-- For two [13]C atoms in 21 carbon positions:
-
-  .. math::
-
-     \binom{21}{2} = \frac{21 \times 20}{2} = 210
-
-- For one [17]O atom in 14 oxygen positions:
-
-  .. math::
-
-     \binom{14}{1} = 14
 
 
 
-**Step 4: Compute final relative abundance**
+
+**Step 2: Compute final relative abundance**
 
 - Final relative abundance:
 
