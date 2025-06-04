@@ -10,13 +10,13 @@ Installation
 
 MIMI can be installed using conda, which is the recommended method as it handles all dependencies automatically::
 
-    conda install -c conda-forge mimi
+    $ conda install -c conda-forge mimi
 
 Alternatively, you can install from source if you need the latest development version::
 
-    git clone https://github.com/NYUAD-Core-Bioinformatics/MIMI.git
-    cd MIMI
-    pip install .
+    $ git clone https://github.com/NYUAD-Core-Bioinformatics/MIMI.git
+    $ cd MIMI
+    $ pip install .
 
 
 
@@ -231,8 +231,8 @@ Here's how to prepare databases from different sources using a typical mass rang
 
 
     # Sort and remove duplicates
-    { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
-    awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+    $ { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
+    $ awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
 
     $ wc -l data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
     8530 data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
@@ -371,133 +371,12 @@ This data is used for:
 - Determining molecular isotope patterns
 - Computing Molecular abundances
 
-Computing Molecular abundances
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This guide explains how to calculate the relative abundance of a specific isotopologue in a molecule, accounting for both the fractional abundance of minor isotopes and their combinatorial placement within the molecule.
-
-**Key Concepts:**
-
-- **Isotopologue:** A molecule variant with specific isotopic composition.
-- **Fractional Abundance:** The ratio of a minor isotope's natural abundance to the most abundant isotope of that element.
-- **Combinatorial Factor:** The number of ways minor isotopes can be arranged within the molecule (binomial coefficient).
-- **Relative Abundance:** The final likelihood of observing this isotopologue in mass spectrometry.
-
-**Algorithm:**
-
-1. **Initialize** the relative abundance to 1.
-
-2. **For each isotope in the molecule**:
-   - If it is a *minor isotope* (not the most abundant isotope for its element):
-   
-     a. Compute the **abundance factor**:
-
-     .. math::
-
-        \text{abundance_factor} = \left(\frac{\text{isotope_abundance}}{\text{highest_abundance}}\right)^{\text{count}}
-
-     b. Compute the **combinatorial factor**:
-
-     .. math::
-
-        \text{combinatorial_factor} = \binom{\text{total_atoms_of_element}}{\text{count}}
-
-     c. Update the relative abundance:
-
-     .. math::
-
-        \text{relative_abundance} *= \text{abundance_factor} \times \text{combinatorial_factor}
-
-   - If it is the **major isotope** (most abundant), it does not affect the calculation (factor = 1).
-
-3. The **final relative abundance** is the product of all these factors.
-
-Why the Combinatorial Factor Matters:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The combinatorial factor represents how many different ways minor isotopes can be arranged within the molecule. This ensures the final calculated abundance accurately reflects the number of permutations of minor isotopes in real molecular structures. Without it, the predicted intensity of isotopologues in mass spectrometry would be underestimated.
-
-**Worked Example:**
-
-Let’s calculate the relative abundance for the isotopologue: [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2
-
-- **Carbon:** 21 atoms total (Nineteen [12]C and two [13]C)
-- **Hydrogen:** 28 atoms (Twenty-eight [1]H only)
-- **Nitrogen:** 7 atoms (Seven [14]N only)
-- **Oxygen:** 14 atoms total (Thirteen [16]O and one [17]O)
-- **Phosphorus:** 2 atoms (Two [31]P only)
-
-**Natural Abundances:**
-
-- 13C: 0.0107 (minor),  12C: 0.9893 (major)
-- 17O: 0.00038 (minor), 16O: 0.99757 (major)
-
-**Step 1: Calculate abundance factors**
-
-- For 13C:
-
-  .. math::
-
-     \left(\frac{0.0107}{0.9893}\right)^2 = (0.0108)^2 = 0.00011664
-
-- For 17O:
-
-  .. math::
-
-     \frac{0.00038}{0.99757} \approx 0.000381
-
-**Step 2: Calculate combinatorial factors**
-
-- For two [13]C atoms in 21 carbon positions:
-
-  .. math::
-
-     \binom{21}{2} = \frac{21 \times 20}{2} = 210
-
-- For one [17]O atom in 14 oxygen positions:
-
-  .. math::
-
-     \binom{14}{1} = 14
-
-**Step 3: Compute contributions**
-
-- **Carbon contribution:**
-
-  .. math::
-
-     0.00011664 \times 210 = 0.0244944
-
-- **Oxygen contribution:**
-
-  .. math::
-
-     0.000381 \times 14 = 0.005334
-
-**Step 4: Compute final relative abundance**
-
-- **Final relative abundance:**
-
-  .. math::
-
-     0.0244944 \times 0.005334 = 0.0001306
-
-Thus, the **relative abundance** of the isotopologue **[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2** is approximately **0.00013**.
-
-**Key Takeaway:**
-
-The **final relative abundance** is the product of:
-
-1. The fractional abundance of minor isotopes (adjusted by their count),
-2. The number of permutations of these minor isotopes in the molecule (combinatorial factor).
-
-This ensures the predicted isotopologue peak intensities match experimental observations in mass spectrometry data.
-
 
 
 .. _label-option:
 
 The --label Option for Stable Isotope Labeling
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For samples with stable isotope labeling, you can override the natural abundance values using the `--label` (`-l`) option with a custom JSON file. This is particularly useful for experimental studies using stable isotope labeling with:
 
@@ -550,10 +429,10 @@ Verify Cache
 ~~~~~~~~~~~~
 
 Before proceeding with analysis, it's good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly::
-
+    
     mimi_cache_dump outdir/nat.pkl -n 2 -i 2
 
-Example output::
+.. code-block:: text
 
     $ mimi_cache_dump outdir/nat.pkl -n 2 -i 2
     # Cache Metadata:
@@ -611,6 +490,142 @@ Example output::
     Mass:           665.113916
     Relative Abund: 0.028770 (expected)
     ------------------------------------------------------------
+
+Computing Molecular abundances
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This guide explains how to calculate the relative abundance of a specific isotopologue in a molecule, accounting for both the fractional abundance of minor isotopes and their combinatorial placement within the molecule.
+
+**Key Concepts:**
+
+- **Isotopologue:** A molecule variant with specific isotopic composition.
+- **Fractional Abundance:** The ratio of a minor isotope's natural abundance to the most abundant isotope of that element.
+- **Combinatorial Factor:** The number of ways minor isotopes can be arranged within the molecule (binomial coefficient).
+- **Relative Abundance:** The final likelihood of observing this isotopologue in mass spectrometry.
+
+**Algorithm:**
+
+1. **Initialize** the relative abundance to 1.
+
+2. **For each isotope in the molecule**:
+   - If it is a *minor isotope* (not the most abundant isotope for its element):
+   
+     a. Compute the **abundance factor**:
+
+     .. math::
+
+        \text{abundance_factor} = \left(\frac{\text{isotope_abundance}}{\text{highest_abundance}}\right)^{\text{count}}
+
+     b. Compute the **combinatorial factor**:
+
+     .. math::
+
+        \text{combinatorial_factor} = \binom{\text{total_atoms_of_element}}{\text{count}}
+
+     c. Update the relative abundance:
+
+     .. math::
+
+        \text{relative_abundance} *= \text{abundance_factor} \times \text{combinatorial_factor}
+
+   - If it is the **major isotope** (most abundant), it does not affect the calculation (factor = 1).
+
+3. The **final relative abundance** is the product of all these factors.
+
+Why the Combinatorial Factor Matters:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The combinatorial factor represents how many different ways minor isotopes can be arranged within the molecule. This ensures the final calculated abundance accurately reflects the number of permutations of minor isotopes in real molecular structures. Without it, the predicted intensity of isotopologues in mass spectrometry would be underestimated.
+
+Let's work through a detailed example calculation for the following molecular isotope
+
+
+
+**Molecular Composition:**
+
+- **Formula:** [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2
+- **Carbon:** 21 atoms total (Nineteen [12]C and two [13]C)
+- **Hydrogen:** 28 atoms (Twenty-eight [1]H only)
+- **Nitrogen:** 7 atoms (Seven [14]N only)
+- **Oxygen:** 14 atoms total (Thirteen [16]O and one [17]O)
+- **Phosphorus:** 2 atoms (Two [31]P only)
+
+**Natural Abundances:**
+
+- 13C: 0.0107 (minor),  12C: 0.9893 (major)
+- 17O: 0.00038 (minor), 16O: 0.99757 (major)
+
+**Step 1: Calculate abundance factors**
+
+- For 13C:
+
+  .. math::
+
+     \left(\frac{0.0107}{0.9893}\right)^2 = (0.0108)^2 = 0.00011664
+
+- For 17O:
+
+  .. math::
+
+     \frac{0.00038}{0.99757} \approx 0.000381
+
+**Step 2: Calculate combinatorial factors**
+
+- For two [13]C atoms in 21 carbon positions:
+
+  .. math::
+
+     \binom{21}{2} = \frac{21 \times 20}{2} = 210
+
+- For one [17]O atom in 14 oxygen positions:
+
+  .. math::
+
+     \binom{14}{1} = 14
+
+**Step 3: Compute contributions**
+
+- Carbon contribution:
+
+  .. math::
+
+     0.00011664 \times 210 = 0.0244944
+
+- Oxygen contribution:
+
+  .. math::
+
+     0.000381 \times 14 = 0.005334
+
+**Step 4: Compute final relative abundance**
+
+- Final relative abundance:
+
+  .. math::
+
+     0.0244944 \times 0.005334 = 0.0001306
+
+Thus, the **relative abundance** of the isotopologue **[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2** is approximately **0.00013** which is the same as the result from the MIMI software.
+
+.. code-block:: text
+
+    $ mimi_cache_dump outdir/nat.pkl -n 2 -i 30 | grep -A5  "Variant #26:" 
+    Variant #26:
+    Formula:        [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2
+    Mono-isotopic:  No (isotope variant)
+    Mass:           666.120598
+    Relative Abund: 0.000013 (expected)
+
+
+
+**Key Takeaway:**
+
+The **final relative abundance** is the product of:
+
+1. The fractional abundance of minor isotopes (adjusted by their count),
+2. The number of permutations of these minor isotopes in the molecule (combinatorial factor).
+
+This ensures the predicted isotopologue peak intensities match experimental observations in mass spectrometry data.
+
 
 
 .. _step3-sample-analysis:
@@ -683,7 +698,7 @@ Now you're ready to analyze your mass spectrometry data. The analysis command ma
 .. code-block:: text
 
 
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 
 Key parameters:
 
@@ -708,10 +723,10 @@ The PPM threshold affects match precision and reliability:
 Example::
 
     # High confidence analysis
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_excellent.tsv
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_excellent.tsv
 
     # Standard confidence analysis
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_good.tsv
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_good.tsv
 
 .. _multiple-cache-analysis:
 
@@ -720,7 +735,7 @@ Multiple Cache Analysis
 
 You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns::
 
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 
 
 
@@ -731,7 +746,7 @@ Batch Processing
 
 MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions::
 
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
 
 
 
@@ -760,9 +775,9 @@ The output TSV file contains these columns:
 
 Example output file::
 
-    $mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+    $ mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 
-    (head -4 outdir/results.tsv; cat   outdir/results.tsv | grep -A6  C00147)
+    $(head -4 outdir/results.tsv; cat   outdir/results.tsv | grep -A6  C00147)
     Log file	/Users/aaa/test/log/results_20250603_145131.log
                                                                                                             data/processed/testdata2.asc							
                                                                                                             nat                                                                  C13_95			
@@ -820,7 +835,7 @@ The comprehensive run script (`run.sh`) performs the following steps:
 
 Example Usage::
 
-    sh ./run.sh data/processed outdir
+    $ sh ./run.sh data/processed outdir
 
 The script content::
 
@@ -916,7 +931,7 @@ To plot the results, you can use the following command:
 
 .. code-block:: text
 
-    python scripts/plot_results.py  outdir/
+    $python scripts/plot_results.py  outdir/
 
 
 Troubleshooting
