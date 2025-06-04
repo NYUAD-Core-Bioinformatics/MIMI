@@ -66,7 +66,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#the-label-option-for-stable-isotope-labeling">The –label Option for Stable Isotope Labeling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#verify-cache">Verify Cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#computing-molecular-abundances">Computing Molecular abundances</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#why-the-combinatorial-factor-matters">Why the Combinatorial Factor Matters:</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#step3-sample-analysis">Step3: Sample Analysis</a><ul>
@@ -587,15 +586,10 @@ Relative Abund: 0.028770 (expected)
 <div class="math notranslate nohighlight">
 \[\text{abundance_factor} = \left(\frac{\text{isotope_abundance}}{\text{highest_abundance}}\right)^{\text{count}}\]</div>
 <ol class="loweralpha simple" start="2">
-<li><p>Compute the <strong>combinatorial factor</strong>:</p></li>
-</ol>
-<div class="math notranslate nohighlight">
-\[\text{combinatorial_factor} = \binom{\text{total_atoms_of_element}}{\text{count}}\]</div>
-<ol class="loweralpha simple" start="3">
 <li><p>Update the relative abundance:</p></li>
 </ol>
 <div class="math notranslate nohighlight">
-\[\text{relative_abundance} *= \text{abundance_factor} \times \text{combinatorial_factor}\]</div>
+\[\text{relative_abundance} *= \text{abundance_factor} \times \text{total_atoms_of_element}\]</div>
 </div></blockquote>
 <ul class="simple">
 <li><p>If it is the <strong>major isotope</strong> (most abundant), it does not affect the calculation (factor = 1).</p></li>
@@ -603,10 +597,6 @@ Relative Abund: 0.028770 (expected)
 </li>
 <li><p>The <strong>final relative abundance</strong> is the product of all these factors.</p></li>
 </ol>
-</section>
-<section id="why-the-combinatorial-factor-matters">
-<h3>Why the Combinatorial Factor Matters:<a class="headerlink" href="#why-the-combinatorial-factor-matters" title="Permalink to this headline"></a></h3>
-<p>The combinatorial factor represents how many different ways minor isotopes can be arranged within the molecule. This ensures the final calculated abundance accurately reflects the number of permutations of minor isotopes in real molecular structures. Without it, the predicted intensity of isotopologues in mass spectrometry would be underestimated.</p>
 <p>Let’s work through a detailed example calculation for the following molecular isotope</p>
 <p><strong>Molecular Composition:</strong></p>
 <ul class="simple">
