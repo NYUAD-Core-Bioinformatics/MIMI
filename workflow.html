@@ -62,13 +62,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#step2-cache-creation">Step2: Cache Creation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#isotope-configuration">Isotope Configuration</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#computing-molecular-abundances">Computing Molecular abundances</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#why-the-combinatorial-factor-matters">Why the Combinatorial Factor Matters:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#the-label-option-for-stable-isotope-labeling">The –label Option for Stable Isotope Labeling</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#isotope-configuration">Isotope Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-label-option-for-stable-isotope-labeling">The –label Option for Stable Isotope Labeling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#verify-cache">Verify Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#computing-molecular-abundances">Computing Molecular abundances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-the-combinatorial-factor-matters">Why the Combinatorial Factor Matters:</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#step3-sample-analysis">Step3: Sample Analysis</a><ul>
@@ -123,13 +121,13 @@
 <section id="installation">
 <span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
 <p>MIMI can be installed using conda, which is the recommended method as it handles all dependencies automatically:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">mimi</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda install -c conda-forge mimi
 </pre></div>
 </div>
 <p>Alternatively, you can install from source if you need the latest development version:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">NYUAD</span><span class="o">-</span><span class="n">Core</span><span class="o">-</span><span class="n">Bioinformatics</span><span class="o">/</span><span class="n">MIMI</span><span class="o">.</span><span class="n">git</span>
-<span class="n">cd</span> <span class="n">MIMI</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/NYUAD-Core-Bioinformatics/MIMI.git
+$ cd MIMI
+$ pip install .
 </pre></div>
 </div>
 </section>
@@ -319,8 +317,8 @@ C17H22O5        C09536  Pyrethrosin
 
 
 # Sort and remove duplicates
-{ head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } &gt; data/processed/kegg_compounds_40_1000Da_sorted.tsv
-awk &#39;!seen[$1]++&#39; data/processed/kegg_compounds_40_1000Da_sorted.tsv &gt; data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+$ { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } &gt; data/processed/kegg_compounds_40_1000Da_sorted.tsv
+$ awk &#39;!seen[$1]++&#39; data/processed/kegg_compounds_40_1000Da_sorted.tsv &gt; data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
 
 $ wc -l data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
 8530 data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
@@ -457,113 +455,9 @@ This file will be used for fast matching during analysis.</p>
 <li><p>Determining molecular isotope patterns</p></li>
 <li><p>Computing Molecular abundances</p></li>
 </ul>
-<section id="computing-molecular-abundances">
-<h4>Computing Molecular abundances<a class="headerlink" href="#computing-molecular-abundances" title="Permalink to this headline"></a></h4>
-<p>This guide explains how to calculate the relative abundance of a specific isotopologue in a molecule, accounting for both the fractional abundance of minor isotopes and their combinatorial placement within the molecule.</p>
-<p><strong>Key Concepts:</strong></p>
-<ul class="simple">
-<li><p><strong>Isotopologue:</strong> A molecule variant with specific isotopic composition.</p></li>
-<li><p><strong>Fractional Abundance:</strong> The ratio of a minor isotope’s natural abundance to the most abundant isotope of that element.</p></li>
-<li><p><strong>Combinatorial Factor:</strong> The number of ways minor isotopes can be arranged within the molecule (binomial coefficient).</p></li>
-<li><p><strong>Relative Abundance:</strong> The final likelihood of observing this isotopologue in mass spectrometry.</p></li>
-</ul>
-<p><strong>Algorithm:</strong></p>
-<ol class="arabic">
-<li><p><strong>Initialize</strong> the relative abundance to 1.</p></li>
-<li><p><strong>For each isotope in the molecule</strong>:
-- If it is a <em>minor isotope</em> (not the most abundant isotope for its element):</p>
-<blockquote>
-<div><ol class="loweralpha simple">
-<li><p>Compute the <strong>abundance factor</strong>:</p></li>
-</ol>
-<div class="math notranslate nohighlight">
-\[\text{abundance_factor} = \left(\frac{\text{isotope_abundance}}{\text{highest_abundance}}\right)^{\text{count}}\]</div>
-<ol class="loweralpha simple" start="2">
-<li><p>Compute the <strong>combinatorial factor</strong>:</p></li>
-</ol>
-<div class="math notranslate nohighlight">
-\[\text{combinatorial_factor} = \binom{\text{total_atoms_of_element}}{\text{count}}\]</div>
-<ol class="loweralpha simple" start="3">
-<li><p>Update the relative abundance:</p></li>
-</ol>
-<div class="math notranslate nohighlight">
-\[\text{relative_abundance} *= \text{abundance_factor} \times \text{combinatorial_factor}\]</div>
-</div></blockquote>
-<ul class="simple">
-<li><p>If it is the <strong>major isotope</strong> (most abundant), it does not affect the calculation (factor = 1).</p></li>
-</ul>
-</li>
-<li><p>The <strong>final relative abundance</strong> is the product of all these factors.</p></li>
-</ol>
-</section>
-<section id="why-the-combinatorial-factor-matters">
-<h4>Why the Combinatorial Factor Matters:<a class="headerlink" href="#why-the-combinatorial-factor-matters" title="Permalink to this headline"></a></h4>
-<p>The combinatorial factor represents how many different ways minor isotopes can be arranged within the molecule. This ensures the final calculated abundance accurately reflects the number of permutations of minor isotopes in real molecular structures. Without it, the predicted intensity of isotopologues in mass spectrometry would be underestimated.</p>
-<p><strong>Worked Example:</strong></p>
-<p>Let’s calculate the relative abundance for the isotopologue: [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2</p>
-<ul class="simple">
-<li><p><strong>Carbon:</strong> 21 atoms total (Nineteen [12]C and two [13]C)</p></li>
-<li><p><strong>Hydrogen:</strong> 28 atoms (Twenty-eight [1]H only)</p></li>
-<li><p><strong>Nitrogen:</strong> 7 atoms (Seven [14]N only)</p></li>
-<li><p><strong>Oxygen:</strong> 14 atoms total (Thirteen [16]O and one [17]O)</p></li>
-<li><p><strong>Phosphorus:</strong> 2 atoms (Two [31]P only)</p></li>
-</ul>
-<p><strong>Natural Abundances:</strong></p>
-<ul class="simple">
-<li><p>13C: 0.0107 (minor),  12C: 0.9893 (major)</p></li>
-<li><p>17O: 0.00038 (minor), 16O: 0.99757 (major)</p></li>
-</ul>
-<p><strong>Step 1: Calculate abundance factors</strong></p>
-<ul>
-<li><p>For 13C:</p>
-<div class="math notranslate nohighlight">
-\[\left(\frac{0.0107}{0.9893}\right)^2 = (0.0108)^2 = 0.00011664\]</div>
-</li>
-<li><p>For 17O:</p>
-<div class="math notranslate nohighlight">
-\[\frac{0.00038}{0.99757} \approx 0.000381\]</div>
-</li>
-</ul>
-<p><strong>Step 2: Calculate combinatorial factors</strong></p>
-<ul>
-<li><p>For two [13]C atoms in 21 carbon positions:</p>
-<div class="math notranslate nohighlight">
-\[\binom{21}{2} = \frac{21 \times 20}{2} = 210\]</div>
-</li>
-<li><p>For one [17]O atom in 14 oxygen positions:</p>
-<div class="math notranslate nohighlight">
-\[\binom{14}{1} = 14\]</div>
-</li>
-</ul>
-<p><strong>Step 3: Compute contributions</strong></p>
-<ul>
-<li><p><strong>Carbon contribution:</strong></p>
-<div class="math notranslate nohighlight">
-\[0.00011664 \times 210 = 0.0244944\]</div>
-</li>
-<li><p><strong>Oxygen contribution:</strong></p>
-<div class="math notranslate nohighlight">
-\[0.000381 \times 14 = 0.005334\]</div>
-</li>
-</ul>
-<p><strong>Step 4: Compute final relative abundance</strong></p>
-<ul>
-<li><p><strong>Final relative abundance:</strong></p>
-<div class="math notranslate nohighlight">
-\[0.0244944 \times 0.005334 = 0.0001306\]</div>
-</li>
-</ul>
-<p>Thus, the <strong>relative abundance</strong> of the isotopologue <strong>[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2</strong> is approximately <strong>0.00013</strong>.</p>
-<p><strong>Key Takeaway:</strong></p>
-<p>The <strong>final relative abundance</strong> is the product of:</p>
-<ol class="arabic simple">
-<li><p>The fractional abundance of minor isotopes (adjusted by their count),</p></li>
-<li><p>The number of permutations of these minor isotopes in the molecule (combinatorial factor).</p></li>
-</ol>
-<p>This ensures the predicted isotopologue peak intensities match experimental observations in mass spectrometry data.</p>
 </section>
 <section id="the-label-option-for-stable-isotope-labeling">
-<span id="label-option"></span><h4>The –label Option for Stable Isotope Labeling<a class="headerlink" href="#the-label-option-for-stable-isotope-labeling" title="Permalink to this headline"></a></h4>
+<span id="label-option"></span><h3>The –label Option for Stable Isotope Labeling<a class="headerlink" href="#the-label-option-for-stable-isotope-labeling" title="Permalink to this headline"></a></h3>
 <p>For samples with stable isotope labeling, you can override the natural abundance values using the <cite>–label</cite> (<cite>-l</cite>) option with a custom JSON file. This is particularly useful for experimental studies using stable isotope labeling with:</p>
 <ul class="simple">
 <li><p>Carbon (13C)</p></li>
@@ -606,15 +500,13 @@ This file will be used for fast matching during analysis.</p>
 <p>Expected Output: A cache file with isotope patterns adjusted for C13-95% labeling.</p>
 <p>Use this when analyzing labeled samples.</p>
 </section>
-</section>
 <section id="verify-cache">
 <span id="id9"></span><h3>Verify Cache<a class="headerlink" href="#verify-cache" title="Permalink to this headline"></a></h3>
 <p>Before proceeding with analysis, it’s good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_cache_dump</span> <span class="n">outdir</span><span class="o">/</span><span class="n">nat</span><span class="o">.</span><span class="n">pkl</span> <span class="o">-</span><span class="n">n</span> <span class="mi">2</span> <span class="o">-</span><span class="n">i</span> <span class="mi">2</span>
 </pre></div>
 </div>
-<p>Example output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mimi_cache_dump outdir/nat.pkl -n 2 -i 2
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_cache_dump outdir/nat.pkl -n 2 -i 2
 # Cache Metadata:
 # Creation Date: 2025-06-03T14:47:08
 # MIMI Version: 1.0.0
@@ -673,6 +565,120 @@ Relative Abund: 0.028770 (expected)
 </pre></div>
 </div>
 </section>
+<section id="computing-molecular-abundances">
+<h3>Computing Molecular abundances<a class="headerlink" href="#computing-molecular-abundances" title="Permalink to this headline"></a></h3>
+<p>This guide explains how to calculate the relative abundance of a specific isotopologue in a molecule, accounting for both the fractional abundance of minor isotopes and their combinatorial placement within the molecule.</p>
+<p><strong>Key Concepts:</strong></p>
+<ul class="simple">
+<li><p><strong>Isotopologue:</strong> A molecule variant with specific isotopic composition.</p></li>
+<li><p><strong>Fractional Abundance:</strong> The ratio of a minor isotope’s natural abundance to the most abundant isotope of that element.</p></li>
+<li><p><strong>Combinatorial Factor:</strong> The number of ways minor isotopes can be arranged within the molecule (binomial coefficient).</p></li>
+<li><p><strong>Relative Abundance:</strong> The final likelihood of observing this isotopologue in mass spectrometry.</p></li>
+</ul>
+<p><strong>Algorithm:</strong></p>
+<ol class="arabic">
+<li><p><strong>Initialize</strong> the relative abundance to 1.</p></li>
+<li><p><strong>For each isotope in the molecule</strong>:
+- If it is a <em>minor isotope</em> (not the most abundant isotope for its element):</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Compute the <strong>abundance factor</strong>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\text{abundance_factor} = \left(\frac{\text{isotope_abundance}}{\text{highest_abundance}}\right)^{\text{count}}\]</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Compute the <strong>combinatorial factor</strong>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\text{combinatorial_factor} = \binom{\text{total_atoms_of_element}}{\text{count}}\]</div>
+<ol class="loweralpha simple" start="3">
+<li><p>Update the relative abundance:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\text{relative_abundance} *= \text{abundance_factor} \times \text{combinatorial_factor}\]</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>If it is the <strong>major isotope</strong> (most abundant), it does not affect the calculation (factor = 1).</p></li>
+</ul>
+</li>
+<li><p>The <strong>final relative abundance</strong> is the product of all these factors.</p></li>
+</ol>
+</section>
+<section id="why-the-combinatorial-factor-matters">
+<h3>Why the Combinatorial Factor Matters:<a class="headerlink" href="#why-the-combinatorial-factor-matters" title="Permalink to this headline"></a></h3>
+<p>The combinatorial factor represents how many different ways minor isotopes can be arranged within the molecule. This ensures the final calculated abundance accurately reflects the number of permutations of minor isotopes in real molecular structures. Without it, the predicted intensity of isotopologues in mass spectrometry would be underestimated.</p>
+<p>Let’s work through a detailed example calculation for the following molecular isotope</p>
+<p><strong>Molecular Composition:</strong></p>
+<ul class="simple">
+<li><p><strong>Formula:</strong> [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2</p></li>
+<li><p><strong>Carbon:</strong> 21 atoms total (Nineteen [12]C and two [13]C)</p></li>
+<li><p><strong>Hydrogen:</strong> 28 atoms (Twenty-eight [1]H only)</p></li>
+<li><p><strong>Nitrogen:</strong> 7 atoms (Seven [14]N only)</p></li>
+<li><p><strong>Oxygen:</strong> 14 atoms total (Thirteen [16]O and one [17]O)</p></li>
+<li><p><strong>Phosphorus:</strong> 2 atoms (Two [31]P only)</p></li>
+</ul>
+<p><strong>Natural Abundances:</strong></p>
+<ul class="simple">
+<li><p>13C: 0.0107 (minor),  12C: 0.9893 (major)</p></li>
+<li><p>17O: 0.00038 (minor), 16O: 0.99757 (major)</p></li>
+</ul>
+<p><strong>Step 1: Calculate abundance factors</strong></p>
+<ul>
+<li><p>For 13C:</p>
+<div class="math notranslate nohighlight">
+\[\left(\frac{0.0107}{0.9893}\right)^2 = (0.0108)^2 = 0.00011664\]</div>
+</li>
+<li><p>For 17O:</p>
+<div class="math notranslate nohighlight">
+\[\frac{0.00038}{0.99757} \approx 0.000381\]</div>
+</li>
+</ul>
+<p><strong>Step 2: Calculate combinatorial factors</strong></p>
+<ul>
+<li><p>For two [13]C atoms in 21 carbon positions:</p>
+<div class="math notranslate nohighlight">
+\[\binom{21}{2} = \frac{21 \times 20}{2} = 210\]</div>
+</li>
+<li><p>For one [17]O atom in 14 oxygen positions:</p>
+<div class="math notranslate nohighlight">
+\[\binom{14}{1} = 14\]</div>
+</li>
+</ul>
+<p><strong>Step 3: Compute contributions</strong></p>
+<ul>
+<li><p>Carbon contribution:</p>
+<div class="math notranslate nohighlight">
+\[0.00011664 \times 210 = 0.0244944\]</div>
+</li>
+<li><p>Oxygen contribution:</p>
+<div class="math notranslate nohighlight">
+\[0.000381 \times 14 = 0.005334\]</div>
+</li>
+</ul>
+<p><strong>Step 4: Compute final relative abundance</strong></p>
+<ul>
+<li><p>Final relative abundance:</p>
+<div class="math notranslate nohighlight">
+\[0.0244944 \times 0.005334 = 0.0001306\]</div>
+</li>
+</ul>
+<p>Thus, the <strong>relative abundance</strong> of the isotopologue <strong>[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2</strong> is approximately <strong>0.00013</strong> which is the same as the result from the MIMI software.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_cache_dump outdir/nat.pkl -n 2 -i 30 | grep -A5  &quot;Variant #26:&quot;
+Variant #26:
+Formula:        [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2
+Mono-isotopic:  No (isotope variant)
+Mass:           666.120598
+Relative Abund: 0.000013 (expected)
+</pre></div>
+</div>
+<p><strong>Key Takeaway:</strong></p>
+<p>The <strong>final relative abundance</strong> is the product of:</p>
+<ol class="arabic simple">
+<li><p>The fractional abundance of minor isotopes (adjusted by their count),</p></li>
+<li><p>The number of permutations of these minor isotopes in the molecule (combinatorial factor).</p></li>
+</ol>
+<p>This ensures the predicted isotopologue peak intensities match experimental observations in mass spectrometry data.</p>
+</section>
 </section>
 <section id="step3-sample-analysis">
 <span id="id10"></span><h2>Step3: Sample Analysis<a class="headerlink" href="#step3-sample-analysis" title="Permalink to this headline"></a></h2>
@@ -729,7 +735,7 @@ options:
 </pre></div>
 </div>
 <p>Now you’re ready to analyze your mass spectrometry data. The analysis command matches your sample masses against the precomputed database and verifies matches using isotope patterns</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 </pre></div>
 </div>
 <p>Key parameters:</p>
@@ -751,25 +757,25 @@ options:
 <li><p><strong>&gt;2 ppm</strong>: Not recommended for high-resolution mass spectrometry data</p></li>
 </ul>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># High confidence analysis</span>
-<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">0.5</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">0.5</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results_excellent</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># High confidence analysis
+$ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_excellent.tsv
 
-<span class="c1"># Standard confidence analysis</span>
-<span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">1.0</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results_good</span><span class="o">.</span><span class="n">tsv</span>
+# Standard confidence analysis
+$ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_good.tsv
 </pre></div>
 </div>
 </section>
 <section id="multiple-cache-analysis">
 <span id="id12"></span><h3>Multiple Cache Analysis<a class="headerlink" href="#multiple-cache-analysis" title="Permalink to this headline"></a></h3>
 <p>You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">0.5</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">0.5</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">nat</span> <span class="n">outdir</span><span class="o">/</span><span class="n">C13_95</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">results</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 </pre></div>
 </div>
 </section>
 <section id="batch-processing">
 <span id="id13"></span><h3>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h3>
 <p>MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimi_mass_analysis</span> <span class="o">-</span><span class="n">p</span> <span class="mf">0.5</span> <span class="o">-</span><span class="n">vp</span> <span class="mf">0.5</span> <span class="o">-</span><span class="n">c</span> <span class="n">outdir</span><span class="o">/</span><span class="n">nat</span> <span class="o">-</span><span class="n">s</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata1</span><span class="o">.</span><span class="n">asc</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span><span class="o">/</span><span class="n">testdata2</span><span class="o">.</span><span class="n">asc</span> <span class="o">-</span><span class="n">o</span> <span class="n">outdir</span><span class="o">/</span><span class="n">batch_results</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
 </pre></div>
 </div>
 </section>
@@ -794,9 +800,9 @@ options:
 <li><p><strong>iso_count</strong>: Number of isotopes detected</p></li>
 </ul>
 <p>Example output file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 
-(head -4 outdir/results.tsv; cat   outdir/results.tsv | grep -A6  C00147)
+$(head -4 outdir/results.tsv; cat   outdir/results.tsv | grep -A6  C00147)
 Log file    /Users/aaa/test/log/results_20250603_145131.log
                                                                                                         data/processed/testdata2.asc
                                                                                                         nat                                                                  C13_95
@@ -859,7 +865,7 @@ C7H6O3     C00156   4-Hydroxybenzoate  7   6   0   3   0   0   137.0244175850900
 </li>
 </ol>
 <p>Example Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">./</span><span class="n">run</span><span class="o">.</span><span class="n">sh</span> <span class="n">data</span><span class="o">/</span><span class="n">processed</span> <span class="n">outdir</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sh ./run.sh data/processed outdir
 </pre></div>
 </div>
 <p>The script content:</p>
@@ -948,7 +954,7 @@ echo &quot;Processing complete.&quot;
 <section id="plotting-the-results">
 <h3>Plotting the results<a class="headerlink" href="#plotting-the-results" title="Permalink to this headline"></a></h3>
 <p>To plot the results, you can use the following command:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python scripts/plot_results.py  outdir/
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$python scripts/plot_results.py  outdir/
 </pre></div>
 </div>
 </section>
