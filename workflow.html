@@ -626,7 +626,7 @@ Relative Abund: 0.028770 (expected)
 <ul>
 <li><p>For 13C:</p>
 <div class="math notranslate nohighlight">
-\[\left(\frac{0.0107}{0.9893}\right)^2 = (0.0108)^2 = 0.00011664\]</div>
+\[\left(\frac{0.0107}{0.9893}\right)^2 * 21 = (0.0108)^2 * 21 = 0.00011664\]</div>
 </li>
 <li><p>For 17O:</p>
 <div class="math notranslate nohighlight">
@@ -644,25 +644,14 @@ Relative Abund: 0.028770 (expected)
 \[\binom{14}{1} = 14\]</div>
 </li>
 </ul>
-<p><strong>Step 3: Compute contributions</strong></p>
-<ul>
-<li><p>Carbon contribution:</p>
-<div class="math notranslate nohighlight">
-\[0.00011664 \times 210 = 0.0244944\]</div>
-</li>
-<li><p>Oxygen contribution:</p>
-<div class="math notranslate nohighlight">
-\[0.000381 \times 14 = 0.005334\]</div>
-</li>
-</ul>
 <p><strong>Step 4: Compute final relative abundance</strong></p>
 <ul>
 <li><p>Final relative abundance:</p>
 <div class="math notranslate nohighlight">
-\[0.0244944 \times 0.005334 = 0.0001306\]</div>
+\[(0.00011664 \times 21) \times  (0.000381 \times 14) = 0.00001306\]</div>
 </li>
 </ul>
-<p>Thus, the <strong>relative abundance</strong> of the isotopologue <strong>[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2</strong> is approximately <strong>0.00013</strong> which is the same as the result from the MIMI software.</p>
+<p>Thus, the <strong>relative abundance</strong> of the isotopologue <strong>[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2</strong> is approximately <strong>0.000013</strong> which is the same as the result from the MIMI software.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_cache_dump outdir/nat.pkl -n 2 -i 30 | grep -A5  &quot;Variant #26:&quot;
 Variant #26:
 Formula:        [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2
@@ -671,13 +660,6 @@ Mass:           666.120598
 Relative Abund: 0.000013 (expected)
 </pre></div>
 </div>
-<p><strong>Key Takeaway:</strong></p>
-<p>The <strong>final relative abundance</strong> is the product of:</p>
-<ol class="arabic simple">
-<li><p>The fractional abundance of minor isotopes (adjusted by their count),</p></li>
-<li><p>The number of permutations of these minor isotopes in the molecule (combinatorial factor).</p></li>
-</ol>
-<p>This ensures the predicted isotopologue peak intensities match experimental observations in mass spectrometry data.</p>
 </section>
 </section>
 <section id="step3-sample-analysis">
