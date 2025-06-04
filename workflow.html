@@ -149,14 +149,14 @@ $ pip install .
 <ul class="simple">
 <li><p>Minimally, must contain three columns with these headers: CF (chemical formula), ID (compound ID), and Name (compound name)</p></li>
 </ul>
-<ul class="simple">
-<li><dl class="simple">
-<dt>Select from KEGG, HMDB, or other publicly available sources, or create a custom database with specific compounds of interest</dt><dd><ul>
+<ul>
+<li><p>Select from KEGG, HMDB, or other publicly available sources, or create a custom database with specific compounds of interest</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>For KEGG and HMDB, use a MIMI helper script to extract compounds by ID or filtered by mass range</p></li>
 <li><p>For custom metabolite lists, use the commandline tool provided here to generate pseudo-IDs for compounds with no IDs</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 </ul>
 <p>See for more details: <a class="reference internal" href="#id2"><span class="std std-ref">Step1: Database Preparation</span></a>, <a class="reference internal" href="#database-sources"><span class="std std-ref">Database Sources</span></a>, <a class="reference internal" href="#mass-range-filtering"><span class="std std-ref">Mass Range Filtering</span></a>, <a class="reference internal" href="#database-preparation-example"><span class="std std-ref">Database Preparation Example</span></a></p>
@@ -164,12 +164,15 @@ $ pip install .
 <section id="cache-creation">
 <h3>2. Cache Creation<a class="headerlink" href="#cache-creation" title="Permalink to this headline"></a></h3>
 <p>Generate precomputed molecular masses and fine-structure isotope patterns for all compounds in your database.</p>
-<ul class="simple">
+<ul>
 <li><p>Cache creation is essential for MIMI analysis and improves run time performance</p></li>
-<li><p>A separate cache is needed for each combination of database and atomic isotope ratios (natural abundance or labeled)</p></li>
-</ul>
-<ul class="simple">
+<li><p>A separate cache is needed for each combination of database and atomic isotope ratios (natural abundance or labeled)</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>Cache contents can be inspected using <cite>mimi_cache_dump</cite> to ensure everything was processed correctly</p></li>
+</ul>
+</div></blockquote>
+</li>
 </ul>
 <p>See for more details: <a class="reference internal" href="#step2-cache-creation"><span class="std std-ref">Step2: Cache Creation</span></a>, <a class="reference internal" href="#ppm-thresholds"><span class="std std-ref">PPM Thresholds</span></a>, <a class="reference internal" href="#isotope-configuration"><span class="std std-ref">Isotope Configuration</span></a>, <a class="reference internal" href="#verify-cache"><span class="std std-ref">Verify Cache</span></a></p>
 </section>

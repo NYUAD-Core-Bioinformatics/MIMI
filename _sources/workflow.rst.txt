@@ -41,6 +41,7 @@ Choose a reference compound database and prepare a tab-delimited database file f
 
 * Minimally, must contain three columns with these headers: CF (chemical formula), ID (compound ID), and Name (compound name)
 - Select from KEGG, HMDB, or other publicly available sources, or create a custom database with specific compounds of interest
+
     * For KEGG and HMDB, use a MIMI helper script to extract compounds by ID or filtered by mass range
     * For custom metabolite lists, use the commandline tool provided here to generate pseudo-IDs for compounds with no IDs
 
@@ -54,7 +55,8 @@ Generate precomputed molecular masses and fine-structure isotope patterns for al
 
 * Cache creation is essential for MIMI analysis and improves run time performance
 * A separate cache is needed for each combination of database and atomic isotope ratios (natural abundance or labeled)
-- Cache contents can be inspected using `mimi_cache_dump` to ensure everything was processed correctly
+
+    - Cache contents can be inspected using `mimi_cache_dump` to ensure everything was processed correctly
 
 See for more details: :ref:`step2-cache-creation`, :ref:`ppm-thresholds`, :ref:`isotope-configuration`, :ref:`verify-cache`
 
