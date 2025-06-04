@@ -516,25 +516,17 @@ This guide explains how to calculate the relative abundance of a specific isotop
 
         \text{abundance_factor} = \left(\frac{\text{isotope_abundance}}{\text{highest_abundance}}\right)^{\text{count}}
 
-     b. Compute the **combinatorial factor**:
+
+     b. Update the relative abundance:
 
      .. math::
 
-        \text{combinatorial_factor} = \binom{\text{total_atoms_of_element}}{\text{count}}
-
-     c. Update the relative abundance:
-
-     .. math::
-
-        \text{relative_abundance} *= \text{abundance_factor} \times \text{combinatorial_factor}
+        \text{relative_abundance} *= \text{abundance_factor} \times \text{total_atoms_of_element}
 
    - If it is the **major isotope** (most abundant), it does not affect the calculation (factor = 1).
 
 3. The **final relative abundance** is the product of all these factors.
 
-Why the Combinatorial Factor Matters:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The combinatorial factor represents how many different ways minor isotopes can be arranged within the molecule. This ensures the final calculated abundance accurately reflects the number of permutations of minor isotopes in real molecular structures. Without it, the predicted intensity of isotopologues in mass spectrometry would be underestimated.
 
 Let's work through a detailed example calculation for the following molecular isotope
 
