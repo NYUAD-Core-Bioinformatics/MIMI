@@ -560,7 +560,7 @@ Let's work through a detailed example calculation for the following molecular is
 
   .. math::
 
-     \left(\frac{0.0107}{0.9893}\right)^2 * 21 = (0.0108)^2 * 21 = 0.00011664
+     \left(\frac{0.0107}{0.9893}\right)^2  = (0.0108)^2  = 0.00011664
 
 - For 17O:
 
