@@ -138,16 +138,16 @@ If you have a list of compounds without standardized identifiers, you can genera
 .. code-block:: text
 
     $ head data/processed/customDB.tsv
-    CF		Name
-    C21H28N7O14P2	NAD+
-    C21H29N7O17P3	NADP+
-    C9H14N2O12P2	UDP
-    C27H33N9O15P2	FAD
-    C8H10NO6P1	Pyridoxal phosphate
-    C15H22N6O5S1	S-Adenosyl-L-methionine
-    C14H20N6O5S	S-Adenosyl-L-homocysteine
-    C23H38N7O17P3S	Acetyl-CoA
-    C34H32FeN4O4	Heme
+    CF              Name
+    C21H28N7O14P2   NAD+
+    C21H29N7O17P3   NADP+
+    C9H14N2O12P2    UDP
+    C27H33N9O15P2   FAD
+    C8H10NO6P1      Pyridoxal phosphate
+    C15H22N6O5S1    S-Adenosyl-L-methionine
+    C14H20N6O5S     S-Adenosyl-L-homocysteine
+    C23H38N7O17P3S  Acetyl-CoA
+    C34H32FeN4O4    Heme
 
 The following command adds custom IDs to the TSV file by combining a timestamp with row numbers.
 It reads from customDB.tsv and writes to customDBwithID.tsv, both located in the data/processed directory.
@@ -164,16 +164,16 @@ Each ID is prefixed with `MIMI_` followed by a timestamp and a sequential number
 .. code-block:: text
 
     $ head data/processed/customDBwithID.tsv
-    CF	ID	Name
-    C21H28N7O14P2	MIMI_20250603132713_0001	NAD+
-    C21H29N7O17P3	MIMI_20250603132713_0002	NADP+
-    C9H14N2O12P2	MIMI_20250603132713_0003	UDP
-    C27H33N9O15P2	MIMI_20250603132713_0004	FAD
-    C8H10NO6P1	MIMI_20250603132713_0005	Pyridoxal
-    C15H22N6O5S1	MIMI_20250603132713_0006	S-Adenosyl-L-methionine
-    C14H20N6O5S	MIMI_20250603132713_0007	S-Adenosyl-L-homocysteine
-    C23H38N7O17P3S	MIMI_20250603132713_0008	Acetyl-CoA
-    C34H32FeN4O4	MIMI_20250603132713_0009	Heme
+    CF              ID                          Name
+    C21H28N7O14P2   MIMI_20250603132713_0001    NAD+
+    C21H29N7O17P3   MIMI_20250603132713_0002    NADP+
+    C9H14N2O12P2    MIMI_20250603132713_0003    UDP
+    C27H33N9O15P2   MIMI_20250603132713_0004    FAD
+    C8H10NO6P1      MIMI_20250603132713_0005    Pyridoxal
+    C15H22N6O5S1    MIMI_20250603132713_0006    S-Adenosyl-L-methionine
+    C14H20N6O5S     MIMI_20250603132713_0007    S-Adenosyl-L-homocysteine
+    C23H38N7O17P3S  MIMI_20250603132713_0008    Acetyl-CoA
+    C34H32FeN4O4    MIMI_20250603132713_0009    Heme
 
 
 
@@ -218,16 +218,16 @@ Here's how to prepare databases from different sources using a typical mass rang
 
     # Show the first 10 compounds
     $head -10 data/processed/kegg_compounds_40_1000Da.tsv
-    CF	ID	Name
-    C44H52N8O10	C11617	Pristinamycin IC
-    C10H16	C20230	(+)-Sabinene
-    C6H14	C11271	n-Hexane
-    C10H6O2	C14783	1,2-Naphthoquinone
-    C8H14N2O2	C07841	Levetiracetam
-    C14H16ClN3O4S2	C12685	Cyclothiazide
-    C26H34O3	C14259	Stanolone benzoate
-    C5H5N5O2	C22500	2,8-Dihydroxyadenine
-    C17H22O5	C09536	Pyrethrosin
+    CF              ID      Name
+    C44H52N8O10	    C11617  Pristinamycin IC
+    C10H16          C20230  (+)-Sabinene
+    C6H14           C11271  n-Hexane
+    C10H6O2         C14783  1,2-Naphthoquinone
+    C8H14N2O2       C07841  Levetiracetam
+    C14H16ClN3O4S2  C12685  Cyclothiazide
+    C26H34O3        C14259  Stanolone benzoate
+    C5H5N5O2        C22500  2,8-Dihydroxyadenine
+    C17H22O5        C09536  Pyrethrosin
 
 
     # Sort and remove duplicates
@@ -256,30 +256,30 @@ The output in both cases will be a TSV file containing:
 This mass range we used is suitable for typical MS data, as shown in this example data::
 
     $ head -4 data/processed/testdata1.asc 
-    43.16184	1089317	0.00003
-    43.28766	1115802	0.00003
-    43.28946	1226947	0.00003
-    43.30269	1107425	0.00005
+    43.16184    1089317  0.00003
+    43.28766    1115802  0.00003
+    43.28946    1226947  0.00003
+    43.30269    1107425  0.00005
     
     $head -4  data/processed/testdata2.asc 
-    43.16185	991278.47	0.00003
-    43.28765	1093485.96	0.00003
-    43.28946	1104252.3	0.00003
-    43.3027	1018831	0.00005
+    43.16185    991278.47   0.00003
+    43.28765    1093485.96  0.00003
+    43.28946    1104252.3   0.00003
+    43.3027     1018831	    0.00005
 
 
 
     $tail  -4  data/processed/testdata1.asc 
-    999.50487	2941816	0.02121
-    999.52689	2547575	0.01782
-    999.90084	1347088	0.00892
-    999.99347	2578292	0.00277
+    999.50487   2941816 0.02121
+    999.52689   2547575 0.01782
+    999.90084   1347088 0.00892
+    999.99347   2578292 0.00277
     
     $tail  -4  data/processed/testdata2.asc 
-    999.50507	2794725.2	0.02121
-    999.52709	2343769	0.01782
-    999.90104	1225850.08	0.00892
-    999.99367	2552509.08	0.00277
+    999.50507   2794725.2   0.02121
+    999.52709   2343769     0.01782
+    999.90104   1225850.08  0.00892
+    999.99367   2552509.08  0.00277
 
 
 .. _step2-cache-creation:
@@ -321,7 +321,7 @@ For natural abundance compounds, use:
 
 .. code-block:: text
 
-    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
+    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat
 
 Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database.
 This file will be used for fast matching during analysis.
@@ -371,6 +371,129 @@ This data is used for:
 - Determining molecular isotope patterns
 - Computing Molecular abundances
 
+Computing Molecular abundances
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This guide explains how to calculate the relative abundance of a specific isotopologue in a molecule, accounting for both the fractional abundance of minor isotopes and their combinatorial placement within the molecule.
+
+**Key Concepts:**
+
+- **Isotopologue:** A molecule variant with specific isotopic composition.
+- **Fractional Abundance:** The ratio of a minor isotope's natural abundance to the most abundant isotope of that element.
+- **Combinatorial Factor:** The number of ways minor isotopes can be arranged within the molecule (binomial coefficient).
+- **Relative Abundance:** The final likelihood of observing this isotopologue in mass spectrometry.
+
+**Algorithm:**
+
+1. **Initialize** the relative abundance to 1.
+
+2. **For each isotope in the molecule**:
+   - If it is a *minor isotope* (not the most abundant isotope for its element):
+   
+     a. Compute the **abundance factor**:
+
+     .. math::
+
+        \text{abundance_factor} = \left(\frac{\text{isotope_abundance}}{\text{highest_abundance}}\right)^{\text{count}}
+
+     b. Compute the **combinatorial factor**:
+
+     .. math::
+
+        \text{combinatorial_factor} = \binom{\text{total_atoms_of_element}}{\text{count}}
+
+     c. Update the relative abundance:
+
+     .. math::
+
+        \text{relative_abundance} *= \text{abundance_factor} \times \text{combinatorial_factor}
+
+   - If it is the **major isotope** (most abundant), it does not affect the calculation (factor = 1).
+
+3. The **final relative abundance** is the product of all these factors.
+
+Why the Combinatorial Factor Matters:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The combinatorial factor represents how many different ways minor isotopes can be arranged within the molecule. This ensures the final calculated abundance accurately reflects the number of permutations of minor isotopes in real molecular structures. Without it, the predicted intensity of isotopologues in mass spectrometry would be underestimated.
+
+**Worked Example:**
+
+Let’s calculate the relative abundance for the isotopologue: [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2
+
+- **Carbon:** 21 atoms total (Nineteen [12]C and two [13]C)
+- **Hydrogen:** 28 atoms (Twenty-eight [1]H only)
+- **Nitrogen:** 7 atoms (Seven [14]N only)
+- **Oxygen:** 14 atoms total (Thirteen [16]O and one [17]O)
+- **Phosphorus:** 2 atoms (Two [31]P only)
+
+**Natural Abundances:**
+
+- 13C: 0.0107 (minor),  12C: 0.9893 (major)
+- 17O: 0.00038 (minor), 16O: 0.99757 (major)
+
+**Step 1: Calculate abundance factors**
+
+- For 13C:
+
+  .. math::
+
+     \left(\frac{0.0107}{0.9893}\right)^2 = (0.0108)^2 = 0.00011664
+
+- For 17O:
+
+  .. math::
+
+     \frac{0.00038}{0.99757} \approx 0.000381
+
+**Step 2: Calculate combinatorial factors**
+
+- For two [13]C atoms in 21 carbon positions:
+
+  .. math::
+
+     \binom{21}{2} = \frac{21 \times 20}{2} = 210
+
+- For one [17]O atom in 14 oxygen positions:
+
+  .. math::
+
+     \binom{14}{1} = 14
+
+**Step 3: Compute contributions**
+
+- **Carbon contribution:**
+
+  .. math::
+
+     0.00011664 \times 210 = 0.0244944
+
+- **Oxygen contribution:**
+
+  .. math::
+
+     0.000381 \times 14 = 0.005334
+
+**Step 4: Compute final relative abundance**
+
+- **Final relative abundance:**
+
+  .. math::
+
+     0.0244944 \times 0.005334 = 0.0001306
+
+Thus, the **relative abundance** of the isotopologue **[12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2** is approximately **0.00013**.
+
+**Key Takeaway:**
+
+The **final relative abundance** is the product of:
+
+1. The fractional abundance of minor isotopes (adjusted by their count),
+2. The number of permutations of these minor isotopes in the molecule (combinatorial factor).
+
+This ensures the predicted isotopologue peak intensities match experimental observations in mass spectrometry data.
+
+
+
 .. _label-option:
 
 The --label Option for Stable Isotope Labeling
@@ -415,7 +538,7 @@ Example: For 95% 13C labeling, you can use the provided configuration file at `C
 
 For C13-95% labeled compounds, create a cache with the isotope configuration::
 
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13_95
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/C13_95
 
 Expected Output: A cache file with isotope patterns adjusted for C13-95% labeling. 
 
@@ -428,21 +551,21 @@ Verify Cache
 
 Before proceeding with analysis, it's good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly::
 
-    mimi_cache_dump outdir/db_nat.pkl -n 2 -i 2
+    mimi_cache_dump outdir/nat.pkl -n 2 -i 2
 
 Example output::
 
-    $ mimi_cache_dump outdir/db_nat.pkl -n 2 -i 2
+    $ mimi_cache_dump outdir/nat.pkl -n 2 -i 2
     # Cache Metadata:
     # Creation Date: 2025-06-03T14:47:08
     # MIMI Version: 1.0.0
 
     # Creation Parameters:
-    # Full Command: /Users/aaa/anaconda3/envs/v_mimi/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
+    # Full Command: /Users/aaa/anaconda3/envs/v_mimi/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat
     # Ionization Mode: neg
     # Labeled Atoms File: None
     # Compound DB Files: data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
-    # Cache Output File: outdir/db_nat.pkl
+    # Cache Output File: outdir/nat.pkl
     # Isotope Data File: mimi/data/natural_isotope_abundance_NIST.json
 
     ============================================================
@@ -550,21 +673,22 @@ MIMI accepts mass spectrometry data in .asc format. Each line contains three col
 Example input file (data/processed/testdata1.asc)::
 
     $ head -4 data/processed/testdata1.asc 
-    43.16184	1089317	0.00003
+    43.16184	1089317 0.00003
     43.28766	1115802	0.00003
     43.28946	1226947	0.00003
     43.30269	1107425	0.00005
 
-Now you're ready to analyze your mass spectrometry data. The analysis command matches your sample masses against the precomputed database and verifies matches using isotope patterns::
+Now you're ready to analyze your mass spectrometry data. The analysis command matches your sample masses against the precomputed database and verifies matches using isotope patterns
 
 .. code-block:: text
 
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/db_nat outdir/db_C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+
+    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 
 Key parameters:
 
-- `-p 1.0`: Mass matching tolerance (1 ppm) - controls how close the observed mass needs to be to the theoretical mass
-- `-vp 1.0`: Isotope pattern verification tolerance (1 ppm) - controls how well the isotope pattern must match
+- `-p 0.5`: Mass matching tolerance (0.5 ppm) - controls how close the observed mass needs to be to the theoretical mass
+- `-vp 0.5`: Isotope pattern verification tolerance (0.5 ppm) - controls how well the isotope pattern must match
 - `-c`: Cache files to use (can specify multiple for comparing natural and labeled patterns)
 - `-s`: Sample file to analyze (in .asc format)
 - `-o`: Output file for results
@@ -584,10 +708,10 @@ The PPM threshold affects match precision and reliability:
 Example::
 
     # High confidence analysis
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/db_nat -s data/processed/testdata2.asc -o outdir/results_excellent.tsv
+    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_excellent.tsv
 
     # Standard confidence analysis
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata2.asc -o outdir/results_good.tsv
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_good.tsv
 
 .. _multiple-cache-analysis:
 
@@ -596,7 +720,7 @@ Multiple Cache Analysis
 
 You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns::
 
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/db_nat outdir/db_C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 
 
 
@@ -607,7 +731,7 @@ Batch Processing
 
 MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions::
 
-    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/db_nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
+    mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
 
 
 
@@ -627,8 +751,8 @@ The output TSV file contains these columns:
 - **O**: Number of oxygen atoms
 - **P**: Number of phosphorus atoms
 - **S**: Number of sulfur atoms
-- **db_nat**: Calculated mass for natural abundance(User specified)
-- **db_C13_95**: Calculated mass for C13-labeled (User specified)
+- **nat**: Calculated mass for natural abundance(User specified)
+- **C13_95**: Calculated mass for C13-labeled (User specified)
 - **mass_measured**: Observed mass in the sample
 - **error_ppm**: Parts per million difference between calculated and observed mass
 - **intensity**: Signal intensity in the sample
@@ -636,13 +760,13 @@ The output TSV file contains these columns:
 
 Example output file::
 
-    $mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/db_nat outdir/db_C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+    $mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 
     (head -4 outdir/results.tsv; cat   outdir/results.tsv | grep -A6  C00147)
     Log file	/Users/aaa/test/log/results_20250603_145131.log
                                                                                                             data/processed/testdata2.asc							
-                                                                                                            db_nat                                                               db_C13_95			
-    CF         ID       Name               C   H   N   O   P   S   db_nat_mass         db_C13_95_mass       mass_measured       error_ppm               intensity    iso_count   mass_measured   error_ppm               intensity        iso_count
+                                                                                                            nat                                                                  C13_95			
+    CF         ID       Name               C   H   N   O   P   S   nat_mass            C13_95_mass          mass_measured       error_ppm               intensity    iso_count   mass_measured   error_ppm               intensity        iso_count
     C5H5N5     C00147   Adenine            5   5   5   0   0   0   134.0472187163      139.06399291629998   134.04722           -0.009576476318665454   10030305.6   2           139.06396       0.2366989418442906      143680406.4      4
     C5H9NO2    C00148   L-Proline          5   9   1   2   0   0   114.05605206664     119.07282626664002   114.05601           0.36882426880317554     18852508.02  3           119.0728        0.220593067653808       72633081.84      3
     C4H6O5     C00149   (S)-Malate         4   6   0   5   0   0   133.01424682422999  137.02766618423      133.01424           0.05130450419853602     4229908.65   2           137.02769       -0.1738026391616008     2550057.38       1
@@ -677,8 +801,8 @@ The comprehensive run script (`run.sh`) performs the following steps:
 
    - Creates two cache files:
 
-     * Natural abundance cache (`db_nat.pkl`)
-     * C13-95% labeled cache (`db_C13_95.pkl`)
+     * Natural abundance cache (`nat.pkl`)
+     * C13-95% labeled cache (`C13_95.pkl`)
 
    - Uses the test database and C13-95% labeling configuration
 
@@ -723,11 +847,11 @@ The script content::
 
 
     # Create cache files in outdir and check for success
-    mimi_cache_create  -i neg   -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_nat"
-    mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/db_C13_95"
+    mimi_cache_create  -i neg   -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/nat"
+    mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/C13_95"
 
 
-    if [ ! -f "$outdir/db_nat.pkl" ] || [ ! -f "$outdir/db_C13_95.pkl" ]; then
+    if [ ! -f "$outdir/nat.pkl" ] || [ ! -f "$outdir/C13_95.pkl" ]; then
         echo "Error: Failed to create cache files"
         exit 1
     fi
@@ -746,14 +870,14 @@ The script content::
         # Analysis for top graph (fixed vp=0.5, varying p)
         for p in "${p_values[@]}"; do
             p_str=$(echo $p | tr -d '.')
-            mimi_mass_analysis -p $p -vp 0.5 -c "$outdir/db_nat" "$outdir/db_C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p${p_str}_vp05_combined.tsv"
+            mimi_mass_analysis -p $p -vp 0.5 -c "$outdir/nat" "$outdir/C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p${p_str}_vp05_combined.tsv"
         done
         
         # Analysis for bottom graph (fixed p=0.5, varying vp)
         for vp in "${vp_values[@]}"; do
             # Format vp value without underscore, just remove the dot
             vp_str=$(echo $vp | tr -d '.')
-            mimi_mass_analysis -p 0.5 -vp $vp -c "$outdir/db_nat" "$outdir/db_C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv"
+            mimi_mass_analysis -p 0.5 -vp $vp -c "$outdir/nat" "$outdir/C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv"
         done
     done
 
@@ -847,15 +971,15 @@ Here's a complete example from start to finish:
 2. Create both natural abundance and C13-95% labeled caches::
 
     # Natural abundance
-    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
+    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat
 
     # C13-95% labeled
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13_95
+    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/C13_95
 
 3. Verify the cache contents to ensure everything was processed correctly::
 
-    mimi_cache_dump outdir/db_nat.pkl -n 2 -i 2
+    mimi_cache_dump outdir/nat.pkl -n 2 -i 2
 
 4. Finally, analyze your sample using both caches::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv 
+    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv 
