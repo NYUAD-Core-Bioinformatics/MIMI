@@ -49,7 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Workflow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#basic-workflow-overview">Basic Workflow Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-overview">Basic Overview</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#database-preparation">1. Database Preparation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cache-creation">2. Cache Creation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sample-analysis">3. Sample Analysis</a></li>
@@ -116,7 +116,7 @@
              
   <section id="workflow">
 <h1>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline"></a></h1>
-<p>MIMI is a tool for analyzing mass spectrometry data. It helps identify compounds by matching observed masses against known compounds and verifying their isotope patterns.</p>
+<p>MIMI is a tool that identifies small molecules present in mass spectrometry datasets by matching observed peaks against theoretical masses of known compounds and and verifies the assigments using fine-structure isotope patterns.</p>
 <section id="installation">
 <span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
 <p>MIMI can be installed using conda, which is the recommended method as it handles all dependencies automatically:</p>
@@ -129,20 +129,31 @@ $ cd MIMI
 $ pip install .
 </pre></div>
 </div>
+<p>MIMI has the following requirements and dependencies:</p>
+<ul class="simple">
+<li><p>Python v3 or above</p></li>
+<li><p>numpy</p></li>
+<li><p>pandas</p></li>
+<li><p>json5</p></li>
+<li><p>urllib3</p></li>
+<li><p>tqdm</p></li>
+<li><p>requests</p></li>
+</ul>
 </section>
-<section id="basic-workflow-overview">
-<h2>Basic Workflow Overview<a class="headerlink" href="#basic-workflow-overview" title="Permalink to this headline"></a></h2>
-<p>MIMI’s analysis involves three steps:</p>
+<section id="basic-overview">
+<h2>Basic Overview<a class="headerlink" href="#basic-overview" title="Permalink to this headline"></a></h2>
+<p>A full MIMI analysis involves three steps:</p>
 <section id="database-preparation">
 <h3>1. Database Preparation<a class="headerlink" href="#database-preparation" title="Permalink to this headline"></a></h3>
-<p>Choose a reference compound database and prepare a database file for input to MIMI.</p>
+<p>Choose a reference compound database and prepare a tab-delimited database file for input to MIMI.</p>
 <ul class="simple">
-<li><p>Database lists are provided in TSV format</p></li>
-<li><p>Minimally, input files must contain three columns with the following headers: CF (chemical formula), ID (Compound ID), and Name (human-readable name)</p></li>
+<li><p>Minimally, must contain three columns with these headers: CF (chemical formula), ID (compound ID), and Name (compound name)</p></li>
+</ul>
+<ul class="simple">
 <li><dl class="simple">
-<dt>Select from KEGG, HMDB, or other publicly available data sources, or create a custom database with specific compounds of interest</dt><dd><ul>
-<li><p>For KEGG and HMDB, use a helper script included with the MIMI package to extract compounds by ID or filtered by mass range</p></li>
-<li><p>Or, use the commandline tool provided here to auto-generate pseudo-IDs for custom metabolite lists (if no IDs are available)</p></li>
+<dt>Select from KEGG, HMDB, or other publicly available sources, or create a custom database with specific compounds of interest</dt><dd><ul>
+<li><p>For KEGG and HMDB, use a MIMI helper script to extract compounds by ID or filtered by mass range</p></li>
+<li><p>For custom metabolite lists, use the commandline tool provided here to generate pseudo-IDs for compounds with no IDs</p></li>
 </ul>
 </dd>
 </dl>
@@ -156,6 +167,8 @@ $ pip install .
 <ul class="simple">
 <li><p>Cache creation is essential for MIMI analysis and improves run time performance</p></li>
 <li><p>A separate cache is needed for each combination of database and atomic isotope ratios (natural abundance or labeled)</p></li>
+</ul>
+<ul class="simple">
 <li><p>Cache contents can be inspected using <cite>mimi_cache_dump</cite> to ensure everything was processed correctly</p></li>
 </ul>
 <p>See for more details: <a class="reference internal" href="#step2-cache-creation"><span class="std std-ref">Step2: Cache Creation</span></a>, <a class="reference internal" href="#ppm-thresholds"><span class="std std-ref">PPM Thresholds</span></a>, <a class="reference internal" href="#isotope-configuration"><span class="std std-ref">Isotope Configuration</span></a>, <a class="reference internal" href="#verify-cache"><span class="std std-ref">Verify Cache</span></a></p>
@@ -185,7 +198,7 @@ $ pip install .
 <ul class="simple">
 <li><p>Comprehensive compound coverage</p></li>
 <li><p>Integrated pathway information</p></li>
-<li><p>Access via <a class="reference external" href="https://www.kegg.jp/kegg/rest/keggapi.html">REST API</a></p></li>
+<li><p>Access via <cite>REST API &lt;https://www.kegg.jp/kegg/rest/keggapi.html&gt;</cite></p></li>
 <li><p>Suitable for broad metabolomics studies</p></li>
 </ul>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_kegg_extract --help
@@ -210,12 +223,16 @@ options:
 <ol class="arabic simple" start="2">
 <li><p><strong>HMDB Database</strong>: Optimal for human studies</p></li>
 </ol>
+<p>The <a class="reference external" href="https://hmdb.ca/">Human Metabolome Database</a> (HMDB) is a freely available electronic database containing detailed information about small molecule metabolites found in the human body.</p>
 <ul class="simple">
 <li><p>Human-specific metabolites</p></li>
-<li><p>Detailed metabolite annotations</p></li>
-<li><p>Requires <a class="reference external" href="https://hmdb.ca/downloads">HMDB</a> XML file</p></li>
 <li><p>Best for clinical and biomedical research</p></li>
+<li><p>Detailed metabolite annotations</p></li>
 </ul>
+<dl class="simple">
+<dt>Description:</dt><dd><p>This tool extracts data from an XML file downloaded from the <a class="reference external" href="https://hmdb.ca/downloads">HMDB</a> and converts it to a TSV format that can be used with MIMI. It can filter metabolites by molecular weight range and validates chemical formulas to ensure compatibility with MIMI’s formula parser.</p>
+</dd>
+</dl>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_hmdb_extract --help
 usage: mimi_hmdb_extract [-h] -x XML [-l MIN_MASS] [-u MAX_MASS] [-o OUTPUT]
 
@@ -233,14 +250,13 @@ options:
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p><strong>Custom Database</strong>: Create your own when</p></li>
+<li><p><strong>Custom Database</strong>: Create your own list of compounds.</p></li>
 </ol>
-<ul class="simple">
-<li><p>Working with novel compounds</p></li>
-<li><p>Focusing on specific compounds of interest</p></li>
-<li><p>Combining multiple data sources</p></li>
-</ul>
-<p>If you have a list of compounds without standardized identifiers, you can generate custom IDs and add them to your TSV file.</p>
+<p>Useful for:
+- Working with novel compounds
+- Focusing on specific compounds of interest
+- Combining multiple data sources</p>
+<p>MIMI relies on the unique identifiers in the “ID” column of a database file for its analysis. If you have a list of compounds without standard identifiers, and you know (or suspect) the chemical formulas for them, you may use the commandline template provided here to automatically generate and add custom IDs to your list. Any custom database file must already contain CF and Name columns for your compounds (names are optional).</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ head data/processed/customDB.tsv
 CF              Name
 C21H28N7O14P2   NAD+
@@ -254,12 +270,11 @@ C23H38N7O17P3S  Acetyl-CoA
 C34H32FeN4O4    Heme
 </pre></div>
 </div>
-<p>The following command adds custom IDs to the TSV file by combining a timestamp with row numbers.
-It reads from customDB.tsv and writes to customDBwithID.tsv, both located in the data/processed directory.</p>
+<p>The following command reads from <cite>customDB.tsv</cite>, adds custom IDs to the TSV file by combining a timestamp with row numbers, and writes to <cite>customDBwithID.tsv</cite>, both located in the data/processed directory.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ timestamp=$(date +&quot;%Y%m%d%H%M%S&quot;); awk -v ts=&quot;$timestamp&quot; &#39;BEGIN {OFS=&quot;\t&quot;} NR==1 {print $1, &quot;ID&quot;, $2} NR&gt;1 {printf &quot;%s\tMIMI_%s_%04d\t%s\n&quot;, $1, ts, NR-1, $2}&#39; data/processed/customDB.tsv | sed &#39;s/\r//&#39; &gt; data/processed/customDBwithID.tsv
 </pre></div>
 </div>
-<p>The output file (customDBwithID.tsv) contains the original chemical formula (CF) and compound name, with an additional ID column.
+<p>The output file (<cite>customDBwithID.tsv</cite>) contains the original chemical formula (CF) and compound name, with an additional ID column.
 Each ID is prefixed with <cite>MIMI_</cite> followed by a timestamp and a sequential number, ensuring unique identifiers for each compound.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ head data/processed/customDBwithID.tsv
 CF              ID                          Name
