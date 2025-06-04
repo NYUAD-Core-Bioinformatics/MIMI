@@ -105,10 +105,10 @@ Creates precomputed cache files containing molecular mass data and isotope patte
 .. code-block:: text
 
     # Create natural abundance cache
-    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_nat
+    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat
 
     # Create C13-95% labeled cache
-    $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/db_C13_95
+    $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/C13_95
 
 mimi_cache_dump
 ---------------
@@ -140,7 +140,7 @@ Dumps the contents of a MIMI cache file to a human-readable TSV format. Useful f
 .. code-block:: text
 
     # Dump first 5 compounds with 2 isotopes each
-    $ mimi_cache_dump -n 5 -i 2 outdir/db_nat.pkl -o outdir/cache_contents.tsv
+    $ mimi_cache_dump -n 5 -i 2 outdir/nat.pkl -o outdir/cache_contents.tsv
 
 mimi_mass_analysis
 ------------------
@@ -172,8 +172,8 @@ Analyzes mass spectrometry data by comparing sample masses against precomputed m
 .. code-block:: text
 
     # Analyze single sample with natural abundance cache
-    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat -s data/processed/testdata1.asc -o outdir/results.tsv
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata1.asc -o outdir/results.tsv
 
     # Analyze multiple samples with multiple caches
-    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_13C -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat outdir/C13_95 -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
                   
