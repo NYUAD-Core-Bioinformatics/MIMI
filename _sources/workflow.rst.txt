@@ -20,49 +20,52 @@ Alternatively, you can install from source if you need the latest development ve
 
 
 
-Basic Workflow
---------------
+Basic Workflow Overview
+-----------------------
 
 MIMI's analysis involves three steps:
-
 
 
 1. Database Preparation
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Choose and prepare a compound database from KEGG, HMDB, or create a custom one
-* Filter compounds by mass range using -l (lower limit) and -u (upper limit) parameters
-* The output is a TSV file containing compounds with their chemical formulas(CF), Compound IDs(ID), and names(Name)
-* You can also create a custom database with specific compounds of interest
+Choose a reference compound database and prepare a database file for input to MIMI.
+
+* Database lists are provided in TSV format
+* Minimally, input files must contain three columns with the following headers: CF (chemical formula), ID (Compound ID), and Name (human-readable name)
+* Select from KEGG, HMDB, or other publicly available data sources, or create a custom database with specific compounds of interest
+    - For KEGG and HMDB, use a helper script included with the MIMI package to extract compounds by ID or filtered by mass range
+    - Or, use the commandline tool provided here to auto-generate pseudo-IDs for custom metabolite lists (if no IDs are available)
 
 See for more details: :ref:`database-preparation`, :ref:`database-sources`, :ref:`mass-range-filtering`, :ref:`database-preparation-example`
-
 
 
 2. Cache Creation
 ~~~~~~~~~~~~~~~~~~
 
-* This step precomputes molecular masses and isotope patterns for all compounds in your database
-* You can create caches for different isotope configurations (natural abundance or labeled)
-* The cache creation is essential for fast analysis performance
-* You can specify tolerance levels for both mass matching (-p) and isotope pattern verification (-vp)
-* You can verify the cache contents using `mimi_cache_dump` to ensure everything was processed correctly
+Generate precomputed molecular masses and fine-structure isotope patterns for all compounds in your database.
+
+* Cache creation is essential for MIMI analysis and improves run time performance
+* A separate cache is needed for each combination of database and atomic isotope ratios (natural abundance or labeled)
+* Cache contents can be inspected using `mimi_cache_dump` to ensure everything was processed correctly
 
 See for more details: :ref:`step2-cache-creation`, :ref:`ppm-thresholds`, :ref:`isotope-configuration`, :ref:`verify-cache`
-
 
 
 3. Sample Analysis
 ~~~~~~~~~~~~~~~~~~~
 
-- This step matches your mass spectrometry data against the precomputed database
-- You can analyze samples in `.asc` format, which should contain mass, intensity, and resolution columns
-- The analysis process includes both mass matching and isotope pattern verification
-- Multiple cache files can be specified for comparative or labeled analyses
+Compare mass spectrometry data against precomputed molecular masses for a reference compound database.
+
+- Analyze peak lists in `.asc` format, which should contain mass, intensity, and resolution columns
+- Find peak matches for monoisotopic mass and molecular variants for fine-structure isotope patterns
+- Simultaneously analyze multiple cache and sample files to identify metabolites with different isotope abundances
 - The output is a TSV file containing detailed information about all matched compounds
-- For convenience, a provided script allows you to run comprehensive analysis across multiple cache files and sample files, testing different PPM thresholds automatically
+- Explore the effect of different error thresholds for both mass matching (-p) and isotope pattern verification (-vp) using the script template provided here
+- Use the script template provided here to plot the number of metabolites and molecular variants identified using different error thresholds
 
 See for more details: :ref:`step3-sample-analysis`, :ref:`input-file-format`, :ref:`multiple-cache-analysis`, :ref:`batch-processing`, :ref:`results-format`, :ref:`comprehensive-analysis-runs`
+
 
 .. _database-preparation:
 
