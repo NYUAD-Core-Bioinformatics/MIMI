@@ -1,7 +1,10 @@
-# MIMI
-Molecular Isotope Mass Identifier
+# MIMI: Molecular Isotope Mass Identifier
 
-MIMI (Molecular Isotope Mass Identifier) is a powerful tool for analyzing isotope-labeled FT-ICR mass spectrometry data, developed by the CGSB Lab at New York University Abu Dhabi. It helps identify compounds by matching observed masses against known compounds and verifying their isotope patterns.
+***MIMI is a powerful tool for analyzing ultra-high-resolution Fourier Transform Ion Cyclotron Resonance (UHR-FT-ICR) mass spectrometry data.***
+
+MIMI identifies chemical formulas for signals in mass spectra by matching the masses of observed peaks with theoretical masses of known compounds and then verifies the initial molecular assignments by searching for isotopic fine-structure patterns. MIMI can perform peak matching using either natural isotope ratios and/or labeled isotopes using tunable mass error thresholds and can analyze multiple MS datasets in batch. This flexibility facilitates the identification of molecules across multiple samples with labeled spike-ins and experiments with multiple replicates, treatment groups, or time series data. 
+
+MIMI was developed in the [**Center for Genomics and Systems Biology (CGSB)**](https://nyuad.nyu.edu/en/research/faculty-labs-and-projects/nyuad-cgsb.html) at [**New York University Abu Dhabi (NYUAD)**](http://nyuad.nyu.edu/). For detailed documentation, please visit the [**MIMI Website**](https://corebioinf.abudhabi.nyu.edu/MIMI/index.html).
 
 ## Features
 
@@ -79,7 +82,7 @@ Results are provided in TSV format with detailed information including:
 - Isotope count
 
 ## Documentation
-For detailed documentation and advanced usage, please visit our [official documentation](https://corebioinf.abudhabi.nyu.edu/MIMI/index.html).
+For detailed documentation and advanced usage, please visit the [**MIMI Website**](https://corebioinf.abudhabi.nyu.edu/MIMI/index.html).
 
 ## License
 Copyright 2025 New York University. All Rights Reserved.
@@ -93,7 +96,7 @@ Email: innovationscontracts@nyulangone.org
 
 ## Citation
 If you use MIMI in your research, please cite:
-[Add citation information here]
+[N. Rahiman, M. Ochsenkuen, S.A. Amin, and K.C. Gunsalus. BioRXiV 2025]
 
-## Support
-For issues and feature requests, please visit our [GitHub repository](https://github.com/NYUAD-Core-Bioinformatics/MIMI).
+## Source Code
+The MIMI code base and helper scripts are available from the [**MIMI GitHub repository**](https://github.com/NYUAD-Core-Bioinformatics/MIMI). For questions, issues and feature requests, please use the [Github feedback system].
