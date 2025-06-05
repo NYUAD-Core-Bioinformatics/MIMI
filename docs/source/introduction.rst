@@ -1,5 +1,5 @@
-About MIMU
-============
+About MIMI
+==========
 
 MIMI (Molecular Isotope Mass Identifier) is a command-line tool to identify molecular formulas for chemical compounds present in complex samples using data from Ultra High Resolution Fourier Transform Ion Cyclotron Resonance (UHR-FT-ICR) mass spectrometry (MS). 
 
