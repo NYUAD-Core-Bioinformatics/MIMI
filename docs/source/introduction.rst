@@ -1,8 +1,6 @@
-Introduction
+About MIMU
 ============
 
-About MIMI
-----------
 MIMI (Molecular Isotope Mass Identifier) is a command-line tool to identify molecular formulas for chemical compounds present in complex samples using data from Ultra High Resolution Fourier Transform Ion Cyclotron Resonance (UHR-FT-ICR) mass spectrometry (MS). 
 
 To accelerate and streamline the analysis of complex mixtures of small molecules -- such as metabolite 
@@ -20,3 +18,14 @@ Key Features
 - **Database Integration**: Supports auto-generation of compound lists from HMDB and KEGG databases
 - **Customizable Isotope Ratios**: Easily accommodates different user-defined isotopic labeling ratios
 - **Command-line Utility**: Simple command-line interface for rapid characterization of complex mixtures 
+
+License
+-------
+MIMI is distributed under an NYU Non-Commercial Research License.
+See :doc:`license` for more information.
+
+Report Issues
+-------------
+Please use `GitHub Issues <https://github.com/NYUAD-Core-Bioinformatics/MIMI/issues>`_
+to report bugs, request help using MIMI, or to make feature requests.
+
