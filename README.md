@@ -29,10 +29,12 @@ cd MIMI
 pip install .
 ```
 
-## Basic Workflow
+## QuickStart
 
 ### 1. Prepare Compound Database
-Extract compounds from KEGG or HMDB within your desired mass range:
+
+Extract compounds from KEGG or HMDB within a desired mass range:
+
 ```bash
 # From KEGG
 mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds.tsv
@@ -41,45 +43,59 @@ mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds.tsv
 mimi_hmdb_extract -l 40 -u 1000 -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds.tsv
 ```
 
+_Compound DB files will contain CF (chemical formula), ID (identifier), and Name (human-readable names) column headers. Example:_
+
+```
+CF              ID      Name
+C8H14N2O2       C07841  Levetiracetam
+C17H22O5        C09536  Pyrethrosin
+C6H14           C11271  n-Hexane
+C14H16ClN3O4S2  C12685  Cyclothiazide
+C10H6O2         C14783  1,2-Naphthoquinone
+```
+
 ### 2. Create Cache Files
-Generate cache files for natural abundance and labeled compounds:
+
+Generate cache files for natural abundance or stable isotope-labeled compounds:
+
 ```bash
 # Natural abundance
 mimi_cache_create -i neg -d data/processed/kegg_compounds.tsv -c outdir/db_nat
 
-# C13-labeled (requires isotope configuration file)
+# 95% C13-labeled (requires isotope configuration file)
 mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds.tsv -c outdir/db_C13
 ```
 
+*MIMI provides flexibility to analyze samples based on theoretical masses of molecules for natural isotope ratios and/or isotope-labeled molecules (especially useful for samples with isotope-labeled spike-in standards).*
+
 ### 3. Analyze Samples
+
 Process your mass spectrometry data:
 ```bash
 mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/db_nat outdir/db_C13 -s data/processed/sample.asc -o outdir/results.tsv
 ```
 
-## Input Format
-MIMI accepts mass spectrometry data in .asc format with three columns:
-- Mass (m/z)
-- Intensity
-- Resolution
+**Input:** MIMI accepts MS peak lists with three columns: Mass (m/z), Intensity, and Resolution. Example:
 
-Example:
 ```
 43.16184    1089317    0.00003
 43.28766    1115802    0.00003
 43.28946    1226947    0.00003
 ```
 
-## Output Format
-Results are provided in TSV format with detailed information including:
+**Output:** Results are provided as a tab-delimited file with the following detailed information:
+
 - Chemical formula (CF)
 - Compound ID
 - Name
 - Atomic composition
-- Calculated and measured masses
+- Theoretical monoisotopic masses
+- Measured masses
 - Error (ppm)
 - Intensity
 - Isotope count
+
+*Multiple datasets may be analyzed at the same time, and each sample can be compared against theoretical masses for different isotope abundance ratios. Results for samples analyzed together will be presented side-by-side for easy comparison.*
 
 ## Documentation
 For detailed documentation and advanced usage, please visit the [**MIMI Website**](https://corebioinf.abudhabi.nyu.edu/MIMI/index.html).
