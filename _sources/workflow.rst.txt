@@ -37,13 +37,14 @@ A full MIMI analysis involves three steps:
 1. Database Preparation
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-_**Choose a reference compound database and prepare a database file for input to MIMI.**_
+**Choose a reference compound database and prepare a database file for input to MIMI.**
 
-* Prepare an input file in TSV format containing at least three column headers: CF (chemical formula), ID (compound ID), and Name (compound name)
-* Select from KEGG, HMDB, or other publicly available sources, or create a custom database with specific compounds of interest
+Prepare an input file in TSV format containing at least three column headers: CF (chemical formula), ID (compound ID), and Name (compound name)
 
-    - For KEGG and HMDB, use a MIMI helper script to extract compounds by ID or filtered by mass range
-    - For custom metabolite lists, use the commandline tool provided here to generate pseudo-IDs for compounds with no IDs
+Select from KEGG, HMDB, or other publicly available sources, or create a custom database with specific compounds of interest
+
+- For KEGG and HMDB, use a MIMI helper script to extract compounds by ID or filtered by mass range
+- For custom metabolite lists, use the commandline tool provided here to generate pseudo-IDs for compounds with no IDs
 
 For details, jump to: 
 :ref:`database-preparation`, :ref:`database-sources`, :ref:`mass-range-filtering`, :ref:`database-preparation-example`
@@ -52,7 +53,7 @@ For details, jump to:
 2. Cache Creation
 ~~~~~~~~~~~~~~~~~~
 
-_**Generate precomputed molecular masses and fine-structure isotope patterns against reference compounds.**_
+**Generate precomputed molecular masses and fine-structure isotope patterns against reference compounds.**
 
 * Cache creation is essential for MIMI analysis and improves run time performance
 * A separate cache is needed for each combination of database and atomic isotope ratios (natural abundance or labeled)
@@ -65,7 +66,7 @@ For details, jump to:
 3. Sample Analysis
 ~~~~~~~~~~~~~~~~~~~
 
-_**Compare MS data against precomputed molecular masses of reference compounds with natural or non-natural atomic isotope ratios.**_
+**Compare MS data against precomputed molecular masses of reference compounds with natural or non-natural atomic isotope ratios.**
 
 - Analyze UHR-FT-ICR peak lists with measured mass, intensity, and resolution
 - Find peak matches for monoisotopic mass and molecular variants for fine-structure isotope patterns
@@ -103,7 +104,7 @@ Database Sources
   - Suitable for broad metabolomics studies
 
   Usage:
-    The `mimi_hmdb_extract` tool automatically extracts data from the `KEGG COMPOUND database <https://www.genome.jp/kegg/compound/>`_, a catalog of biological metabolites, biopolymers, and other small molecules and chemicals, using its `REST API <https://www.kegg.jp/kegg/rest/keggapi.html>`. It can filter metabolites by molecular weight range and validates chemical formulas to ensure compatibility with MIMI's formula parser. 
+    The `mimi_hmdb_extract` tool automatically extracts data from the `KEGG COMPOUND database <https://www.genome.jp/kegg/compound/>`_, a catalog of biological metabolites, biopolymers, and other small molecules and chemicals, using its `REST API <https://www.kegg.jp/kegg/rest/keggapi.html>`_. It can filter metabolites by molecular weight range and validates chemical formulas to ensure compatibility with MIMI's formula parser. 
 
 .. code-block:: text
 

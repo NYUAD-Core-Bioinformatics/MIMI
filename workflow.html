@@ -145,24 +145,19 @@ $ pip install .
 <p>A full MIMI analysis involves three steps:</p>
 <section id="database-preparation">
 <h3>1. Database Preparation<a class="headerlink" href="#database-preparation" title="Permalink to this headline"></a></h3>
-<p>_**Choose a reference compound database and prepare a database file for input to MIMI.**_</p>
-<ul>
-<li><p>Prepare an input file in TSV format containing at least three column headers: CF (chemical formula), ID (compound ID), and Name (compound name)</p></li>
-<li><p>Select from KEGG, HMDB, or other publicly available sources, or create a custom database with specific compounds of interest</p>
-<blockquote>
-<div><ul class="simple">
+<p><strong>Choose a reference compound database and prepare a database file for input to MIMI.</strong></p>
+<p>Prepare an input file in TSV format containing at least three column headers: CF (chemical formula), ID (compound ID), and Name (compound name)</p>
+<p>Select from KEGG, HMDB, or other publicly available sources, or create a custom database with specific compounds of interest</p>
+<ul class="simple">
 <li><p>For KEGG and HMDB, use a MIMI helper script to extract compounds by ID or filtered by mass range</p></li>
 <li><p>For custom metabolite lists, use the commandline tool provided here to generate pseudo-IDs for compounds with no IDs</p></li>
-</ul>
-</div></blockquote>
-</li>
 </ul>
 <p>For details, jump to:
 <a class="reference internal" href="#id2"><span class="std std-ref">Step1: Database Preparation</span></a>, <a class="reference internal" href="#database-sources"><span class="std std-ref">Database Sources</span></a>, <a class="reference internal" href="#mass-range-filtering"><span class="std std-ref">Mass Range Filtering</span></a>, <a class="reference internal" href="#database-preparation-example"><span class="std std-ref">Database Preparation Example</span></a></p>
 </section>
 <section id="cache-creation">
 <h3>2. Cache Creation<a class="headerlink" href="#cache-creation" title="Permalink to this headline"></a></h3>
-<p>_**Generate precomputed molecular masses and fine-structure isotope patterns against reference compounds.**_</p>
+<p><strong>Generate precomputed molecular masses and fine-structure isotope patterns against reference compounds.</strong></p>
 <ul class="simple">
 <li><p>Cache creation is essential for MIMI analysis and improves run time performance</p></li>
 <li><p>A separate cache is needed for each combination of database and atomic isotope ratios (natural abundance or labeled)</p></li>
@@ -173,7 +168,7 @@ $ pip install .
 </section>
 <section id="sample-analysis">
 <h3>3. Sample Analysis<a class="headerlink" href="#sample-analysis" title="Permalink to this headline"></a></h3>
-<p>_**Compare MS data against precomputed molecular masses of reference compounds with natural or non-natural atomic isotope ratios.**_</p>
+<p><strong>Compare MS data against precomputed molecular masses of reference compounds with natural or non-natural atomic isotope ratios.</strong></p>
 <ul class="simple">
 <li><p>Analyze UHR-FT-ICR peak lists with measured mass, intensity, and resolution</p></li>
 <li><p>Find peak matches for monoisotopic mass and molecular variants for fine-structure isotope patterns</p></li>
@@ -206,7 +201,7 @@ $ pip install .
 <li><p>Suitable for broad metabolomics studies</p></li>
 </ul>
 <dl class="simple">
-<dt>Usage:</dt><dd><p>The <cite>mimi_hmdb_extract</cite> tool automatically extracts data from the <a class="reference external" href="https://www.genome.jp/kegg/compound/">KEGG COMPOUND database</a>, a catalog of biological metabolites, biopolymers, and other small molecules and chemicals, using its <cite>REST API &lt;https://www.kegg.jp/kegg/rest/keggapi.html&gt;</cite>. It can filter metabolites by molecular weight range and validates chemical formulas to ensure compatibility with MIMI’s formula parser.</p>
+<dt>Usage:</dt><dd><p>The <cite>mimi_hmdb_extract</cite> tool automatically extracts data from the <a class="reference external" href="https://www.genome.jp/kegg/compound/">KEGG COMPOUND database</a>, a catalog of biological metabolites, biopolymers, and other small molecules and chemicals, using its <a class="reference external" href="https://www.kegg.jp/kegg/rest/keggapi.html">REST API</a>. It can filter metabolites by molecular weight range and validates chemical formulas to ensure compatibility with MIMI’s formula parser.</p>
 </dd>
 </dl>
 </div></blockquote>
