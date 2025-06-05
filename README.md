@@ -115,4 +115,4 @@ If you use MIMI in your research, please cite:
 [N. Rahiman, M. Ochsenkuen, S.A. Amin, and K.C. Gunsalus. BioRXiV 2025]
 
 ## Source Code
-The MIMI code base and helper scripts are available from the [**MIMI GitHub repository**](https://github.com/NYUAD-Core-Bioinformatics/MIMI). For questions, issues and feature requests, please use the [Github feedback system].
+The MIMI code base and helper scripts are available from the [**MIMI GitHub repository**](https://github.com/NYUAD-Core-Bioinformatics/MIMI). For questions, problems, and feature requests, please use the [MIMI GitHub Issues](https://github.com/NYUAD-Core-Bioinformatics/MIMI/issues) page.
