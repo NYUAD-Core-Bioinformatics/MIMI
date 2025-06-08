@@ -6,7 +6,7 @@ This section provides detailed information about all command-line tools availabl
 mimi_kegg_extract
 -----------------
 
-Extracts compound information from the KEGG database using its REST API. Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.
+Extracts compound information from the [KEGG COMPOUND database](https://www.genome.jp/kegg/compound/) using its [REST API](https://www.kegg.jp/kegg/rest/keggapi.html). Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.
 
 .. code-block:: text
 
@@ -28,8 +28,7 @@ Extracts compound information from the KEGG database using its REST API. Can ret
     -b BATCH_SIZE, --batch-size BATCH_SIZE
                             Number of compounds to process in each batch (default: 5)
 
-
-.. code-block:: text
+**Example**::
 
     # Extract specific compounds by ID
     $ mimi_kegg_extract -i compound_ids.tsv -o data/processed/kegg_compounds.tsv
@@ -46,9 +45,7 @@ Extracts compound information from the KEGG database using its REST API. Can ret
 mimi_hmdb_extract
 -----------------
 
-Extracts metabolite information from the Human Metabolome Database (HMDB) XML file and converts it to a TSV format compatible with MIMI.
-
-Download the HMDB XML file from `HMDB <https://hmdb.ca/downloads>`_ and save it as **hmdb_metabolites.xml**.
+Extracts metabolite information from the [Human Metabolome Database (HMDB)](https://hmdb.ca) and converts it to a TSV format compatible with MIMI. Requires a list of metabolites downloaded from [HMDB](https://hmdb.ca/downloads) in XML format. 
 
 .. code-block:: text
 
@@ -68,17 +65,37 @@ Download the HMDB XML file from `HMDB <https://hmdb.ca/downloads>`_ and save it 
                             Output TSV file path (default: metabolites.tsv)
 
 
-
-Example::
+**Example**::
 
     # Extract metabolites between 40-1000 Da
     $ mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -l 40 -u 1000 -o data/processed/hmdb_compounds_40_1000Da.tsv
 
 
+***Input files:***
+
+HMDB provides downloads for all metabolites contained in the database, as well as specific subsets (e.g. serum, saliva, etc.). Downloaded files should automatically acquire the file extension `.xml` and will look something like this:
+
+.. code-block:: text
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <hmdb xmlns="http://www.hmdb.ca">
+    <metabolite>
+      <version>5.0</version>
+      <creation_date>2005-11-16 15:48:42 UTC</creation_date>
+      <update_date>2021-09-14 15:44:51 UTC</update_date>
+
+      [ data on individual compounds follows ... ]
+
+    </metabolite>
+    </hmdb>
+
+Note that the HMDB database version (5.0) and date of the last update (2021-09-14) are included at the top of this example file, ensuring that this information is easily available for citation purposes.
+
+
 mimi_cache_create
 -----------------
 
-Creates precomputed cache files containing molecular mass data and isotope patterns for compounds. These cache files significantly speed up analysis by avoiding repeated calculations.
+Creates precomputed cache files containing theoretical molecular masses and isotope patterns for compounds. Caching significantly speeds up mass comparisons, and the same cache files can be reused for any mass analysis involving the same database and isotope ratios.
 
 
 .. code-block:: text
@@ -102,7 +119,7 @@ Creates precomputed cache files containing molecular mass data and isotope patte
                             Binary DB output file (if not specified, will use base name from JSON file)
 
 
-.. code-block:: text
+**Example**::
 
     # Create natural abundance cache
     $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat
@@ -110,10 +127,11 @@ Creates precomputed cache files containing molecular mass data and isotope patte
     # Create C13-95% labeled cache
     $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/C13_95
 
+
 mimi_cache_dump
 ---------------
 
-Dumps the contents of a MIMI cache file to a human-readable TSV format. Useful for inspecting cache files and verifying their contents.
+Dumps the contents of a MIMI cache file in human-readable TSV format. Useful for inspecting cache files and verifying their contents.
 
 
 .. code-block:: text
@@ -136,17 +154,16 @@ Dumps the contents of a MIMI cache file to a human-readable TSV format. Useful f
                             Output file (default: stdout)
 
 
-
-.. code-block:: text
+**Example**::
 
     # Dump first 5 compounds with 2 isotopes each
     $ mimi_cache_dump -n 5 -i 2 outdir/nat.pkl -o outdir/cache_contents.tsv
 
+
 mimi_mass_analysis
 ------------------
 
-Analyzes mass spectrometry data by comparing sample masses against precomputed molecular masses stored in cache files.
-
+Analyzes mass spectrometry data by comparing measured masses in sample peak lists against precomputed theoretical molecular masses stored in cache files.
 
 
 .. code-block:: text
@@ -168,8 +185,7 @@ Analyzes mass spectrometry data by comparing sample masses against precomputed m
                             Output file
 
 
-
-.. code-block:: text
+**Example**::
 
     # Analyze single sample with natural abundance cache
     $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata1.asc -o outdir/results.tsv
