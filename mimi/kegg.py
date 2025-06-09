@@ -1,3 +1,30 @@
+# Copyright 2025 New York University. All Rights Reserved.
+
+# A license to use and copy this software and its documentation solely for your internal non-commercial
+# research and evaluation purposes, without fee and without a signed licensing agreement, is hereby granted
+# upon your download of the software, through which you agree to the following: 1) the above copyright
+# notice, this paragraph and the following three paragraphs will prominently appear in all internal copies
+# and modifications; 2) no rights to sublicense or further distribute this software are granted; 3) no rights
+# to modify this software are granted; and 4) no rights to assign this license are granted. Please contact
+# the NYU Technology Opportunities and Ventures TOVcommunications@nyulangone.org for commercial
+# licensing opportunities, or for further distribution, modification or license rights.
+
+# Created by Nabil Rahiman & Kristin Gunsalus
+
+# IN NO EVENT SHALL NYU, OR THEIR EMPLOYEES, OFFICERS, AGENTS OR TRUSTEES
+# ("COLLECTIVELY "NYU PARTIES") BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL,
+# INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY KIND, INCLUDING LOST PROFITS, ARISING
+# OUT OF ANY CLAIM RESULTING FROM YOUR USE OF THIS SOFTWARE AND ITS
+# DOCUMENTATION, EVEN IF ANY OF NYU PARTIES HAS BEEN ADVISED OF THE POSSIBILITY
+# OF SUCH CLAIM OR DAMAGE.
+
+# NYU SPECIFICALLY DISCLAIMS ANY WARRANTIES OF ANY KIND REGARDING THE SOFTWARE,
+# INCLUDING, BUT NOT LIMITED TO, NON-INFRINGEMENT, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, OR THE ACCURACY OR USEFULNESS,
+# OR COMPLETENESS OF THE SOFTWARE. THE SOFTWARE AND ACCOMPANYING DOCUMENTATION,
+# IF ANY, PROVIDED HEREUNDER IS PROVIDED COMPLETELY "AS IS". NYU HAS NO OBLIGATION TO PROVIDE
+# FURTHER DOCUMENTATION, MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS
+
 import requests
 import time
 from typing import List, Tuple
@@ -8,6 +35,7 @@ import argparse
 import pandas as pd
 import os
 import sys
+from datetime import datetime
 
 def get_compounds_by_mass_range(min_mass, max_mass, chunk_size=10.0):
     """
@@ -153,6 +181,33 @@ def get_compound_info_batch(compound_ids, max_retries=5):
                 print(f"Error: {str(e)}")
                 return []
 
+def get_kegg_db_info():
+    """
+    Get KEGG database information from the REST API.
+    Returns only the main database info without linked databases and entry count.
+    
+    Returns:
+        str: Database information string
+    """
+    try:
+        url = 'https://rest.kegg.jp/info/compound'
+        response = requests.get(url)
+        if response.status_code == 200:
+            # Split the response into lines and filter out linked databases and entry count
+            lines = response.text.strip().split('\n')
+            filtered_lines = []
+            for line in lines:
+                if line.startswith('linked db'):
+                    break
+                # Skip the line containing entry count (contains "entries")
+                if "entries" not in line:
+                    filtered_lines.append(line)
+            return '\n'.join(filtered_lines)
+        else:
+            return "KEGG database information unavailable"
+    except Exception as e:
+        return f"Failed to fetch KEGG database information: {str(e)}"
+
 def export_compounds_to_tsv(output_file, compound_ids=None, mass_range=None, batch_size=5):
     """
     Export KEGG compound information to TSV file.
@@ -189,12 +244,36 @@ def export_compounds_to_tsv(output_file, compound_ids=None, mass_range=None, bat
         
         try:
             with open(output_file, 'w') as f:
+                # Write run date
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                f.write(f"# Run Date: {current_time}\n")
+                
+                # Write command line arguments - use just the command name
+                cmd_name = os.path.basename(sys.argv[0])
+                cmd_args = [cmd_name] + sys.argv[1:]
+                f.write(f"# Command: {' '.join(cmd_args)}\n")
+                
+                # Reserve space for compound counts with placeholder
+                counts_pos = f.tell()
+                placeholder = "# Number ofcompounds: {:<10}\n"
+                f.write(placeholder.format("", ""))
+                
+                f.write('#\n')
+                # Write database info as comment
+                db_info = get_kegg_db_info()
+                for line in db_info.split('\n'):
+                    f.write(f"# {line}\n")
+                
+                if mass_range:
+                    min_mass, max_mass = mass_range
+                    f.write(f"# Mass range: {min_mass}-{max_mass} Da\n")
+                f.write("#\n")  # Add a blank line
+                
                 f.write("CF\tID\tName\n")
                 
                 for i in tqdm(range(0, len(compound_ids), batch_size), desc="Processing compounds"):
                     try:
                         batch = compound_ids[i:i + batch_size]
-                        # print(f"\nProcessing batch of {len(batch)} compounds: {batch}")
                         compounds_info = get_compound_info_batch(batch)
                         
                         if len(compounds_info) != len(batch):
@@ -219,6 +298,11 @@ def export_compounds_to_tsv(output_file, compound_ids=None, mass_range=None, bat
                         print(f"Error processing batch starting at index {i}: {str(e)}")
                         print(f"Batch compounds: {batch}")
                         continue
+            
+            # Reopen file to update the counts
+            with open(output_file, 'r+') as f:
+                f.seek(counts_pos)
+                f.write(placeholder.format(str(valid_compounds)))
             
             print(f"\nCompound data saved to {output_file}")
             print(f"Total valid compounds: {valid_compounds}")

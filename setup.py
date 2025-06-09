@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright 2020 New York University. All Rights Reserved.
+# Copyright 2025 New York University. All Rights Reserved.
 
 # A license to use and copy this software and its documentation solely for your internal non-commercial
 # research and evaluation purposes, without fee and without a signed licensing agreement, is hereby granted
@@ -11,7 +11,7 @@
 # the NYU Technology Opportunities and Ventures TOVcommunications@nyulangone.org for commercial
 # licensing opportunities, or for further distribution, modification or license rights.
 
-# Created by Lior Galanti & Kristin Gunsalus
+# Created by Nabil Rahiman & Kristin Gunsalus
 
 # IN NO EVENT SHALL NYU, OR THEIR EMPLOYEES, OFFICERS, AGENTS OR TRUSTEES
 # ("COLLECTIVELY "NYU PARTIES") BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL,
@@ -57,6 +57,7 @@ INSTALL_REQUIRES = [
     'urllib3',
     'tqdm',
     'requests',
+    'seaborn'
 ]
 PYTHON_REQUIRES = '>=3.11.11'
 

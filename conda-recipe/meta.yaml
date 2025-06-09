@@ -35,15 +35,10 @@ requirements:
     - urllib3
     - tqdm
     - requests
+    - seaborn
 
 run_exports:
   - python >=3.11
-  - numpy >=1.23.0
-  - pandas >=1.5.0
-  - json5 >=0.9.0
-  - urllib3 >=1.26.0
-  - tqdm >=4.64.0
-  - requests >=2.31.0
 
 test:
   imports:

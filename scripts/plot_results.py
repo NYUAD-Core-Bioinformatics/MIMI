@@ -7,14 +7,14 @@ import sys
 def count_number_of_nat(df):
     """Count number of features for natural abundance data"""
     print('count_number_of_nat')
-    print(df[df['db_nat_mass'].notna()]['db_nat_mass'].describe())
-    return df[df['db_nat_mass'].notna()].shape[0]
+    print(df[df['nat_nist_mass'].notna()]['nat_nist_mass'].describe())
+    return df[df['nat_nist_mass'].notna()].shape[0]
 
 def count_number_of_C13(df):
     """Count number of features for C13 data"""
     print('count_number_of_C13')
-    print(df[df['db_C13_mass'].notna()]['db_C13_mass'].describe())
-    return df[df['db_C13_mass'].notna()].shape[0]
+    print(df[df['C13_95_mass'].notna()]['C13_95_mass'].describe())
+    return df[df['C13_95_mass'].notna()].shape[0]
 
 # def mean_valid_isotopes_nat(df):
 #     """Count total number of valid isotopes for natural abundance data"""
@@ -34,16 +34,16 @@ def count_number_of_C13(df):
 def mean_isotopes_nat(df):
     """Count total number of valid isotopes for natural abundance data"""
     print('mean_isotopes_nat')
-    print(df[df['db_nat_mass'].notna()]['iso_count'].describe())
-    print(df[df['db_nat_mass'].notna()]['iso_count'].mean())
-    return df[df['db_nat_mass'].notna()]['iso_count'].mean()
+    print(df[df['nat_nist_mass'].notna()]['iso_count'].describe())
+    print(df[df['nat_nist_mass'].notna()]['iso_count'].mean())
+    return df[df['nat_nist_mass'].notna()]['iso_count'].mean()
 
 def mean_isotopes_C13(df):
     """Count total number of valid isotopes for C13 data"""
     print('mean_isotopes_C13')
-    print(df[df['db_C13_mass'].notna()]['iso_count.1'].describe())
-    print(df[df['db_C13_mass'].notna()]['iso_count.1'].mean())
-    return df[df['db_C13_mass'].notna()]['iso_count.1'].mean()
+    print(df[df['C13_95_mass'].notna()]['iso_count.1'].describe())
+    print(df[df['C13_95_mass'].notna()]['iso_count.1'].mean())
+    return df[df['C13_95_mass'].notna()]['iso_count.1'].mean()
 
 def process_results(outdir):
     """Process all result files and compile data for plotting"""
@@ -158,8 +158,8 @@ def create_plots(outdir):
         'p setting (ppm)': p_values * 4,
         'Number of CF': (cf_counts_nat_1 + cf_counts_nat_2 + 
                         cf_counts_C13_1 + cf_counts_C13_2),
-        'Type_Dataset': (['nat_testdata1']*len(p_values) + ['nat_testdata2']*len(p_values) +
-                        ['C13_testdata1']*len(p_values) + ['C13_testdata2']*len(p_values))
+        'Type_Dataset': (['nat_nist_testdata1']*len(p_values) + ['nat_nist_testdata2']*len(p_values) +
+                        ['C13_95_testdata1']*len(p_values) + ['C13_95_testdata2']*len(p_values))
     })
     
     # Data for middle plot
@@ -167,8 +167,8 @@ def create_plots(outdir):
         'vp setting (ppm)': vp_values * 4,
         'Avg. number of isotopes': (iso_mean_nat_1 + iso_mean_nat_2 +
                              iso_mean_C13_1 + iso_mean_C13_2),
-        'Type_Dataset': (['testdata1_nat']*len(vp_values) + ['testdata2_nat']*len(vp_values) +
-                        ['testdata1_C13']*len(vp_values) + ['testdata2_C13']*len(vp_values))
+        'Type_Dataset': (['nat_nist_testdata1']*len(vp_values) + ['nat_nist_testdata2']*len(vp_values) +
+                        ['C13_95_testdata1']*len(vp_values) + ['C13_95_testdata2']*len(vp_values))
     })
 
     # Data for bottom plot

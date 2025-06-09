@@ -37,10 +37,10 @@ Extract compounds from KEGG or HMDB within a desired mass range:
 
 ```bash
 # From KEGG
-mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds.tsv
+mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv 
 
 # From HMDB (requires hmdb_metabolites.xml)
-mimi_hmdb_extract -l 40 -u 1000 -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds.tsv
+mimi_hmdb_extract -l 40 -u 1000 -x data/raw/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
 ```
 
 _Compound DB files will contain CF (chemical formula), ID (identifier), and Name (human-readable names) column headers. Example:_

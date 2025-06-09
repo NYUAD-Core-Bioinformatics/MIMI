@@ -1,4 +1,4 @@
-# Copyright 2020 New York University. All Rights Reserved.
+# Copyright 2025 New York University. All Rights Reserved.
 
 # A license to use and copy this software and its documentation solely for your internal non-commercial
 # research and evaluation purposes, without fee and without a signed licensing agreement, is hereby granted
@@ -9,7 +9,7 @@
 # the NYU Technology Opportunities and Ventures TOVcommunications@nyulangone.org for commercial
 # licensing opportunities, or for further distribution, modification or license rights.
 
-# Created by Lior Galanti & Kristin Gunsalus
+# Created by Nabil Rahiman & Kristin Gunsalus
 
 # IN NO EVENT SHALL NYU, OR THEIR EMPLOYEES, OFFICERS, AGENTS OR TRUSTEES
 # ("COLLECTIVELY "NYU PARTIES") BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL,
@@ -63,6 +63,8 @@ def load_molecular_mass_database(db_file):
         header_indices = {'CF': 0, 'ID': 1, 'Name': 2}  # Default indices
         
         for line in fd:
+            if line.startswith('#'):
+                continue
             line = line.strip()
             fields = line.split('\t')
             
@@ -235,7 +237,7 @@ def main():
     
     args = ap.parse_args()
 
-    full_command = " ".join(sys.argv)
+    full_command = ' '.join([os.path.basename(sys.argv[0])] + sys.argv[1:])
 
     # Create log directory if it doesn't exist and we're not logging to report
     log_dir = os.path.join(os.getcwd(), 'log')
@@ -291,14 +293,14 @@ def main():
         C_count, H_count, N_count, O_count, P_count, S_count = get_atom_counts(exp)
 
         # Initialize or get existing report entry
-        if entry[2] not in final_report:
+        if entry[1] not in final_report:
             output = [entry[0], entry[1], entry[2], 
                      C_count, H_count, N_count, O_count, P_count, S_count] + [''] * len(computation_methods)
             output[9 + precomputed_chem_idx] = str(mass)
             output = output + ['', '', '', ''] * len(data_sets) * len(computation_methods)
-            final_report[entry[2]] = output
+            final_report[entry[1]] = output
         else:
-            output = final_report[entry[2]]
+            output = final_report[entry[1]]
             output[9 + precomputed_chem_idx] = str(mass)
 
         # Validate isotope patterns
