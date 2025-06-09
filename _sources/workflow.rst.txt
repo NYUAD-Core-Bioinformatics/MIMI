@@ -18,15 +18,7 @@ Alternatively, you can install from source if you need the latest development ve
     $ cd MIMI
     $ pip install .
 
-MIMI has the following requirements and dependencies:
-
-* Python v3 or above
-* numpy
-* pandas
-* json5
-* urllib3
-* tqdm
-* requests
+MIMI requires Python 3.11.11 or above.
 
 Workflow Overview
 -----------------
@@ -80,7 +72,7 @@ In addition to these basic functions, MIMI also provides script templates that e
 - Plot the number of metabolites and molecular variants identified using different error thresholds
 
 For details, jump to: 
-:ref:`step3-sample-analysis`, :ref:`input-file-format`, :ref:`multiple-cache-analysis`, :ref:`batch-processing`, :ref:`results-format`, :ref:`comprehensive-analysis-runs`
+:ref:`step3-sample-analysis`, :ref:`input-file-format`, :ref:`batch-processing`, :ref:`results-format`, :ref:`comprehensive-analysis-runs`
 
 
 .. _database-preparation:
@@ -136,7 +128,7 @@ Database Sources
   - Detailed metabolite annotations
 
   Usage:
-    The `mimi_hmdb_extract` tool extracts data from an XML file downloaded from the `HMDB <https://hmdb.ca/downloads>`_ and converts it to an appropriate TSV format for MIMI. It can filter metabolites by molecular weight range and validates chemical formulas to ensure compatibility with MIMI's formula parser.
+    The `mimi_hmdb_extract` tool extracts data from an XML file downloaded from the `HMDB <https://www.hmdb.ca/downloads>`_ and converts it to an appropriate TSV format for MIMI. It can filter metabolites by molecular weight range and validates chemical formulas to ensure compatibility with MIMI's formula parser.
 
 .. code-block:: text
 
@@ -185,7 +177,7 @@ Database Sources
     C34H32FeN4O4    Heme
 
 
-  The following command reads from `customDB.tsv`, adds custom IDs to the TSV file by combining a timestamp with row numbers, and writes to `customDBwithID.tsv`, both located in the data/processed directory.
+The following command reads from `customDB.tsv`, adds custom IDs to the TSV file by combining a timestamp with row numbers, and writes to `customDBwithID.tsv`, both located in the data/processed directory.
 
 
 .. code-block:: text
@@ -242,49 +234,105 @@ Here's how to prepare databases from different sources using a typical mass rang
 
 1. **From KEGG**::
 
+
     # Extract compounds
-    $mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
-
-    # Count the number of compounds
-    $wc -l data/processed/kegg_compounds_40_1000Da.tsv
-    16090 data/processed/kegg_compounds_40_1000Da.tsv
-
-    # Show the first 10 compounds
-    $head -10 data/processed/kegg_compounds_40_1000Da.tsv
-    CF              ID      Name
-    C44H52N8O10	    C11617  Pristinamycin IC
-    C10H16          C20230  (+)-Sabinene
-    C6H14           C11271  n-Hexane
-    C10H6O2         C14783  1,2-Naphthoquinone
-    C8H14N2O2       C07841  Levetiracetam
-    C14H16ClN3O4S2  C12685  Cyclothiazide
-    C26H34O3        C14259  Stanolone benzoate
-    C5H5N5O2        C22500  2,8-Dihydroxyadenine
-    C17H22O5        C09536  Pyrethrosin
+    $ mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
 
 
-    # Sort and remove duplicates
-    $ { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
-    $ awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
 
+    # Example output from KEGG:
+    $ head -20  data/processed/kegg_compounds_40_1000Da.tsv 
+    # Run Date: 2025-06-09 18:12:24
+    # Command: mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
+    # Number of compounds: 16089     
+    #
+    # compound         KEGG Compound Database
+    # cpd              Release 114.0+/06-09, Jun 25
+    #                  Kanehisa Laboratories
+    # 
+    # Mass range: 40.0-1000.0 Da
+    #
+    CF          ID      Name
+    C5H8O5      C02994  L-Xylono-1,4-lactone
+    C7H3Br2NO   C04178  Bromoxynil
+    C15H12O4    C16760  Aloe emodin anthrone
+    C12H3Cl7O   C15213  2,2',3',4,4',5,5'-Heptachloro-3-biphenylol
+    C15H22O3    C22629  5-Dehydro-6-demethoxyfumagillol
+    C20H26O2    C15142  3-Methoxy-D-homoestra-1,3,5(10),8-tetraen-17abeta-ol
+    C30H46O8    C08876  Neriifolin
+    C20H32O2    C15176  17-Methyl-5alpha-androst-2-ene-1alpha,17beta-diol
+    C15H10O7    C100726-Hydroxyluteolin
+
+    
+
+    # Sort by compound ID (second column). Skips the comments and header lines.
+    $ { head -n 11 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +12 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
+
+    # Finally remove duplicate chemical formulas
+    $ { head -n 11 data/processed/kegg_compounds_40_1000Da_sorted.tsv; tail -n +12 data/processed/kegg_compounds_40_1000Da_sorted.tsv | awk '!seen[$1]++'; } > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+
+    # Count the number of compounds, including the comments and header lines
     $ wc -l data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
-    8530 data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+    8540 data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+
+
+    # The number of unique compounds
+    $ expr 8540 - 11
+    8529
 
 2. **From HMDB**::
 
     # First download the HMDB XML file, then extract compounds
-    mimi_hmdb_extract -l 40 -u 1000 -x data/processed/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
+    $ mimi_hmdb_extract -l 40 -u 1000 -x data/raw/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
 
-    # Sort and remove duplicates
-    { head -n 1 data/processed/hmdb_compounds_40_1000Da.tsv; tail -n +2 data/processed/hmdb_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/hmdb_compounds_40_1000Da_sorted.tsv
-    awk '!seen[$1]++' data/processed/hmdb_compounds_40_1000Da_sorted.tsv > data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
+    # Example output from HMDB:
+    head -20  data/processed/hmdb_compounds_40_1000Da.tsv
+    # Run Date: 2025-06-09 19:43:08
+    # Command: mimi_hmdb_extract -l 40 -u 1000 -x data/raw/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
+    # Number of metabolites: 121144    
+    # HMDB Metabolites Database
+    # Version: 5.0
+    # HMDB XML Database Creation: 2005-11-16 15:48:42 UTC
+    # HMDB XML Database Last Update: 2021-10-13 17:34:04 UTC
+    # Mass range: 40.0 to 1000.0 Da
+    #
+    CF          ID          Name
+    C7H11N3O2   HMDB06704   Protein arginine N-methyltransferase 3
+    C3H10N2     HMDB60172   Ornithine decarboxylase
+    C4H6O3      HMDB06544   2-oxoglutarate receptor 1
+    C4H8O3      HMDB00008   L-lactate dehydrogenase A-like 6B
+    C19H24O3    HMDB04991   UDP glycosyltransferase 1 family polypeptide A7
+    C4H8O3      HMDB00357   Novel protein similar to 3-hydroxymethyl-3-methylglutaryl-Coenzyme A lyase (Hydroxymethylglutaricaciduria)
+    C9H12N2O5   HMDB00012   DNA dC->dU-editing enzyme APOBEC-3G
+    C9H13N3O4   HMDB00014   DNA dC->dU-editing enzyme APOBEC-3G
+    C21H30O4    HMDB00015   Steroid 21-hydroxylase
+    C21H30O3    HMDB00016   Steroid 21-hydroxylase
+
+
+
+    # Then sort by compound ID (second column). Skips the comments and header lines.
+    $ { head -n 10 data/processed/hmdb_compounds_40_1000Da.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/hmdb_compounds_40_1000Da_sorted.tsv
+
+    # Finally remove duplicate chemical formulas
+    $ { head -n 10 data/processed/hmdb_compounds_40_1000Da_sorted.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da_sorted.tsv | awk '!seen[$1]++'; } > data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
+
+
+    # Count the number of unique compounds, including the comments and header lines
+    $ wc -l data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
+    20112 data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
+
+
+    # The number of unique compounds
+    $ expr 20112 - 10
+    20102
 
 The output in both cases will be a TSV file containing:
 
+- Comments and header lines(Database version and last release or update date)
 - Chemical formulas (CF)
 - Compound IDs (ID)
 - Compound names (Name)
-- Only compounds within the specified mass range
+- Only compounds within the specified mass range if mass range filtering is used
 
 This mass range we used is suitable for typical MS data, as shown in this example data::
 
@@ -354,7 +402,7 @@ For natural abundance compounds, use:
 
 .. code-block:: text
 
-    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat
+    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat_nist
 
 Expected Output: A binary cache file containing precomputed masses and isotope patterns for all compounds in your database.
 This file will be used for fast matching during analysis.
@@ -463,21 +511,21 @@ Verify Cache
 
 Before proceeding with analysis, it's good practice to verify your cache contents. This helps ensure that the compounds and their isotope patterns were processed correctly::
     
-    mimi_cache_dump outdir/nat.pkl -n 2 -i 2
+    mimi_cache_dump outdir/nat_nist.pkl -n 2 -i 2
 
 .. code-block:: text
 
-    $ mimi_cache_dump outdir/nat.pkl -n 2 -i 2
+    $ mimi_cache_dump outdir/nat_nist.pkl -n 2 -i 2
     # Cache Metadata:
     # Creation Date: 2025-06-03T14:47:08
     # MIMI Version: 1.0.0
 
     # Creation Parameters:
-    # Full Command: /Users/aaa/anaconda3/envs/v_mimi/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat
+    # Full Command: /Users/aaa/anaconda3/envs/v_mimi/bin/mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat_nist
     # Ionization Mode: neg
     # Labeled Atoms File: None
     # Compound DB Files: data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
-    # Cache Output File: outdir/nat.pkl
+    # Cache Output File: outdir/nat_nist.pkl
     # Isotope Data File: mimi/data/natural_isotope_abundance_NIST.json
 
     ============================================================
@@ -609,7 +657,7 @@ Thus, the **relative abundance** of the isotopologue **[12]C19 [13]C2 [1]H28 [14
 
 .. code-block:: text
 
-    $ mimi_cache_dump outdir/nat.pkl -n 2 -i 30 | grep -A5  "Variant #26:" 
+    $ mimi_cache_dump outdir/nat_nist.pkl -n 2 -i 30 | grep -A5  "Variant #26:" 
     Variant #26:
     Formula:        [12]C19 [13]C2 [1]H28 [14]N7 [16]O13 [17]O1 [31]P2
     Mono-isotopic:  No (isotope variant)
@@ -680,17 +728,17 @@ MIMI accepts mass spectrometry data in .asc format. Each line contains three col
 Example input file (data/processed/testdata1.asc)::
 
     $ head -4 data/processed/testdata1.asc 
-    43.16184	1089317 0.00003
-    43.28766	1115802	0.00003
-    43.28946	1226947	0.00003
-    43.30269	1107425	0.00005
+    43.16184    1089317  0.00003
+    43.28766    1115802  0.00003
+    43.28946    1226947  0.00003
+    43.30269    1107425  0.00005
 
 Now you're ready to analyze your mass spectrometry data. The analysis command matches your sample masses against the precomputed database and verifies matches using isotope patterns
 
 .. code-block:: text
 
 
-    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata1.asc -o outdir/results.tsv
 
 Key parameters:
 
@@ -715,19 +763,11 @@ The PPM threshold affects match precision and reliability:
 Example::
 
     # High confidence analysis
-    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_excellent.tsv
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_excellent.tsv
 
     # Standard confidence analysis
-    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata2.asc -o outdir/results_good.tsv
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_good.tsv
 
-.. _multiple-cache-analysis:
-
-Multiple Cache Analysis
-~~~~~~~~~~~~~~~~~~~~~~~
-
-You can analyze your samples against multiple caches simultaneously. This is useful when comparing natural and labeled patterns::
-
-    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
 
 
 
@@ -736,9 +776,43 @@ You can analyze your samples against multiple caches simultaneously. This is use
 Batch Processing
 ~~~~~~~~~~~~~~~~
 
-MIMI supports processing multiple samples in a single run. This is useful for analyzing replicates or comparing different conditions::
+MIMI supports processing multiple samples and multiple caches in a single run::
 
-    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat_nist outdir/C13_95 -s data/processed/testdata1.asc data/processed/testdata2.asc  -o outdir/results.tsv
+
+   
+    $ head -4 outdir/results.tsv; cat   outdir/results.tsv | grep -A6  C00147
+    Log file /Users/aaa/test/log/results_20250609_223014.log
+                                                                                        data/processed/testdata1.asc                                                                                    data/processed/testdata2.asc
+                                                                                        nat_nist                                                 C13_95                                                 nat                                                       C13_95
+    CF       ID     Name              C H N O P S nat_nist_mass      C13_95_mass        mass_measured error_ppm           intensity iso_count    mass_measured error_ppm            intensity iso_count mass_measured error_ppm             intensity   iso_count mass_measured  error_ppm           intensity    iso_count
+    C5H5N5   C00147 Adenine           5 5 5 0 0 0 134.0472187163     139.06399291629998 134.04721     0.0650241017383722  9287320   2            139.06397     0.16478960145023944  159644896 4         134.04722     -0.009576476318665454 10030305.6  2         139.06396      0.2366989418442906  143680406.4  4
+    C5H9NO2  C00148 L-Proline         5 9 1 2 0 0 114.05605206664    119.07282626664002 114.05603     0.19347189035452655 20271514  3            119.07282     0.052628632616788074 78100088  3         114.05601      0.36882426880317554  18852508.02 3         119.0728       0.220593067653808   72633081.84  3
+    C4H6O5   C00149 (S)-Malate        4 6 0 5 0 0 133.01424682422999 137.02766618423    133.01427    -0.1742352460596866  4272635   2            137.02766     0.04513125094193654  2712827   1         133.01424      0.05130450419853602  4229908.65  2         137.02769     -0.1738026391616008  2550057.38   1
+    C4H8N2O3 C00152 L-Asparagine      4 8 2 3 0 0 131.04621565841    135.05963501841    131.04618     0.27210560666728895 4508435   2            135.0596      0.2592810946979107   113403128 5         131.04617      0.34841456341916127  4418266.3   2         135.0596       0.2592810946979107  123609409.5  5
+    C6H6N2O  C00153 Nicotinamide      6 6 2 1 0 0 121.04073635481                       121.04076    -0.19534902648706173 646772    1                                                                   121.04075     -0.1127322124761087   640304.28   1
+    C4H9NO2S C00155 L-Homocysteine    4 9 1 2 0 1 134.02812324104002 138.04154260104002 134.02813    -0.05042941600803985 2003065   2            138.04159     -0.3433673595599844  566288    4         134.02816     -0.274263036027993    1882881.1   2         138.04156     -0.12604147747949546 554962.24    4
+    C7H6O3   C00156 4-Hydroxybenzoate 7 6 0 3 0 0 137.02441758509002                    137.02447    -0.382522406671574   27237690  2                                                                   137.02444     -0.16358332604462747  87231044.64 2
+
+Support for multiple data bases
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MIMI supports processing multiple data bases in a single run. In this example, we create two data bases from KEGG and HMDB and then analyze the testdata1.asc file against both data bases::
+
+    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/kegg
+    $ mimi_cache_create -i neg -d data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv -c outdir/hmdb
+
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/kegg -c outdir/hmdb -s data/processed/testdata1.asc -o outdir/results.tsv
+
+
+    $ head -n 4 outdir/results.tsv; egrep "HMDB00008|C23040" outdir/results.tsv;
+    Log file	/Users/aaa/test/log/results_20250609_213625.log
+                                                                            data/processed/testdata1.asc							
+                                                                                                                   kegg				                                        hmdb			
+    CF         ID         Name                               C  H   N O P S kegg_mass           hmdb_mass          mass_measured error_ppm             intensity iso_count  mass_measured error_ppm              intensity iso_count
+    C12H21NO9  C23040     N-Acetyl-8-O-methyl-neuraminate    12 21  1 9 0 0 322.11435479039005                     322.11445     -0.29557704743086227  2410045   1
+    C4H8O3     HMDB00008  L-lactate dehydrogenase A-like 6B  4  8   0 3 0 0                     103.04006764955001                                                          103.04007     -0.022811029174612103  26551008  0
+
 
 
 
@@ -767,20 +841,20 @@ The output TSV file contains these columns:
 
 Example output file::
 
-    $ mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+    $ mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/results.tsv
 
-    $(head -4 outdir/results.tsv; cat   outdir/results.tsv | grep -A6  C00147)
-    Log file	/Users/aaa/test/log/results_20250603_145131.log
-                                                                                                            data/processed/testdata2.asc							
-                                                                                                            nat                                                                  C13_95			
-    CF         ID       Name               C   H   N   O   P   S   nat_mass            C13_95_mass          mass_measured       error_ppm               intensity    iso_count   mass_measured   error_ppm               intensity        iso_count
-    C5H5N5     C00147   Adenine            5   5   5   0   0   0   134.0472187163      139.06399291629998   134.04722           -0.009576476318665454   10030305.6   2           139.06396       0.2366989418442906      143680406.4      4
-    C5H9NO2    C00148   L-Proline          5   9   1   2   0   0   114.05605206664     119.07282626664002   114.05601           0.36882426880317554     18852508.02  3           119.0728        0.220593067653808       72633081.84      3
-    C4H6O5     C00149   (S)-Malate         4   6   0   5   0   0   133.01424682422999  137.02766618423      133.01424           0.05130450419853602     4229908.65   2           137.02769       -0.1738026391616008     2550057.38       1
-    C4H8N2O3   C00152   L-Asparagine       4   8   2   3   0   0   131.04621565841     135.05963501841      131.04617           0.34841456341916127     4418266.3    2           135.0596        0.2592810946979107      123609409.5      5
-    C6H6N2O    C00153   Nicotinamide       6   6   2   1   0   0   121.04073635481                          121.04075           -0.1127322124761087     640304.28    1                                                                    
-    C4H9NO2S   C00155   L-Homocysteine     4   9   1   2   0   1   134.02812324104002  138.04154260104002   134.02816           -0.274263036027993      1882881.1    2           138.04156       -0.12604147747949546    554962.24        4
-    C7H6O3     C00156   4-Hydroxybenzoate  7   6   0   3   0   0   137.02441758509002                       137.02444           -0.16358332604462747    87231044.64  2
+    $ head -4 outdir/results.tsv; cat   outdir/results.tsv | grep -A6  C00147
+    Log file /Users/aaa/test/log/results_20250609_223014.log
+                                                                                        data/processed/testdata1.asc                                                                                    
+                                                                                        nat_nist                                                      C13_95                                                 
+    CF       ID     Name              C H N O P S nat_nist_åmass           C13_95_mass        mass_measured error_ppm           intensity iso_count    mass_measured error_ppm            intensity iso_count 
+    C5H5N5   C00147 Adenine           5 5 5 0 0 0 134.0472187163     139.06399291629998 134.04721     0.0650241017383722  9287320   2            139.06397     0.16478960145023944  159644896 4         
+    C5H9NO2  C00148 L-Proline         5 9 1 2 0 0 114.05605206664    119.07282626664002 114.05603     0.19347189035452655 20271514  3            119.07282     0.052628632616788074 78100088  3         
+    C4H6O5   C00149 (S)-Malate        4 6 0 5 0 0 133.01424682422999 137.02766618423    133.01427    -0.1742352460596866  4272635   2            137.02766     0.04513125094193654  2712827   1         
+    C4H8N2O3 C00152 L-Asparagine      4 8 2 3 0 0 131.04621565841    135.05963501841    131.04618     0.27210560666728895 4508435   2            135.0596      0.2592810946979107   113403128 5         
+    C6H6N2O  C00153 Nicotinamide      6 6 2 1 0 0 121.04073635481                       121.04076    -0.19534902648706173 646772    1
+    C4H9NO2S C00155 L-Homocysteine    4 9 1 2 0 1 134.02812324104002 138.04154260104002 134.02813    -0.05042941600803985 2003065   2            138.04159     -0.3433673595599844  566288    4
+    C7H6O3   C00156 4-Hydroxybenzoate 7 6 0 3 0 0 137.02441758509002                    137.02447    -0.382522406671574   27237690  2
 
     
 
@@ -808,7 +882,7 @@ The comprehensive run script (`run.sh`) performs the following steps:
 
    - Creates two cache files:
 
-     * Natural abundance cache (`nat.pkl`)
+     * Natural abundance cache (`nat_nist.pkl`)
      * C13-95% labeled cache (`C13_95.pkl`)
 
    - Uses the test database and C13-95% labeling configuration
@@ -846,19 +920,25 @@ The script content::
     # Create output directory
     mkdir -p "$outdir"
 
-    # Sort and remove duplicates from KEGG compounds file
-    cp "$datadir/kegg_compounds_40_1000Da.tsv" "$outdir/testDB.tsv"
-    { head -n 1 "$outdir/testDB.tsv"; tail -n +2 "$outdir/testDB.tsv" | sort -k2,2; } > "$outdir/testDB_sorted.tsv"
-    awk '!seen[$1]++' "$outdir/testDB_sorted.tsv" > "$outdir/testDB_sorted_uniq.tsv"
 
+
+    # copy the KEGG compounds file to the output directory
+    cp "$datadir/kegg_compounds_40_1000Da.tsv" "$outdir/testDB.tsv"
+
+    # sort the KEGG compounds file by ID
+    { head -n 11 "$outdir/testDB.tsv"; tail -n +12 "$outdir/testDB.tsv" | sort -k2,2; } > "$outdir/testDB_sorted.tsv"
+    
+    # remove duplicates
+    awk '!seen[$1]++' "$outdir/testDB_sorted.tsv" > "$outdir/testDB_sorted_uniq.tsv"
+    
 
 
     # Create cache files in outdir and check for success
-    mimi_cache_create  -i neg   -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/nat"
+    mimi_cache_create  -i neg   -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/nat_nist"
     mimi_cache_create  -i neg   -l "$datadir/C13_95.json" -d "$outdir/testDB_sorted_uniq.tsv"  -c "$outdir/C13_95"
 
 
-    if [ ! -f "$outdir/nat.pkl" ] || [ ! -f "$outdir/C13_95.pkl" ]; then
+    if [ ! -f "$outdir/nat_nist.pkl" ] || [ ! -f "$outdir/C13_95.pkl" ]; then
         echo "Error: Failed to create cache files"
         exit 1
     fi
@@ -877,14 +957,14 @@ The script content::
         # Analysis for top graph (fixed vp=0.5, varying p)
         for p in "${p_values[@]}"; do
             p_str=$(echo $p | tr -d '.')
-            mimi_mass_analysis -p $p -vp 0.5 -c "$outdir/nat" "$outdir/C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p${p_str}_vp05_combined.tsv"
+            mimi_mass_analysis -p $p -vp 0.5 -c "$outdir/nat_nist" "$outdir/C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p${p_str}_vp05_combined.tsv"
         done
         
         # Analysis for bottom graph (fixed p=0.5, varying vp)
         for vp in "${vp_values[@]}"; do
             # Format vp value without underscore, just remove the dot
             vp_str=$(echo $vp | tr -d '.')
-            mimi_mass_analysis -p 0.5 -vp $vp -c "$outdir/nat" "$outdir/C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv"
+            mimi_mass_analysis -p 0.5 -vp $vp -c "$outdir/nat_nist" "$outdir/C13_95" -s "$datadir/$test_file" -o "$outdir/n${base_name}_p05_vp${vp_str}_combined.tsv"
         done
     done
 
@@ -969,24 +1049,23 @@ Here's a complete example from start to finish:
 
 1. First, extract compounds from KEGG within your desired mass range::
 
-    mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
+    $ mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
 
-    # Sort and remove duplicates from KEGG compounds file
-    { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
-    awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
+    #Its optional to sort by compound ID and remove duplicate chemical formulas.
+    #If required, follow the steps in the previous section to do it manually.
 
 2. Create both natural abundance and C13-95% labeled caches::
 
     # Natural abundance
-    mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat
+    $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/nat_nist
 
     # C13-95% labeled
-    mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/C13_95
+    $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/C13_95
 
 3. Verify the cache contents to ensure everything was processed correctly::
 
-    mimi_cache_dump outdir/nat.pkl -n 2 -i 2
+    $ mimi_cache_dump outdir/nat_nist.pkl -n 2 -i 2
 
 4. Finally, analyze your sample using both caches::
 
-    mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv 
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat_nist outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv 

@@ -6,7 +6,9 @@ This section provides detailed information about all command-line tools availabl
 mimi_kegg_extract
 -----------------
 
-Extracts compound information from the [KEGG COMPOUND database](https://www.genome.jp/kegg/compound/) using its [REST API](https://www.kegg.jp/kegg/rest/keggapi.html). Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.
+
+
+Extracts compound information from the `KEGG COMPOUND database <https://www.genome.jp/kegg/compound/>`_ using its `REST API <https://www.kegg.jp/kegg/rest/keggapi.html>`_. Can retrieve compounds within a specific molecular weight range or from a list of compound IDs.
 
 .. code-block:: text
 
@@ -30,22 +32,27 @@ Extracts compound information from the [KEGG COMPOUND database](https://www.geno
 
 **Example**::
 
-    # Extract specific compounds by ID
+    # Extract compounds by ID
     $ mimi_kegg_extract -i compound_ids.tsv -o data/processed/kegg_compounds.tsv
 
 
     # Extract compounds between 40-1000 Da
     $ mimi_kegg_extract -l 40 -u 1000 -o data/processed/kegg_compounds_40_1000Da.tsv
 
-    # Sort and remove duplicates from the KEGG compounds file
-    $ { head -n 1 data/processed/kegg_compounds_40_1000Da.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
+    # First remove lines starting with '#'
+    $ grep -v '^#' data/processed/kegg_compounds_40_1000Da.tsv > data/processed/kegg_compounds_40_1000Da_clean.tsv
+
+    # Then sort by compound ID (second column)
+    $ { head -n 1 data/processed/kegg_compounds_40_1000Da_clean.tsv; tail -n +2 data/processed/kegg_compounds_40_1000Da_clean.tsv | sort -k2,2; } > data/processed/kegg_compounds_40_1000Da_sorted.tsv
+
+    # Finally remove duplicate chemical formulas
     $ awk '!seen[$1]++' data/processed/kegg_compounds_40_1000Da_sorted.tsv > data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv
 
 
 mimi_hmdb_extract
 -----------------
 
-Extracts metabolite information from the [Human Metabolome Database (HMDB)](https://hmdb.ca) and converts it to a TSV format compatible with MIMI. Requires a list of metabolites downloaded from [HMDB](https://hmdb.ca/downloads) in XML format. 
+Extracts metabolite information from the `Human Metabolome Database (HMDB) <https://www.hmdb.ca>`_ and converts it to a TSV format compatible with MIMI. Requires a list of metabolites downloaded from `HMDB <https://www.hmdb.ca/downloads>`_ in XML format. 
 
 .. code-block:: text
 
@@ -68,10 +75,20 @@ Extracts metabolite information from the [Human Metabolome Database (HMDB)](http
 **Example**::
 
     # Extract metabolites between 40-1000 Da
-    $ mimi_hmdb_extract -x data/processed/hmdb_metabolites.xml -l 40 -u 1000 -o data/processed/hmdb_compounds_40_1000Da.tsv
+    
+    $ mimi_hmdb_extract -x data/raw/hmdb_metabolites.xml -l 40 -u 1000 -o data/processed/hmdb_compounds_40_1000Da.tsv
+
+    # First remove lines starting with '#'
+    $ grep -v '^#' data/processed/hmdb_compounds_40_1000Da.tsv > data/processed/hmdb_compounds_40_1000Da_clean.tsv
+
+    # Then sort by compound ID (second column)
+    $ { head -n 1 data/processed/hmdb_compounds_40_1000Da_clean.tsv; tail -n +2 data/processed/hmdb_compounds_40_1000Da_clean.tsv | sort -k2,2; } > data/processed/hmdb_compounds_40_1000Da_sorted.tsv
+
+    # Finally remove duplicate chemical formulas
+    $ awk '!seen[$1]++' data/processed/hmdb_compounds_40_1000Da_sorted.tsv > data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
 
 
-***Input files:***
+**Input files:**
 
 HMDB provides downloads for all metabolites contained in the database, as well as specific subsets (e.g. serum, saliva, etc.). Downloaded files should automatically acquire the file extension `.xml` and will look something like this:
 
@@ -90,6 +107,8 @@ HMDB provides downloads for all metabolites contained in the database, as well a
     </hmdb>
 
 Note that the HMDB database version (5.0) and date of the last update (2021-09-14) are included at the top of this example file, ensuring that this information is easily available for citation purposes.
+
+.. code-block:: text
 
 
 mimi_cache_create
