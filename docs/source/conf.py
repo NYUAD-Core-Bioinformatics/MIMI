@@ -20,7 +20,7 @@ import mimi
 # -- Project information -----------------------------------------------------
 
 project = 'Mass Spectrometry Tool'
-copyright = '2022, Nabil Rahiman'
+copyright = '2024, Nabil Rahiman'
 author = 'Nabil Rahiman'
 
 # The full version, including alpha/beta/rc tags
