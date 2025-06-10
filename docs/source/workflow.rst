@@ -804,12 +804,22 @@ MIMI supports processing multiple data bases in a single run. In this example, w
     # Extract compounds, use KEGG IDs as the compound ID if available, otherwise it falls back to HMDB IDs
     $ mimi_hmdb_extract --id-tag kegg_id  -l 40 -u 1000 -x data/raw/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
 
+    # Count the number of compounds with KEGG IDs
+    $ egrep -v "^HMDB|^#|^CF"  data/processed/hmdb_compounds_40_1000Da.tsv | wc -l
+    121140
+
+
     # Sort by compound ID (second column). Skips the comments and header lines.
     $ { head -n 10 data/processed/hmdb_compounds_40_1000Da.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/hmdb_compounds_40_1000Da_sorted.tsv
 
     # Remove duplicate chemical formulas
     $ { head -n 10 data/processed/hmdb_compounds_40_1000Da_sorted.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da_sorted.tsv | awk '!seen[$1]++'; } > data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
     
+
+    # Count the number of compounds with KEGG IDs
+    $egrep -v "^HMDB|^#|^CF"  data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv | wc -l
+    20098
+
     # Kegg compounds already created in the previous example
     $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/kegg
     
