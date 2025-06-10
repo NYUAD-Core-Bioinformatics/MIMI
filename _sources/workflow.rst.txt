@@ -139,6 +139,7 @@ Database Sources
 
     options:
     -h, --help            show this help message and exit
+    --id-tag ID_TAG       Preferred ID tag to use. Options: accession, kegg_id, chebi_id, pubchem_compound_id, drugbank_id
     -x XML, --xml XML     Path to HMDB metabolites XML file
     -l MIN_MASS, --min-mass MIN_MASS
                             Lower bound of molecular weight in Da
@@ -799,20 +800,49 @@ Support for multiple data bases
 
 MIMI supports processing multiple data bases in a single run. In this example, we create two data bases from KEGG and HMDB and then analyze the testdata1.asc file against both data bases::
 
+    
+    # Extract compounds, use KEGG IDs as the compound ID if available, otherwise it falls back to HMDB IDs
+    $ mimi_hmdb_extract --id-tag kegg_id  -l 40 -u 1000 -x data/raw/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
+
+    # Sort by compound ID (second column). Skips the comments and header lines.
+    $ { head -n 10 data/processed/hmdb_compounds_40_1000Da_v1.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/hmdb_compounds_40_1000Da_sorted.tsv
+
+    # Remove duplicate chemical formulas
+    $ { head -n 10 data/processed/hmdb_compounds_40_1000Da_sorted.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da_sorted.tsv | awk '!seen[$1]++'; } > data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
+    
+    # Kegg compounds already created in the previous example
     $ mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da_sorted_uniq.tsv -c outdir/kegg
+    
+    
     $ mimi_cache_create -i neg -d data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv -c outdir/hmdb
 
     $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/kegg -c outdir/hmdb -s data/processed/testdata1.asc -o outdir/results.tsv
 
 
-    $ head -n 4 outdir/results.tsv; egrep "HMDB00008|C23040" outdir/results.tsv;
-    Log file	/Users/aaa/test/log/results_20250609_213625.log
-                                                                            data/processed/testdata1.asc							
-                                                                                                                   kegg				                                        hmdb			
-    CF         ID         Name                               C  H   N O P S kegg_mass           hmdb_mass          mass_measured error_ppm             intensity iso_count  mass_measured error_ppm              intensity iso_count
-    C12H21NO9  C23040     N-Acetyl-8-O-methyl-neuraminate    12 21  1 9 0 0 322.11435479039005                     322.11445     -0.29557704743086227  2410045   1
-    C4H8O3     HMDB00008  L-lactate dehydrogenase A-like 6B  4  8   0 3 0 0                     103.04006764955001                                                          103.04007     -0.022811029174612103  26551008  0
+    $ head outdir/results.tsv 
+    Log file    /Users/nr83/test/log/results_20250610_084653.log
+                                                                                                                                                        data/processed/testdata1.asc                            
+                                                                                                                                                        kegg                                                            hmdb            
+    CF            ID        Name                                                       C   H   N  O  P  S  kegg_mass                hmdb_mass           mass_measured   error_ppm               intensity   iso_count   mass_measured   error_ppm               intensity   iso_count
+    H3PO4         C00009    Orthophosphate                                             0   3   0  4  1  0  96.96961910639001        96.96961910639001   96.96959        0.3001598880622085      124803888   0           96.96959        0.3001598880622085      124803888   0
+    H4P2O7        C00013    Diphosphate                                                0   4   0  7  2  0  176.93594999575          176.93594999575     176.93595       -2.4019898027273073e-05 3323336     0           176.93595       -2.4019898027273073e-05 3323336     0
+    C15H22N6O5S   C00019    S-Adenosyl-L-methionine                                    15  22  6  5  0  1  397.12996254089                              397.12984       0.3085662165101871      1360441     4                
+    C10H14N5O7P   C00020    AMP                                                        10  14  5  7  1  0  346.05580834178          346.05580834178     346.0558        0.02410530271673412     3847223     1           346.0558        0.02410530271673412     3847223     1
+    C14H20N6O5S   C00021    S-Adenosyl-L-homocysteine                                  14  20  6  5  0  1  383.11431247643003       383.11431247643003  383.11448       -0.43726784546911773    1524971     8           383.11448       -0.43726784546911773    1524971     8
+    C5H9NO4       C00025    L-Glutamate                                                5   9   1  4  0  0  146.04588130578003       146.04588130578003  146.04582       0.4197706877343145      13906306    1           146.04582       0.4197706877343145      13906306    1
+  
+    $ tail  outdir/results.tsv 
 
+    C11H21NO2     HMDB62669  11-nitro-1-undecene                                       11  21  1  2  0  0                           198.1499524534                                                                      198.14989        0.31518251320303503     30164902    2
+    C10H14O4S     HMDB62720  Colorectal cancer                                         10  14  0  4  0  1                           229.0540036369                                                                      229.05404        -0.15875339178812753    698721664   7
+    C8H8O4S       HMDB62775  4-Vinylphenol sulfate                                     8   8   0  4  0  1                           199.00705344352002                                                                  199.00707        -0.08319544302948242    23203078    6
+    C21H30O8S     HMDB62779  Cortisol 21-sulfate                                       21  30  0  8  0  1                           441.15886263086                                                                     441.15885        0.028631092165590618    44812988    7
+    C22H20OS      HMDB62791  (2,3-diphenylcyclopropyl)methyl Phenyl Sulfoxide          22  20  0  1  0  1                           331.11620997157                                                                     331.11634        -0.3926972647329244     2713798     1
+    C10H10N2O3S   HMDB62793  6-(2-amino-2-carboxyethyl)-4-hydroxybenzothiazole         10  10  2  3  0  1                           237.03393689727                                                                     237.03394        -0.013089813408074368   6989369     2
+    C22H44O4      HMDB72839  MG(19:0/0:0/0:0)                                          22  44  0  4  0  0                           371.3166834294                                                                      371.31674        -0.1523513554154912     4211805     0
+    C13H26O4      HMDB72866  MG(10:0/0:0/0:0)                                          13  26  0  4  0  0                           245.17583284926002                                                                  245.17573        0.41949183504749804     231282528   1
+    C21H40O5      HMDB92901  De Novo Triacylglycerol Biosynthesis TG(8:0/10:0/i-24:0)  21  40  0  5  0  0                           371.28029792005                                                                     371.28019        0.2906700155512381      9494584     0
+    C8H18O5       HMDB94708  Colorectal cancer                                         8   18  0  5  0  0                           193.10814721099                                                                     193.10819        -0.2215805527299022     1863537     1
 
 
 

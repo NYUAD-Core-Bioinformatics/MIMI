@@ -63,6 +63,7 @@ Extracts metabolite information from the `Human Metabolome Database (HMDB) <http
 
     options:
     -h, --help            show this help message and exit
+    --id-tag ID_TAG       Preferred ID tag to use. Options: accession, kegg_id, chebi_id, pubchem_compound_id, drugbank_id
     -x XML, --xml XML     Path to HMDB metabolites XML file
     -l MIN_MASS, --min-mass MIN_MASS
                             Lower bound of molecular weight in Da
