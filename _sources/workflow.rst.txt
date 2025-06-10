@@ -805,7 +805,7 @@ MIMI supports processing multiple data bases in a single run. In this example, w
     $ mimi_hmdb_extract --id-tag kegg_id  -l 40 -u 1000 -x data/raw/hmdb_metabolites.xml -o data/processed/hmdb_compounds_40_1000Da.tsv
 
     # Sort by compound ID (second column). Skips the comments and header lines.
-    $ { head -n 10 data/processed/hmdb_compounds_40_1000Da_v1.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/hmdb_compounds_40_1000Da_sorted.tsv
+    $ { head -n 10 data/processed/hmdb_compounds_40_1000Da.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da.tsv | sort -k2,2; } > data/processed/hmdb_compounds_40_1000Da_sorted.tsv
 
     # Remove duplicate chemical formulas
     $ { head -n 10 data/processed/hmdb_compounds_40_1000Da_sorted.tsv; tail -n +11 data/processed/hmdb_compounds_40_1000Da_sorted.tsv | awk '!seen[$1]++'; } > data/processed/hmdb_compounds_40_1000Da_sorted_uniq.tsv
