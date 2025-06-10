@@ -35,7 +35,7 @@ from mimi.atom import load_isotope
 from datetime import datetime
 
 
-def parse_hmdb_xml(xml_file, min_mass=None, max_mass=None):
+def parse_hmdb_xml(xml_file, min_mass=None, max_mass=None, preferred_id="accession"):
     """
     Parse HMDB metabolites XML file and extract relevant information.
     
@@ -66,6 +66,7 @@ def parse_hmdb_xml(xml_file, min_mass=None, max_mass=None):
         name = None
         chemical_formula = None
         mol_weight = None
+        preferred_id_val = None
         
         # Setup progress tracking
         processed_count = 0
@@ -76,8 +77,11 @@ def parse_hmdb_xml(xml_file, min_mass=None, max_mass=None):
             if elem.tag == f"{{{ns['hmdb']}}}metabolite":
                 # Process the complete metabolite
                 processed_count += 1
-                
-                if not all(x is not None for x in [metabolite_id, name, chemical_formula, mol_weight]):
+
+                # Determine which ID to use
+                final_id = preferred_id_val if preferred_id_val else metabolite_id
+
+                if not all(x is not None for x in [final_id, name, chemical_formula, mol_weight]):
                     incomplete_count += 1
                 else:
                     # Check mass range if filtering is enabled
@@ -93,14 +97,14 @@ def parse_hmdb_xml(xml_file, min_mass=None, max_mass=None):
                                 parse_molecular_formula(chemical_formula)
                                 
                                 # If successful, add to metabolites list
-                                metabolites.append((chemical_formula, metabolite_id, name))
+                                metabolites.append((chemical_formula, final_id, name))
                             except KeyError:
                                 skipped_count += 1
                     else:
                         # No mass filtering, just check formula
                         try:
                             parse_molecular_formula(chemical_formula)
-                            metabolites.append((chemical_formula, metabolite_id, name))
+                            metabolites.append((chemical_formula, final_id, name))
                         except KeyError:
                             skipped_count += 1
                 
@@ -113,12 +117,16 @@ def parse_hmdb_xml(xml_file, min_mass=None, max_mass=None):
                 name = None
                 chemical_formula = None
                 mol_weight = None
+                preferred_id_val = None
                 
                 # Clear the element to free memory
                 elem.clear()
                 
             elif elem.tag == f"{{{ns['hmdb']}}}accession" and elem.text:
                 metabolite_id = elem.text
+            elif elem.tag == f"{{{ns['hmdb']}}}{preferred_id}" and elem.text:
+                # print(f"KEGG ID: {elem.text}")
+                preferred_id_val = elem.text
             elif elem.tag == f"{{{ns['hmdb']}}}name" and elem.text:
                 name = elem.text
             elif elem.tag == f"{{{ns['hmdb']}}}chemical_formula" and elem.text:
@@ -199,7 +207,7 @@ def get_hmdb_info(xml_file):
         return None
 
 
-def export_metabolites_to_tsv(xml_file, output_file, min_mass=None, max_mass=None):
+def export_metabolites_to_tsv(xml_file, output_file, min_mass=None, max_mass=None, preferred_id="accession"):
     """
     Parse HMDB metabolites and export to TSV format.
     
@@ -263,7 +271,7 @@ def export_metabolites_to_tsv(xml_file, output_file, min_mass=None, max_mass=Non
                 f.write("CF\tID\tName\n")
                 
                 # Parse and write metabolites
-                metabolite_data, skipped_count, processed_count = parse_hmdb_xml(xml_file, min_mass, max_mass)
+                metabolite_data, skipped_count, processed_count = parse_hmdb_xml(xml_file, min_mass, max_mass, preferred_id)
                 for cf, met_id, met_name in metabolite_data:
                     f.write(f"{cf}\t{met_id}\t{met_name}\n")
                 
@@ -294,6 +302,8 @@ def export_metabolites_to_tsv(xml_file, output_file, min_mass=None, max_mass=Non
 def main():
     """Command line interface for HMDB metabolites extraction."""
     parser = argparse.ArgumentParser(description='Extract metabolite information from HMDB XML file')
+    parser.add_argument('--id-tag', default='accession',
+                     help='Preferred ID tag to use. Options: accession, kegg_id, chebi_id, pubchem_compound_id, drugbank_id')
     parser.add_argument('-x', '--xml', required=True,
                       help='Path to HMDB metabolites XML file')
     parser.add_argument('-l', '--min-mass', type=float,
@@ -305,8 +315,14 @@ def main():
     
     args = parser.parse_args()
     
+    VALID_ID_TAGS = ["accession", "kegg_id", "chebi_id", "pubchem_compound_id", "drugbank_id"]
+
+    if args.id_tag not in VALID_ID_TAGS:
+        print(f"Error: Invalid ID tag '{args.id_tag}'. Allowed options: {', '.join(VALID_ID_TAGS)}")
+        sys.exit(1)
+    
     load_isotope()
-    export_metabolites_to_tsv(args.xml, args.output, args.min_mass, args.max_mass)
+    export_metabolites_to_tsv(args.xml, args.output, args.min_mass, args.max_mass, preferred_id=args.id_tag)
     print(f"Extracted data saved to {args.output}")
 
 
