@@ -108,13 +108,16 @@ def load_mass_spectrometry_data(asc_file):
                        1. mass value
                        2. intensity value
                        3. error/uncertainty value
+                       
+                       Lines starting with '#' are treated as comments and ignored.
+                       The file may or may not have a header row.
         
     Returns:
         tuple: Contains:
-            - list: List of [mass, intensity] pairs
+            - list: List of [mass, intensity, error] data rows
             - dict: Metadata about the file including:
                 - file_path: Original file path
-                - line_count: Number of data lines
+                - line_count: Number of data lines (excluding comments and headers)
     """
     mass_intensity_pair_list = []
     metadata = {
@@ -124,10 +127,36 @@ def load_mass_spectrometry_data(asc_file):
     
     try:
         fd = open(asc_file)
+        first_data_line = True
+        
         for line in fd:
             line = line.strip()
-            mass_intensity_pair_list.append(line.split('\t'))
-            metadata['line_count'] += 1
+            
+            # Skip empty lines
+            if not line:
+                continue
+                
+            # Skip comment lines starting with '#'
+            if line.startswith('#'):
+                continue
+            
+            fields = line.split('\t')
+            
+            # Skip potential header row by checking if first field looks like a number
+            if first_data_line:
+                try:
+                    # Try to convert first field to float to detect if it's a header
+                    float(fields[0])
+                    first_data_line = False
+                except (ValueError, IndexError):
+                    # Likely a header row, skip it
+                    continue
+            
+            # Ensure we have at least mass and intensity columns
+            if len(fields) >= 2:
+                mass_intensity_pair_list.append(fields)
+                metadata['line_count'] += 1
+            
         fd.close()
     except FileNotFoundError:
         print(f"Error: Sample file '{asc_file}' not found.")
@@ -180,6 +209,24 @@ def get_atom_counts(exp):
         if symbol in counts:
             counts[symbol] = str(each_atom[1])
     return (counts['C'], counts['H'], counts['N'], counts['O'], counts['P'], counts['S'])
+
+
+def calculate_formula_mass(chemical_formula):
+    """Calculate molecular mass from a chemical formula string.
+    
+    Args:
+        chemical_formula (str): Chemical formula string (e.g., 'C6H12O6')
+        
+    Returns:
+        float: Calculated molecular mass, or None if formula cannot be parsed
+    """
+    try:
+        molecular_expression = parse_molecular_formula(chemical_formula)
+        mass = calculate_nominal_mass(molecular_expression, 'zero')
+        return mass
+    except (KeyError, ValueError, AttributeError) as e:
+        # Return None if formula cannot be parsed
+        return None
 
 
 def create_logger(log_fp, debug_fp, args):
@@ -295,7 +342,7 @@ def main():
         # Initialize or get existing report entry
         if entry[1] not in final_report:
             output = [entry[0], entry[1], entry[2], 
-                     C_count, H_count, N_count, O_count, P_count, S_count] + [''] * len(computation_methods)
+                     C_count, H_count, N_count, O_count, P_count, S_count] + ['NO_MAPPED_ID'] * len(computation_methods)
             output[9 + precomputed_chem_idx] = str(mass)
             output = output + ['', '', '', ''] * len(data_sets) * len(computation_methods)
             final_report[entry[1]] = output
@@ -379,6 +426,7 @@ def main():
     cache_metadata = []
 
     write_log = create_logger(log_fp, debug_fp, args)
+    cf_conflict_count = 0  # Track number of CF_CONFLICT cases
 
     for cache in args.cache_files:
         # method_name = cache.split('_')
@@ -555,6 +603,48 @@ def main():
             # Second pass - process matches in database order
             match_desc = f"Processing matches for database {precomputed_chem_idx+1}/{len(precomputed_chem_files)}"
             for co in tqdm(precomputed_chem, desc=match_desc):
+                entry = [precomputed_chem[co]['cf'], co, precomputed_chem[co]['cname']]
+                
+                if entry[1] not in final_report:
+                    exp = precomputed_chem[co]['exp']
+                    mass = precomputed_chem[co]['mass']
+                    C_count, H_count, N_count, O_count, P_count, S_count = get_atom_counts(exp)
+                    output = [entry[0], entry[1], entry[2], 
+                            C_count, H_count, N_count, O_count, P_count, S_count] + ['NO_MAPPED_ID'] * len(computation_methods)
+                    output[9 + precomputed_chem_idx] = str(mass)
+                    output = output + ['', '', '', ''] * len(data_sets) * len(computation_methods)
+                    final_report[entry[1]] = output
+                    
+                
+                output = final_report[entry[1]]
+                output[9 + precomputed_chem_idx] = 'NO_MASS_MATCH'
+
+                if output[0] != precomputed_chem[co]['cf']:
+                    # Calculate masses to determine if this is a real conflict
+                    current_formula = precomputed_chem[co]['cf']
+                    existing_formula = output[0]
+                    current_mass = calculate_formula_mass(current_formula)
+                    existing_mass = calculate_formula_mass(existing_formula)
+                    
+                    # Only flag as CF_CONFLICT if masses are actually different
+                    if current_mass is None or existing_mass is None or abs(current_mass - existing_mass) > 1e-6:
+                        # Log CF_CONFLICT with detailed reason
+                        cf_conflict_count += 1
+                        write_log(f"CF_CONFLICT detected for compound ID: {co}")
+                        write_log(f"  Database {precomputed_chem_idx+1} ({computation_methods[precomputed_chem_idx]}): {current_formula} (mass: {current_mass:.6f})")
+                        write_log(f"  Existing entry: {existing_formula} (mass: {existing_mass:.6f})")
+                        write_log(f"  Compound name: {precomputed_chem[co]['cname']}")
+                        write_log(f"  Reason: Same compound ID found with different chemical formulas and masses across databases")
+                        output[9 + precomputed_chem_idx] = 'CF_CONFLICT'
+                    else:
+                        # Same mass, just different formula representation - log as info but don't flag conflict
+                        write_log(f"INFO: Formula representation difference for compound ID: {co}")
+                        write_log(f"  Database {precomputed_chem_idx+1} ({computation_methods[precomputed_chem_idx]}): {current_formula}")
+                        write_log(f"  Existing entry: {existing_formula}")
+                        write_log(f"  Both have same mass: {current_mass:.6f} - treating as equivalent formulas")
+
+                final_report[entry[1]] = output
+                
                 if co in compound_matches:
                     # Find all instances where this compound matched
                     matches = [(m_idx, s_idx) for (c, m_idx, s_idx) in ordered_matches if c == co]
@@ -562,6 +652,9 @@ def main():
                         process_match(co, mass_idx, sample_idx, precomputed_chem,
                                    data_sets[sample_idx][0], data_sets[sample_idx][1], 
                                    final_report, precomputed_chem_idx, data_sets, computation_methods)
+
+                
+
         else:
             # Database smaller or comparable to samples - search from database 
             db_desc = f"Processing database {precomputed_chem_idx+1}/{len(precomputed_chem_files)}"
@@ -575,6 +668,46 @@ def main():
                 exp = precomputed_chem[co]['exp']
                 mass = precomputed_chem[co]['mass']
                 isotope_mass_list = precomputed_chem[co]['isotope_mass_list']
+
+
+                if entry[1] not in final_report:
+                    exp = precomputed_chem[co]['exp']
+                    mass = precomputed_chem[co]['mass']
+                    C_count, H_count, N_count, O_count, P_count, S_count = get_atom_counts(exp)
+                    output = [entry[0], entry[1], entry[2], 
+                            C_count, H_count, N_count, O_count, P_count, S_count] + ['NO_MAPPED_ID'] * len(computation_methods)
+                    output[9 + precomputed_chem_idx] = str(mass)
+                    output = output + ['', '', '', ''] * len(data_sets) * len(computation_methods)
+                    final_report[entry[1]] = output
+                
+                output = final_report[entry[1]]
+                output[9 + precomputed_chem_idx] = 'NO_MASS_MATCH'
+
+                if output[0] != precomputed_chem[co]['cf']:
+                    # Calculate masses to determine if this is a real conflict
+                    current_formula = precomputed_chem[co]['cf']
+                    existing_formula = output[0]
+                    current_mass = calculate_formula_mass(current_formula)
+                    existing_mass = calculate_formula_mass(existing_formula)
+                    
+                    # Only flag as CF_CONFLICT if masses are actually different
+                    if current_mass is None or existing_mass is None or abs(current_mass - existing_mass) > 1e-6:
+                        # Log CF_CONFLICT with detailed reason
+                        cf_conflict_count += 1
+                        write_log(f"CF_CONFLICT detected for compound ID: {co}")
+                        write_log(f"  Database {precomputed_chem_idx+1} ({computation_methods[precomputed_chem_idx]}): {current_formula} (mass: {current_mass:.6f})")
+                        write_log(f"  Existing entry: {existing_formula} (mass: {existing_mass:.6f})")
+                        write_log(f"  Compound name: {precomputed_chem[co]['cname']}")
+                        write_log(f"  Reason: Same compound ID found with different chemical formulas and masses across databases")
+                        output[9 + precomputed_chem_idx] = 'CF_CONFLICT'
+                    else:
+                        # Same mass, just different formula representation - log as info but don't flag conflict
+                        write_log(f"INFO: Formula representation difference for compound ID: {co}")
+                        write_log(f"  Database {precomputed_chem_idx+1} ({computation_methods[precomputed_chem_idx]}): {current_formula}")
+                        write_log(f"  Existing entry: {existing_formula}")
+                        write_log(f"  Both have same mass: {current_mass:.6f} - treating as equivalent formulas")
+
+                final_report[entry[1]] = output
                 
                 sample_idx = -1
                 for data_set in data_sets:
@@ -589,12 +722,21 @@ def main():
                         process_match(co, natural_hits_index[0], sample_idx, precomputed_chem,
                                    mi_pair_list, aux_index_list, final_report, 
                                    precomputed_chem_idx, data_sets, computation_methods)
+
+                
+             
+                
+
                 
     # Write results to output file with progress bar
     write_log("Writing results to output file...")
     result_desc = "Writing results"
     try:
         for molecule in tqdm(final_report, desc=result_desc):
+
+            if all(x == 'NO_MAPPED_ID' or x == 'NO_MASS_MATCH' or x == 'CF_CONFLICT' for x in final_report[molecule][9:9+len(computation_methods)]):
+                continue
+
             out_fp.write('\t'.join(final_report[molecule]))
             out_fp.write('\n')
     except IOError as e:
@@ -603,6 +745,13 @@ def main():
     except Exception as e:
         print(f"Error: An unexpected error occurred while writing results: {str(e)}")
         sys.exit(1)
+    
+    # Print CF_CONFLICT summary if any were detected
+    if cf_conflict_count > 0:
+        print(f"\nWARNING: {cf_conflict_count} CF_CONFLICT(s) were detected during analysis.")
+        print("This indicates compounds with the same ID but different chemical formulas across databases.")
+        print(f"For detailed information about these conflicts, please check the log file: {log_file}")
+        print("Consider reviewing your compound databases for data consistency.\n")
     
     # Close files
     if log_fp:

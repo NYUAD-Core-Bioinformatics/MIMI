@@ -59,7 +59,7 @@ def parse_hmdb_xml(xml_file, min_mass=None, max_mass=None, preferred_id="accessi
     
     try:
         # Use iterparse to process the XML file incrementally
-        context = ET.iterparse(xml_file, events=('end',))
+        context = ET.iterparse(xml_file, events=('start', 'end'))
         
         # Track current metabolite data
         metabolite_id = None
@@ -68,74 +68,107 @@ def parse_hmdb_xml(xml_file, min_mass=None, max_mass=None, preferred_id="accessi
         mol_weight = None
         preferred_id_val = None
         
+        # Track XML path to avoid capturing disease names
+        path_stack = []
+        current_metabolite_elem = None
+        
         # Setup progress tracking
         processed_count = 0
         print("Parsing metabolites...")
         
         for event, elem in context:
-            # Check if this is a metabolite element
-            if elem.tag == f"{{{ns['hmdb']}}}metabolite":
-                # Process the complete metabolite
-                processed_count += 1
+            if event == 'start':
+                path_stack.append(elem.tag)
+            elif event == 'end':
 
-                # Determine which ID to use
-                final_id = preferred_id_val if preferred_id_val else metabolite_id
+                
+                # Check if this is a metabolite element before processing others
+                if elem.tag == f"{{{ns['hmdb']}}}metabolite":
+                    # Process the complete metabolite
+                    processed_count += 1
+                    
 
-                if not all(x is not None for x in [final_id, name, chemical_formula, mol_weight]):
-                    incomplete_count += 1
-                else:
-                    # Check mass range if filtering is enabled
-                    if min_mass is not None or max_mass is not None:
-                        if mol_weight is None or \
-                           (min_mass is not None and mol_weight < min_mass) or \
-                           (max_mass is not None and mol_weight > max_mass):
-                            skipped_count += 1
+                    # Determine which ID to use
+                    final_id = preferred_id_val if preferred_id_val else metabolite_id
+
+                    # print(f"final_id: {final_id}, name: {name}, chemical_formula: {chemical_formula}, mol_weight: {mol_weight}")
+
+
+                    if not all(x is not None for x in [final_id, name, chemical_formula, mol_weight]):
+                        incomplete_count += 1
+                    else:
+                        # Check mass range if filtering is enabled
+                        if min_mass is not None or max_mass is not None:
+                            if mol_weight is None or \
+                               (min_mass is not None and mol_weight < min_mass) or \
+                               (max_mass is not None and mol_weight > max_mass):
+                                skipped_count += 1
+                            else:
+                                # Only include if formula can be parsed successfully
+                                try:
+                                    # Attempt to parse the formula
+                                    parse_molecular_formula(chemical_formula)
+                                    
+                                    # If successful, add to metabolites list
+                                    metabolites.append((chemical_formula, final_id, name))
+                                except KeyError:
+                                    skipped_count += 1
                         else:
-                            # Only include if formula can be parsed successfully
+                            # No mass filtering, just check formula
                             try:
-                                # Attempt to parse the formula
                                 parse_molecular_formula(chemical_formula)
-                                
-                                # If successful, add to metabolites list
                                 metabolites.append((chemical_formula, final_id, name))
                             except KeyError:
                                 skipped_count += 1
-                    else:
-                        # No mass filtering, just check formula
-                        try:
-                            parse_molecular_formula(chemical_formula)
-                            metabolites.append((chemical_formula, final_id, name))
-                        except KeyError:
-                            skipped_count += 1
-                
-                # Update progress
-                if processed_count % 100 == 0:
-                    print(f"\rProcessed metabolites in HMDB file...{processed_count}", end="", flush=True)
-                
-                # Reset for next metabolite
-                metabolite_id = None
-                name = None
-                chemical_formula = None
-                mol_weight = None
-                preferred_id_val = None
-                
-                # Clear the element to free memory
-                elem.clear()
-                
-            elif elem.tag == f"{{{ns['hmdb']}}}accession" and elem.text:
-                metabolite_id = elem.text
-            elif elem.tag == f"{{{ns['hmdb']}}}{preferred_id}" and elem.text:
-                # print(f"KEGG ID: {elem.text}")
-                preferred_id_val = elem.text
-            elif elem.tag == f"{{{ns['hmdb']}}}name" and elem.text:
-                name = elem.text
-            elif elem.tag == f"{{{ns['hmdb']}}}chemical_formula" and elem.text:
-                chemical_formula = elem.text
-            elif elem.tag == f"{{{ns['hmdb']}}}average_molecular_weight" and elem.text:
-                try:
-                    mol_weight = float(elem.text)
-                except ValueError:
+                    
+                    # Update progress
+                    if processed_count % 100 == 0:
+                        print(f"\rProcessed metabolites in HMDB file...{processed_count}", end="", flush=True)
+                    
+                    # Reset for next metabolite
+                    metabolite_id = None
+                    name = None
+                    chemical_formula = None
                     mol_weight = None
+                    preferred_id_val = None
+                    current_metabolite_elem = None
+                    
+                    # Clear the element to free memory
+                    elem.clear()
+                    
+                elif elem.tag == f"{{{ns['hmdb']}}}accession" and elem.text:
+                    # Only capture if parent is metabolite
+                    if len(path_stack) == 3 and path_stack[-2] == f"{{{ns['hmdb']}}}metabolite":
+                        metabolite_id = elem.text
+                elif elem.tag == f"{{{ns['hmdb']}}}{preferred_id}" and elem.text:
+                    # Only capture if parent is metabolite
+                    if len(path_stack) == 3 and path_stack[-2] == f"{{{ns['hmdb']}}}metabolite":
+                        preferred_id_val = elem.text
+                elif elem.tag == f"{{{ns['hmdb']}}}name" and elem.text:
+                    
+                    # Only capture if parent is metabolite (not under diseases or other sub-elements)
+                    if len(path_stack) ==3 and path_stack[-2] == f"{{{ns['hmdb']}}}metabolite":
+                        name = elem.text
+                        if name == 'Parkinson\'s disease':
+                            print(f"Parkinson's disease: {elem.text}")
+                elif elem.tag == f"{{{ns['hmdb']}}}chemical_formula" and elem.text:
+                    # Only capture if parent is metabolite
+                    if len(path_stack) == 3 and path_stack[-2] == f"{{{ns['hmdb']}}}metabolite":
+                        chemical_formula = elem.text
+                elif elem.tag == f"{{{ns['hmdb']}}}average_molecular_weight" and elem.text:
+                    # Only capture if parent is metabolite
+                    if len(path_stack) == 3 and path_stack[-2] == f"{{{ns['hmdb']}}}metabolite":
+                        try:
+                            mol_weight = float(elem.text)
+                        except ValueError:
+                            mol_weight = None
+
+
+               
+                
+                # Remove the tag from path stack after processing
+                if path_stack:
+                    path_stack.pop()
         
         # Print newline after progress bar completes
         print()

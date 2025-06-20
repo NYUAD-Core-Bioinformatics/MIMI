@@ -7,14 +7,15 @@ import sys
 def count_number_of_nat(df):
     """Count number of features for natural abundance data"""
     print('count_number_of_nat')
-    print(df[df['nat_nist_mass'].notna()]['nat_nist_mass'].describe())
-    return df[df['nat_nist_mass'].notna()].shape[0]
+    print(df[df['nat_nist_mass'] != 'NO_MASS_MATCH']['nat_nist_mass'].head())
+    print(df[df['nat_nist_mass'] != 'NO_MASS_MATCH']['nat_nist_mass'].describe())
+    return df[df['nat_nist_mass'] != 'NO_MASS_MATCH'].shape[0]
 
 def count_number_of_C13(df):
     """Count number of features for C13 data"""
     print('count_number_of_C13')
-    print(df[df['C13_95_mass'].notna()]['C13_95_mass'].describe())
-    return df[df['C13_95_mass'].notna()].shape[0]
+    print(df[df['C13_95_mass'] != 'NO_MASS_MATCH']['C13_95_mass'].describe())
+    return df[df['C13_95_mass'] != 'NO_MASS_MATCH'].shape[0]
 
 # def mean_valid_isotopes_nat(df):
 #     """Count total number of valid isotopes for natural abundance data"""
@@ -34,16 +35,16 @@ def count_number_of_C13(df):
 def mean_isotopes_nat(df):
     """Count total number of valid isotopes for natural abundance data"""
     print('mean_isotopes_nat')
-    print(df[df['nat_nist_mass'].notna()]['iso_count'].describe())
-    print(df[df['nat_nist_mass'].notna()]['iso_count'].mean())
-    return df[df['nat_nist_mass'].notna()]['iso_count'].mean()
+    print(df[df['nat_nist_mass'] != 'NO_MASS_MATCH']['iso_count'].describe())
+    print(df[df['nat_nist_mass'] != 'NO_MASS_MATCH']['iso_count'].mean())
+    return df[df['nat_nist_mass'] != 'NO_MASS_MATCH']['iso_count'].mean()
 
 def mean_isotopes_C13(df):
     """Count total number of valid isotopes for C13 data"""
     print('mean_isotopes_C13')
-    print(df[df['C13_95_mass'].notna()]['iso_count.1'].describe())
-    print(df[df['C13_95_mass'].notna()]['iso_count.1'].mean())
-    return df[df['C13_95_mass'].notna()]['iso_count.1'].mean()
+    print(df[df['C13_95_mass'] != 'NO_MASS_MATCH']['iso_count.1'].describe())
+    print(df[df['C13_95_mass'] != 'NO_MASS_MATCH']['iso_count.1'].mean())
+    return df[df['C13_95_mass'] != 'NO_MASS_MATCH']['iso_count.1'].mean()
 
 def process_results(outdir):
     """Process all result files and compile data for plotting"""
