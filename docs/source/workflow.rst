@@ -10,7 +10,10 @@ Installation
 
 MIMI can be installed using the Conda package manager, which is the recommended method as it handles all dependencies automatically::
 
-    $ conda install -c conda-forge mimi
+    $ conda create -n mimi_env
+    $ conda activate mimi_env
+    $ conda install -c bioconda mimi
+
 
 Alternatively, you can install from source if you need the latest development version::
 
