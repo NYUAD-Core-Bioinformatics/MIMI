@@ -120,7 +120,9 @@
 <section id="installation">
 <span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
 <p>MIMI can be installed using the Conda package manager, which is the recommended method as it handles all dependencies automatically:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda install -c conda-forge mimi
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda create -n mimi_env
+$ conda activate mimi_env
+$ conda install -c bioconda mimi
 </pre></div>
 </div>
 <p>Alternatively, you can install from source if you need the latest development version:</p>
