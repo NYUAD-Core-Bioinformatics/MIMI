@@ -264,6 +264,8 @@ def create_logger(log_fp, debug_fp, args):
     return write_log
 
 
+
+
 def main():
     """Main entry point for analysis tool."""
     ap = argparse.ArgumentParser(description="Molecular Isotope Mass Identifier")
@@ -279,9 +281,12 @@ def main():
     ap.add_argument("-s", "--sample", dest="samples", help="Input sample file",
                     metavar="SAMPLE", nargs='+',  required=True)
 
+  
+    ap.add_argument("--iso-valid", dest="include_iso_valid", action='store_true', 
+                    help="Include valid isotope count column in output", default=False)
+    
     ap.add_argument("-o", "--output", dest="out", required=True,
                     help="Output file", metavar="OUTPUT")
-    
     args = ap.parse_args()
 
     full_command = ' '.join([os.path.basename(sys.argv[0])] + sys.argv[1:])
@@ -329,7 +334,7 @@ def main():
     # Function to process a match between sample and database
     def process_match(co, mass_idx, sample_idx, precomputed_chem, mi_pair_list, 
                      aux_index_list, final_report, precomputed_chem_idx, data_sets,
-                     computation_methods):
+                     computation_methods, fields_per_method):
         """Process a matching mass between sample and database."""
         entry = [precomputed_chem[co]['cf'], co, precomputed_chem[co]['cname']]
         exp = precomputed_chem[co]['exp']
@@ -344,7 +349,7 @@ def main():
             output = [entry[0], entry[1], entry[2], 
                      C_count, H_count, N_count, O_count, P_count, S_count] + ['NO_MAPPED_ID'] * len(computation_methods)
             output[9 + precomputed_chem_idx] = str(mass)
-            output = output + ['', '', '', ''] * len(data_sets) * len(computation_methods)
+            output = output + [''] * fields_per_method * len(data_sets) * len(computation_methods)
             final_report[entry[1]] = output
         else:
             output = final_report[entry[1]]
@@ -401,14 +406,16 @@ def main():
 
         # Record results
         base_idx = 9 + len(computation_methods)
-        entry_idx = base_idx + (sample_idx * 4 * len(computation_methods))
-        entry_idx = entry_idx + 4 * precomputed_chem_idx
+        entry_idx = base_idx + (sample_idx * fields_per_method * len(computation_methods))
+        entry_idx = entry_idx + fields_per_method * precomputed_chem_idx
         
         output[entry_idx] = mi_pair_list[mass_idx][0]
         error = ((float(mass) - float(mi_pair_list[mass_idx][0]))/(float(mass))) * 1000000
         output[entry_idx + 1] = str(error)
         output[entry_idx + 2] = mi_pair_list[mass_idx][1]
         output[entry_idx + 3] = str(matched_isotop_count)
+        if args.include_iso_valid:
+            output[entry_idx + 4] = str(valid_isotop_count)
 
         # print()
         # print('hello')
@@ -471,7 +478,7 @@ def main():
    
     atom.load_isotope()
 
-    field_names = ['CF', 'ID', 'Name', 'C', 'H', 'N', 'O', 'P', 'S'] +  [method + '_mass' for method in computation_methods]
+   
     
     # Write analysis metadata to log
     write_log("MIMI Mass Analysis Run Information:")
@@ -520,22 +527,32 @@ def main():
 
 
     
-    first_row = [''] * len(field_names)
-    second_row = [''] * len(field_names)
+  
     # first_row[4] = 'Reference Mass'
 
+    # Define the fields per sample method (consistent across all samples)
+    sample_method_fields = ['mass_measured', 'error_ppm', 'intensity', 'iso_count']
+    if args.include_iso_valid:
+        sample_method_fields.append('iso_valid')
+
+    field_names = ['CF', 'ID', 'Name', 'C', 'H', 'N', 'O', 'P', 'S'] +  [method + '_mass' for method in computation_methods]
+
+    first_row = [''] * len(field_names)
+    second_row = [''] * len(field_names)
+    
+    # Calculate fields per method dynamically
+    fields_per_method = len(sample_method_fields)
+    
     field_per_sample = []
     for each_sample in args.samples:
-        field_per_sample.append('mass_measured')
-        field_per_sample.append('error_ppm')
-        field_per_sample.append('intensity')
-        field_per_sample.append('iso_count')
-        # field_per_sample.append('iso_valid')
-        first_row = first_row + [each_sample] + ['', '', ''] + ['', '', '', ''] * (len(computation_methods) - 1)
-        l =  [[computation_methods[i],'', '', ''] for i in range(len(computation_methods)) ]
-        second_row = second_row + [x for sublist in l for x in  sublist]
+        field_per_sample.extend(sample_method_fields*len(computation_methods))
+        
+        empty_fields = [''] * (fields_per_method - 1)
+        first_row = first_row + [each_sample] + empty_fields + empty_fields * (len(computation_methods) - 1)
+        l = [[computation_methods[i]] + empty_fields for i in range(len(computation_methods))]
+        second_row = second_row + [x for sublist in l for x in sublist]
 
-    field_names = field_names + field_per_sample * len(computation_methods)
+    field_names = field_names + field_per_sample
     
     # Add log file path at the top of the report
     out_fp.write(f"Log file\t{log_file}\n")
@@ -612,7 +629,7 @@ def main():
                     output = [entry[0], entry[1], entry[2], 
                             C_count, H_count, N_count, O_count, P_count, S_count] + ['NO_MAPPED_ID'] * len(computation_methods)
                     output[9 + precomputed_chem_idx] = str(mass)
-                    output = output + ['', '', '', ''] * len(data_sets) * len(computation_methods)
+                    output = output + [''] * fields_per_method * len(data_sets) * len(computation_methods)
                     final_report[entry[1]] = output
                     
                 
@@ -651,7 +668,7 @@ def main():
                     for mass_idx, sample_idx in matches:
                         process_match(co, mass_idx, sample_idx, precomputed_chem,
                                    data_sets[sample_idx][0], data_sets[sample_idx][1], 
-                                   final_report, precomputed_chem_idx, data_sets, computation_methods)
+                                   final_report, precomputed_chem_idx, data_sets, computation_methods, fields_per_method)
 
                 
 
@@ -677,7 +694,7 @@ def main():
                     output = [entry[0], entry[1], entry[2], 
                             C_count, H_count, N_count, O_count, P_count, S_count] + ['NO_MAPPED_ID'] * len(computation_methods)
                     output[9 + precomputed_chem_idx] = str(mass)
-                    output = output + ['', '', '', ''] * len(data_sets) * len(computation_methods)
+                    output = output + [''] * fields_per_method * len(data_sets) * len(computation_methods)
                     final_report[entry[1]] = output
                 
                 output = final_report[entry[1]]
@@ -721,7 +738,7 @@ def main():
                     if len(natural_hits_index) > 0:
                         process_match(co, natural_hits_index[0], sample_idx, precomputed_chem,
                                    mi_pair_list, aux_index_list, final_report, 
-                                   precomputed_chem_idx, data_sets, computation_methods)
+                                   precomputed_chem_idx, data_sets, computation_methods, fields_per_method)
 
                 
              
