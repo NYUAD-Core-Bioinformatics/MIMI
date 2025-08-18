@@ -19,7 +19,9 @@ MIMI was developed in the [**Center for Genomics and Systems Biology (CGSB)**](h
 
 ### Using Conda (Recommended)
 ```bash
-conda install -c conda-forge mimi
+$ conda create -n mimi_env
+$ conda activate mimi_env
+$ conda install -c bioconda mimi
 ```
 
 ### From Source
