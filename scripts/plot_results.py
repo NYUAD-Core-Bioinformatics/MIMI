@@ -159,8 +159,8 @@ def create_plots(outdir):
         'p setting (ppm)': p_values * 4,
         'Number of CF': (cf_counts_nat_1 + cf_counts_nat_2 + 
                         cf_counts_C13_1 + cf_counts_C13_2),
-        'Type_Dataset': (['nat_nist_testdata1']*len(p_values) + ['nat_nist_testdata2']*len(p_values) +
-                        ['C13_95_testdata1']*len(p_values) + ['C13_95_testdata2']*len(p_values))
+        'Type_Dataset': (['nat_nist_rep1']*len(p_values) + ['nat_nist_rep2']*len(p_values) +
+                        ['C13_95_rep1']*len(p_values) + ['C13_95_rep2']*len(p_values))
     })
     
     # Data for middle plot
@@ -168,8 +168,8 @@ def create_plots(outdir):
         'vp setting (ppm)': vp_values * 4,
         'Avg. number of isotopes': (iso_mean_nat_1 + iso_mean_nat_2 +
                              iso_mean_C13_1 + iso_mean_C13_2),
-        'Type_Dataset': (['nat_nist_testdata1']*len(vp_values) + ['nat_nist_testdata2']*len(vp_values) +
-                        ['C13_95_testdata1']*len(vp_values) + ['C13_95_testdata2']*len(vp_values))
+        'Type_Dataset': (['nat_nist_rep1']*len(vp_values) + ['nat_nist_rep2']*len(vp_values) +
+                        ['C13_95_rep1']*len(vp_values) + ['C13_95_rep2']*len(vp_values))
     })
 
     # Data for bottom plot
