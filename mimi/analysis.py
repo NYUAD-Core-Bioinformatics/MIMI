@@ -276,14 +276,16 @@ def main():
                     help="Parts per million for verification of isotopes",  required=True)
     ap.add_argument("-g", '--debug', dest="debug", action='store_true', help=argparse.SUPPRESS, default=False)
 
+    ap.add_argument("--iso-validation", dest="include_iso_valid", action='store_true', 
+                    help="Include isotope validation counts in output (adds 'iso_valid' column) (default: False)", default=False)
+                    
     ap.add_argument("-c", "--cache", dest="cache_files", help="Binary DB input file(s)",
                     metavar="DBBINARY", nargs='+', required=True)
     ap.add_argument("-s", "--sample", dest="samples", help="Input sample file",
                     metavar="SAMPLE", nargs='+',  required=True)
 
   
-    ap.add_argument("--iso-valid", dest="include_iso_valid", action='store_true', 
-                    help="Include valid isotope count column in output", default=False)
+   
     
     ap.add_argument("-o", "--output", dest="out", required=True,
                     help="Output file", metavar="OUTPUT")
@@ -416,6 +418,8 @@ def main():
         output[entry_idx + 3] = str(matched_isotop_count)
         if args.include_iso_valid:
             output[entry_idx + 4] = str(valid_isotop_count)
+        else:
+            output[entry_idx + 4] = 'NA'
 
         # print()
         # print('hello')
@@ -531,9 +535,7 @@ def main():
     # first_row[4] = 'Reference Mass'
 
     # Define the fields per sample method (consistent across all samples)
-    sample_method_fields = ['mass_measured', 'error_ppm', 'intensity', 'iso_count']
-    if args.include_iso_valid:
-        sample_method_fields.append('iso_valid')
+    sample_method_fields = ['mass_measured', 'error_ppm', 'intensity', 'iso_count', 'iso_valid']
 
     field_names = ['CF', 'ID', 'Name', 'C', 'H', 'N', 'O', 'P', 'S'] +  [method + '_mass' for method in computation_methods]
 

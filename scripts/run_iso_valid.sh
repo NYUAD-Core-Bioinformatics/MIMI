@@ -36,7 +36,9 @@ if [ ! -f "$outdir/nat_nist.pkl" ] || [ ! -f "$outdir/C13_95.pkl" ]; then
 fi
 
 # Define test data files
-test_files=("AA3H0.asc" "AA6H0.asc" "AA9H0.asc")
+#test_files=("AA3H0.asc" "AA6H0.asc" "AA9H0.asc")
+
+test_files=("combined_N-metabolites_std.asc" "testdata1.asc")
 
 # Define parameter sets
 p_values=(0.1 0.5 1)

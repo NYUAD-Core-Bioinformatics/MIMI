@@ -189,7 +189,7 @@ Analyzes mass spectrometry data by comparing measured masses in sample peak list
 .. code-block:: text
    
     $ mimi_mass_analysis --help
-    usage: mimi_mass_analysis [-h] -p PPM -vp VPPM -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
+    usage: mimi_mass_analysis [-h] -p PPM -vp VPPM [--iso-validation] -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
 
     Molecular Isotope Mass Identifier
 
@@ -197,6 +197,7 @@ Analyzes mass spectrometry data by comparing measured masses in sample peak list
     -h, --help            show this help message and exit
     -p PPM, --ppm PPM     Parts per million for the mono isotopic mass of chemical formula
     -vp VPPM              Parts per million for verification of isotopes
+    --iso-validation      Include isotope validation counts in output (adds 'iso_valid' column) (default: False)
     -c DBBINARY [DBBINARY ...], --cache DBBINARY [DBBINARY ...]
                             Binary DB input file(s)
     -s SAMPLE [SAMPLE ...], --sample SAMPLE [SAMPLE ...]
@@ -212,4 +213,7 @@ Analyzes mass spectrometry data by comparing measured masses in sample peak list
 
     # Analyze multiple samples with multiple caches
     $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat outdir/C13_95 -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/batch_results.tsv
+
+    # Include isotope validation counts in output (adds 'iso_valid' column)
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 --iso-validation -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_with_validation.tsv
                   
