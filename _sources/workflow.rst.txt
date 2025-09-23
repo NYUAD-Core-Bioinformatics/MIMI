@@ -683,7 +683,7 @@ After preparing your database and creating the cache files, you can analyze your
 
    
     $ mimi_mass_analysis --help
-    usage: mimi_mass_analysis [-h] -p PPM -vp VPPM -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
+    usage: mimi_mass_analysis [-h] -p PPM -vp VPPM [--iso-validation] -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
 
     Molecular Isotope Mass Identifier
 
@@ -691,6 +691,7 @@ After preparing your database and creating the cache files, you can analyze your
     -h, --help            show this help message and exit
     -p PPM, --ppm PPM     Parts per million for the mono isotopic mass of chemical formula
     -vp VPPM              Parts per million for verification of isotopes
+    --iso-validation      Include isotope validation counts in output (adds 'iso_valid' column) (default: False)
     -c DBBINARY [DBBINARY ...], --cache DBBINARY [DBBINARY ...]
                             Binary DB input file(s)
     -s SAMPLE [SAMPLE ...], --sample SAMPLE [SAMPLE ...]
@@ -771,6 +772,25 @@ Example::
 
     # Standard confidence analysis
     $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_good.tsv
+
+
+Isotope Validation Output
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, MIMI outputs the number of isotopes detected (``iso_count``). For more detailed validation information, use the ``--iso-validation`` flag to include an additional ``iso_valid`` column that shows the number of isotopes that passed the validation criteria::
+
+    # Standard analysis without validation details
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_standard.tsv
+
+    # Analysis with isotope validation counts included
+    $ mimi_mass_analysis -p 0.5 -vp 0.5 --iso-validation -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_with_validation.tsv
+
+The ``iso_valid`` column provides additional information for quality assessment:
+
+- **iso_count**: Total number of isotope peaks found that match the mass tolerance
+- **iso_valid**: Number of isotope peaks that also pass the verification tolerance (``-vp``)
+
+This distinction helps evaluate the reliability of compound identifications, as a higher ratio of validated to detected isotopes indicates better confidence in the match.
 
 
 
@@ -881,6 +901,7 @@ The output TSV file contains these columns:
 - **error_ppm**: Parts per million difference between calculated and observed mass
 - **intensity**: Signal intensity in the sample
 - **iso_count**: Number of isotopes detected
+- **iso_valid**: Number of validated isotopes (only included when ``--iso-validation`` flag is used)
 
 Example output file::
 
@@ -1240,7 +1261,10 @@ Here's a complete example from start to finish:
 
 4. Finally, analyze your sample using both caches::
 
-    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat_nist outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv 
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat_nist outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+
+    # To include detailed isotope validation information:
+    $ mimi_mass_analysis -p 1.0 -vp 1.0 --iso-validation -c outdir/nat_nist outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results_with_validation.tsv 
 
 
 

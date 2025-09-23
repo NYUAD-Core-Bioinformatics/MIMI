@@ -71,6 +71,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#step3-sample-analysis">Step3: Sample Analysis</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mass-spectrometry-data-input-format">Mass spectrometry data input format</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ppm-thresholds">PPM Thresholds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isotope-validation-output">Isotope Validation Output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#batch-processing">Batch Processing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#support-for-multiple-data-bases">Support for multiple data bases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#results-format">Results Format</a></li>
@@ -737,7 +738,7 @@ Relative Abund: 0.000013 (expected)
 <span id="id10"></span><h2>Step3: Sample Analysis<a class="headerlink" href="#step3-sample-analysis" title="Permalink to this headline"></a></h2>
 <p>After preparing your database and creating the cache files, you can analyze your mass spectrometry data using the mimi_mass_analysis command. This command matches your experimental peak lists against the precomputed theoretical masses and isotope patterns stored in the cache files.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis --help
-usage: mimi_mass_analysis [-h] -p PPM -vp VPPM -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
+usage: mimi_mass_analysis [-h] -p PPM -vp VPPM [--iso-validation] -c DBBINARY [DBBINARY ...] -s SAMPLE [SAMPLE ...] -o OUTPUT
 
 Molecular Isotope Mass Identifier
 
@@ -745,6 +746,7 @@ options:
 -h, --help            show this help message and exit
 -p PPM, --ppm PPM     Parts per million for the mono isotopic mass of chemical formula
 -vp VPPM              Parts per million for verification of isotopes
+--iso-validation      Include isotope validation counts in output (adds &#39;iso_valid&#39; column) (default: False)
 -c DBBINARY [DBBINARY ...], --cache DBBINARY [DBBINARY ...]
                         Binary DB input file(s)
 -s SAMPLE [SAMPLE ...], --sample SAMPLE [SAMPLE ...]
@@ -817,6 +819,23 @@ $ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.as
 $ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_good.tsv
 </pre></div>
 </div>
+</section>
+<section id="isotope-validation-output">
+<h3>Isotope Validation Output<a class="headerlink" href="#isotope-validation-output" title="Permalink to this headline"></a></h3>
+<p>By default, MIMI outputs the number of isotopes detected (<code class="docutils literal notranslate"><span class="pre">iso_count</span></code>). For more detailed validation information, use the <code class="docutils literal notranslate"><span class="pre">--iso-validation</span></code> flag to include an additional <code class="docutils literal notranslate"><span class="pre">iso_valid</span></code> column that shows the number of isotopes that passed the validation criteria:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Standard analysis without validation details
+$ mimi_mass_analysis -p 0.5 -vp 0.5 -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_standard.tsv
+
+# Analysis with isotope validation counts included
+$ mimi_mass_analysis -p 0.5 -vp 0.5 --iso-validation -c outdir/nat -s data/processed/testdata1.asc -o outdir/results_with_validation.tsv
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">iso_valid</span></code> column provides additional information for quality assessment:</p>
+<ul class="simple">
+<li><p><strong>iso_count</strong>: Total number of isotope peaks found that match the mass tolerance</p></li>
+<li><p><strong>iso_valid</strong>: Number of isotope peaks that also pass the verification tolerance (<code class="docutils literal notranslate"><span class="pre">-vp</span></code>)</p></li>
+</ul>
+<p>This distinction helps evaluate the reliability of compound identifications, as a higher ratio of validated to detected isotopes indicates better confidence in the match.</p>
 </section>
 <section id="batch-processing">
 <span id="id12"></span><h3>Batch Processing<a class="headerlink" href="#batch-processing" title="Permalink to this headline"></a></h3>
@@ -916,6 +935,7 @@ C8H18O5       HMDB94708  Colorectal cancer                                      
 <li><p><strong>error_ppm</strong>: Parts per million difference between calculated and observed mass</p></li>
 <li><p><strong>intensity</strong>: Signal intensity in the sample</p></li>
 <li><p><strong>iso_count</strong>: Number of isotopes detected</p></li>
+<li><p><strong>iso_valid</strong>: Number of validated isotopes (only included when <code class="docutils literal notranslate"><span class="pre">--iso-validation</span></code> flag is used)</p></li>
 </ul>
 <p>Example output file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis -g  -p 0.5 -vp 0.5 -c outdir/nat outdir/C13_95 -s data/processed/testdata1.asc data/processed/testdata2.asc -o outdir/results.tsv
@@ -1267,6 +1287,9 @@ $ mimi_cache_create -i neg -l data/processed/C13_95.json -d data/processed/kegg_
 </li>
 <li><p>Finally, analyze your sample using both caches:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mimi_mass_analysis -p 1.0 -vp 1.0 -c outdir/nat_nist outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results.tsv
+
+# To include detailed isotope validation information:
+$ mimi_mass_analysis -p 1.0 -vp 1.0 --iso-validation -c outdir/nat_nist outdir/C13_95 -s data/processed/testdata2.asc -o outdir/results_with_validation.tsv
 </pre></div>
 </div>
 </li>
