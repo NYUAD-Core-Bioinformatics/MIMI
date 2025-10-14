@@ -80,13 +80,18 @@ def process_results(outdir, datasets=None):
     def get_df(filepath):
         if filepath not in df_cache:
             try:
-                df_cache[filepath] = pd.read_csv(filepath, sep='\t', skiprows=2)
+                df = pd.read_csv(filepath, sep='\t', skiprows=2)
+                # Remove duplicate rows based on first column (CF)
+                df = df.drop_duplicates(subset=[df.columns[0]], keep='first')
+                df_cache[filepath] = df
             except (pd.errors.EmptyDataError, pd.errors.ParserError) as e:
                 print(f"Warning: Could not read file {filepath}: {e}")
                 return None
             except FileNotFoundError:
                 print(f"Warning: File {filepath} not found")
                 return None
+
+        
         return df_cache[filepath]
     
     # Data for top graph (varying p, fixed vp=0.5)
@@ -272,6 +277,7 @@ def create_plots(outdir, datasets=None):
     # Set BMC publication style
     plt.rcParams.update({
         'font.size': 16,
+        'font.family': 'sans-serif',
         'axes.titlesize': 18,
         'axes.labelsize': 16,
         'xtick.labelsize': 16,
@@ -407,8 +413,8 @@ def create_plots(outdir, datasets=None):
                        color=colors[i], alpha=1.0)
     
     # Customize the stacked plot
-    ax1.set_xlabel('p setting (ppm)')
-    ax1.set_ylabel('Number of CF')
+    ax1.set_xlabel('p setting (ppm)', fontfamily='sans-serif')
+    ax1.set_ylabel('Number of CF', fontfamily='sans-serif')
     ax1.set_title('a - CF Analysis by Category', loc='left', fontweight='bold', fontsize=16)
     ax1.set_xticks([x + width for x in x_pos])
     ax1.set_xticklabels(p_values)
@@ -430,11 +436,16 @@ def create_plots(outdir, datasets=None):
     ]
     
     # Create common legends positioned adjacent to each other between the figures
+    from matplotlib import font_manager
+    legend_font = font_manager.FontProperties(family='sans-serif', size=16)
+    
     legend1 = fig.legend(handles=dataset_legend, loc='center', frameon=True, framealpha=0.9, 
-                        title='Datasets', title_fontsize=16, fontsize=14, bbox_to_anchor=(0.35, 0.5))
+                        title='Datasets', title_fontsize=16, fontsize=16, bbox_to_anchor=(0.35, 0.5),
+                        prop=legend_font)
     
     legend2 = fig.legend(handles=status_legend, loc='center', frameon=True, framealpha=0.9,
-                        title='CF Categories', title_fontsize=16, fontsize=14, bbox_to_anchor=(0.65, 0.5))
+                        title='CF Categories', title_fontsize=16, fontsize=16, bbox_to_anchor=(0.65, 0.5),
+                        prop=legend_font)
     
     # Add value labels to bars
     for i, dataset_label in enumerate(dataset_labels):
@@ -448,17 +459,17 @@ def create_plots(outdir, datasets=None):
             # Label for Total CF bar
             if row['Total CF'] > 0:
                 ax1.text(pos - pos_offset, row['Total CF'] + 5, 
-                        f"{int(row['Total CF'])}", ha='center', va='bottom', fontsize=12, fontweight='bold')
+                        f"{int(row['Total CF'])}", ha='center', va='bottom', fontsize=12)
             
             # Label for Has isotopes bar
             if row['Has isotopes'] > 0:
                 ax1.text(pos, row['Has isotopes'] + 5, 
-                        f"{int(row['Has isotopes'])}", ha='center', va='bottom', fontsize=12, fontweight='bold')
+                        f"{int(row['Has isotopes'])}", ha='center', va='bottom', fontsize=12)
             
             # Label for Valid bar
             if row['Valid'] > 0:
                 ax1.text(pos + pos_offset, row['Valid'] + 5, 
-                        f"{int(row['Valid'])}", ha='center', va='bottom', fontsize=12, fontweight='bold')
+                        f"{int(row['Valid'])}", ha='center', va='bottom', fontsize=12)
     
     # Create similar grouped bar chart for vp variations (fixed p=0.5) on ax2
     # Prepare data for vp analysis
@@ -510,8 +521,8 @@ def create_plots(outdir, datasets=None):
                width=pos_offset_vp, color=colors[i], alpha=1.0)
     
     # Customize the vp plot
-    ax2.set_xlabel('vp setting (ppm)')
-    ax2.set_ylabel('Number of CF')
+    ax2.set_xlabel('vp setting (ppm)', fontfamily='sans-serif')
+    ax2.set_ylabel('Number of CF', fontfamily='sans-serif')
     ax2.set_title('b - CF Analysis by Category (vp variation)', loc='left', fontweight='bold', fontsize=16)
     ax2.set_xticks([x + width_vp for x in x_pos_vp])
     ax2.set_xticklabels(vp_values)
@@ -528,17 +539,32 @@ def create_plots(outdir, datasets=None):
             # Label for Total CF bar
             if row_vp['Total CF'] > 0:
                 ax2.text(pos - pos_offset_vp, row_vp['Total CF'] + 5, 
-                        f"{int(row_vp['Total CF'])}", ha='center', va='bottom', fontsize=12, fontweight='bold')
+                        f"{int(row_vp['Total CF'])}", ha='center', va='bottom', fontsize=12)
             
             # Label for Has isotopes bar
             if row_vp['Has isotopes'] > 0:
                 ax2.text(pos, row_vp['Has isotopes'] + 5, 
-                        f"{int(row_vp['Has isotopes'])}", ha='center', va='bottom', fontsize=12, fontweight='bold')
+                        f"{int(row_vp['Has isotopes'])}", ha='center', va='bottom', fontsize=12)
             
             # Label for Valid bar
             if row_vp['Valid'] > 0:
                 ax2.text(pos + pos_offset_vp, row_vp['Valid'] + 5, 
-                        f"{int(row_vp['Valid'])}", ha='center', va='bottom', fontsize=12, fontweight='bold')
+                        f"{int(row_vp['Valid'])}", ha='center', va='bottom', fontsize=12)
+    
+    # Apply font size overrides to match plot_results.py
+    for ax in [ax1, ax2]:
+        # Increase axis label font sizes
+        ax.xaxis.label.set_fontsize(14)
+        ax.xaxis.label.set_fontfamily('sans-serif')
+        ax.yaxis.label.set_fontsize(14)
+        ax.yaxis.label.set_fontfamily('sans-serif')
+        # Make tick labels more visible
+        ax.tick_params(axis='both', which='major', labelsize=12)
+        # Set tick label font family
+        for label in ax.get_xticklabels():
+            label.set_fontfamily('sans-serif')
+        for label in ax.get_yticklabels():
+            label.set_fontfamily('sans-serif')
     
     # # Keep the original plots for comparison in other axes
     # sns.barplot(data=df_top_3, x='p setting (ppm)', y='Number of CF',
@@ -596,7 +622,7 @@ def create_plots(outdir, datasets=None):
     # Adjust layout and save
     plt.tight_layout(pad=3.0)  # Normal layout since legends are on the sides
     # Save both formats before closing
-    fig.savefig(os.path.join(outdir, 'analysis_results_iso_valid.png'), dpi=300, bbox_inches='tight')
+    # fig.savefig(os.path.join(outdir, 'analysis_results_iso_valid.png'), dpi=300, bbox_inches='tight')
     fig.savefig(os.path.join(outdir, 'analysis_results_iso_valid.pdf'), dpi=300, bbox_inches='tight')
     plt.close(fig)
 
