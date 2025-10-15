@@ -965,7 +965,7 @@ The comprehensive run script (`run.sh`) performs the following steps:
 
 Example Usage::
 
-    $ sh ./run.sh data/processed outdir
+    $ sh ./mimi_run.sh data/processed outdir
 
 The script content::
 
@@ -1067,7 +1067,7 @@ To plot the results, you can use the following command:
 
 .. code-block:: text
 
-    $python scripts/plot_results.py  outdir/
+    $python scripts/mimi_plot_results.py  outdir/
 
 
 
