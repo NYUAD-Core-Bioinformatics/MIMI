@@ -307,150 +307,7 @@ process_results <- function(outdir, datasets = NULL) {
   return(result)
 }
 
-# Function to create plots using ggpubr with faceting by VP settings and category as x-axis
-create_plots <- function(outdir, datasets = NULL) {
-  # Get data dynamically
-  results <- process_results(outdir, datasets)
-  
-  p_values <- results$p_values
-  vp_values <- results$vp_values
-  complete_datasets <- results$complete_datasets
-  
-  # Generate colors dynamically based on number of datasets
-  colors <- c('#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7')[1:length(complete_datasets)]
-  
-  # Prepare data for plotting - p variations
-  plot_data_p <- data.frame()
-  for (i in seq_along(complete_datasets)) {
-    dataset <- complete_datasets[i]
-    dataset_label <- paste0('nat_nist_', dataset)
-    
-    for (j in seq_along(p_values)) {
-      p_val <- p_values[j]
-      total_cf <- results$cf_counts_nat[[dataset]][j]
-      iso_count_cf <- results$cf_counts_iso_count_greater_than_zero[[dataset]][j]
-      valid_cf <- results$cf_counts_nat_valid[[dataset]][j]
-      
-      plot_data_p <- rbind(plot_data_p, data.frame(
-        p_setting = p_val,
-        dataset = dataset_label,
-        Total_CF = total_cf,
-        Has_isotopes = iso_count_cf,
-        Valid = valid_cf,
-        color = colors[i]
-      ))
-    }
-  }
-  
-  # Prepare data for plotting - vp variations
-  plot_data_vp <- data.frame()
-  for (i in seq_along(complete_datasets)) {
-    dataset <- complete_datasets[i]
-    dataset_label <- paste0('nat_nist_', dataset)
-    
-    for (j in seq_along(vp_values)) {
-      vp_val <- vp_values[j]
-      total_cf_vp <- results$cf_counts_nat_vp[[dataset]][j]
-      iso_count_cf_vp <- results$cf_counts_iso_count_greater_than_zero_vp[[dataset]][j]
-      valid_cf_vp <- results$cf_counts_nat_valid_vp[[dataset]][j]
-      
-      plot_data_vp <- rbind(plot_data_vp, data.frame(
-        vp_setting = vp_val,
-        dataset = dataset_label,
-        Total_CF = total_cf_vp,
-        Has_isotopes = iso_count_cf_vp,
-        Valid = valid_cf_vp,
-        color = colors[i]
-      ))
-    }
-  }
-  
-  # Convert to long format for faceted plots - facet by p/vp settings, x by category
-  plot_data_p_long <- plot_data_p %>%
-    pivot_longer(cols = c(Total_CF, Has_isotopes, Valid), 
-                 names_to = "category", 
-                 values_to = "count") %>%
-    mutate(category = factor(category, levels = c("Total_CF", "Has_isotopes", "Valid"),
-                           labels = c("Matched monoisotopic mass", "Has isotopes at least one", "Valid isotope at least one")),
-           p_facet = paste0("p=", p_setting),
-           # Create a combined grouping variable for custom ordering
-           group_order = paste0(dataset, "_", category)) %>%
-    select(-p_setting)  # Remove p_setting column
-  
-  plot_data_vp_long <- plot_data_vp %>%
-    pivot_longer(cols = c(Total_CF, Has_isotopes, Valid), 
-                 names_to = "category", 
-                 values_to = "count") %>%
-    mutate(category = factor(category, levels = c("Total_CF", "Has_isotopes", "Valid"),
-                           labels = c("Matched monoisotopic mass", "Has isotopes at least one", "Valid isotope at least one")),
-           vp_facet = paste0("vp=", vp_setting)) %>%
-    select(-vp_setting)  # Remove vp_setting column
-  
-  # Create plots using ggpubr with faceting by p/vp settings
-  # Plot 1: p variations (faceted by p settings)
-  # For p=0.1, we want to group bars by dataset (color) first, then by category
-  p1 <- ggplot(plot_data_p_long, aes(x = category, y = count, fill = dataset)) +
-    geom_bar(stat = "identity", position = position_dodge(0.8), width = 0.7) +
-    facet_wrap(~p_facet, ncol = 3, scales = "free_x") +
-    scale_fill_manual(values = colors, name = "Datasets") +
-    labs(title = "a - CF Analysis by Category (p variation)",
-         x = "Category",
-         y = "Number of CF") +
-    theme_pubr() +
-    theme(
-      plot.title = element_text(hjust = 0, face = "bold", size = 16),
-      axis.title = element_text(size = 14),
-      axis.text = element_text(size = 12),
-      axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.title = element_text(size = 14),
-      legend.text = element_text(size = 12),
-      strip.text = element_text(size = 12)
-    ) +
-    geom_text(aes(label = round(count, 0)), 
-              position = position_dodge(0.8), 
-              vjust = -0.5, 
-              size = 3)
-  
-  # Plot 2: vp variations (faceted by vp settings)
-  p2 <- ggplot(plot_data_vp_long, aes(x = category, y = count, fill = dataset)) +
-    geom_bar(stat = "identity", position = position_dodge(0.8), width = 0.7) +
-    facet_wrap(~vp_facet, ncol = 3, scales = "free_x") +
-    scale_fill_manual(values = colors, name = "Datasets") +
-    labs(title = "b - CF Analysis by Category (vp variation)",
-         x = "Category",
-         y = "Number of CF") +
-    theme_pubr() +
-    theme(
-      plot.title = element_text(hjust = 0, face = "bold", size = 16),
-      axis.title = element_text(size = 14),
-      axis.text = element_text(size = 12),
-      axis.text.x = element_text(angle = 45, hjust = 1),
-      legend.title = element_text(size = 14),
-      legend.text = element_text(size = 12),
-      strip.text = element_text(size = 12)
-    ) +
-    geom_text(aes(label = round(count, 0)), 
-              position = position_dodge(0.8), 
-              vjust = -0.5, 
-              size = 3)
-  
-  # Combine plots
-  combined_plot <- ggarrange(p1, p2, 
-                           ncol = 1, nrow = 2,
-                           common.legend = TRUE, 
-                           legend = "right",
-                           labels = c("a", "b"),
-                           font.label = list(size = 16, face = "bold"),
-                           hjust = -0.1, vjust = 1.2)
-  
-  # Save plot
-  ggsave(file.path(outdir, "analysis_results_iso_valid_R.pdf"), 
-         combined_plot, 
-         width = 16, height = 12, 
-         dpi = 300)
-  
-  return(combined_plot)
-}
+
 
 # Alternative implementation with grouped bars (closer to Python version)
 create_plots_grouped <- function(outdir, datasets = NULL) {
@@ -566,19 +423,22 @@ create_plots_grouped <- function(outdir, datasets = NULL) {
       guide = guide_legend(override.aes = list(label = ""))
     ) +
     labs(x = "p setting (ppm)",
-         y = "Number of CF") +
+         y = "Number of unique CFs") +
     theme_pubr() +
     theme(
-      axis.title = element_text(size = 14),
-      axis.text = element_text(size = 14),
-      legend.title = element_text(size = 14),
+      axis.title.x = element_text(size = 20),
+      axis.title.y = element_text(size = 20),
+      axis.text.x = element_text(size = 18),
+      axis.text.y = element_text(size = 18),
+      legend.title = element_text(size = 16),
       legend.text = element_text(size = 14),
-      legend.position = "right"
+      legend.position = "right",
+      plot.margin = margin(20, 5.5, 20, 5.5, "pt")
     ) +
     geom_text(aes(label = round(count, 0)), 
               position = position_dodge(width = 0.8), 
               vjust = -0.5, color = "black",
-              size = 4)
+              size = 6)
   
   # Plot 2: vp variations with proper alpha ordering
   # Ensure proper ordering: Total CF (alpha 0.4) first, then Has isotopes (alpha 0.7), then Valid (alpha 1.0)
@@ -597,19 +457,22 @@ create_plots_grouped <- function(outdir, datasets = NULL) {
       guide = guide_legend(override.aes = list(label = ""))
     ) +
     labs(x = "vp setting (ppm)",
-         y = "Number of CF") +
+         y = "Number of unique CFs") +
     theme_pubr() +
     theme(
-      axis.title = element_text(size = 14),
-      axis.text = element_text(size = 14),
-      legend.title = element_text(size = 14),
+      axis.title.x = element_text(size = 20),
+      axis.title.y = element_text(size = 20),
+      axis.text.x = element_text(size = 18),
+      axis.text.y = element_text(size = 18),
+      legend.title = element_text(size = 16),
       legend.text = element_text(size = 14),
-      legend.position = "right"
+      legend.position = "right",
+      plot.margin = margin(20, 5.5, 20, 5.5, "pt")
     ) +
     geom_text(aes(label = round(count, 0)), 
               position = position_dodge(width = 0.8), 
               vjust = -0.5,  color = "black",
-              size = 4)
+              size = 6)
   
   # Create publication-ready legends
   # Legend 1: CF Categories (alpha levels) - Create a proper legend with alpha representation
@@ -632,11 +495,11 @@ create_plots_grouped <- function(outdir, datasets = NULL) {
     scale_fill_manual(values = "#2E86AB", guide = "none") +
     theme_void() +
     theme(
-      legend.title = element_text(size = 12, face = "bold"),
-      legend.text = element_text(size = 12),
-      legend.key.size = unit(0.4, "cm"),
-      legend.margin = margin(2, 2, 2, 2),
-      legend.box.margin = margin(2, 2, 2, 2),
+      legend.title = element_text(size = 18, face = "bold"),
+      legend.text = element_text(size = 16),
+      legend.key.size = unit(1.0, "cm"),
+      legend.margin = margin(5, 5, 5, 5),
+      legend.box.margin = margin(5, 5, 5, 5),
       legend.position = "right"
     )
   
@@ -657,11 +520,11 @@ create_plots_grouped <- function(outdir, datasets = NULL) {
     scale_fill_manual(values = colors, name = "Datasets") +
     theme_void() +
     theme(
-      legend.title = element_text(size = 12, face = "bold"),
-      legend.text = element_text(size = 12),
-      legend.key.size = unit(0.4, "cm"),
-      legend.margin = margin(2, 2, 2, 2),
-      legend.box.margin = margin(2, 2, 2, 2),
+      legend.title = element_text(size = 18, face = "bold"),
+      legend.text = element_text(size = 16),
+      legend.key.size = unit(1.0, "cm"),
+      legend.margin = margin(5, 5, 5, 5),
+      legend.box.margin = margin(5, 5, 5, 5),
       legend.position = "right"
     )
   
@@ -673,22 +536,24 @@ create_plots_grouped <- function(outdir, datasets = NULL) {
   p1_no_legend <- p1 + theme(legend.position = "none")
   p2_no_legend <- p2 + theme(legend.position = "none")
   
-  # Combine plots first
+  # Combine plots first with vertical alignment and spacing
   combined_plot <- ggarrange(p1_no_legend, p2_no_legend, 
                            ncol = 1, nrow = 2,
                            labels = c("a", "b"),
-                           font.label = list(size = 20, face = "bold"),
-                           hjust = -0.1, vjust = 1.2)
+                           font.label = list(size = 25, face = "bold"),
+                           hjust = -0.1, vjust = 1.2,
+                           align = "v",
+                           heights = c(1, 1))
   
   # Add both legends as insets to the combined plot
   combined_plot_with_legend <- ggdraw(combined_plot) +
-    draw_plot(legend_grob_categories, x = 0.02, y = 0.85, width = 0.25, height = 0.15) +
-    draw_plot(legend_grob_datasets, x = 0.02, y = 0.78, width = 0.25, height = 0.15)
+    draw_plot(legend_grob_categories, x = 0.08, y = 0.88, width = 0.28, height = 0.11) +
+    draw_plot(legend_grob_datasets, x = 0.08, y = 0.78, width = 0.28, height = 0.09)
   
   # Save plot
   ggsave(file.path(outdir, "analysis_results_iso_valid_R_grouped.pdf"), 
          combined_plot_with_legend, 
-         width = 16, height = 12, 
+         width = 16, height = 14, 
          dpi = 600)
   
   return(combined_plot_with_legend)
@@ -715,8 +580,8 @@ main <- function() {
   cat("Creating plots using ggpubr...\n")
   
   # Create both versions of plots
-  cat("Creating faceted version...\n")
-  plot1 <- create_plots(outdir, datasets)
+  # cat("Creating faceted version...\n")
+  # plot1 <- create_plots(outdir, datasets)
   
   cat("Creating grouped version...\n")
   plot2 <- create_plots_grouped(outdir, datasets)
