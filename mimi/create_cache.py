@@ -73,9 +73,15 @@ import json
 import argparse
 import sys
 import datetime
-import pkg_resources
 import os
 import tqdm  # Import tqdm for progress bar
+
+# Modern import for version checking
+try:
+    from importlib.metadata import version
+except ImportError:
+    # Fallback for Python < 3.8
+    from importlib_metadata import version  # type: ignore
 
 
 def load_mass_spectrometry_data(asc_file):
@@ -187,7 +193,7 @@ def main():
             'full_command': ' '.join([os.path.basename(sys.argv[0])] + sys.argv[1:])
         },
         'creation_date': datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
-        'mimi_version': pkg_resources.get_distribution('mimi').version
+        'mimi_version': version('mimi')
     }
 
     # Open debug file if in debug mode and attach to args object

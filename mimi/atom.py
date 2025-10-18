@@ -66,7 +66,6 @@ Functions:
 # FURTHER DOCUMENTATION, MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS
 
 import json5
-import pkg_resources
 import os
 from pathlib import Path
 

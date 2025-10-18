@@ -38,7 +38,11 @@ import os
 import pickle
 import numpy as np
 from datetime import datetime
-import pkg_resources
+try:
+    from importlib.metadata import version
+except ImportError:
+    # Fallback for Python < 3.8
+    from importlib_metadata import version  # type: ignore
 from tqdm import tqdm
 
 
@@ -490,7 +494,7 @@ def main():
     write_log(f"Full Command: {full_command}")
 
     write_log(f"Date: {datetime.now().strftime('%Y-%m-%dT%H:%M:%S')}")
-    mimi_version = pkg_resources.get_distribution('mimi').version
+    mimi_version = version('mimi')
     write_log(f"MIMI Version: {mimi_version}")
     write_log(f"PPM Tolerance: {args.ppm * 1000000}")
     write_log(f"Verification PPM: {args.vppm * 1000000}")
