@@ -81,7 +81,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#plotting-the-results">Plotting the results</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#performance-analysis">Performance Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-analysis">Performance Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#performance-benefits">Performance Benefits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-this-matters">Why This Matters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#real-world-impact">## Real-World Impact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#key-performance-insights">Key Performance Insights</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#complete-example">Complete Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
@@ -1201,14 +1207,16 @@ Total time                     16.88           29.66           12.78
 <p><strong>Summary:</strong>
 Separating <strong>cache creation</strong> from <strong>analysis</strong> significantly improves performance. Cache is created once (~7 s) and reused for multiple analyses (~3 s each).</p>
 <p>—</p>
-<p>## Performance Benefits</p>
+<section id="performance-benefits">
+<h3>Performance Benefits<a class="headerlink" href="#performance-benefits" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p><strong>Time saved:</strong> 13 seconds (~43% improvement)</p></li>
 <li><p><strong>Speed improvement:</strong> ~2× faster</p></li>
 <li><p><strong>Cache reuse efficiency:</strong> 1 cache creation for 3 analyses vs 3 cache creations in combined approach</p></li>
 </ul>
-<p>—</p>
-<p>## Why This Matters</p>
+</section>
+<section id="why-this-matters">
+<h3>Why This Matters<a class="headerlink" href="#why-this-matters" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p>Cache creation is <strong>computationally expensive</strong> (~7 s per run, involves parsing all compounds)</p></li>
 <li><p>Analysis is <strong>relatively lightweight</strong> (~3 s per sample)</p></li>
@@ -1216,15 +1224,28 @@ Separating <strong>cache creation</strong> from <strong>analysis</strong> signif
 <li><p>Separated approach <strong>scales linearly</strong> with number of analyses</p></li>
 <li><p>Combined approach has <strong>quadratic scaling</strong> due to repeated cache creation</p></li>
 </ul>
-<p>—</p>
-<p>## Real-World Impact</p>
-<p><strong>For 10 analyses:</strong></p>
+</section>
+<section id="real-world-impact">
+<h3>## Real-World Impact<a class="headerlink" href="#real-world-impact" title="Permalink to this headline"></a></h3>
+<p><strong>Runtime with three datasets:</strong></p>
+<ul class="simple">
+<li><p>Combined: (7 + 3) × 3 = 30 s</p></li>
+<li><p>Separated: 7 + (3 × 3) = 16 s</p></li>
+<li><p><strong>Cumulative speedup:</strong> ~1.9×</p></li>
+</ul>
+<p><strong>Runtime with 10 datasets:</strong></p>
 <ul class="simple">
 <li><p>Combined: (7 + 3) × 10 = 100 s</p></li>
 <li><p>Separated: 7 + (3 × 10) = 37 s</p></li>
 <li><p><strong>Cumulative speedup:</strong> ~2.7×</p></li>
 </ul>
-<p><strong>For 100 analyses:</strong></p>
+<p><strong>Runtime with 30 datasets:</strong></p>
+<ul class="simple">
+<li><p>Combined: (7 + 3) × 30 = 10 × 30 = 300 s</p></li>
+<li><p>Separated: 7 + (3 × 30) = 7 + 90 = 97 s</p></li>
+<li><p><strong>Cumulative speedup:</strong> 300 / 97 ≈ 3.1×</p></li>
+</ul>
+<p><strong>Runtime with 100 datasets:</strong></p>
 <ul class="simple">
 <li><p>Combined: (7 + 3) × 100 = 1000 s</p></li>
 <li><p>Separated: 7 + (3 × 100) = 307 s</p></li>
@@ -1236,15 +1257,15 @@ Separating <strong>cache creation</strong> from <strong>analysis</strong> signif
 <li><p>Workflow flexibility: Analyze different samples with the same cache</p></li>
 <li><p>Resource efficiency: Cache created once, reused multiple times</p></li>
 </ul>
-<p>—</p>
-<p>## Key Performance Insights</p>
+</section>
+<section id="key-performance-insights">
+<h3>Key Performance Insights<a class="headerlink" href="#key-performance-insights" title="Permalink to this headline"></a></h3>
 <ul class="simple">
 <li><p><strong>Cache creation is expensive:</strong> Parsing compound databases and computing molecular masses takes ~7 s</p></li>
 <li><p><strong>Analysis is lightweight:</strong> Using a pre-created cache takes ~3 s per sample</p></li>
 <li><p><strong>Scalability benefits:</strong> Time savings grow linearly with number of analyses</p></li>
 <li><p><strong>Separated approach provides substantial cumulative savings</strong> in multi-sample workflows</p></li>
 </ul>
-<p>—</p>
 <p>## Best Practices for Performance</p>
 <ol class="arabic simple">
 <li><p><strong>Create Focused Databases:</strong> Use mass range filtering to reduce database size</p></li>
@@ -1253,6 +1274,7 @@ Separating <strong>cache creation</strong> from <strong>analysis</strong> signif
 <li><p><strong>Cache Verification:</strong> Use <cite>mimi_cache_dump</cite> to verify cache contents before large batches</p></li>
 <li><p><strong>Resource Planning:</strong> Cache creation is CPU/memory intensive; plan accordingly for large databases</p></li>
 </ol>
+</section>
 </section>
 <section id="complete-example">
 <h2>Complete Example<a class="headerlink" href="#complete-example" title="Permalink to this headline"></a></h2>
