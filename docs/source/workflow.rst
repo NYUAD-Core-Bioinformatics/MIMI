@@ -1179,15 +1179,17 @@ Separating **cache creation** from **analysis** significantly improves performan
 
 ---
 
-## Performance Benefits
+Performance Benefits
+~~~~~~~~~~~~~~~~~~~~
 
 - **Time saved:** 13 seconds (~43% improvement)  
 - **Speed improvement:** ~2× faster  
 - **Cache reuse efficiency:** 1 cache creation for 3 analyses vs 3 cache creations in combined approach  
 
----
 
-## Why This Matters
+
+Why This Matters
+~~~~~~~~~~~~~~~~~~~~
 
 - Cache creation is **computationally expensive** (~7 s per run, involves parsing all compounds)  
 - Analysis is **relatively lightweight** (~3 s per sample)  
@@ -1195,21 +1197,36 @@ Separating **cache creation** from **analysis** significantly improves performan
 - Separated approach **scales linearly** with number of analyses  
 - Combined approach has **quadratic scaling** due to repeated cache creation  
 
----
+
 
 ## Real-World Impact
+~~~~~~~~~~~~~~~~~~~~
 
-**For 10 analyses:**
+
+**Runtime with three datasets:**
+
+- Combined: (7 + 3) × 3 = 30 s  
+- Separated: 7 + (3 × 3) = 16 s  
+- **Cumulative speedup:** ~1.9×  
+
+**Runtime with 10 datasets:**
 
 - Combined: (7 + 3) × 10 = 100 s  
 - Separated: 7 + (3 × 10) = 37 s  
 - **Cumulative speedup:** ~2.7×  
 
-**For 100 analyses:**
+**Runtime with 30 datasets:**
+
+- Combined: (7 + 3) × 30 = 10 × 30 = 300 s  
+- Separated: 7 + (3 × 30) = 7 + 90 = 97 s  
+- **Cumulative speedup:** 300 / 97 ≈ 3.1×  
+
+**Runtime with 100 datasets:**
 
 - Combined: (7 + 3) × 100 = 1000 s  
 - Separated: 7 + (3 × 100) = 307 s  
 - **Cumulative speedup:** ~3.3×  
+
 
 **Additional benefits:**
 
@@ -1217,16 +1234,17 @@ Separating **cache creation** from **analysis** significantly improves performan
 - Workflow flexibility: Analyze different samples with the same cache  
 - Resource efficiency: Cache created once, reused multiple times  
 
----
 
-## Key Performance Insights
+
+Key Performance Insights
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 - **Cache creation is expensive:** Parsing compound databases and computing molecular masses takes ~7 s  
 - **Analysis is lightweight:** Using a pre-created cache takes ~3 s per sample  
 - **Scalability benefits:** Time savings grow linearly with number of analyses  
 - **Separated approach provides substantial cumulative savings** in multi-sample workflows  
 
----
+
 
 ## Best Practices for Performance
 
