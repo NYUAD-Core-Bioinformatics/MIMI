@@ -1078,160 +1078,181 @@ MIMI's architecture separates cache creation from analysis to provide significan
 
 ::
 
-    $sh scripts/demo_performance_benefits.sh data 
+    $sh scripts/demo_performance_benefits.sh  data
     Setup complete!
-    Data directory: data
-    Database file: data/processed/kegg_compounds_40_1000Da.tsv
+      Data directory: data
+      Database file: data/processed/kegg_compounds_40_1000Da.tsv
         → Contains ~16089 compounds
-    Sample file: data/processed/testdata1.asc
-        → Contains 89288 lines of data
-    Output directory: data/demo_output
-
+      Sample file: data/processed/testdata1.asc
+        → Contains 89282 lines of data
+      Output directory: data/demo_output
+    
     Checking MIMI command availability...
     MIMI commands found!
-
+    
     MIMI Performance Benefits Demonstration
     ============================================================
     This demo shows why separating cache creation from analysis is beneficial
     Using data from: data
     Output directory: data/demo_output
-
+    
     ============================================================
     DEMONSTRATING SEPARATED APPROACH (Current MIMI Design)
     ============================================================
     Scenario: Create cache once, then analyze multiple samples
-
+    
     Step 1: Create cache (one-time cost)
-    Creating database cache...
+      Creating database cache...
         Command: mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c data/demo_output/demo_cache
-        Completed in 6.66 seconds
+        Completed in 6.64 seconds
         Cache file size:  21M
-
+    
     Step 2: Run multiple analyses using pre-created cache
-    Analysis run 1...
+      Analysis run 1...
         Command: mimi_mass_analysis -p 1.0 -vp 1.0 -c data/demo_output/demo_cache -s data/processed/testdata1.asc -o data/demo_output/separated_analysis_1.tsv
-        Completed in 3.53 seconds
-    Analysis run 2...
+        Completed in 3.39 seconds
+      Analysis run 2...
         Command: mimi_mass_analysis -p 1.0 -vp 1.0 -c data/demo_output/demo_cache -s data/processed/testdata1.asc -o data/demo_output/separated_analysis_2.tsv
-        Completed in 3.54 seconds
-    Analysis run 3...
+        Completed in 3.42 seconds
+      Analysis run 3...
         Command: mimi_mass_analysis -p 1.0 -vp 1.0 -c data/demo_output/demo_cache -s data/processed/testdata1.asc -o data/demo_output/separated_analysis_3.tsv
-        Completed in 3.58 seconds
-
+        Completed in 3.43 seconds
+    
     Separated Approach Results:
-    Cache creation (one-time): 6.66 seconds
-    Average analysis time: 3.55 seconds
-    Total time for 3 analyses: 17.31 seconds
-    Analysis efficiency: 3.55 seconds per sample
-
+      Cache creation (one-time): 6.64 seconds
+      Average analysis time: 3.41 seconds
+      Total time for 3 analyses: 16.88 seconds
+      Analysis efficiency: 3.41 seconds per sample
+    
     ============================================================
     DEMONSTRATING COMBINED APPROACH (Hypothetical Old Design)
     ============================================================
     Scenario: Create cache + analyze together each time
-
+    
     Combined Run 1: Cache creation + Analysis
-    Cache creation for run 1...
+      Cache creation for run 1...
         Command: mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c data/demo_output/combined_cache_1
-        Completed in 6.49 seconds
-    Analysis for run 1...
+        Completed in 6.37 seconds
+      Analysis for run 1...
         Command: mimi_mass_analysis -p 1.0 -vp 1.0 -c data/demo_output/combined_cache_1 -s data/processed/testdata1.asc -o data/demo_output/combined_analysis_1.tsv
-        Completed in 3.51 seconds
-    Combined time for run 1: 10.00 seconds (cache: 6.49 + analysis: 3.51)
-
+        Completed in 3.42 seconds
+      Combined time for run 1: 9.79 seconds (cache: 6.37 + analysis: 3.42)
+    
     Combined Run 2: Cache creation + Analysis
-    Cache creation for run 2...
+      Cache creation for run 2...
         Command: mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c data/demo_output/combined_cache_2
-        Completed in 6.55 seconds
-    Analysis for run 2...
+        Completed in 6.51 seconds
+      Analysis for run 2...
         Command: mimi_mass_analysis -p 1.0 -vp 1.0 -c data/demo_output/combined_cache_2 -s data/processed/testdata1.asc -o data/demo_output/combined_analysis_2.tsv
-        Completed in 3.53 seconds
-    Combined time for run 2: 10.08 seconds (cache: 6.55 + analysis: 3.53)
-
+        Completed in 3.42 seconds
+      Combined time for run 2: 9.93 seconds (cache: 6.51 + analysis: 3.42)
+    
     Combined Run 3: Cache creation + Analysis
-    Cache creation for run 3...
+      Cache creation for run 3...
         Command: mimi_cache_create -i neg -d data/processed/kegg_compounds_40_1000Da.tsv -c data/demo_output/combined_cache_3
-        Completed in 6.62 seconds
-    Analysis for run 3...
+        Completed in 6.51 seconds
+      Analysis for run 3...
         Command: mimi_mass_analysis -p 1.0 -vp 1.0 -c data/demo_output/combined_cache_3 -s data/processed/testdata1.asc -o data/demo_output/combined_analysis_3.tsv
-        Completed in 3.52 seconds
-    Combined time for run 3: 10.14 seconds (cache: 6.62 + analysis: 3.52)
-
-
+        Completed in 3.43 seconds
+      Combined time for run 3: 9.94 seconds (cache: 6.51 + analysis: 3.43)
+    
+    
     Combined Approach Results:
-    Average time per combined run: 10.07 seconds
-    Total time for 3 analyses: 30.22 seconds
-    Inefficiency: Cache recreated 3 times
-
+      Average time per combined run: 9.89 seconds
+      Total time for 3 analyses: 29.66 seconds
+      Inefficiency: Cache recreated 3 times
+    
     ============================================================
     PERFORMANCE COMPARISON AND ANALYSIS
     ============================================================
     Detailed Comparison:
     Metric                         Separated       Combined        Difference     
     -----------------------------------------------------------------------
-    Cache creation time            6.66            N/A (embedded)                 
-    Avg analysis time              3.55            10.07           6.52           
-    Total time                     17.31           30.22           12.91 
+    Cache creation time            6.64            N/A (embedded)                 
+    Avg analysis time              3.41            9.89            6.47           
+    Total time                     16.88           29.66           12.78         
 
-Performance Benefits:
 
-• Time saved: 12.91 seconds (42.7% improvement)  # (12.91/30.22)*100 = 42.7%
-• Speed improvement: 1.7x faster  # 30.22/17.31 = 1.7x
-• Cache reuse efficiency: 1 cache creation for 3 analyses vs 3 cache creations in combined approach
 
-Why This Matters:
+**Summary:**  
+Separating **cache creation** from **analysis** significantly improves performance. Cache is created once (~7 s) and reused for multiple analyses (~3 s each).  
 
-• Cache creation is computationally expensive (involves parsing all compounds)
-• Analysis is relatively lightweight (searches pre-computed data)
-• Real workflows often involve multiple samples or parameter variations
-• Separated approach scales linearly with number of analyses
-• Combined approach has quadratic scaling due to repeated cache creation
+---
 
-Real-World Impact:
+Performance Benefits
+~~~~~~~~~~~~~~~~~~~~
 
-• For 10 analyses: ~2.4x cumulative time savings
-  - Combined: (6.6s + 3.5s) × 10 = 101s
-  - Separated: 6.6s + (3.5s × 10) = 41.6s
-  - Ratio: 101/41.6 = 2.4x faster
-• For 100 analyses: ~2.8x cumulative time savings
-  - Combined: (6.6s + 3.5s) × 100 = 1010s
-  - Separated: 6.6s + (3.5s × 100) = 356.6s
-  - Ratio: 1010/356.6 = 2.8x faster
-• Plus benefits: reproducibility, workflow flexibility, resource efficiency
+- **Time saved:** 13 seconds (~43% improvement)  
+- **Speed improvement:** ~2× faster  
+- **Cache reuse efficiency:** 1 cache creation for 3 analyses vs 3 cache creations in combined approach  
+
+
+
+Why This Matters
+~~~~~~~~~~~~~~~~~~~~
+
+- Cache creation is **computationally expensive** (~7 s per run, involves parsing all compounds)  
+- Analysis is **relatively lightweight** (~3 s per sample)  
+- Real workflows often involve multiple samples or parameter variations  
+- Separated approach **scales linearly** with number of analyses  
+- Combined approach has **quadratic scaling** due to repeated cache creation  
+
+
+
+Real-World Impact
+~~~~~~~~~~~~~~~~~~~~
+
+
+**Runtime with three datasets:**
+
+- Combined: (7 + 3) × 3 = 30 s  
+- Separated: 7 + (3 × 3) = 16 s  
+- **Cumulative speedup:** ~1.9×  
+
+**Runtime with 10 datasets:**
+
+- Combined: (7 + 3) × 10 = 100 s  
+- Separated: 7 + (3 × 10) = 37 s  
+- **Cumulative speedup:** ~2.7×  
+
+**Runtime with 30 datasets:**
+
+- Combined: (7 + 3) × 30 = 10 × 30 = 300 s  
+- Separated: 7 + (3 × 30) = 7 + 90 = 97 s  
+- **Cumulative speedup:** 300 / 97 ≈ 3.1×  
+
+**Runtime with 100 datasets:**
+
+- Combined: (7 + 3) × 100 = 1000 s  
+- Separated: 7 + (3 × 100) = 307 s  
+- **Cumulative speedup:** ~3.3×  
+
+
+**Additional benefits:**
+
+- Reproducibility: Same cache ensures consistent results  
+- Workflow flexibility: Analyze different samples with the same cache  
+- Resource efficiency: Cache created once, reused multiple times  
 
 
 
 Key Performance Insights
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. **Cache Creation is Expensive**: Parsing compound databases and computing molecular masses takes significant time (6-7 seconds in this example)
+- **Cache creation is expensive:** Parsing compound databases and computing molecular masses takes ~7 s  
+- **Analysis is lightweight:** Using a pre-created cache takes ~3 s per sample  
+- **Scalability benefits:** Time savings grow linearly with number of analyses  
+- **Separated approach provides substantial cumulative savings** in multi-sample workflows  
 
-2. **Analysis is Lightweight**: Once the cache exists, analysis is fast (3-4 seconds per sample)
 
-3. **Scalability Benefits**: The separated approach scales linearly with the number of analyses:
-   
-   - For 10 analyses: ~7.0x cumulative time savings
-   - For 100 analyses: ~70.0x cumulative time savings
 
-4. **Real-World Impact**: Most workflows involve multiple samples, parameter variations, or iterative analysis - the separated approach provides substantial benefits for these scenarios
+## Best Practices for Performance
 
-5. **Additional Benefits**: Beyond performance, separation provides:
-   
-   - Reproducibility (same cache for consistent results)
-   - Workflow flexibility (analyze different samples with same cache)
-   - Resource efficiency (cache once, use many times)
-
-Best Practices for Performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-1. **Create Focused Databases**: Use mass range filtering to create smaller, targeted compound databases
-
-2. **Reuse Caches**: Create caches once and reuse them for multiple analyses with the same isotope conditions
-
-3. **Batch Processing**: Process multiple samples using the same cache in sequence
-
-4. **Cache Verification**: Use ``mimi_cache_dump`` to verify cache contents before running large batch analyses
-
-5. **Resource Planning**: Cache creation is memory and CPU intensive - plan accordingly for large databases
+1. **Create Focused Databases:** Use mass range filtering to reduce database size  
+2. **Reuse Caches:** Create caches once and reuse for multiple analyses with same isotope conditions  
+3. **Batch Processing:** Process multiple samples sequentially using the same cache  
+4. **Cache Verification:** Use `mimi_cache_dump` to verify cache contents before large batches  
+5. **Resource Planning:** Cache creation is CPU/memory intensive; plan accordingly for large databases  
 
 
 
