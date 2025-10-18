@@ -1172,7 +1172,7 @@ MIMI's architecture separates cache creation from analysis to provide significan
     Avg analysis time              3.41            9.89            6.47           
     Total time                     16.88           29.66           12.78         
 
-# MIMI Performance Benefits
+
 
 **Summary:**  
 Separating **cache creation** from **analysis** significantly improves performance. Cache is created once (~7 s) and reused for multiple analyses (~3 s each).  
