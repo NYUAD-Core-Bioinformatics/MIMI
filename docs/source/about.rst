@@ -24,6 +24,11 @@ License
 MIMI is distributed under an NYU Non-Commercial Research License.
 See :doc:`license` for more information.
 
+Repository
+----------
+The source code is available on GitHub at
+`NYUAD-Core-Bioinformatics/MIMI <https://github.com/NYUAD-Core-Bioinformatics/MIMI>`_.
+
 Report Issues
 -------------
 Please use `GitHub Issues <https://github.com/NYUAD-Core-Bioinformatics/MIMI/issues>`_

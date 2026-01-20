@@ -11,6 +11,7 @@ MIMI Documentation
    :align: center
 
 MIMI (Molecular Isotope Mass Identifier) is a powerful tool for analyzing isotope-labeled FT-ICR mass spectrometry data, developed in the `Center for Genomics and Systems Biology (CGSB) <https://nyuad.nyu.edu/en/research/faculty-labs-and-projects/nyuad-cgsb.html>`_ at `New York University Abu Dhabi (NYUAD) <http://nyuad.nyu.edu/>`_.
+The source repository is available on GitHub: `NYUAD-Core-Bioinformatics/MIMI <https://github.com/NYUAD-Core-Bioinformatics/MIMI>`_.
 
 .. toctree::
    :maxdepth: 2
